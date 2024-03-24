@@ -16,6 +16,7 @@ bin/
 # Project-specific output
 dist/
 tmp/
+!tmp/.gitkeep
 
 # Dependency directories (remove the comment below if you're not using modules)
 #vendor/
