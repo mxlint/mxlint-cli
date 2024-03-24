@@ -1,0 +1,9 @@
+$Type: Images$ImageCollection
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Images:
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: logo
+Name: Layout

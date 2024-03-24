@@ -1,0 +1,1220 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 500
+DisplayName: ""
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+Name: BottomSheet_Modal
+Platform: Native
+TemplateCategory: Bottom Sheets
+TemplateCategoryWeight: 190
+Widgets:
+- $Type: Forms$DataView
+  Appearance:
+    $Type: Forms$Appearance
+    Class: ""
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalEditabilitySettings: null
+  ConditionalVisibilitySettings: null
+  DataSource:
+    $Type: Forms$DataViewSource
+    EntityRef: null
+    SourceVariable: null
+  Editability: Always
+  FooterWidgets: null
+  LabelWidth: 3
+  Name: dataView1
+  NoEntityMessage:
+    $Type: Texts$Text
+    Items: null
+  ReadOnlyStyle: Control
+  ShowFooter: true
+  TabIndex: 0
+  Widgets:
+  - $Type: CustomWidgets$CustomWidget
+    Appearance:
+      $Type: Forms$Appearance
+      Class: ""
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalEditabilitySettings: null
+    ConditionalVisibilitySettings: null
+    Editable: Always
+    LabelTemplate: null
+    Name: bottomSheet2
+    Object:
+      $Type: CustomWidgets$WidgetObject
+      Properties:
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: ad9n4Y5aZ0mpi5CR1iXCFg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: modal
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: gZHK+VErs02x+42/tTZ/aw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: pNL1cC/5Pk2dnn6dalP1Bw==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: U/e4XYf8eUiMEVfdhaL09g==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: A7ofCUbRBEWeU5MsbewBug==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: custom
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 06OmIlwIL02d/bjDUuoIzw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: mA1NMwPQHEq2lb6Ru68xFA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: "true"
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 9K9jxxUhZEKartMid0HrSA==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: Be5dF9vFYESRm5wpUKe2wQ==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 50QpPTD43ky+D+82OHF7UQ==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: mGGqjMRJ8kuQ308zWLDpRw==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: SXr0LrsCBkGAkfja8yD60w==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: LGphq6rnwESmQg0mUHyseA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 0IE2lFUanU2BBN/zum6d0g==
+            Subtype: 0
+          Widgets:
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing top
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing left
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing right
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Render children horizontal
+                Value:
+                  $Type: Forms$ToggleDesignPropertyValue
+              - $Type: Forms$DesignPropertyValue
+                Key: Align children
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container1
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIcon btnLarge
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing right
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57445
+              Name: actionButton19
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Edit
+              Name: text26
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing top
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing left
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing right
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Render children horizontal
+                Value:
+                  $Type: Forms$ToggleDesignPropertyValue
+              - $Type: Forms$DesignPropertyValue
+                Key: Align children
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container2
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIcon btnLarge
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing right
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57621
+              Name: actionButton20
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Resend
+              Name: text27
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing top
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing left
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing right
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Inner medium
+              - $Type: Forms$DesignPropertyValue
+                Key: Render children horizontal
+                Value:
+                  $Type: Forms$ToggleDesignPropertyValue
+              - $Type: Forms$DesignPropertyValue
+                Key: Align children
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container3
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIcon btnLarge
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing right
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57376
+              Name: actionButton21
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Delete
+              Name: text28
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: ix0Ds20jxka5lSpW1NoNhw==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: "true"
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: g6mlBLSFYEytAt/DPBdPNA==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: psj232tkRkiwDRORjoEmpA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: vRv2B+5gtE+GNxi5RVxQSw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: dKcACfVZ0UOnuW78G3vznA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: uVuTzzUJLEKXYPkYRsJNwA==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: 9TFg+yxNEkSuktaetaIn3A==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: +1i0ontoy0S601eXqpMqWg==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      TypePointer:
+        Data: YHiNbILxT0yroCZNIfC6Hg==
+        Subtype: 0
+    TabIndex: 0
+    Type:
+      $Type: CustomWidgets$CustomWidgetType
+      HelpUrl: ""
+      ObjectType:
+        $Type: CustomWidgets$WidgetObjectType
+        PropertyTypes:
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Type
+          Category: General::General
+          Description: 'Modal: a modal menu which is visible and triggered based on
+            the trigger attribute. Expanding: a collapsed surface that can be expanded
+            manually by the user.'
+          IsDefault: false
+          PropertyKey: type
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: modal
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: modal
+              Caption: Modal
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: expanding
+              Caption: Expanding
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Trigger attribute
+          Category: General::General
+          Description: Defines if the modal bottom sheet is visible or not. Initially
+            this value should be false. When set to true, the bottom sheet will be
+            shown. When the bottom sheet is hidden, the trigger attribute value is
+            set to false.
+          IsDefault: false
+          PropertyKey: triggerAttribute
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes:
+            - Boolean
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Attribute
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Render
+          Category: General::General
+          Description: 'Basic: creates the menu based on the configured options. Custom:
+            free to model menu.'
+          IsDefault: false
+          PropertyKey: modalRendering
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: basic
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: basic
+              Caption: Basic
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: custom
+              Caption: Custom
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Items
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: itemsBasic
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: true
+            IsPath: "No"
+            Multiline: false
+            ObjectType:
+              $Type: CustomWidgets$WidgetObjectType
+              PropertyTypes:
+              - $Type: CustomWidgets$WidgetPropertyType
+                Caption: Caption
+                Category: General
+                Description: ""
+                IsDefault: false
+                PropertyKey: caption
+                ValueType:
+                  $Type: CustomWidgets$WidgetValueType
+                  AllowNonPersistableEntities: false
+                  AllowedTypes: null
+                  AssociationTypes: null
+                  DataSourceProperty: ""
+                  DefaultValue: ""
+                  EntityProperty: ""
+                  EnumerationValues: null
+                  IsList: false
+                  IsPath: "No"
+                  Multiline: false
+                  ObjectType: null
+                  OnChangeProperty: ""
+                  ParameterIsList: false
+                  PathType: None
+                  Required: true
+                  ReturnType: null
+                  SelectableObjectsProperty: ""
+                  SelectionTypes: null
+                  SetLabel: false
+                  Translations: null
+                  Type: String
+              - $Type: CustomWidgets$WidgetPropertyType
+                Caption: Action
+                Category: General
+                Description: ""
+                IsDefault: false
+                PropertyKey: action
+                ValueType:
+                  $Type: CustomWidgets$WidgetValueType
+                  AllowNonPersistableEntities: false
+                  AllowedTypes: null
+                  AssociationTypes: null
+                  DataSourceProperty: ""
+                  DefaultValue: ""
+                  EntityProperty: ""
+                  EnumerationValues: null
+                  IsList: false
+                  IsPath: "No"
+                  Multiline: false
+                  ObjectType: null
+                  OnChangeProperty: ""
+                  ParameterIsList: false
+                  PathType: None
+                  Required: false
+                  ReturnType: null
+                  SelectableObjectsProperty: ""
+                  SelectionTypes: null
+                  SetLabel: false
+                  Translations: null
+                  Type: Action
+              - $Type: CustomWidgets$WidgetPropertyType
+                Caption: Style
+                Category: General
+                Description: Styles are not supported on iOS when Native iOS variant
+                  is selected.
+                IsDefault: false
+                PropertyKey: styleClass
+                ValueType:
+                  $Type: CustomWidgets$WidgetValueType
+                  AllowNonPersistableEntities: false
+                  AllowedTypes: null
+                  AssociationTypes: null
+                  DataSourceProperty: ""
+                  DefaultValue: defaultStyle
+                  EntityProperty: ""
+                  EnumerationValues:
+                  - $Type: CustomWidgets$WidgetEnumerationValue
+                    _Key: defaultStyle
+                    Caption: Default
+                  - $Type: CustomWidgets$WidgetEnumerationValue
+                    _Key: primaryStyle
+                    Caption: Primary
+                  - $Type: CustomWidgets$WidgetEnumerationValue
+                    _Key: dangerStyle
+                    Caption: Danger
+                  - $Type: CustomWidgets$WidgetEnumerationValue
+                    _Key: customStyle
+                    Caption: Custom
+                  IsList: false
+                  IsPath: "No"
+                  Multiline: false
+                  ObjectType: null
+                  OnChangeProperty: ""
+                  ParameterIsList: false
+                  PathType: None
+                  Required: true
+                  ReturnType: null
+                  SelectableObjectsProperty: ""
+                  SelectionTypes: null
+                  SetLabel: false
+                  Translations: null
+                  Type: Enumeration
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Object
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Native iOS variant
+          Category: General::General
+          Description: If set to Yes, on iOS the native Action sheet is shown. If
+            set to No, a uniform version will be shown on iOS, similar to Android.
+          IsDefault: false
+          PropertyKey: nativeImplementation
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: "true"
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Boolean
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Always visible
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: smallContent
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Visible on first drag
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: largeContent
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Enable full screen
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: showFullscreenContent
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: "true"
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Boolean
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Visible on drag to top of screen
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: fullscreenContent
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: On open
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: onOpen
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Action
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: On close
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: onClose
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Action
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: <system:Name>
+          Category: General::Common
+          Description: ""
+          IsDefault: false
+          PropertyKey: Name
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: System
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: <system:Visibility>
+          Category: General::Common
+          Description: ""
+          IsDefault: false
+          PropertyKey: Visibility
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: System
+      OfflineCapable: true
+      StudioCategory: ""
+      StudioProCategory: ""
+      SupportedPlatform: Native
+      WidgetDescription: ""
+      WidgetId: com.mendix.widget.native.bottomsheet.BottomSheet
+      WidgetName: Bottom sheet
+      WidgetNeedsEntityContext: false
+      WidgetPluginWidget: true

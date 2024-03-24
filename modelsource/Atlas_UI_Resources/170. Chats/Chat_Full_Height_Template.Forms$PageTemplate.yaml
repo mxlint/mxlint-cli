@@ -1,0 +1,601 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: ""
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.Atlas_Default.Main
+    Widgets:
+    - $Type: Forms$DataView
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      DataSource:
+        $Type: Forms$DataViewSource
+        EntityRef: null
+        SourceVariable: null
+      Editability: Always
+      FooterWidgets: null
+      LabelWidth: 3
+      Name: dataView2
+      NoEntityMessage:
+        $Type: Texts$Text
+        Items: null
+      ReadOnlyStyle: Control
+      ShowFooter: false
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$DivContainer
+        Appearance:
+          $Type: Forms$Appearance
+          Class: chat fullheight fullpageblock
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: container12
+        NativeAccessibilitySettings: null
+        OnClickAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: true
+        RenderMode: Div
+        ScreenReaderHidden: false
+        TabIndex: 0
+        Widgets:
+        - $Type: Forms$DivContainer
+          Appearance:
+            $Type: Forms$Appearance
+            Class: chat-content
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Name: container13
+          NativeAccessibilitySettings: null
+          OnClickAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          RenderMode: Div
+          ScreenReaderHidden: false
+          TabIndex: 0
+          Widgets:
+          - $Type: Forms$ListView
+            Appearance:
+              $Type: Forms$Appearance
+              Class: chat-list
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            ConditionalVisibilitySettings: null
+            DataSource:
+              $Type: Forms$ListViewXPathSource
+              EntityRef: null
+              Search:
+                $Type: Forms$ListViewSearch
+                SearchRefs: null
+              SortBar:
+                $Type: Forms$GridSortBar
+                SortItems: null
+              SourceVariable: null
+              XPathConstraint: ""
+            Editable: false
+            Name: listView2
+            NumberOfColumns: 1
+            PageSize: 10
+            PullDownAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            ScrollDirection: Vertical
+            TabIndex: 0
+            Templates: null
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: chat-message
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container14
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DivContainer
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: chat-message-content
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Name: container15
+                NativeAccessibilitySettings: null
+                OnClickAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                RenderMode: Div
+                ScreenReaderHidden: false
+                TabIndex: 0
+                Widgets:
+                - $Type: Forms$DivContainer
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: chat-message-balloon
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  ConditionalVisibilitySettings: null
+                  Name: container16
+                  NativeAccessibilitySettings: null
+                  OnClickAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  RenderMode: Div
+                  ScreenReaderHidden: false
+                  TabIndex: 0
+                  Widgets:
+                  - $Type: Forms$DynamicText
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: Font Weight
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: Bold
+                      DynamicClasses: ""
+                      Style: ""
+                    ConditionalVisibilitySettings: null
+                    Content:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Name
+                    Name: text5
+                    NativeAccessibilitySettings: null
+                    NativeTextStyle: Text
+                    RenderMode: Text
+                    TabIndex: 0
+                  - $Type: Forms$DynamicText
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ConditionalVisibilitySettings: null
+                    Content:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters:
+                      - $Type: Forms$ClientTemplateParameter
+                        AttributeRef: null
+                        Expression: ""
+                        FormattingInfo:
+                          $Type: Forms$FormattingInfo
+                          CustomDateFormat: ""
+                          DateFormat: Date
+                          DecimalPrecision: 2
+                          EnumFormat: Text
+                          GroupDigits: false
+                        SourceVariable: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Content
+                    Name: text10
+                    NativeAccessibilitySettings: null
+                    NativeTextStyle: Text
+                    RenderMode: Text
+                    TabIndex: 0
+                - $Type: Forms$DatePicker
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: chat-message-time text-small text-detail
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  AriaRequired: false
+                  AttributeRef: null
+                  ConditionalEditabilitySettings: null
+                  ConditionalVisibilitySettings: null
+                  Editable: Never
+                  FormattingInfo:
+                    $Type: Forms$FormattingInfo
+                    CustomDateFormat: ""
+                    DateFormat: DateTime
+                    DecimalPrecision: 2
+                    EnumFormat: Text
+                    GroupDigits: false
+                  LabelTemplate: null
+                  Name: datePicker4
+                  NativeAccessibilitySettings: null
+                  OnChangeAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  OnEnterAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  OnLeaveAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  Placeholder:
+                    $Type: Texts$Text
+                    Items: null
+                  ReadOnlyStyle: Text
+                  ScreenReaderLabel: null
+                  SourceVariable: null
+                  TabIndex: 0
+                  Validation:
+                    $Type: Forms$WidgetValidation
+                    Expression: ""
+                    Message:
+                      $Type: Texts$Text
+                      Items: null
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: chat-message chat-message-self
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container17
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DivContainer
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: chat-message-content
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Name: container18
+                NativeAccessibilitySettings: null
+                OnClickAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                RenderMode: Div
+                ScreenReaderHidden: false
+                TabIndex: 0
+                Widgets:
+                - $Type: Forms$DivContainer
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: chat-message-balloon
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  ConditionalVisibilitySettings: null
+                  Name: container19
+                  NativeAccessibilitySettings: null
+                  OnClickAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  RenderMode: Div
+                  ScreenReaderHidden: false
+                  TabIndex: 0
+                  Widgets:
+                  - $Type: Forms$DynamicText
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: Font Weight
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: Bold
+                      DynamicClasses: ""
+                      Style: ""
+                    ConditionalVisibilitySettings: null
+                    Content:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: You
+                    Name: text7
+                    NativeAccessibilitySettings: null
+                    NativeTextStyle: Text
+                    RenderMode: Text
+                    TabIndex: 0
+                  - $Type: Forms$DynamicText
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ConditionalVisibilitySettings: null
+                    Content:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters:
+                      - $Type: Forms$ClientTemplateParameter
+                        AttributeRef: null
+                        Expression: ""
+                        FormattingInfo:
+                          $Type: Forms$FormattingInfo
+                          CustomDateFormat: ""
+                          DateFormat: Date
+                          DecimalPrecision: 2
+                          EnumFormat: Text
+                          GroupDigits: false
+                        SourceVariable: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Content
+                    Name: text11
+                    NativeAccessibilitySettings: null
+                    NativeTextStyle: Text
+                    RenderMode: Text
+                    TabIndex: 0
+                - $Type: Forms$DatePicker
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: chat-message-time text-small text-detail
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  AriaRequired: false
+                  AttributeRef: null
+                  ConditionalEditabilitySettings: null
+                  ConditionalVisibilitySettings: null
+                  Editable: Never
+                  FormattingInfo:
+                    $Type: Forms$FormattingInfo
+                    CustomDateFormat: ""
+                    DateFormat: DateTime
+                    DecimalPrecision: 2
+                    EnumFormat: Text
+                    GroupDigits: false
+                  LabelTemplate: null
+                  Name: datePicker2
+                  NativeAccessibilitySettings: null
+                  OnChangeAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  OnEnterAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  OnLeaveAction:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: false
+                  Placeholder:
+                    $Type: Texts$Text
+                    Items: null
+                  ReadOnlyStyle: Text
+                  ScreenReaderLabel: null
+                  SourceVariable: null
+                  TabIndex: 0
+                  Validation:
+                    $Type: Forms$WidgetValidation
+                    Expression: ""
+                    Message:
+                      $Type: Texts$Text
+                      Items: null
+        - $Type: Forms$DivContainer
+          Appearance:
+            $Type: Forms$Appearance
+            Class: chat-footer
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Name: container20
+          NativeAccessibilitySettings: null
+          OnClickAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          RenderMode: Div
+          ScreenReaderHidden: false
+          TabIndex: 0
+          Widgets:
+          - $Type: Forms$DataView
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalEditabilitySettings: null
+            ConditionalVisibilitySettings: null
+            DataSource:
+              $Type: Forms$DataViewSource
+              EntityRef: null
+              SourceVariable: null
+            Editability: Always
+            FooterWidgets: null
+            LabelWidth: 3
+            Name: dataView4
+            NoEntityMessage:
+              $Type: Texts$Text
+              Items: null
+            ReadOnlyStyle: Control
+            ShowFooter: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: chat-input
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container21
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$TextBox
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: chat-textbox
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRequired: false
+                AttributeRef: null
+                AutoFocus: false
+                Autocomplete: true
+                AutocompletePurpose: "On"
+                ConditionalEditabilitySettings: null
+                ConditionalVisibilitySettings: null
+                Editable: Always
+                FormattingInfo:
+                  $Type: Forms$FormattingInfo
+                  CustomDateFormat: ""
+                  DateFormat: Date
+                  DecimalPrecision: 2
+                  EnumFormat: Text
+                  GroupDigits: false
+                InputMask: ""
+                IsPasswordBox: false
+                KeyboardType: Default
+                LabelTemplate: null
+                MaxLengthCode: -1
+                Name: textBox3
+                NativeAccessibilitySettings: null
+                OnChangeAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                OnEnterAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                OnEnterKeyPressAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                OnLeaveAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                Placeholder:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Type your message here
+                ReadOnlyStyle: Inherit
+                ScreenReaderLabel: null
+                SourceVariable: null
+                SubmitBehaviour: OnEndEditing
+                SubmitOnInputDelay: 300
+                TabIndex: 0
+                Validation:
+                  $Type: Forms$WidgetValidation
+                  Expression: ""
+                  Message:
+                    $Type: Texts$Text
+                    Items: null
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$MicroflowAction
+                  DisabledDuringExecution: true
+                  MicroflowSettings:
+                    $Type: Forms$MicroflowSettings
+                    Asynchronous: false
+                    ConfirmationInfo: null
+                    FormValidations: All
+                    Microflow: ""
+                    ParameterMappings: null
+                    ProgressBar: None
+                    ProgressMessage: null
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Button
+                ButtonStyle: Primary
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Add message
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Send
+                ConditionalVisibilitySettings: null
+                Icon: null
+                Name: actionButton3
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+  Form: Atlas_UI_Resources.Atlas_Default
+Name: Chat_Full_Height_Template
+TemplateCategory: Chats
+TemplateCategoryWeight: 170
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

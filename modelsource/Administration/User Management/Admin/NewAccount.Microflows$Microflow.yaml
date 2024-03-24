@@ -1,0 +1,103 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles:
+- Administration.Administrator
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: NewAccount
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateChangeAction
+      Commit: "No"
+      Entity: Administration.Account
+      ErrorHandlingType: Rollback
+      Items: null
+      RefreshInClient: false
+      VariableName: NewAccount
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ShowFormAction
+      ErrorHandlingType: Rollback
+      FormSettings:
+        $Type: Forms$FormSettings
+        Form: Administration.Account_New
+        ParameterMappings:
+        - $Type: Forms$PageParameterMapping
+          Argument: $AccountPasswordData
+          Parameter: Administration.Account_New.AccountPasswordData
+          Variable:
+            $Type: Forms$PageVariable
+            PageParameter: ""
+            SnippetParameter: ""
+            UseAllPages: false
+            Widget: ""
+        TitleOverride: null
+      NumberOfPagesToClose: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateChangeAction
+      Commit: "No"
+      Entity: Administration.AccountPasswordData
+      ErrorHandlingType: Rollback
+      Items:
+      - $Type: Microflows$ChangeActionItem
+        Association: Administration.AccountPasswordData_Account
+        Attribute: ""
+        Type: Set
+        Value: $NewAccount
+      RefreshInClient: false
+      VariableName: AccountPasswordData
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+Url: ""
+WorkflowActionInfo: null

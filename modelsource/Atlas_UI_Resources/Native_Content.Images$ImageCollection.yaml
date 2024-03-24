@@ -1,0 +1,54 @@
+$Type: Images$ImageCollection
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Images:
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: illustration_calendar
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: illustration_headphones
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: illustration_spreadsheet
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: illustration_users
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_introscreens_bulb
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_introscreens_world
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_introscreen_walk
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_listviewswipe_archive
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_listviewswipe_deleted
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_listviewswipe_flag
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_listviewswipe_inbox
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_listviewswipe_more
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: forest
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: mountain
+- $Type: Images$Image
+  ImageFormat: Png
+  Name: bb_header_image
+- $Type: Images$Image
+  ImageFormat: Svg
+  Name: pt_feedback_checkmark
+Name: Native_Content

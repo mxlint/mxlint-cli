@@ -1,0 +1,631 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 1200
+DisplayName: Dashboard Action Tiles
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.Atlas_Default.Main
+    Widgets:
+    - $Type: Forms$LayoutGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: pageheader
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: layoutGrid3
+      Rows:
+      - $Type: Forms$LayoutGridRow
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        Columns:
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: 12
+          PreviewWidth: -1
+          TabletWeight: 12
+          VerticalAlignment: None
+          Weight: 12
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: pageheader-title spacing-outer-bottom
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: nl_NL
+                  Text: Tekst
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Title
+            Name: text40
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: H3
+            TabIndex: 0
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: pageheader-subtitle text-detail
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: nl_NL
+                  Text: Tekst
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Here you can put a paragraph as subtitle
+            Name: text41
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: Paragraph
+            TabIndex: 0
+        ConditionalVisibilitySettings: null
+        HorizontalAlignment: None
+        SpacingBetweenColumns: true
+        VerticalAlignment: None
+      TabIndex: 0
+      Width: FullWidth
+    - $Type: Forms$LayoutGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: layoutGrid2
+      Rows:
+      - $Type: Forms$LayoutGridRow
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        Columns:
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: 12
+          PreviewWidth: -1
+          TabletWeight: 12
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: card cardaction
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Large
+              - $Type: Forms$DesignPropertyValue
+                Key: Align content
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center align as a column
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container15
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card-image
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing bottom
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57352
+              Name: actionButton13
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: User Icon
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Open Page
+              ConditionalVisibilitySettings: null
+              Icon: null
+              Name: actionButton9
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: 12
+          PreviewWidth: -1
+          TabletWeight: 12
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: card cardaction
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Large
+              - $Type: Forms$DesignPropertyValue
+                Key: Align content
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center align as a column
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container16
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card-image
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing bottom
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57624
+              Name: actionButton14
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Folder Open Icon
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Open Page
+              ConditionalVisibilitySettings: null
+              Icon: null
+              Name: actionButton10
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: 12
+          PreviewWidth: -1
+          TabletWeight: 12
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: card cardaction
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Large
+              - $Type: Forms$DesignPropertyValue
+                Key: Align content
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center align as a column
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container17
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card-image
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing bottom
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57368
+              Name: actionButton15
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Signal Icon
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Open Page
+              ConditionalVisibilitySettings: null
+              Icon: null
+              Name: actionButton11
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: 12
+          PreviewWidth: -1
+          TabletWeight: 12
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DivContainer
+            Appearance:
+              $Type: Forms$Appearance
+              Class: card cardaction
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Large
+              - $Type: Forms$DesignPropertyValue
+                Key: Align content
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Center align as a column
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Name: container18
+            NativeAccessibilitySettings: null
+            OnClickAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            RenderMode: Div
+            ScreenReaderHidden: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card-image
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing bottom
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Medium
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57369
+              Name: actionButton16
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Cog Icon
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Actie
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Open Page
+              ConditionalVisibilitySettings: null
+              Icon: null
+              Name: actionButton12
+              NativeAccessibilitySettings: null
+              RenderType: Link
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+        ConditionalVisibilitySettings: null
+        HorizontalAlignment: None
+        SpacingBetweenColumns: true
+        VerticalAlignment: None
+      TabIndex: 0
+      Width: FullWidth
+  Form: Atlas_UI_Resources.Atlas_Default
+Name: Dashboard_ActionTiles
+TemplateCategory: Dashboards
+TemplateCategoryWeight: 0
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

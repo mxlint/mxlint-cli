@@ -1,0 +1,59 @@
+$Type: Security$ProjectSecurity
+AdminPassword: "1"
+AdminUserName: MxAdmin
+AdminUserRole: Administrator
+CheckSecurity: true
+DemoUsers:
+- $Type: Security$DemoUserImpl
+  Entity: Administration.Account
+  Password: fwKuVe72ET
+  UserName: demo_administrator
+  UserRoles:
+  - Administrator
+- $Type: Security$DemoUserImpl
+  Entity: Administration.Account
+  Password: xCWg1yUeTt
+  UserName: demo_user
+  UserRoles:
+  - User
+EnableDemoUsers: true
+EnableGuestAccess: false
+FileDocumentAccess:
+  $Type: Security$FileDocumentAccessRuleContainer
+  AccessRules: null
+GuestUserRole: ""
+ImageAccess:
+  $Type: Security$ImageAccessRuleContainer
+  AccessRules: null
+PasswordPolicySettings:
+  $Type: Security$PasswordPolicySettings
+  MinimumLength: 6
+  RequireDigit: true
+  RequireMixedCase: true
+  RequireSymbol: false
+SecurityLevel: CheckEverything
+StrictMode: false
+StrictPageUrlCheck: true
+UserRoles:
+- $Type: Security$UserRole
+  CheckSecurity: true
+  Description: ""
+  ManageAllRoles: true
+  ManageUsersWithoutRoles: false
+  ManageableRoles: null
+  ModuleRoles:
+  - System.Administrator
+  - Administration.Administrator
+  - MyFirstModule.User
+  Name: Administrator
+- $Type: Security$UserRole
+  CheckSecurity: true
+  Description: ""
+  ManageAllRoles: false
+  ManageUsersWithoutRoles: false
+  ManageableRoles: null
+  ModuleRoles:
+  - System.User
+  - MyFirstModule.User
+  - Administration.User
+  Name: User

@@ -1,0 +1,15 @@
+$Type: ScheduledEvents$ScheduledEvent
+Documentation: ""
+Enabled: false
+Excluded: false
+ExportLevel: Hidden
+Interval: 0
+IntervalType: Minute
+Microflow: MyFirstModule.CleanUp
+Name: Cleanup
+OnOverlap: SkipNext
+Schedule:
+  $Type: ScheduledEvents$MinuteSchedule
+  Multiplier: 1
+StartDateTime: "2023-10-25T17:05:29.213Z"
+TimeZone: UTC

@@ -1,0 +1,68 @@
+$Type: DomainModels$DomainModel
+Annotations: null
+Associations: null
+CrossAssociations: null
+Documentation: ""
+Entities:
+- $Type: DomainModels$EntityImpl
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: true
+    AllowDelete: false
+    AllowedModuleRoles:
+    - MyFirstModule.User
+    DefaultMemberAccessRights: ReadWrite
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: MyFirstModule.Entity.Constant
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.FileID
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: System.FileDocument.Name
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: System.FileDocument.DeleteAfterDownload
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: System.FileDocument.Contents
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.HasContents
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.Size
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
+  Attributes:
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Constant
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$CalculatedValue
+      Microflow: MyFirstModule.GetConstant
+      PassEntity: true
+  Documentation: ""
+  Events: null
+  ExportLevel: Hidden
+  Indexes: null
+  MaybeGeneralization:
+    $Type: DomainModels$Generalization
+    Generalization: System.FileDocument
+  Name: Entity
+  Source: null
+  ValidationRules: null

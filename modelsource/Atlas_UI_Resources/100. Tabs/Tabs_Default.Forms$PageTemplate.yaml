@@ -1,0 +1,513 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 1200
+DisplayName: Tabs Default
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.Atlas_Default.Main
+    Widgets:
+    - $Type: Forms$LayoutGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: pageheader
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: layoutGrid1
+      Rows:
+      - $Type: Forms$LayoutGridRow
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        Columns:
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: -1
+          PreviewWidth: -1
+          TabletWeight: -1
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: pageheader-title
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Spacing bottom
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Small
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: nl_NL
+                  Text: Tekst
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Title
+            Name: text36
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: H3
+            TabIndex: 0
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: pageheader-subtitle
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Color
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Detail color
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: nl_NL
+                  Text: Tekst
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Here you can put a paragraph as subtitle
+            Name: text37
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: Paragraph
+            TabIndex: 0
+        ConditionalVisibilitySettings: null
+        HorizontalAlignment: None
+        SpacingBetweenColumns: true
+        VerticalAlignment: None
+      TabIndex: 0
+      Width: FullWidth
+    - $Type: Forms$LayoutGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: layoutGrid2
+      Rows:
+      - $Type: Forms$LayoutGridRow
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        Columns:
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: -1
+          PreviewWidth: -1
+          TabletWeight: -1
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$TabControl
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            DefaultPagePointer:
+              Data: AAAAAAAAAAAAAAAAAAAAAA==
+              Subtype: 0
+            Name: tabControl1
+            TabIndex: 0
+            TabPages:
+            - $Type: Forms$TabPage
+              Badge: null
+              Caption:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Page 1
+              ConditionalVisibilitySettings: null
+              Name: tabPage1
+              RefreshOnShow: false
+              Widgets:
+              - $Type: Forms$DataGrid
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: datagrid-hover
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items: null
+                Columns:
+                - $Type: Forms$DataGridColumn
+                  AggregateCaption:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: ""
+                  AggregateFunction: None
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  AttributeRef: null
+                  Caption:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Name
+                  Editable: false
+                  FormattingInfo:
+                    $Type: Forms$FormattingInfo
+                    CustomDateFormat: ""
+                    DateFormat: Date
+                    DecimalPrecision: 2
+                    EnumFormat: Text
+                    GroupDigits: false
+                  Name: column1
+                  ShowTooltip: false
+                  WidthValue: 50
+                - $Type: Forms$DataGridColumn
+                  AggregateCaption:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: ""
+                  AggregateFunction: None
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  AttributeRef: null
+                  Caption:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Last login
+                  Editable: false
+                  FormattingInfo:
+                    $Type: Forms$FormattingInfo
+                    CustomDateFormat: ""
+                    DateFormat: Date
+                    DecimalPrecision: 2
+                    EnumFormat: Text
+                    GroupDigits: false
+                  Name: column2
+                  ShowTooltip: false
+                  WidthValue: 50
+                ConditionalVisibilitySettings: null
+                ControlBar:
+                  $Type: Forms$GridControlBar
+                  DefaultButtonPointer:
+                    Data: AAAAAAAAAAAAAAAAAAAAAA==
+                    Subtype: 0
+                  NewButtons:
+                  - $Type: Forms$GridSearchButton
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Default
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Search
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Zoek
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    Name: searchButton7
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                  - $Type: Forms$GridActionButton
+                    Action:
+                      $Type: Forms$NoAction
+                      DisabledDuringExecution: false
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Success
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Actie
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: New
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    MaintainSelectionAfterMicroflow: false
+                    Name: actionButton1
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                  - $Type: Forms$GridActionButton
+                    Action:
+                      $Type: Forms$NoAction
+                      DisabledDuringExecution: false
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Default
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Actie
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Edit
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    MaintainSelectionAfterMicroflow: false
+                    Name: actionButton2
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                  - $Type: Forms$GridActionButton
+                    Action:
+                      $Type: Forms$NoAction
+                      DisabledDuringExecution: false
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Default
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Actie
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Up
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    MaintainSelectionAfterMicroflow: false
+                    Name: actionButton3
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                  - $Type: Forms$GridActionButton
+                    Action:
+                      $Type: Forms$NoAction
+                      DisabledDuringExecution: false
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Default
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Actie
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Down
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    MaintainSelectionAfterMicroflow: false
+                    Name: actionButton4
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                  - $Type: Forms$GridActionButton
+                    Action:
+                      $Type: Forms$DeleteClientAction
+                      ClosePage: false
+                      DisabledDuringExecution: false
+                      SourceVariable: null
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    ButtonStyle: Danger
+                    CaptionTemplate:
+                      $Type: Forms$ClientTemplate
+                      Fallback:
+                        $Type: Texts$Text
+                        Items: null
+                      Parameters: null
+                      Template:
+                        $Type: Texts$Text
+                        Items:
+                        - $Type: Texts$Translation
+                          LanguageCode: nl_NL
+                          Text: Verwijderen
+                        - $Type: Texts$Translation
+                          LanguageCode: en_US
+                          Text: Delete
+                    ConditionalVisibilitySettings: null
+                    Icon: null
+                    MaintainSelectionAfterMicroflow: false
+                    Name: deleteButton1
+                    Tooltip:
+                      $Type: Texts$Text
+                      Items: null
+                DataSource:
+                  $Type: Forms$GridXPathSource
+                  EntityRef: null
+                  SearchBar:
+                    $Type: Forms$SearchBar
+                    NewButtons: null
+                    Type: FoldableClosed
+                    WaitForSearch: false
+                  SortBar:
+                    $Type: Forms$GridSortBar
+                    SortItems: null
+                  SourceVariable: null
+                  XPathConstraint: ""
+                DefaultButtonTrigger: Double
+                IsControlBarVisible: true
+                Name: grid14
+                NumberOfRows: 20
+                RefreshTime: 0
+                SelectFirst: false
+                SelectionMode: Single
+                ShowEmptyRows: false
+                ShowPagingBar: YesWithTotalCount
+                TabIndex: 0
+                TooltipForm: ""
+                WidthUnit: Weight
+            - $Type: Forms$TabPage
+              Badge: null
+              Caption:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Page 2
+              ConditionalVisibilitySettings: null
+              Name: tabPage2
+              RefreshOnShow: false
+              Widgets: null
+        ConditionalVisibilitySettings: null
+        HorizontalAlignment: None
+        SpacingBetweenColumns: true
+        VerticalAlignment: None
+      TabIndex: 0
+      Width: FullWidth
+  Form: Atlas_UI_Resources.Atlas_Default
+Name: Tabs_Default
+TemplateCategory: Tabs
+TemplateCategoryWeight: 100
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

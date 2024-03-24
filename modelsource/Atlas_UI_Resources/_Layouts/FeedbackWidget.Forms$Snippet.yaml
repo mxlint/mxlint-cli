@@ -1,0 +1,10 @@
+$Type: Forms$Snippet
+CanvasHeight: 600
+CanvasWidth: 800
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: FeedbackWidget
+Parameters: null
+Type: Web
+Widgets: null

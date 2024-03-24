@@ -1,0 +1,2039 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: 'Card Map '
+Documentation: ""
+DocumentationUrl: '{{atlasUrl}}/index3.html#/bb_mapcard/7318349394477558'
+Excluded: false
+ExportLevel: Hidden
+Name: Card_Map
+Platform: Web
+TemplateCategory: Cards
+TemplateCategoryWeight: 30
+Widgets:
+- $Type: Forms$DivContainer
+  Appearance:
+    $Type: Forms$Appearance
+    Class: card cardmap
+    DesignProperties:
+    - $Type: Forms$DesignPropertyValue
+      Key: Spacing bottom
+      Value:
+        $Type: Forms$OptionDesignPropertyValue
+        Option: Large
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Name: container17
+  NativeAccessibilitySettings: null
+  OnClickAction:
+    $Type: Forms$NoAction
+    DisabledDuringExecution: true
+  RenderMode: Div
+  ScreenReaderHidden: false
+  TabIndex: 0
+  Widgets:
+  - $Type: Forms$DynamicText
+    Appearance:
+      $Type: Forms$Appearance
+      Class: card-title
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Content:
+      $Type: Forms$ClientTemplate
+      Fallback:
+        $Type: Texts$Text
+        Items: null
+      Parameters: null
+      Template:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Title
+    Name: label17
+    NativeAccessibilitySettings: null
+    NativeTextStyle: Text
+    RenderMode: H2
+    TabIndex: 0
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: card-content
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container14
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets:
+    - $Type: CustomWidgets$CustomWidget
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      Editable: Always
+      LabelTemplate: null
+      Name: maps2
+      Object:
+        $Type: CustomWidgets$WidgetObject
+        Properties:
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: K/dryyim2kSdgYJg4dRUYw==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: ""
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: ktEu9f25YEC6tkHmOMDnZQ==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: dgLVqa4cLEyM7lhWw89lmA==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: openStreet
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: X/Pzlp7imUyx6rul+u07yg==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: OcBjWy1J6Eutp061QeGppg==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: ""
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: OUd+zfwhxUmdoCd/wOAv3g==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: EgvDq0qzykC5tI7W2qLyhA==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "42.350656"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: 4e+JbX7AyEiNvKAwfeQxaQ==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: lGmtrIZmZk2sDTi0chY1Yg==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "-71.050159"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: 5D87Sy/+s0G2x0SrNrBmaQ==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: WjfsdBilE0+nfV4xP6OJqw==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: 8Y0w9seWPUywHndZqv1Fiw==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: zeVrSdpLq0mOfzazPHPHNA==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "10"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: pOmehcxucUairUyU/eOPKA==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: S1nhiUk6Qk23GteYj/lzLA==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: percentage
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: /GAvONw5TUKF8b2wSG7bUw==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: pYFyT8D9302Yzq2kzF9ZZg==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "100"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: og/6fQsjnEigrOvZBgdG5A==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: V+xHqA1uCEueOrkBlh6lCw==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: percentageOfWidth
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: YdKszHPCV0KlcvXAFE1+qA==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: Tq/9FXCH0UugFiaGqEAg0w==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "75"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: RP6HSSBeDEORJ6AFqlb9XQ==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: brYSpKgWIEOCSW3n+DkceQ==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: Mr9JxOaBt062ymDimJagbA==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: X4audh3mXEGRtrL4tEpwsQ==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: rPD1rmT+WUeaAvdeCUcmMQ==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: ZALLOZo5AEC68uzGKFpjgg==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: K7f6juxFt0SNs5yZtVjhkw==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: rmhlP9h9LUaLTVynUhqvnQ==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: hbktxQObq0aSurJzsHTSbw==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: hwBSM/xDxEu/vCDpSMZOAA==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: c7nKeSt5AkiblpHpYjJ/fg==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: Mw2emekk3k+M8V7MSbo6Vg==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: Idw+msLymE6z0oyAbMDVOA==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: sfEE48rwhEGQ9fuvetTBgQ==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: qpapPoqFmU2Zjhy7jbP4wA==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: /R26ryZtL02P+Jg6JgChTw==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: "true"
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: Bo+18vM+xUC8tfiTYI4Ubg==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: shsSN8aqbkG1SXeTuENqng==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: ""
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: R3Z7mr+YPUyos8BaJW2g2w==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        - $Type: CustomWidgets$WidgetProperty
+          TypePointer:
+            Data: hZzydUukSE2/cbjB0Ohq2g==
+            Subtype: 0
+          Value:
+            $Type: CustomWidgets$WidgetValue
+            Action:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: false
+            AttributeRef: null
+            DataSource: null
+            EntityRef: null
+            Expression: ""
+            Form: ""
+            Icon: null
+            Microflow: ""
+            Nanoflow: ""
+            Objects: null
+            PrimitiveValue: ""
+            Selection: None
+            SourceVariable: null
+            TextTemplate: null
+            TranslatableValue: null
+            TypePointer:
+              Data: 7Xf4dO+w20qEQd6Jn6lyOw==
+              Subtype: 0
+            Widgets: null
+            XPathConstraint: ""
+        TypePointer:
+          Data: +Fw4HLvZh0m2hM5b88xwAA==
+          Subtype: 0
+      TabIndex: 0
+      Type:
+        $Type: CustomWidgets$CustomWidgetType
+        HelpUrl: ""
+        ObjectType:
+          $Type: CustomWidgets$WidgetObjectType
+          PropertyTypes:
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Locations
+            Category: Map properties
+            Description: ""
+            IsDefault: false
+            PropertyKey: locations
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: true
+              IsPath: "No"
+              Multiline: false
+              ObjectType:
+                $Type: CustomWidgets$WidgetObjectType
+                PropertyTypes:
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Data source
+                  Category: Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: dataSourceType
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: static
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: static
+                      Caption: Static
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: context
+                      Caption: Context
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: XPath
+                      Caption: Database
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: microflow
+                      Caption: Microflow
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: nanoflow
+                      Caption: Nanoflow
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Locations entity
+                  Category: Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: locationsEntity
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Entity
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Latitude attribute
+                  Category: Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: latitudeAttribute
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes:
+                    - Decimal
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Attribute
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Longitude attribute
+                  Category: Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: longitudeAttribute
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes:
+                    - Decimal
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Attribute
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: XPath constraint
+                  Category: Data source
+                  Description: Constraint for the data source 'Database' locations.
+                    It could be used with relation to '[%CurrentObject%]'
+                  IsDefault: false
+                  PropertyKey: entityConstraint
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: EntityConstraint
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Input parameter entity
+                  Category: Data source
+                  Description: Entity of the parameter passed to the microflow or
+                    nanoflow, this should be equal to the context
+                  IsDefault: false
+                  PropertyKey: inputParameterEntity
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Entity
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Microflow
+                  Category: Data source
+                  Description: The datasource 'Microflow' that returns the list of
+                    locations
+                  IsDefault: false
+                  PropertyKey: dataSourceMicroflow
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: inputParameterEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType:
+                      $Type: CustomWidgets$WidgetReturnType
+                      AssignableTo: ""
+                      EntityProperty: locationsEntity
+                      IsList: true
+                      Type: Object
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Microflow
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Nanoflow
+                  Category: Data source
+                  Description: The datasource 'Nanoflow' that returns the list of
+                    locations
+                  IsDefault: false
+                  PropertyKey: dataSourceNanoflow
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: inputParameterEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType:
+                      $Type: CustomWidgets$WidgetReturnType
+                      AssignableTo: ""
+                      EntityProperty: locationsEntity
+                      IsList: true
+                      Type: Object
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Nanoflow
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Latitude
+                  Category: Static
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: staticLatitude
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: String
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Longitude
+                  Category: Static
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: staticLongitude
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: String
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Marker image
+                  Category: Markers
+                  Description: 'Marker list: when the ''Image attribute'' has a value
+                    it should be provided in the marker image list'
+                  IsDefault: false
+                  PropertyKey: markerImage
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: defaultImage
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: defaultImage
+                      Caption: Default
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: staticImage
+                      Caption: Static
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: systemImage
+                      Caption: System image
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: enumImage
+                      Caption: Marker list
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Static image
+                  Category: Markers
+                  Description: Image from the modeler
+                  IsDefault: false
+                  PropertyKey: staticMarkerIcon
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Image
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Image attribute
+                  Category: Markers
+                  Description: For 'Datasource' 'Database' or 'Microflow' and 'Context';
+                    Display custom markers based on the enumeration attribute value,
+                    as configured in the 'Marker images list'
+                  IsDefault: false
+                  PropertyKey: markerImageAttribute
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes:
+                    - Enum
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Attribute
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: System image path
+                  Category: Markers
+                  Description: The entity selected should inherit from system image
+                  IsDefault: false
+                  PropertyKey: systemImagePath
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: Optional
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: Reference
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Entity
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: On click
+                  Category: Marker events
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: onClickEvent
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: doNothing
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: doNothing
+                      Caption: Do nothing
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: callMicroflow
+                      Caption: Call a microflow
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: callNanoflow
+                      Caption: Call a nanoflow
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: showPage
+                      Caption: Show a page
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: On click microflow
+                  Category: Marker events
+                  Description: The microflow that will be executed when a marker is
+                    clicked
+                  IsDefault: false
+                  PropertyKey: onClickMicroflow
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType:
+                      $Type: CustomWidgets$WidgetReturnType
+                      AssignableTo: ""
+                      EntityProperty: ""
+                      IsList: false
+                      Type: Void
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Microflow
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: On click nanoflow
+                  Category: Marker events
+                  Description: The nanoflow that will be executed when a marker is
+                    clicked
+                  IsDefault: false
+                  PropertyKey: onClickNanoflow
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: locationsEntity
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType:
+                      $Type: CustomWidgets$WidgetReturnType
+                      AssignableTo: ""
+                      EntityProperty: ""
+                      IsList: false
+                      Type: Void
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Nanoflow
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Open page as
+                  Category: Marker events
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: openPageAs
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: content
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: content
+                      Caption: Full page
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: popup
+                      Caption: Popup
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: modal
+                      Caption: Blocking popup
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Page
+                  Category: Marker events
+                  Description: The page that will be opened when a marker is clicked
+                  IsDefault: false
+                  PropertyKey: page
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Form
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Object
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Map provider
+            Category: Map properties
+            Description: ""
+            IsDefault: false
+            PropertyKey: mapProvider
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: openStreet
+              EntityProperty: ""
+              EnumerationValues:
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: openStreet
+                Caption: Open street
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: mapBox
+                Caption: Map box
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: hereMaps
+                Caption: Here Maps
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: googleMaps
+                Caption: Google Maps
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Enumeration
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Access token
+            Category: Map properties
+            Description: Add token for either map box, here maps(app ID, app code
+              respectively) and google maps
+            IsDefault: false
+            PropertyKey: apiToken
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: String
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Default center latitude
+            Category: Map properties
+            Description: ""
+            IsDefault: false
+            PropertyKey: defaultCenterLatitude
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: String
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Default center longitude
+            Category: Map properties
+            Description: ""
+            IsDefault: false
+            PropertyKey: defaultCenterLongitude
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: String
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Auto zoom centered
+            Category: Appearance
+            Description: Initial best fit zoom based the available makers. It will
+              overwrite the specified 'Zoom level'
+            IsDefault: false
+            PropertyKey: autoZoom
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Zoom level
+            Category: Appearance
+            Description: '1: World, 5: Landmass/continent, 10: City, 15: Streets,
+              20: Buildings'
+            IsDefault: false
+            PropertyKey: zoomLevel
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "10"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Integer
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Width unit
+            Category: Appearance
+            Description: ""
+            IsDefault: false
+            PropertyKey: widthUnit
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: percentage
+              EntityProperty: ""
+              EnumerationValues:
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: percentage
+                Caption: Percentage
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: pixels
+                Caption: Pixels
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Enumeration
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Map width
+            Category: Appearance
+            Description: ""
+            IsDefault: false
+            PropertyKey: width
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "100"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Integer
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Height unit
+            Category: Appearance
+            Description: '''Percentage of width'' is the aspect ratio, ''Pixels''
+              is absolute. Warning: the ''Percentage of parent'' only works when the
+              parent has an absolute height, else it will not display'
+            IsDefault: false
+            PropertyKey: heightUnit
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: percentageOfWidth
+              EntityProperty: ""
+              EnumerationValues:
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: percentageOfWidth
+                Caption: Percentage of width
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: pixels
+                Caption: Pixels
+              - $Type: CustomWidgets$WidgetEnumerationValue
+                _Key: percentageOfParent
+                Caption: Percentage of parent
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Enumeration
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Map height
+            Category: Appearance
+            Description: ""
+            IsDefault: false
+            PropertyKey: height
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "75"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Integer
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Drag
+            Category: Controls
+            Description: Enable moving center by dragging
+            IsDefault: false
+            PropertyKey: optionDrag
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Scroll to zoom
+            Category: Controls
+            Description: Enable zooming the map using the mouse scroll wheel
+            IsDefault: false
+            PropertyKey: optionScroll
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Zoom
+            Category: Controls
+            Description: Show zoom control [ + ] [ - ]
+            IsDefault: false
+            PropertyKey: optionZoomControl
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Attribution control
+            Category: Controls
+            Description: Add attributions to the map (credits)
+            IsDefault: false
+            PropertyKey: attributionControl
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Street view
+            Category: Google maps
+            Description: Show the Street View Pegman control for google maps only
+            IsDefault: false
+            PropertyKey: optionStreetView
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Map type
+            Category: Google maps
+            Description: Show the map types control for google maps only
+            IsDefault: false
+            PropertyKey: mapTypeControl
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Full screen
+            Category: Google maps
+            Description: Show the full screen control for google maps only
+            IsDefault: false
+            PropertyKey: fullScreenControl
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Rotate
+            Category: Google maps
+            Description: Show the rotate control for google maps only
+            IsDefault: false
+            PropertyKey: rotateControl
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: "true"
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: false
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: true
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Boolean
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Map styles
+            Category: Google maps
+            Description: JSON array with Google Maps styles. See https://developers.google.com/maps/documentation/javascript/style-reference
+              This can be generated with tools like https://mapstyle.withgoogle.com
+            IsDefault: false
+            PropertyKey: mapStyles
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: false
+              IsPath: "No"
+              Multiline: true
+              ObjectType: null
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: String
+          - $Type: CustomWidgets$WidgetPropertyType
+            Caption: Images
+            Category: Marker image list
+            Description: Marker images are displayed when there is a location item
+              for all data source types except 'static', 'marker image attribute'
+              and the 'marker image' is of type 'marker list'. When the attribute
+              value does not match a name, the marker will show the 'Static image'
+              when available, or the default marker
+            IsDefault: false
+            PropertyKey: markerImages
+            ValueType:
+              $Type: CustomWidgets$WidgetValueType
+              AllowNonPersistableEntities: false
+              AllowedTypes: null
+              AssociationTypes: null
+              DataSourceProperty: ""
+              DefaultValue: ""
+              EntityProperty: ""
+              EnumerationValues: null
+              IsList: true
+              IsPath: "No"
+              Multiline: false
+              ObjectType:
+                $Type: CustomWidgets$WidgetObjectType
+                PropertyTypes:
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Value
+                  Category: Appearance
+                  Description: The value should match with the marker image attribute.
+                    (Empty enumeration names can not be used)
+                  IsDefault: false
+                  PropertyKey: enumKey
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: String
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Image
+                  Category: Appearance
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: enumImage
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Image
+              OnChangeProperty: ""
+              ParameterIsList: false
+              PathType: None
+              Required: false
+              ReturnType: null
+              SelectableObjectsProperty: ""
+              SelectionTypes: null
+              SetLabel: false
+              Translations: null
+              Type: Object
+        OfflineCapable: true
+        StudioCategory: ""
+        StudioProCategory: ""
+        SupportedPlatform: Web
+        WidgetDescription: Add different type of maps to your application, using LeafletJS
+        WidgetId: com.mendix.widget.custom.Maps.Maps
+        WidgetName: Maps
+        WidgetNeedsEntityContext: false
+        WidgetPluginWidget: false

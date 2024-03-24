@@ -1,0 +1,298 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: 'Hero Header Expense '
+Documentation: ""
+DocumentationUrl: '{{atlasUrl}}/index3.html#/bb_heroheaderexpense/7318349394479859'
+Excluded: false
+ExportLevel: Hidden
+Name: Heroheader_Expense
+Platform: Web
+TemplateCategory: Headers
+TemplateCategoryWeight: 10
+Widgets:
+- $Type: Forms$DivContainer
+  Appearance:
+    $Type: Forms$Appearance
+    Class: heroheader heroheaderexpense
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Name: container3
+  NativeAccessibilitySettings: null
+  OnClickAction:
+    $Type: Forms$NoAction
+    DisabledDuringExecution: true
+  RenderMode: Div
+  ScreenReaderHidden: false
+  TabIndex: 0
+  Widgets:
+  - $Type: Forms$LayoutGrid
+    Appearance:
+      $Type: Forms$Appearance
+      Class: ""
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: layoutGrid3
+    Rows:
+    - $Type: Forms$LayoutGridRow
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      Columns:
+      - $Type: Forms$LayoutGridColumn
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        PhoneWeight: -1
+        PreviewWidth: -1
+        TabletWeight: -1
+        VerticalAlignment: None
+        Weight: -1
+        Widgets:
+        - $Type: Forms$DynamicText
+          Appearance:
+            $Type: Forms$Appearance
+            Class: heroheaderexpense-title
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing bottom
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Small
+            - $Type: Forms$DesignPropertyValue
+              Key: Alignment
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Right
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Content:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Tekst
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: $200
+          Name: text38
+          NativeAccessibilitySettings: null
+          NativeTextStyle: Text
+          RenderMode: H2
+          TabIndex: 0
+        - $Type: Forms$DivContainer
+          Appearance:
+            $Type: Forms$Appearance
+            Class: heroheaderexpense-type
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Align content
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Right align as a row
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Name: container2
+          NativeAccessibilitySettings: null
+          OnClickAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          RenderMode: Div
+          ScreenReaderHidden: false
+          TabIndex: 0
+          Widgets:
+          - $Type: Forms$Label
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            Caption:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: "Submitted\r\n"
+            ConditionalVisibilitySettings: null
+            Name: label2
+            TabIndex: 0
+      - $Type: Forms$LayoutGridColumn
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        PhoneWeight: -1
+        PreviewWidth: -1
+        TabletWeight: -1
+        VerticalAlignment: None
+        Weight: -1
+        Widgets:
+        - $Type: Forms$DynamicText
+          Appearance:
+            $Type: Forms$Appearance
+            Class: heroheaderexpense-title
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing bottom
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Small
+            - $Type: Forms$DesignPropertyValue
+              Key: Alignment
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Right
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Content:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Tekst
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: $180,20
+          Name: text39
+          NativeAccessibilitySettings: null
+          NativeTextStyle: Text
+          RenderMode: H2
+          TabIndex: 0
+        - $Type: Forms$DivContainer
+          Appearance:
+            $Type: Forms$Appearance
+            Class: heroheaderexpense-type
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Align content
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Right align as a row
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Name: container8
+          NativeAccessibilitySettings: null
+          OnClickAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          RenderMode: Div
+          ScreenReaderHidden: false
+          TabIndex: 0
+          Widgets:
+          - $Type: Forms$Label
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            Caption:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Approved
+            ConditionalVisibilitySettings: null
+            Name: label4
+            TabIndex: 0
+      ConditionalVisibilitySettings: null
+      HorizontalAlignment: None
+      SpacingBetweenColumns: true
+      VerticalAlignment: None
+    - $Type: Forms$LayoutGridRow
+      Appearance:
+        $Type: Forms$Appearance
+        Class: row-right
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      Columns:
+      - $Type: Forms$LayoutGridColumn
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        PhoneWeight: -2
+        PreviewWidth: -1
+        TabletWeight: -2
+        VerticalAlignment: None
+        Weight: -2
+        Widgets:
+        - $Type: Forms$ActionButton
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing top
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Large
+            DynamicClasses: ""
+            Style: ""
+          AriaRole: Button
+          ButtonStyle: Success
+          CaptionTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Knop
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Add Expense
+          ConditionalVisibilitySettings: null
+          Icon: null
+          Name: actionButton2
+          NativeAccessibilitySettings: null
+          RenderType: Button
+          TabIndex: 0
+          Tooltip:
+            $Type: Texts$Text
+            Items: null
+      ConditionalVisibilitySettings: null
+      HorizontalAlignment: End
+      SpacingBetweenColumns: true
+      VerticalAlignment: None
+    TabIndex: 0
+    Width: FixedWidth

@@ -1,0 +1,680 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 500
+DisplayName: Settings
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.NativePhone_Default.Main
+    Widgets:
+    - $Type: Forms$DataView
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      DataSource:
+        $Type: Forms$DataViewSource
+        EntityRef: null
+        SourceVariable: null
+      Editability: Always
+      FooterWidgets: null
+      LabelWidth: 3
+      Name: dataView1
+      NoEntityMessage:
+        $Type: Texts$Text
+        Items: null
+      ReadOnlyStyle: Control
+      ShowFooter: false
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: borderBottom spacingInnerLeftMedium  spacingInnerRightMedium  spacingInnerBottomSmall
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Small
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid10
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexMain
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Size
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Large
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Tekst
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: General
+              Name: text2
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -2
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIconSecondary listItemIconSmall
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57944
+              Name: actionButton2
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: Center
+        TabIndex: 0
+        Width: FullWidth
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: borderBottom spacingInnerLeftMedium  spacingInnerRightMedium spacingInnerBottomSmall
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Small
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid7
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexMain
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Size
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Large
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Tekst
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Accessibility
+              Name: text3
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -2
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIconSecondary listItemIconSmall
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57944
+              Name: actionButton12
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: Center
+        TabIndex: 0
+        Width: FullWidth
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: borderBottom spacingInnerLeftMedium  spacingInnerRightMedium spacingInnerBottomSmall
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Small
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid11
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexMain
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Size
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Large
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Tekst
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Privacy
+              Name: text5
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -2
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIconSecondary listItemIconSmall
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57944
+              Name: actionButton3
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: Center
+        TabIndex: 0
+        Width: FullWidth
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: borderBottom spacingInnerLeftMedium  spacingInnerRightMedium spacingInnerBottomSmall
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Small
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid8
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexMain
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Size
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Large
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Tekst
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Notifications
+              Name: text4
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -2
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIconSecondary listItemIconSmall
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57944
+              Name: actionButton13
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: Center
+        TabIndex: 0
+        Width: FullWidth
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: borderBottom spacingInnerLeftMedium  spacingInnerRightMedium spacingInnerBottomSmall
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Small
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid9
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DynamicText
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexMain
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Size
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Large
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Content:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Tekst
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Advanced
+              Name: text6
+              NativeAccessibilitySettings: null
+              NativeTextStyle: Text
+              RenderMode: Text
+              TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: 12
+            PreviewWidth: -1
+            TabletWeight: 12
+            VerticalAlignment: None
+            Weight: -2
+            Widgets:
+            - $Type: Forms$ActionButton
+              Action:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              Appearance:
+                $Type: Forms$Appearance
+                Class: btnIconSecondary listItemIconSmall
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRole: Button
+              ButtonStyle: Default
+              CaptionTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Knop
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+              ConditionalVisibilitySettings: null
+              Icon:
+                $Type: Forms$GlyphIcon
+                Code: 57944
+              Name: actionButton14
+              NativeAccessibilitySettings: null
+              RenderType: Button
+              TabIndex: 0
+              Tooltip:
+                $Type: Texts$Text
+                Items: null
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: Center
+        TabIndex: 0
+        Width: FullWidth
+  Form: Atlas_UI_Resources.NativePhone_Default
+Name: NativePhone_Settings
+TemplateCategory: Lists
+TemplateCategoryWeight: 20
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

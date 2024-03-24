@@ -1,0 +1,440 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties:
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing top
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner large
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing bottom
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner large
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing left
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner medium
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing right
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner medium
+  - $Type: Forms$DesignPropertyValue
+    Key: Background color
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Primary
+  - $Type: Forms$DesignPropertyValue
+    Key: Justify content
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Space between
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 500
+DisplayName: Inspection New Item
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.NativePhone_Default.Header
+    Widgets:
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$SaveChangesClientAction
+        ClosePage: true
+        DisabledDuringExecution: true
+        SyncAutomatically: false
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Default
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Save
+      ConditionalVisibilitySettings: null
+      Icon: null
+      Name: actionButton2
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items: null
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.NativePhone_Default.Main
+    Widgets:
+    - $Type: Forms$DivContainer
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: container1
+      NativeAccessibilitySettings: null
+      OnClickAction:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      RenderMode: Div
+      ScreenReaderHidden: false
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$DataView
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        DataSource:
+          $Type: Forms$DataViewSource
+          EntityRef: null
+          SourceVariable: null
+        Editability: Always
+        FooterWidgets: null
+        LabelWidth: 0
+        Name: dataView1
+        NoEntityMessage:
+          $Type: Texts$Text
+          Items: null
+        ReadOnlyStyle: Control
+        ShowFooter: false
+        TabIndex: 0
+        Widgets:
+        - $Type: Forms$TextBox
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing bottom
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Medium
+            DynamicClasses: ""
+            Style: ""
+          AriaRequired: false
+          AttributeRef: null
+          AutoFocus: false
+          Autocomplete: true
+          AutocompletePurpose: "On"
+          ConditionalEditabilitySettings: null
+          ConditionalVisibilitySettings: null
+          Editable: Always
+          FormattingInfo:
+            $Type: Forms$FormattingInfo
+            CustomDateFormat: ""
+            DateFormat: Date
+            DecimalPrecision: 2
+            EnumFormat: Text
+            GroupDigits: false
+          InputMask: ""
+          IsPasswordBox: false
+          KeyboardType: Default
+          LabelTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Title
+          MaxLengthCode: -1
+          Name: textBox1
+          NativeAccessibilitySettings: null
+          OnChangeAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnEnterAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnEnterKeyPressAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnLeaveAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          Placeholder:
+            $Type: Texts$Text
+            Items: null
+          ReadOnlyStyle: Inherit
+          ScreenReaderLabel: null
+          SourceVariable: null
+          SubmitBehaviour: OnEndEditing
+          SubmitOnInputDelay: 300
+          TabIndex: 0
+          Validation:
+            $Type: Forms$WidgetValidation
+            Expression: ""
+            Message:
+              $Type: Texts$Text
+              Items: null
+        - $Type: Forms$TextArea
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing bottom
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Medium
+            DynamicClasses: ""
+            Style: ""
+          AriaRequired: false
+          AttributeRef: null
+          AutoFocus: false
+          Autocomplete: true
+          ConditionalEditabilitySettings: null
+          ConditionalVisibilitySettings: null
+          CounterMessage:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: ""
+          Editable: Always
+          LabelTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Description
+          MaxLengthCode: -1
+          Name: textArea1
+          NativeAccessibilitySettings: null
+          NumberOfLines: 5
+          OnChangeAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnEnterAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnLeaveAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          Placeholder:
+            $Type: Texts$Text
+            Items: null
+          ReadOnlyStyle: Inherit
+          ScreenReaderLabel: null
+          SourceVariable: null
+          SubmitBehaviour: OnEndEditing
+          SubmitOnInputDelay: 300
+          TabIndex: 0
+          TextTooLongMessage:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: ""
+          Validation:
+            $Type: Forms$WidgetValidation
+            Expression: ""
+            Message:
+              $Type: Texts$Text
+              Items: null
+      - $Type: Forms$DataView
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        DataSource:
+          $Type: Forms$DataViewSource
+          EntityRef: null
+          SourceVariable: null
+        Editability: Always
+        FooterWidgets: null
+        LabelWidth: 8
+        Name: dataView2
+        NoEntityMessage:
+          $Type: Texts$Text
+          Items: null
+        ReadOnlyStyle: Control
+        ShowFooter: false
+        TabIndex: 0
+        Widgets:
+        - $Type: Forms$CheckBox
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing bottom
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Medium
+            DynamicClasses: ""
+            Style: ""
+          AriaRequired: false
+          AttributeRef: null
+          ConditionalEditabilitySettings: null
+          ConditionalVisibilitySettings: null
+          Editable: Always
+          LabelPosition: Default
+          LabelTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Repairable
+          Name: checkBox1
+          NativeAccessibilitySettings: null
+          NativeRenderMode: Switch
+          OnChangeAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnEnterAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnLeaveAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          ReadOnlyStyle: Inherit
+          ScreenReaderLabel: null
+          SourceVariable: null
+          TabIndex: 0
+          Validation:
+            $Type: Forms$WidgetValidation
+            Expression: ""
+            Message:
+              $Type: Texts$Text
+              Items: null
+        - $Type: Forms$CheckBox
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          AriaRequired: false
+          AttributeRef: null
+          ConditionalEditabilitySettings: null
+          ConditionalVisibilitySettings: null
+          Editable: Always
+          LabelPosition: Default
+          LabelTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Responsibility of Tenant
+          Name: checkBox2
+          NativeAccessibilitySettings: null
+          NativeRenderMode: Switch
+          OnChangeAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnEnterAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          OnLeaveAction:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: false
+          ReadOnlyStyle: Inherit
+          ScreenReaderLabel: null
+          SourceVariable: null
+          TabIndex: 0
+          Validation:
+            $Type: Forms$WidgetValidation
+            Expression: ""
+            Message:
+              $Type: Texts$Text
+              Items: null
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Default
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Take Photo
+      ConditionalVisibilitySettings: null
+      Icon: null
+      Name: actionButton1
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items: null
+  Form: Atlas_UI_Resources.NativePhone_Default
+Name: NativePhone_Inspection_Item_NewEdit
+TemplateCategory: Forms
+TemplateCategoryWeight: 50
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

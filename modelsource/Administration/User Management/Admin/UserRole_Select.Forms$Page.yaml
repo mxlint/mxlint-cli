@@ -1,0 +1,274 @@
+$Type: Forms$Page
+AllowedModuleRoles:
+- Administration.Administrator
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 800
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+FormCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.PopupLayout.Main
+    Widgets:
+    - $Type: Forms$DataGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items: null
+      Columns:
+      - $Type: Forms$DataGridColumn
+        AggregateCaption:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+        AggregateFunction: None
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AttributeRef:
+          $Type: DomainModels$AttributeRef
+          Attribute: System.UserRole.Name
+          EntityRef: null
+        Caption:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Name
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Naam
+        Editable: false
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        Name: column1
+        ShowTooltip: false
+        WidthValue: 50
+      - $Type: Forms$DataGridColumn
+        AggregateCaption:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+        AggregateFunction: None
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AttributeRef:
+          $Type: DomainModels$AttributeRef
+          Attribute: System.UserRole.Description
+          EntityRef: null
+        Caption:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Description
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Omschrijving
+        Editable: false
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        Name: column2
+        ShowTooltip: false
+        WidthValue: 50
+      ConditionalVisibilitySettings: null
+      ControlBar:
+        $Type: Forms$GridControlBar
+        DefaultButtonPointer:
+          Data: /SOGvUM/qUyq5pxM/c3BcA==
+          Subtype: 0
+        NewButtons:
+        - $Type: Forms$GridSearchButton
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          ButtonStyle: Default
+          CaptionTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Search
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Zoek
+          ConditionalVisibilitySettings: null
+          Icon: null
+          Name: searchButton1
+          Tooltip:
+            $Type: Texts$Text
+            Items: null
+        - $Type: Forms$DataGridSelectButton
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          ButtonStyle: Default
+          CaptionTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Select
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Selecteer
+          ConditionalVisibilitySettings: null
+          Icon: null
+          Name: selectButton1
+          Tooltip:
+            $Type: Texts$Text
+            Items: null
+      DataSource:
+        $Type: Forms$GridXPathSource
+        EntityRef:
+          $Type: DomainModels$DirectEntityRef
+          Entity: System.UserRole
+        SearchBar:
+          $Type: Forms$SearchBar
+          NewButtons:
+          - $Type: Forms$ComparisonSearchField
+            AttributeRef:
+              $Type: DomainModels$AttributeRef
+              Attribute: System.UserRole.Name
+              EntityRef: null
+            Caption:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Name
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Naam
+            CustomDateFormat: ""
+            DefaultValue: ""
+            Name: searchField1
+            Operator: Contains
+            Placeholder:
+              $Type: Texts$Text
+              Items: null
+            Type: Normal
+          - $Type: Forms$ComparisonSearchField
+            AttributeRef:
+              $Type: DomainModels$AttributeRef
+              Attribute: System.UserRole.Description
+              EntityRef: null
+            Caption:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Description
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Omschrijving
+            CustomDateFormat: ""
+            DefaultValue: ""
+            Name: searchField2
+            Operator: Contains
+            Placeholder:
+              $Type: Texts$Text
+              Items: null
+            Type: Normal
+          Type: FoldableClosed
+          WaitForSearch: false
+        SortBar:
+          $Type: Forms$GridSortBar
+          SortItems:
+          - $Type: Forms$GridSortItem
+            AttributeRef:
+              $Type: DomainModels$AttributeRef
+              Attribute: System.UserRole.Name
+              EntityRef: null
+            SortOrder: Ascending
+        SourceVariable: null
+        XPathConstraint: '[System.grantableRoles[reversed()]/System.UserRole/System.UserRoles
+          = ''[%CurrentUser%]'']'
+      DefaultButtonTrigger: Double
+      IsControlBarVisible: true
+      Name: grid1
+      NumberOfRows: 20
+      RefreshTime: 0
+      SelectFirst: false
+      SelectionMode: SimpleMulti
+      ShowEmptyRows: false
+      ShowPagingBar: YesWithTotalCount
+      TabIndex: 0
+      TooltipForm: ""
+      WidthUnit: Weight
+  Form: Atlas_UI_Resources.PopupLayout
+MarkAsUsed: false
+Name: UserRole_Select
+Parameters: null
+PopupCloseAction: ""
+PopupHeight: 0
+PopupResizable: true
+PopupWidth: 0
+Title:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: Select user roles
+  - $Type: Texts$Translation
+    LanguageCode: nl_NL
+    Text: Selecteer gebruikersrollen
+Url: ""

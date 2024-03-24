@@ -1,0 +1,432 @@
+$Type: Forms$Page
+AllowedModuleRoles: null
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 800
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+FormCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.PopupLayout.Main
+    Widgets:
+    - $Type: Forms$DataView
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      DataSource:
+        $Type: Forms$DataViewSource
+        EntityRef:
+          $Type: DomainModels$DirectEntityRef
+          Entity: Administration.Account
+        SourceVariable:
+          $Type: Forms$PageVariable
+          PageParameter: Account
+          SnippetParameter: ""
+          UseAllPages: false
+          Widget: ""
+      Editability: Always
+      FooterWidgets:
+      - $Type: Forms$ActionButton
+        Action:
+          $Type: Forms$SaveChangesClientAction
+          ClosePage: true
+          DisabledDuringExecution: true
+          SyncAutomatically: false
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRole: Button
+        ButtonStyle: Success
+        CaptionTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Save
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Opslaan
+        ConditionalVisibilitySettings: null
+        Icon: null
+        Name: saveButton1
+        NativeAccessibilitySettings: null
+        RenderType: Button
+        TabIndex: 0
+        Tooltip:
+          $Type: Texts$Text
+          Items: null
+      - $Type: Forms$ActionButton
+        Action:
+          $Type: Forms$CancelChangesClientAction
+          ClosePage: true
+          DisabledDuringExecution: true
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRole: Button
+        ButtonStyle: Default
+        CaptionTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Cancel
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Annuleren
+        ConditionalVisibilitySettings: null
+        Icon: null
+        Name: cancelButton1
+        NativeAccessibilitySettings: null
+        RenderType: Button
+        TabIndex: 0
+        Tooltip:
+          $Type: Texts$Text
+          Items: null
+      LabelWidth: 3
+      Name: dataView1
+      NoEntityMessage:
+        $Type: Texts$Text
+        Items: null
+      ReadOnlyStyle: Text
+      ShowFooter: true
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$TextBox
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRequired: false
+        AttributeRef:
+          $Type: DomainModels$AttributeRef
+          Attribute: Administration.Account.FullName
+          EntityRef: null
+        AutoFocus: false
+        Autocomplete: true
+        AutocompletePurpose: "On"
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        InputMask: ""
+        IsPasswordBox: false
+        KeyboardType: Default
+        LabelTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Full name
+        MaxLengthCode: -1
+        Name: textBox2
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterKeyPressAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnLeaveAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        Placeholder:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+        ReadOnlyStyle: Inherit
+        ScreenReaderLabel: null
+        SourceVariable:
+          $Type: Forms$PageVariable
+          PageParameter: Account
+          SnippetParameter: ""
+          UseAllPages: false
+          Widget: dataView1
+        SubmitBehaviour: OnEndEditing
+        SubmitOnInputDelay: 300
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: ""
+      - $Type: Forms$TextBox
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRequired: false
+        AttributeRef:
+          $Type: DomainModels$AttributeRef
+          Attribute: System.User.Name
+          EntityRef: null
+        AutoFocus: false
+        Autocomplete: true
+        AutocompletePurpose: "On"
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        InputMask: ""
+        IsPasswordBox: false
+        KeyboardType: Default
+        LabelTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: User name
+        MaxLengthCode: -1
+        Name: textBox5
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterKeyPressAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnLeaveAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        Placeholder:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+        ReadOnlyStyle: Inherit
+        ScreenReaderLabel: null
+        SourceVariable:
+          $Type: Forms$PageVariable
+          PageParameter: Account
+          SnippetParameter: ""
+          UseAllPages: false
+          Widget: dataView1
+        SubmitBehaviour: OnEndEditing
+        SubmitOnInputDelay: 300
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: ""
+      - $Type: Forms$ReferenceSelector
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AttributeRef:
+          $Type: DomainModels$AttributeRef
+          Attribute: System.Language.Description
+          EntityRef:
+            $Type: DomainModels$IndirectEntityRef
+            Steps:
+            - $Type: DomainModels$EntityRefStep
+              Association: System.User_Language
+              DestinationEntity: System.Language
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        EmptyOptionCaption:
+          $Type: Texts$Text
+          Items: null
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        GotoFormSettings:
+          $Type: Forms$FormSettings
+          Form: ""
+          ParameterMappings: null
+          TitleOverride: null
+        LabelTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Language
+        Name: referenceSelector1
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        PopupFormSettings:
+          $Type: Forms$FormSettings
+          Form: ""
+          ParameterMappings: null
+          TitleOverride: null
+        ReadOnlyStyle: Inherit
+        RenderMode: DropDown
+        ScreenReaderLabel: null
+        SelectorSource:
+          $Type: Forms$SelectorXPathSource
+          ConstrainedByRefs: null
+          SortBar:
+            $Type: Forms$GridSortBar
+            SortItems: null
+          XPathConstraint: ""
+        SourceVariable: null
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: ""
+      - $Type: Forms$ActionButton
+        Action:
+          $Type: Forms$MicroflowAction
+          DisabledDuringExecution: false
+          MicroflowSettings:
+            $Type: Forms$MicroflowSettings
+            Asynchronous: false
+            ConfirmationInfo: null
+            FormValidations: None
+            Microflow: Administration.ShowMyPasswordForm
+            ParameterMappings: null
+            ProgressBar: None
+            ProgressMessage: null
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRole: Button
+        ButtonStyle: Default
+        CaptionTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Change password
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Wachtwoord veranderen
+        ConditionalVisibilitySettings: null
+        Icon: null
+        Name: microflowTrigger1
+        NativeAccessibilitySettings: null
+        RenderType: Button
+        TabIndex: 0
+        Tooltip:
+          $Type: Texts$Text
+          Items: null
+  Form: Atlas_UI_Resources.PopupLayout
+MarkAsUsed: false
+Name: MyAccount
+Parameters:
+- $Type: Forms$PageParameter
+  Name: Account
+  ParameterType:
+    $Type: DataTypes$ObjectType
+    Entity: Administration.Account
+PopupCloseAction: cancelButton1
+PopupHeight: 0
+PopupResizable: true
+PopupWidth: 0
+Title:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: My Account
+  - $Type: Texts$Translation
+    LanguageCode: nl_NL
+    Text: Mijn account
+Url: ""

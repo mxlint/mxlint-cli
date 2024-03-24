@@ -1,0 +1,72 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles:
+- Administration.Administrator
+- Administration.User
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$ListType
+  Entity: System.TimeZone
+Name: RetrieveTimeZones
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: $TimeZones
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: TimeZones
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: System.TimeZone
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings:
+          - $Type: Microflows$RetrieveSorting
+            AttributeRef:
+              $Type: DomainModels$AttributeRef
+              Attribute: System.TimeZone.RawOffset
+              EntityRef: null
+            SortOrder: Ascending
+          - $Type: Microflows$RetrieveSorting
+            AttributeRef:
+              $Type: DomainModels$AttributeRef
+              Attribute: System.TimeZone.Description
+              EntityRef: null
+            SortOrder: Ascending
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: false
+        XpathConstraint: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+Url: ""
+WorkflowActionInfo: null

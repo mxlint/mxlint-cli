@@ -1,0 +1,420 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: 'Card Info '
+Documentation: ""
+DocumentationUrl: '{{atlasUrl}}/index3.html#/bb_infocard/7318349394477062'
+Excluded: false
+ExportLevel: Hidden
+Name: Card_Info
+Platform: Web
+TemplateCategory: Cards
+TemplateCategoryWeight: 30
+Widgets:
+- $Type: Forms$DivContainer
+  Appearance:
+    $Type: Forms$Appearance
+    Class: card cardinfo
+    DesignProperties:
+    - $Type: Forms$DesignPropertyValue
+      Key: Spacing bottom
+      Value:
+        $Type: Forms$OptionDesignPropertyValue
+        Option: Large
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Name: container11
+  NativeAccessibilitySettings: null
+  OnClickAction:
+    $Type: Forms$NoAction
+    DisabledDuringExecution: true
+  RenderMode: Div
+  ScreenReaderHidden: false
+  TabIndex: 0
+  Widgets:
+  - $Type: Forms$DynamicText
+    Appearance:
+      $Type: Forms$Appearance
+      Class: card-title
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Content:
+      $Type: Forms$ClientTemplate
+      Fallback:
+        $Type: Texts$Text
+        Items: null
+      Parameters: null
+      Template:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Title
+    Name: label30
+    NativeAccessibilitySettings: null
+    NativeTextStyle: Text
+    RenderMode: H2
+    TabIndex: 0
+  - $Type: Forms$DynamicText
+    Appearance:
+      $Type: Forms$Appearance
+      Class: card-text
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Content:
+      $Type: Forms$ClientTemplate
+      Fallback:
+        $Type: Texts$Text
+        Items: null
+      Parameters: null
+      Template:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: nl_NL
+          Text: Tekst
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Matt has 9+ years of experience in Agile development, Business process
+            analysis, Project delivery, programming and Mendix modelling. He has global
+            experience identifying, training, and developing Mendix Subject Matter
+            Experts (SMEs) by both building from the ground up or leveraging client’s
+            existing IT resources.
+    Name: text4
+    NativeAccessibilitySettings: null
+    NativeTextStyle: Text
+    RenderMode: Paragraph
+    TabIndex: 0
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: textwithicon
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container12
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets:
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: textwithicon-icon
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Primary
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+      ConditionalVisibilitySettings: null
+      Icon:
+        $Type: Forms$GlyphIcon
+        Code: 57352
+      Name: actionButton8
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: User Icon
+    - $Type: Forms$DynamicText
+      Appearance:
+        $Type: Forms$Appearance
+        Class: textwithicon-text
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Content:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Tekst
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Member since Apr 7, 2011
+      Name: text5
+      NativeAccessibilitySettings: null
+      NativeTextStyle: Text
+      RenderMode: Text
+      TabIndex: 0
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: textwithicon
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container13
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets:
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: textwithicon-icon
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Primary
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+      ConditionalVisibilitySettings: null
+      Icon:
+        $Type: Forms$GlyphIcon
+        Code: 57733
+      Name: actionButton9
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Stats Icon
+    - $Type: Forms$DynamicText
+      Appearance:
+        $Type: Forms$Appearance
+        Class: textwithicon-text
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Content:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Tekst
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Member since Apr 7, 2011
+      Name: text6
+      NativeAccessibilitySettings: null
+      NativeTextStyle: Text
+      RenderMode: Text
+      TabIndex: 0
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: socialprofiles
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container14
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets:
+    - $Type: Forms$Label
+      Appearance:
+        $Type: Forms$Appearance
+        Class: socialprofiles-title
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      Caption:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Social Profiles
+      ConditionalVisibilitySettings: null
+      Name: label4
+      TabIndex: 0
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: socialprofiles-button
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Primary
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+      ConditionalVisibilitySettings: null
+      Icon:
+        $Type: Forms$GlyphIcon
+        Code: 42
+      Name: actionButton10
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Asterisk Icon
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: socialprofiles-button
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Primary
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+      ConditionalVisibilitySettings: null
+      Icon:
+        $Type: Forms$GlyphIcon
+        Code: 42
+      Name: actionButton11
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Asterisk Icon
+    - $Type: Forms$ActionButton
+      Action:
+        $Type: Forms$NoAction
+        DisabledDuringExecution: true
+      Appearance:
+        $Type: Forms$Appearance
+        Class: socialprofiles-button
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      AriaRole: Button
+      ButtonStyle: Primary
+      CaptionTemplate:
+        $Type: Forms$ClientTemplate
+        Fallback:
+          $Type: Texts$Text
+          Items: null
+        Parameters: null
+        Template:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Knop
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: ""
+      ConditionalVisibilitySettings: null
+      Icon:
+        $Type: Forms$GlyphIcon
+        Code: 42
+      Name: actionButton12
+      NativeAccessibilitySettings: null
+      RenderType: Button
+      TabIndex: 0
+      Tooltip:
+        $Type: Texts$Text
+        Items:
+        - $Type: Texts$Translation
+          LanguageCode: en_US
+          Text: Asterisk Icon

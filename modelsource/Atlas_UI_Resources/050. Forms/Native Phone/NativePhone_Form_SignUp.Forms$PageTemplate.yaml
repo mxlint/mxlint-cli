@@ -1,0 +1,439 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties:
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing top
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner large
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing bottom
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner large
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing left
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner medium
+  - $Type: Forms$DesignPropertyValue
+    Key: Spacing right
+    Value:
+      $Type: Forms$OptionDesignPropertyValue
+      Option: Inner medium
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 500
+DisplayName: Form Sign Up
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_UI_Resources.NativePhone_TopBarOnly.Main
+    Widgets:
+    - $Type: Forms$DataView
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties:
+        - $Type: Forms$DesignPropertyValue
+          Key: Spacing top
+          Value:
+            $Type: Forms$OptionDesignPropertyValue
+            Option: Medium
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      DataSource:
+        $Type: Forms$DataViewSource
+        EntityRef: null
+        SourceVariable: null
+      Editability: Always
+      FooterWidgets:
+      - $Type: Forms$ActionButton
+        Action:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: true
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        AriaRole: Button
+        ButtonStyle: Default
+        CaptionTemplate:
+          $Type: Forms$ClientTemplate
+          Fallback:
+            $Type: Texts$Text
+            Items: null
+          Parameters: null
+          Template:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: AC t  login
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: Join us
+        ConditionalVisibilitySettings: null
+        Icon: null
+        Name: actionButton1
+        NativeAccessibilitySettings: null
+        RenderType: Button
+        TabIndex: 0
+        Tooltip:
+          $Type: Texts$Text
+          Items: null
+      - $Type: Forms$DivContainer
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Render children horizontal
+            Value:
+              $Type: Forms$ToggleDesignPropertyValue
+          - $Type: Forms$DesignPropertyValue
+            Key: Justify content
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Center
+          - $Type: Forms$DesignPropertyValue
+            Key: Align children
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: End
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing top
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Inner medium
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing bottom
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Inner medium
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: container3
+        NativeAccessibilitySettings: null
+        OnClickAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: true
+        RenderMode: Div
+        ScreenReaderHidden: false
+        TabIndex: 0
+        Widgets:
+        - $Type: Forms$DynamicText
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Spacing right
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Small
+            - $Type: Forms$DesignPropertyValue
+              Key: Size
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Small
+            - $Type: Forms$DesignPropertyValue
+              Key: Color
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Contrast high
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Content:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Tekst
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Already have an Account?
+          Name: text4
+          NativeAccessibilitySettings: null
+          NativeTextStyle: Text
+          RenderMode: Text
+          TabIndex: 0
+        - $Type: Forms$DynamicText
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties:
+            - $Type: Forms$DesignPropertyValue
+              Key: Color
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Brand primary
+            - $Type: Forms$DesignPropertyValue
+              Key: Weight
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Semibold
+            - $Type: Forms$DesignPropertyValue
+              Key: Size
+              Value:
+                $Type: Forms$OptionDesignPropertyValue
+                Option: Small
+            DynamicClasses: ""
+            Style: ""
+          ConditionalVisibilitySettings: null
+          Content:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items:
+              - $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Tekst
+              - $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: Login
+          Name: text5
+          NativeAccessibilitySettings: null
+          NativeTextStyle: Text
+          RenderMode: Text
+          TabIndex: 0
+      LabelWidth: 0
+      Name: dataView1
+      NoEntityMessage:
+        $Type: Texts$Text
+        Items: null
+      ReadOnlyStyle: Control
+      ShowFooter: true
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$TextBox
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing bottom
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Medium
+          DynamicClasses: ""
+          Style: ""
+        AriaRequired: false
+        AttributeRef: null
+        AutoFocus: false
+        Autocomplete: true
+        AutocompletePurpose: "On"
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        InputMask: ""
+        IsPasswordBox: false
+        KeyboardType: Default
+        LabelTemplate: null
+        MaxLengthCode: -1
+        Name: textBox1
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterKeyPressAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnLeaveAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        Placeholder:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Full Name
+        ReadOnlyStyle: Inherit
+        ScreenReaderLabel: null
+        SourceVariable: null
+        SubmitBehaviour: OnEndEditing
+        SubmitOnInputDelay: 300
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: A user name is required.
+      - $Type: Forms$TextBox
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing bottom
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Medium
+          DynamicClasses: ""
+          Style: ""
+        AriaRequired: false
+        AttributeRef: null
+        AutoFocus: false
+        Autocomplete: true
+        AutocompletePurpose: "On"
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        InputMask: ""
+        IsPasswordBox: false
+        KeyboardType: Default
+        LabelTemplate: null
+        MaxLengthCode: -1
+        Name: textBox3
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterKeyPressAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnLeaveAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        Placeholder:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Email
+        ReadOnlyStyle: Inherit
+        ScreenReaderLabel: null
+        SourceVariable: null
+        SubmitBehaviour: OnEndEditing
+        SubmitOnInputDelay: 300
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: A valid email address is required.
+      - $Type: Forms$TextBox
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties:
+          - $Type: Forms$DesignPropertyValue
+            Key: Spacing bottom
+            Value:
+              $Type: Forms$OptionDesignPropertyValue
+              Option: Medium
+          DynamicClasses: ""
+          Style: ""
+        AriaRequired: false
+        AttributeRef: null
+        AutoFocus: false
+        Autocomplete: true
+        AutocompletePurpose: "On"
+        ConditionalEditabilitySettings: null
+        ConditionalVisibilitySettings: null
+        Editable: Always
+        FormattingInfo:
+          $Type: Forms$FormattingInfo
+          CustomDateFormat: ""
+          DateFormat: Date
+          DecimalPrecision: 2
+          EnumFormat: Text
+          GroupDigits: false
+        InputMask: ""
+        IsPasswordBox: true
+        KeyboardType: Default
+        LabelTemplate: null
+        MaxLengthCode: -1
+        Name: textBox2
+        NativeAccessibilitySettings: null
+        OnChangeAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnEnterKeyPressAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        OnLeaveAction:
+          $Type: Forms$NoAction
+          DisabledDuringExecution: false
+        Placeholder:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Password
+        ReadOnlyStyle: Inherit
+        ScreenReaderLabel: null
+        SourceVariable: null
+        SubmitBehaviour: OnEndEditing
+        SubmitOnInputDelay: 300
+        TabIndex: 0
+        Validation:
+          $Type: Forms$WidgetValidation
+          Expression: ""
+          Message:
+            $Type: Texts$Text
+            Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: A password is required.
+  Form: Atlas_UI_Resources.NativePhone_TopBarOnly
+Name: NativePhone_Form_SignUp
+TemplateCategory: Forms
+TemplateCategoryWeight: 50
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

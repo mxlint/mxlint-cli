@@ -1,0 +1,9 @@
+$Type: Constants$Constant
+DefaultValue: public
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+ExposedToClient: true
+Name: ConstantPublic
+Type:
+  $Type: DataTypes$StringType

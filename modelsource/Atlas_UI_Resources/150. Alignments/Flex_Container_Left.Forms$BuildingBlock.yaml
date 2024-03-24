@@ -1,0 +1,64 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: Flex Container Left
+Documentation: ""
+DocumentationUrl: '{{atlasUrl}}/index3.html#/bb_flexcontainerleft/7318349394480057'
+Excluded: false
+ExportLevel: Hidden
+Name: Flex_Container_Left
+Platform: Web
+TemplateCategory: Alignments
+TemplateCategoryWeight: 150
+Widgets:
+- $Type: Forms$DivContainer
+  Appearance:
+    $Type: Forms$Appearance
+    Class: flexcontainer
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Name: container2
+  NativeAccessibilitySettings: null
+  OnClickAction:
+    $Type: Forms$NoAction
+    DisabledDuringExecution: true
+  RenderMode: Div
+  ScreenReaderHidden: false
+  TabIndex: 0
+  Widgets:
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: flexitem flexitem-main
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container3
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets: null
+  - $Type: Forms$DivContainer
+    Appearance:
+      $Type: Forms$Appearance
+      Class: flexitem
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalVisibilitySettings: null
+    Name: container5
+    NativeAccessibilitySettings: null
+    OnClickAction:
+      $Type: Forms$NoAction
+      DisabledDuringExecution: true
+    RenderMode: Div
+    ScreenReaderHidden: false
+    TabIndex: 0
+    Widgets: null
