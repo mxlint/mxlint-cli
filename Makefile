@@ -1,7 +1,7 @@
 # Makefile for building the Go CLI application
 
 # The output binary name
-BINARY_NAME=mendix-mpr-exporter
+BINARY_NAME=mendix-model-exporter
 
 # Go related variables
 GOBASE=$(shell pwd)
