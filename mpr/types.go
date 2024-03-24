@@ -4,7 +4,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// metadata object
 type MxMetadata struct {
 	ProductVersion string `yaml:"ProductVersion"`
 	BuildVersion   string `yaml:"BuildVersion"`
@@ -21,12 +20,6 @@ type MxDocument struct {
 	Name       string                 `yaml:"Name"`
 	Type       string                 `yaml:"Type"`
 	Path       string                 `yaml:"Path"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxDomainModel struct {
-	Name       string                 `yaml:"Name"`
-	Type       string                 `yaml:"Type"`
 	Attributes map[string]interface{} `yaml:"Attributes"`
 }
 

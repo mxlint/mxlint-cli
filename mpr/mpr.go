@@ -54,7 +54,7 @@ func ExportMetadata(MPRFilePath string, outputDirectory string) error {
 			return fmt.Errorf("error creating directory: %v", err)
 		}
 	}
-	metadataFileName := filepath.Join(outputDirectory, "metadata.yaml")
+	metadataFileName := filepath.Join(outputDirectory, "Metadata.yaml")
 
 	if err := os.WriteFile(metadataFileName, metadataYAML, 0644); err != nil {
 		return fmt.Errorf("error writing metadata file: %v", err)
@@ -192,11 +192,17 @@ func getMxDocumentPath(containerID string, folders []MxFolder) string {
 
 func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 	var documents []MxDocument
+	documentTypes := []string{"ProjectDocuments", "DomainModel", "ModuleSettings", "ModuleSecurity", "Documents"}
+
 	for _, unit := range units {
-		if unit.ContainmentName == "Documents" {
-			// return nil, fmt.Errorf("error querying documents: %v", unit.ContainmentName)
+		if Contains(documentTypes, unit.ContainmentName) {
+			var name = ""
+			if unit.Contents["Name"] != nil {
+				name = unit.Contents["Name"].(string)
+			}
+
 			myDocument := MxDocument{
-				Name:       unit.Contents["Name"].(string),
+				Name:       name,
 				Type:       unit.Contents["$Type"].(string),
 				Path:       getMxDocumentPath(unit.ContainerID, folders),
 				Attributes: unit.Contents,
@@ -205,28 +211,6 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 		}
 	}
 	return documents, nil
-}
-
-func getMxDomainModels(units []MxUnit, folders []MxFolder) ([]MxDomainModel, error) {
-	var domainModels []MxDomainModel
-	for _, unit := range units {
-		if unit.ContainmentName == "DomainModel" {
-			// return nil, fmt.Errorf("error querying documents: %v", unit.ContainmentName)
-			var moduleName = ""
-			for _, folder := range folders {
-				if folder.ID == unit.ContainerID {
-					moduleName = folder.Name
-				}
-			}
-			myDomainModel := MxDomainModel{
-				Name:       moduleName,
-				Type:       unit.Contents["$Type"].(string),
-				Attributes: unit.Contents,
-			}
-			domainModels = append(domainModels, myDomainModel)
-		}
-	}
-	return domainModels, nil
 }
 
 func exportUnits(MPRFilePath string, outputDirectory string) error {
@@ -258,7 +242,7 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 			return fmt.Errorf("error parsing unit: %v", err)
 		}
 
-		ignoredAttributes := []string{"$ID", "OriginPointer", "DestinationPointer", "Image", "ImageData"}
+		ignoredAttributes := []string{"$ID", "OriginPointer", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
 		filteredData := ignoreAttributes(result, ignoredAttributes)
 
 		// create unit object
@@ -270,7 +254,6 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 		}
 
 		units = append(units, myUnit)
-		// metadataFileName := filepath.Join(outputDirectory, fmt.Sprintf("%s.yaml", name))
 	}
 
 	// modules := getMxModules(units)
@@ -282,10 +265,6 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 	if err != nil {
 		return fmt.Errorf("error getting documents: %v", err)
 	}
-	domainModels, err := getMxDomainModels(units, folders)
-	if err != nil {
-		return fmt.Errorf("error getting domain models: %v", err)
-	}
 	for _, document := range documents {
 		// write document
 		directory := filepath.Join(outputDirectory, document.Path)
@@ -295,20 +274,12 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 				return fmt.Errorf("error creating directory: %v", err)
 			}
 		}
-		writeFile(filepath.Join(directory, fmt.Sprintf("%s.%s.yaml", document.Name, document.Type)), document.Attributes)
-	}
-	for _, domainModel := range domainModels {
-		// write document
-		directory := filepath.Join(outputDirectory, domainModel.Name)
-		// ensure directory exists
-		if _, err := os.Stat(directory); os.IsNotExist(err) {
-			if err := os.MkdirAll(directory, 0755); err != nil {
-				return fmt.Errorf("error creating directory: %v", err)
-			}
+		fname := fmt.Sprintf("%s.%s.yaml", document.Name, document.Type)
+		if document.Name == "" {
+			fname = fmt.Sprintf("%s.yaml", document.Type)
 		}
-		writeFile(filepath.Join(directory, fmt.Sprintf("%s.yaml", domainModel.Type)), domainModel.Attributes)
+		writeFile(filepath.Join(directory, fname), document.Attributes)
 	}
-	// fmt.Println(documents)
 
 	return nil
 

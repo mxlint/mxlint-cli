@@ -16,7 +16,7 @@ func TestMPRMetadata(t *testing.T) {
 		}
 
 		// open metadata file
-		metadataFile, err := os.ReadFile("./../tmp/metadata.yaml")
+		metadataFile, err := os.ReadFile("./../tmp/Metadata.yaml")
 		if err != nil {
 			t.Errorf("Failed to read metadata file")
 		}
