@@ -11,12 +11,12 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/full-app-v2.mpr", "./../tmp"); err != nil {
+		if err := ExportMetadata("./../resources/full-app-v2.mpr", "./../tmp"); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 
 		// open metadata file
-		metadataFile, err := os.ReadFile("./../tmp/modelsource/metadata.yaml")
+		metadataFile, err := os.ReadFile("./../tmp/metadata.yaml")
 		if err != nil {
 			t.Errorf("Failed to read metadata file")
 		}

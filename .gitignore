@@ -15,6 +15,7 @@ bin/
 
 # Project-specific output
 dist/
+modelsource
 tmp/
 !tmp/.gitkeep
 

@@ -1,4 +1,4 @@
-module github.com/cinaq/mendix-mpr-exporter
+module github.com/cinaq/mendix-model-exporter
 
 go 1.22.0
 

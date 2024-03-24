@@ -3,9 +3,7 @@ package mpr
 import (
 	"database/sql"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -16,19 +14,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// metadata object
-type MxMetadata struct {
-	ProductVersion string `yaml:"ProductVersion"`
-	BuildVersion   string `yaml:"BuildVersion"`
-}
-
-func exportMetadata(MPRFilePath string, outputDirectory string) error {
+func ExportMetadata(MPRFilePath string, outputDirectory string) error {
 	db, err := sql.Open("sqlite3", MPRFilePath)
 	if err != nil {
 		return fmt.Errorf("error opening database: %v", err)
 	}
 	defer db.Close()
 
+	fmt.Println("Exporting metadata")
 	rows, err := db.Query("SELECT _ProductVersion, _BuildVersion FROM _MetaData")
 	if err != nil {
 		return fmt.Errorf("error querying metadata: %v", err)
@@ -56,13 +49,12 @@ func exportMetadata(MPRFilePath string, outputDirectory string) error {
 		return fmt.Errorf("error marshaling metadata: %v", err)
 	}
 
-	directory := filepath.Join(outputDirectory, "modelsource")
-	if _, err := os.Stat(directory); os.IsNotExist(err) {
-		if err := os.MkdirAll(directory, 0755); err != nil {
+	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
+		if err := os.MkdirAll(outputDirectory, 0755); err != nil {
 			return fmt.Errorf("error creating directory: %v", err)
 		}
 	}
-	metadataFileName := filepath.Join(directory, "metadata.yaml")
+	metadataFileName := filepath.Join(outputDirectory, "metadata.yaml")
 
 	if err := os.WriteFile(metadataFileName, metadataYAML, 0644); err != nil {
 		return fmt.Errorf("error writing metadata file: %v", err)
@@ -70,40 +62,6 @@ func exportMetadata(MPRFilePath string, outputDirectory string) error {
 
 	return nil
 
-}
-
-type MxUnit struct {
-	UnitID          string                 `yaml:"UnitID"`
-	ContainerID     string                 `yaml:"ContainerID"`
-	ContainmentName string                 `yaml:"ContainmentName"`
-	Contents        map[string]interface{} `yaml:"Contents"`
-}
-
-type MxDocument struct {
-	Name       string                 `yaml:"Name"`
-	Type       string                 `yaml:"Type"`
-	Path       string                 `yaml:"Path"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxDomainModel struct {
-	Name       string                 `yaml:"Name"`
-	Type       string                 `yaml:"Type"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxModule struct {
-	Name       string                 `yaml:"Name"`
-	ID         string                 `yaml:"ID"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxFolder struct {
-	Name       string                 `yaml:"Name"`
-	ID         string                 `yaml:"ID"`
-	ParentID   string                 `yaml:"ParentID"`
-	Parent     *MxFolder              `yaml:"Parent"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
 }
 
 func ignoreAttributes(data bson.M, ignore []string) bson.M {
@@ -186,7 +144,7 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 			folders = append(folders, myFolder)
 		} else if unit.ContainmentName == "" {
 			myFolder := MxFolder{
-				Name:       "modelsource",
+				Name:       ".",
 				ID:         unit.UnitID,
 				ParentID:   unit.ContainerID,
 				Attributes: unit.Contents,
@@ -341,7 +299,7 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 	}
 	for _, domainModel := range domainModels {
 		// write document
-		directory := filepath.Join(outputDirectory, "modelsource", domainModel.Name)
+		directory := filepath.Join(outputDirectory, domainModel.Name)
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
@@ -368,49 +326,15 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
-func processMPRFile(MPRFilePath string) int {
-	fmt.Printf("Processing %s\n", MPRFilePath)
-
-	db, err := sql.Open("sqlite3", MPRFilePath)
-	if err != nil {
-		log.Fatalf("Error opening database: %v", err)
-	}
-	defer db.Close()
-
-	rows, err := db.Query("SELECT content FROM documents")
-	if err != nil {
-		log.Fatalf("Error querying documents: %v", err)
-	}
-	defer rows.Close()
-
-	var counter int
-	for rows.Next() {
-		var content string
-		if err := rows.Scan(&content); err != nil {
-			log.Fatalf("Error scanning row: %v", err)
-		}
-
-		var jsonObj map[string]interface{}
-		if err := json.Unmarshal([]byte(content), &jsonObj); err != nil {
-			log.Fatalf("Error unmarshaling JSON: %v", err)
-		}
-
-		yamlData, err := yaml.Marshal(jsonObj)
-		if err != nil {
-			log.Fatalf("Error marshaling YAML: %v", err)
-		}
-
-		fileName := fmt.Sprintf("%s_document_%d.yaml", filepath.Base(MPRFilePath), counter)
-		if err := os.WriteFile(fileName, yamlData, 0644); err != nil {
-			log.Fatalf("Error writing YAML file: %v", err)
-		}
-		fmt.Printf("Wrote %s\n", fileName)
-		counter++
+func Export(MPRFilePath string, outputDirectory string) error {
+	fmt.Printf("Exporting %s to %s\n", MPRFilePath, outputDirectory)
+	if err := ExportMetadata(MPRFilePath, outputDirectory); err != nil {
+		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
-	if err := rows.Err(); err != nil {
-		log.Fatalf("Error iterating rows: %v", err)
-		return -1
+	if err := exportUnits(MPRFilePath, outputDirectory); err != nil {
+		return fmt.Errorf("error exporting units: %v", err)
 	}
-	return counter
+	fmt.Printf("Completed %s\n", MPRFilePath)
+	return nil
 }

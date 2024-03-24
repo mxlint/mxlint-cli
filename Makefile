@@ -15,16 +15,20 @@ GOTEST=go test
 GOGET=go get
 
 # Build targets
-all: clean deps test build-macos build-windows
+all: clean deps test build-macos build-windows build-macos-arm64
 
 # Build for macOS
 build-macos:
-	@echo "Building for macOS..."
+	@echo "Building for macOS amd64..."
 	@GOOS=darwin GOARCH=amd64 $(GOBUILD) -o $(GOBIN)/$(BINARY_NAME)-darwin-amd64 $(GOPKG)
+
+build-macos-arm64:
+	@echo "Building for macOS arm64..."
+	@GOOS=darwin GOARCH=arm64 $(GOBUILD) -o $(GOBIN)/$(BINARY_NAME)-darwin-arm64 $(GOPKG)
 
 # Build for Windows
 build-windows:
-	@echo "Building for Windows..."
+	@echo "Building for Windows amd64..."
 	@GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(GOBIN)/$(BINARY_NAME)-windows-amd64.exe $(GOPKG)
 
 # Clean up binaries
