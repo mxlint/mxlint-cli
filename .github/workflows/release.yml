@@ -25,4 +25,4 @@ jobs:
           project_path: "./cmd/mendix-model-exporter"
           binary_name: "mendix-model-exporter"
           ldflags: "-s -w"
-          extra_files: LICENSE.md README.md
+          compress_assets: OFF
