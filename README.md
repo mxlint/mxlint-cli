@@ -8,10 +8,6 @@ See each Mendix document/object as a separate file in the output directory. And 
 
 ## Usage
 
-### Download
-
-First download the exporter program. 
-
 - Download the latest release from the [releases page](https://github.com/cinaq/mendix-model-exporter/releases)
 - Run the executable with the following command line arguments:
   - `--input` or `-i` to specify the input file or directory. Default is `./` which means the current directory. It will look for `.mpr` files in the current directory.
@@ -79,6 +75,12 @@ Now whenever you commit using git-bash, the Mendix model will be exported to Yam
 ## Contribute
 
 Create a PR with your changes. We will review and merge it.
+
+Make sure to run the tests before creating a PR:
+
+```bash
+make test
+```
 
 ## Features
 
