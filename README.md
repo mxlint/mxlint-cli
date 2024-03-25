@@ -28,7 +28,8 @@ After you open your `git` project in Mendix Studio Pro, navigate to the root of 
 
 # Program name and download URL
 PROGRAM_NAME="mendix-model-exporter"
-DOWNLOAD_URL="https://example.com/myprogram"
+## might need to change the version. See for latest version at https://github.com/cinaq/mendix-model-exporter/releases
+VERSION="v1.0.0"
 
 # Path to the program in the hooks directory
 PROGRAM_PATH="$(dirname $0)/$PROGRAM_NAME"
@@ -37,8 +38,17 @@ PROGRAM_PATH="$(dirname $0)/$PROGRAM_NAME"
 if [ ! -f "$PROGRAM_PATH" ]; then
   echo "Program not found, downloading..."
   OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
-  ARCH="$(uname -m)"
-  curl -L "$DOWNLOAD_URL-$OS-$ARCH" -o "$PROGRAM_PATH"
+  ARCH="$(uname -m | tr '[:upper:]' '[:lower:]')"
+  if [ "$OS" = "windows" ]; then
+    EXT=".exe"
+  else
+    EXT=""
+  fi
+  if [ "$ARCH" = "aarch64" ]; then
+    ARCH="arm64"
+  fi
+  DOWNLOAD_URL="https://github.com/cinaq/mendix-model-exporter/releases/download/$VERSION/mendix-model-exporter-$VERSION-$OS-$ARCH$EXT"
+  curl -L -sf "$DOWNLOAD_URL" -o "$PROGRAM_PATH"
   chmod +x "$PROGRAM_PATH"
 fi
 
