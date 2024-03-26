@@ -21,7 +21,7 @@ func ExportMetadata(MPRFilePath string, outputDirectory string) error {
 	}
 	defer db.Close()
 
-	fmt.Println("Exporting metadata")
+	log.Debugf("Exporting metadata")
 	rows, err := db.Query("SELECT _ProductVersion, _BuildVersion FROM _MetaData")
 	if err != nil {
 		return fmt.Errorf("error querying metadata: %v", err)
@@ -32,6 +32,7 @@ func ExportMetadata(MPRFilePath string, outputDirectory string) error {
 		return fmt.Errorf("no metadata found")
 	}
 
+	log.Debugf("Reading metadata")
 	var productVersion, buildVersion string
 	if err := rows.Scan(&productVersion, &buildVersion); err != nil {
 		return fmt.Errorf("error scanning metadata: %v", err)
@@ -286,6 +287,7 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 }
 
 func writeFile(filepath string, contents map[string]interface{}) error {
+	log.Debugf("Writing file %s", filepath)
 	yamlstring, err := yaml.Marshal(contents)
 	if err != nil {
 		return fmt.Errorf("error marshaling: %v", err)
@@ -298,7 +300,7 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 }
 
 func Export(MPRFilePath string, outputDirectory string) error {
-	fmt.Printf("Exporting %s to %s\n", MPRFilePath, outputDirectory)
+	log.Infof("Exporting %s to %s", MPRFilePath, outputDirectory)
 	if err := ExportMetadata(MPRFilePath, outputDirectory); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
@@ -306,6 +308,6 @@ func Export(MPRFilePath string, outputDirectory string) error {
 	if err := exportUnits(MPRFilePath, outputDirectory); err != nil {
 		return fmt.Errorf("error exporting units: %v", err)
 	}
-	fmt.Printf("Completed %s\n", MPRFilePath)
+	log.Infof("Completed %s", MPRFilePath)
 	return nil
 }
