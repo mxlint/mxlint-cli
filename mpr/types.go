@@ -1,9 +1,5 @@
 package mpr
 
-import (
-	_ "github.com/mattn/go-sqlite3"
-)
-
 type MxMetadata struct {
 	ProductVersion string `yaml:"ProductVersion"`
 	BuildVersion   string `yaml:"BuildVersion"`

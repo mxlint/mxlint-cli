@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/cinaq/mendix-model-exporter/mpr"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 )
 

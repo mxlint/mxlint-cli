@@ -9,30 +9,32 @@ import (
 	"reflect"
 
 	"github.com/ghodss/yaml"
-	_ "github.com/mattn/go-sqlite3"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	_ "github.com/glebarez/go-sqlite"
 )
 
 func ExportMetadata(MPRFilePath string, outputDirectory string) error {
-	db, err := sql.Open("sqlite3", MPRFilePath)
+
+	db, err := sql.Open("sqlite", MPRFilePath)
 	if err != nil {
-		return fmt.Errorf("error opening database: %v", err)
+		return err
 	}
 	defer db.Close()
 
-	log.Debugf("Exporting metadata")
 	rows, err := db.Query("SELECT _ProductVersion, _BuildVersion FROM _MetaData")
 	if err != nil {
-		return fmt.Errorf("error querying metadata: %v", err)
+		return fmt.Errorf("error querying units: %v", err)
 	}
+
+	log.Debugf("Exporting metadata")
 	defer rows.Close()
 
 	if !rows.Next() {
 		return fmt.Errorf("no metadata found")
 	}
 
-	log.Debugf("Reading metadata")
 	var productVersion, buildVersion string
 	if err := rows.Scan(&productVersion, &buildVersion); err != nil {
 		return fmt.Errorf("error scanning metadata: %v", err)
@@ -215,7 +217,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 }
 
 func exportUnits(MPRFilePath string, outputDirectory string) error {
-	db, err := sql.Open("sqlite3", MPRFilePath)
+	db, err := sql.Open("sqlite", MPRFilePath)
 	if err != nil {
 		return fmt.Errorf("error opening database: %v", err)
 	}
