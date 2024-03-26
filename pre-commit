@@ -3,7 +3,7 @@
 # Program name and download URL
 PROGRAM_NAME="mendix-model-exporter"
 ## might need to change the version. See for latest version at https://github.com/cinaq/mendix-model-exporter/releases
-VERSION="v1.0.0"
+VERSION="v1.1.0"
 
 # Path to the program in the hooks directory
 PROGRAM_PATH="$(dirname $0)/$PROGRAM_NAME"
