@@ -47,6 +47,7 @@ func main() {
 		Run: func(cmd *cobra.Command, args []string) {
 			policiesDirectory, _ := cmd.Flags().GetString("policies")
 			modelDirectory, _ := cmd.Flags().GetString("modelsource")
+			xunitReport, _ := cmd.Flags().GetString("xunit-report")
 			verbose, _ := cmd.Flags().GetBool("verbose")
 
 			log := logrus.New()
@@ -57,13 +58,17 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			lint.EvalAll(policiesDirectory, modelDirectory)
+			err := lint.EvalAll(policiesDirectory, modelDirectory, xunitReport)
+			if err != nil {
+				log.Errorf("lint failed: %s", err)
+				os.Exit(1)
+			}
 		},
 	}
 
 	cmdLint.Flags().StringP("policies", "p", "policies", "Path to directory with policies")
 	cmdLint.Flags().StringP("modelsource", "m", "modelsource", "Path to directory with exported model")
-	// cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
+	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
 	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdLint)
 

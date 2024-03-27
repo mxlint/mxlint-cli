@@ -2,42 +2,81 @@ package lint
 
 import (
 	"context"
+	"encoding/xml"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/ghodss/yaml"
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func EvalAll(policiesPath string, modelSourcePath string) (PolicyResult, error) {
+func printTestsuite(ts Testsuite) {
+	fmt.Printf("## %s\n", ts.Name)
+	for _, tc := range ts.Testcases {
+		result := "PASS"
+		if tc.Failure != nil {
+			result = "FAIL"
+		}
+		fmt.Printf("%s %s\n", result, tc.Name)
+	}
+}
+
+func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) error {
+	testsuites := make([]Testsuite, 0)
+	failuresCount := 0
 	filepath.Walk(policiesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".rego") {
-			Eval(path, modelSourcePath)
+			testsuite, err := evalTestsuite(path, modelSourcePath)
+			if err != nil {
+				return err
+			}
+			printTestsuite(*testsuite)
+			failuresCount += testsuite.Failures
+			testsuites = append(testsuites, *testsuite)
 		}
 		return nil
 	})
-	return PolicyResultPass, nil
+
+	if xunitReport != "" {
+		file, err := os.Create(xunitReport)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		encoder := xml.NewEncoder(file)
+		encoder.Indent("", "  ")
+		if err := encoder.Encode(testsuites); err != nil {
+			panic(err)
+		}
+	}
+
+	if failuresCount > 0 {
+		return fmt.Errorf("%d failures", failuresCount)
+	}
+	return nil
 }
 
-func Eval(policyPath string, modelSourcePath string) (PolicyResult, error) {
+func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error) {
 
 	log.Debugf("evaluating policy %s", policyPath)
 
 	// read the policy file
 	policyFile, err := os.Open(policyPath)
 	if err != nil {
-		return PolicyResultUnknown, err
+		return nil, err
 	}
 	defer policyFile.Close()
 
 	policyContent, err := os.ReadFile(policyPath)
 	if err != nil {
-		return PolicyResultUnknown, err
+		return nil, err
 	}
 	var inputFiles []string = nil
 	var packageName string = ""
@@ -52,7 +91,7 @@ func Eval(policyPath string, modelSourcePath string) (PolicyResult, error) {
 			pattern = tokens[1]
 			inputFiles, err = expandPaths(pattern, modelSourcePath)
 			if err != nil {
-				return PolicyResultUnknown, err
+				return nil, err
 			}
 		}
 		tokens = strings.Split(line, "package ")
@@ -71,57 +110,54 @@ func Eval(policyPath string, modelSourcePath string) (PolicyResult, error) {
 	log.Debugf("expanded input files %v", inputFiles)
 
 	queryString := "data." + packageName + "." + policy_canonical_name + " == true"
-
-	results := make([]PolicyResult, 0)
+	testcases := make([]Testcase, 0)
+	failuresCount := 0
+	totalTime := 0.0
 
 	for _, inputFile := range inputFiles {
-		result, err := evalSingle(policyPath, queryString, inputFile)
-		resultString := "pass"
-		if result == PolicyResultFail {
-			resultString = "fail"
-		} else if result == PolicyResultUnknown {
-			resultString = "unknown"
-		}
-		fmt.Printf("%s \t%s.%s @ %s\n", resultString, packageName, policy_canonical_name, inputFile)
+		testcase, err := evalTestcase(policyPath, queryString, inputFile)
 		if err != nil {
-			return PolicyResultUnknown, err
+			return nil, err
 		}
-		results = append(results, result)
+		if testcase.Failure != nil {
+			failuresCount++
+		}
+		totalTime += testcase.Time
+
+		testcases = append(testcases, *testcase)
 	}
 
-	for _, result := range results {
-		if result == PolicyResultFail {
-			return PolicyResultFail, nil
-		}
+	testsuite := &Testsuite{
+		Name:      packageName + "." + policy_canonical_name,
+		Tests:     len(testcases),
+		Failures:  failuresCount,
+		Time:      totalTime,
+		Testcases: testcases,
 	}
 
-	for _, result := range results {
-		if result == PolicyResultUnknown {
-			return PolicyResultUnknown, nil
-		}
-	}
-	return PolicyResultPass, nil
+	return testsuite, nil
 }
 
-func evalSingle(policyPath string, queryString string, inputFilePath string) (PolicyResult, error) {
+func evalTestcase(policyPath string, queryString string, inputFilePath string) (*Testcase, error) {
 	regoFile, _ := os.ReadFile(policyPath)
 	log.Debugf("rego file: \n%s", regoFile)
 
 	yamlFile, err := os.ReadFile(inputFilePath)
 	if err != nil {
 		log.Errorf("Error reading YAML file: %s\n", err)
-		return PolicyResultUnknown, err
+		return nil, err
 	}
 
 	var data map[string]interface{}
 	err = yaml.Unmarshal(yamlFile, &data)
 	if err != nil {
 		log.Errorf("Error parsing YAML file: %s\n", err)
-		return PolicyResultUnknown, err
+		return nil, err
 	}
 
 	ctx := context.Background()
 
+	startTime := time.Now()
 	r := rego.New(
 		rego.Query(queryString),
 		rego.Load([]string{policyPath}, nil),
@@ -132,18 +168,27 @@ func evalSingle(policyPath string, queryString string, inputFilePath string) (Po
 	rs, err := r.Eval(ctx)
 	if err != nil {
 		log.Fatal(err)
-		return PolicyResultUnknown, err
+		return nil, err
 	}
+	duration := time.Since(startTime)
+
+	var failure *Failure = nil
 
 	log.Debugf("Result: %v", rs)
-	if len(rs) == 0 {
-		return PolicyResultUnknown, nil
-	}
 	result := rs[0].Expressions[0].Value.(bool)
 	if !result {
-		// fmt.Printf("policy failed for %s @ %s\n", policyPath, inputFilePath)
-		// rego.PrintTraceWithLocation(os.Stdout, r)
-		return PolicyResultFail, nil
+		buf := new(strings.Builder)
+		rego.PrintTraceWithLocation(buf, r)
+		failure = &Failure{
+			Message: queryString + " failed",
+			Type:    "AssertionError",
+			Data:    buf.String(),
+		}
 	}
-	return PolicyResultPass, nil
+	testcase := &Testcase{
+		Name:    inputFilePath,
+		Time:    float64(duration.Nanoseconds()) / 1e9,
+		Failure: failure,
+	}
+	return testcase, nil
 }
