@@ -22,7 +22,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          project_path: "./cmd/mendix-model-exporter"
-          binary_name: "mendix-model-exporter"
+          project_path: "./cmd/mendix-cli"
+          binary_name: "mendix-cli"
           ldflags: "-s -w"
           compress_assets: OFF

@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 
 	"github.com/ghodss/yaml"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,7 +16,20 @@ import (
 	_ "github.com/glebarez/go-sqlite"
 )
 
-func ExportMetadata(MPRFilePath string, outputDirectory string) error {
+func ExportModel(inputDirectory string, outputDirectory string) error {
+	err := filepath.Walk(inputDirectory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
+			exportMPR(path, outputDirectory)
+		}
+		return nil
+	})
+	return err
+}
+
+func exportMetadata(MPRFilePath string, outputDirectory string) error {
 
 	db, err := sql.Open("sqlite", MPRFilePath)
 	if err != nil {
@@ -301,9 +315,9 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
-func Export(MPRFilePath string, outputDirectory string) error {
+func exportMPR(MPRFilePath string, outputDirectory string) error {
 	log.Infof("Exporting %s to %s", MPRFilePath, outputDirectory)
-	if err := ExportMetadata(MPRFilePath, outputDirectory); err != nil {
+	if err := exportMetadata(MPRFilePath, outputDirectory); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
