@@ -104,6 +104,8 @@ func Eval(policyPath string, modelSourcePath string) (PolicyResult, error) {
 }
 
 func evalSingle(policyPath string, queryString string, inputFilePath string) (PolicyResult, error) {
+	regoFile, _ := os.ReadFile(policyPath)
+	log.Debugf("rego file: \n%s", regoFile)
 
 	yamlFile, err := os.ReadFile(inputFilePath)
 	if err != nil {
