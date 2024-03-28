@@ -129,7 +129,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	}
 
 	testsuite := &Testsuite{
-		Name:      packageName + "." + policy_canonical_name,
+		Name:      policyPath,
 		Tests:     len(testcases),
 		Failures:  failuresCount,
 		Time:      totalTime,

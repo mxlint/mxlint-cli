@@ -20,7 +20,18 @@ jobs:
         go-version: 1.22
 
     - name: Build
-      run: go build -v ./...
+      run: go build -o bin/mendix-cli "./cmd/mendix-cli"
 
     - name: Test
       run: go test -v ./...
+
+    - name: xunit-report
+      run: ./bin/mendix-cli lint --xunit-report report.xml
+
+    - name: Process xunit-report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()    # run this step even if previous step failed
+      with:
+        name: Lint Test Report
+        path: report.xml
+        reporter: java-junit
