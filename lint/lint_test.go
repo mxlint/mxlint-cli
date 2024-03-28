@@ -7,7 +7,7 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestLintSingle(t *testing.T) {
 	t.Run("single policy fails", func(t *testing.T) {
-		result, err := evalTestsuite("./../policies/security/strong_password.rego", "./../modelsource")
+		result, err := evalTestsuite("./../policies/001-projectsettings/001-0004-strong_password.rego", "./../modelsource")
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")
@@ -18,7 +18,7 @@ func TestLintSingle(t *testing.T) {
 		}
 	})
 	t.Run("single policy passes", func(t *testing.T) {
-		result, err := evalTestsuite("./../policies/security/security_enabled.rego", "./../modelsource")
+		result, err := evalTestsuite("./../policies/001-projectsettings/001-0003-security_enabled.rego", "./../modelsource")
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")

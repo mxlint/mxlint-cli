@@ -86,7 +86,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	lines := strings.Split(string(policyContent), "\n")
 
 	for _, line := range lines {
-		tokens := strings.Split(line, "# input: ")
+		tokens := strings.Split(line, "#  input: ")
 		if len(tokens) > 1 && inputFiles == nil {
 			pattern = tokens[1]
 			inputFiles, err = expandPaths(pattern, modelSourcePath)
