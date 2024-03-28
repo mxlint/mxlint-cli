@@ -20,7 +20,7 @@ func printTestsuite(ts Testsuite) {
 		if tc.Failure != nil {
 			result = "FAIL"
 		}
-		fmt.Printf("%s %s\n", result, tc.Name)
+		fmt.Printf("%s (%.5fs) %s\n\n", result, tc.Time, tc.Name)
 	}
 }
 
@@ -187,7 +187,7 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 	}
 	testcase := &Testcase{
 		Name:    inputFilePath,
-		Time:    float64(duration.Nanoseconds()) / 1e9,
+		Time:    float64(duration.Nanoseconds()) / 1e9, // convert to seconds
 		Failure: failure,
 	}
 	return testcase, nil
