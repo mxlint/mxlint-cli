@@ -20,8 +20,9 @@ func printTestsuite(ts Testsuite) {
 		if tc.Failure != nil {
 			result = "FAIL"
 		}
-		fmt.Printf("%s (%.5fs) %s\n\n", result, tc.Time, tc.Name)
+		fmt.Printf("%s (%.5fs) %s\n", result, tc.Time, tc.Name)
 	}
+	fmt.Println("")
 }
 
 func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) error {
@@ -88,7 +89,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	for _, line := range lines {
 		tokens := strings.Split(line, "#  input: ")
 		if len(tokens) > 1 && inputFiles == nil {
-			pattern = tokens[1]
+			pattern = strings.ReplaceAll(tokens[1], "\"", "")
 			inputFiles, err = expandPaths(pattern, modelSourcePath)
 			if err != nil {
 				return nil, err
