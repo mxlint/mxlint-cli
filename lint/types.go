@@ -2,13 +2,10 @@ package lint
 
 import "encoding/xml"
 
-type PolicyResult int
-
-const (
-	PolicyResultPass PolicyResult = iota
-	PolicyResultFail
-	PolicyResultUnknown
-)
+type TestSuites struct {
+	XMLName    xml.Name `xml:"testsuites"`
+	Testsuites []Testsuite
+}
 
 type Testsuite struct {
 	XMLName   xml.Name `xml:"testsuite"`

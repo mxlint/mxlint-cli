@@ -53,7 +53,8 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) er
 
 		encoder := xml.NewEncoder(file)
 		encoder.Indent("", "  ")
-		if err := encoder.Encode(testsuites); err != nil {
+		testsuitesContainer := TestSuites{Testsuites: testsuites}
+		if err := encoder.Encode(testsuitesContainer); err != nil {
 			panic(err)
 		}
 	}
