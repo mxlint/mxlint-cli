@@ -20,6 +20,9 @@ func printTestsuite(ts Testsuite) {
 		if tc.Failure != nil {
 			result = "FAIL"
 		}
+		if tc.Skipped != nil {
+			result = "SKIP"
+		}
 		fmt.Printf("%s (%.5fs) %s\n", result, tc.Time, tc.Name)
 	}
 	fmt.Println("")
@@ -84,6 +87,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	var packageName string = ""
 	var pattern string = ""
 	var policy_canonical_name string = ""
+	var skipReason string = ""
 
 	lines := strings.Split(string(policyContent), "\n")
 
@@ -95,6 +99,10 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 			if err != nil {
 				return nil, err
 			}
+		}
+		tokens = strings.Split(line, "#  skip: ")
+		if len(tokens) > 1 && skipReason == "" {
+			skipReason = tokens[1]
 		}
 		tokens = strings.Split(line, "package ")
 		if len(tokens) > 1 && packageName == "" {
@@ -111,15 +119,33 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	log.Debugf("input pattern: %s", pattern)
 	log.Debugf("expanded input files %v", inputFiles)
 
+	var skipped *Skipped = nil
+	if skipReason != "" {
+		skipped = &Skipped{
+			Message: skipReason,
+		}
+	}
+
 	queryString := "data." + packageName + "." + policy_canonical_name + " == true"
 	testcases := make([]Testcase, 0)
 	failuresCount := 0
+	skippedCount := 0
 	totalTime := 0.0
+	testcase := &Testcase{}
 
 	for _, inputFile := range inputFiles {
-		testcase, err := evalTestcase(policyPath, queryString, inputFile)
-		if err != nil {
-			return nil, err
+		if skipped != nil {
+			testcase = &Testcase{
+				Name:    inputFile,
+				Time:    0,
+				Skipped: skipped,
+			}
+			skippedCount++
+		} else {
+			testcase, err = evalTestcase(policyPath, queryString, inputFile)
+			if err != nil {
+				return nil, err
+			}
 		}
 		if testcase.Failure != nil {
 			failuresCount++
@@ -133,6 +159,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 		Name:      policyPath,
 		Tests:     len(testcases),
 		Failures:  failuresCount,
+		Skipped:   skippedCount,
 		Time:      totalTime,
 		Testcases: testcases,
 	}
@@ -191,6 +218,7 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 		Name:    inputFilePath,
 		Time:    float64(duration.Nanoseconds()) / 1e9, // convert to seconds
 		Failure: failure,
+		Skipped: nil,
 	}
 	return testcase, nil
 }

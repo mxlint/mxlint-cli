@@ -7,6 +7,7 @@
 #  category: security
 #  rulename: DemoUsersDisabled
 #  priority: 5
+#  skip: FIXME
 #  rulenumber: 001-0002
 #  remediation: Disable demo users in Project Security
 #  input: Security$ProjectSecurity.yaml

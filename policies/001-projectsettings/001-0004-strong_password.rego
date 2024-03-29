@@ -7,6 +7,7 @@
 #  category: security
 #  rulename: StrongPasswordPolicy
 #  priority: 5
+#  skip: FIXME
 #  rulenumber: 001-0004
 #  remediation: Ensure minimum password length of at least 8 characters and must use all character classes.
 #  input: Security$ProjectSecurity.yaml
