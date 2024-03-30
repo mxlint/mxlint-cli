@@ -112,6 +112,14 @@ The test rego files contain examples so that it's easy to validate your policy a
 
 Example input could be inspected in the `modelsource` directory. The `modelsource` directory contains the exported Mendix model in Yaml format. The `modelsource` directory is created when you run the `export-model` command.
 
+## Resources
+
+- [Rego language reference](https://www.openpolicyagent.org/docs/latest/policy-reference/)
+- [Rego playground](https://play.openpolicyagent.org/)
+- [Rego testing](https://www.openpolicyagent.org/docs/latest/policy-testing/)
+- [Rego best practices](https://www.openpolicyagent.org/docs/latest/best-practices/)
+- [Style guide](https://github.com/StyraInc/rego-style-guide/blob/main/style-guide.md)
+
 
 ### Help
 
