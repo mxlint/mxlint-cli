@@ -1,7 +1,7 @@
 # Makefile for building the Go CLI application
 
 # The output binary name
-BINARY_NAME=mendix-model-exporter
+BINARY_NAME=mendix-cli
 
 # Go related variables
 GOBASE=$(shell pwd)
@@ -35,8 +35,7 @@ build-windows:
 clean:
 	@echo "Cleaning..."
 	@$(GOCLEAN)
-	@rm -f $(GOBIN)/$(BINARY_NAME)-darwin-amd64
-	@rm -f $(GOBIN)/$(BINARY_NAME)-windows-amd64.exe
+	@rm -f $(GOBIN)/$(BINARY_NAME)*
 
 # Run tests
 test:
