@@ -25,10 +25,11 @@ errors contains error if {
     not entity.Attributes == null
     count_attributes := count(entity.Attributes)
     count_attributes > max_attributes
-    error := sprintf("[%v, %v] Entity %v has %v attributes which is more than %v",
+    error := sprintf("[%v, %v, %v] Entity %v has %v attributes which is more than %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             entity.Name,
             count_attributes,
             max_attributes

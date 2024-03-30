@@ -25,10 +25,11 @@ min_password_length := 8
 errors contains error if {
     my_password_length := input.PasswordPolicySettings.MinimumLength
     my_password_length < min_password_length
-    error := sprintf("[%v, %v] Password length of %v is not enough. It must be at least %v",
+    error := sprintf("[%v, %v, %v] Password length of %v is not enough. It must be at least %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             my_password_length,
             min_password_length,
         ]
@@ -37,10 +38,11 @@ errors contains error if {
 
 errors contains error if {
     input.PasswordPolicySettings.RequireDigit == false
-    error := sprintf("[%v, %v] %v",
+    error := sprintf("[%v, %v, %v] %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             "Password must require digits",
         ]
     )
@@ -49,10 +51,11 @@ errors contains error if {
 errors contains error if {
     input.PasswordPolicySettings.RequireMixedCase == false
     input.PasswordPolicySettings.RequireSymbol == false
-    error := sprintf("[%v, %v] %v",
+    error := sprintf("[%v, %v, %v] %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             "Password must require mixed case characters",
         ]
     )
@@ -60,10 +63,11 @@ errors contains error if {
 
 errors contains error if {
     input.PasswordPolicySettings.RequireSymbol == false
-    error := sprintf("[%v, %v] %v",
+    error := sprintf("[%v, %v, %v] %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             "Password must require symbols",
         ]
     )

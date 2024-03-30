@@ -24,10 +24,11 @@ errors contains error if {
     not input.Entities == null
     count_entities := count(input.Entities)
     count_entities > max_entities
-    error := sprintf("[%v, %v] There are %v entities which is more than %v",
+    error := sprintf("[%v, %v, %v] There are %v entities which is more than %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             count_entities,
             max_entities
         ]

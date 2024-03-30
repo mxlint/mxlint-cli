@@ -35,7 +35,7 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) er
 		if err != nil {
 			return err
 		}
-		if !info.IsDir() && strings.HasSuffix(info.Name(), ".rego") {
+		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.rego") && strings.HasSuffix(info.Name(), ".rego") {
 			testsuite, err := evalTestsuite(path, modelSourcePath)
 			if err != nil {
 				return err
@@ -126,7 +126,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 		}
 	}
 
-	queryString := "data." + packageName + "." + policy_canonical_name + " == true"
+	queryString := "data." + packageName
 	testcases := make([]Testcase, 0)
 	failuresCount := 0
 	skippedCount := 0
@@ -204,12 +204,19 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 	var failure *Failure = nil
 
 	log.Debugf("Result: %v", rs)
-	result := rs[0].Expressions[0].Value.(bool)
+	rsmap := rs[0].Expressions[0].Value.(map[string]interface{})
+	result := rsmap["allow"].(bool)
+	errors := rsmap["errors"].([]interface{})
 	if !result {
 		buf := new(strings.Builder)
 		rego.PrintTraceWithLocation(buf, r)
+		myErrors := make([]string, 0)
+		for _, err := range errors {
+			log.Warnf("Rule failed: %s", err)
+			myErrors = append(myErrors, fmt.Sprintf("%s", err))
+		}
 		failure = &Failure{
-			Message: queryString + " failed",
+			Message: strings.Join(myErrors, "\n"),
 			Type:    "AssertionError",
 			Data:    buf.String(),
 		}
