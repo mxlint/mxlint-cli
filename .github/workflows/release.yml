@@ -1,12 +1,12 @@
-name: Release binaries
+name: Release
 
 on:
   release:
     types: [created]
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
+  release-cli:
+    name: Release CLI binary
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,3 +26,41 @@ jobs:
           binary_name: "mendix-cli"
           ldflags: "-s -w"
           compress_assets: OFF
+  release-policies:
+    name: Release Policies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip policies directory
+        run: zip -r policies.zip policies/
+
+      - name: Create Tar.gz policies directory
+        run: tar -czvf policies.tar.gz policies/
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload Release Asset (ZIP)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./policies.zip
+          asset_name: policies-${{ steps.get_release.outputs.tag_name}}.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset (tar.gz)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./policies.tar.gz
+          asset_name: policies-${{ steps.get_release.outputs.tag_name}}.tar.gz
+          asset_content_type: application/gzip
+
