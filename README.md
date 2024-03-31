@@ -4,6 +4,36 @@ A set of Command line interface tools for Mendix developers, CICD engineers and 
 
 > This project is in early development stage. Please use with caution. We are looking for contributors to help us improve the tools. Please create a PR with your changes. We believe in open ecosystem and open source. We are looking forward to your contributions. These can be documentation improvements, bug fixes, new features, etc.
 
+## Quick start
+
+Mendix-cli is a set of tools to help you with your Mendix projects. As such you can use it in many ways. To give you a feeling what it does. Try the following example:
+
+### Prerequisites
+
+- Mendix Project source
+- Operating system: Linux, MacOS, Windows
+- Download your platform specific binary from the [releases page](https://github.com/cinaq/mendix-cli/releases)
+- Download the policies from the [releases page](https://github.com/cinaq/mendix-cli/releases) and extract them to a directory
+
+### Export Mendix model to Yaml
+
+- copy `mendix-cli` to your project directory
+- Open a terminal and navigate to your project directory; ideally use git-bash on Windows or Terminal on MacOS/Linux
+- run `./mendix-cli export-model`
+
+You will see a new directory `modelsource` with the exported Mendix model in Yaml format
+
+It's advisable to add the `mendix-cli` file to your `.gitignore` file. This way you don't accidentally commit it to your repository.
+
+### Lint Mendix Yaml files
+
+- copy `policies` directory to your project directory
+- run `./mendix-cli lint --xunit-report=report.xml`
+
+You will see a report in the terminal and a report in the `report.xml` file. The report is in xUnit format. You can use it in your CI/CD pipeline.
+
+Do you want to create your own policies? Please refer to our guide [Create new policy](./docs/create-new-policy.md)
+
 ## export-model
 
 Mendix models are stored in a binary file with `.mpr` extension. This project exports Mendix model to a human readable format, such as Yaml. This enables developers to use traditional code analysis tools on Mendix models. Think of quality checks like linting, code formatting, etc.
@@ -79,6 +109,7 @@ Lint Mendix Yaml files. This tool checks for common mistakes and enforces best p
 - [x] Improve output human readability
 - [x] Linting for Mendix Yaml files
 - [x] Create policies for linting
+- [x] Output linting results in xUnit format
 - [ ] Expand test coverage
 - [ ] Support incremental changes
 - [ ] Improve performance for large models
