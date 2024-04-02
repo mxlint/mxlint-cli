@@ -30,7 +30,7 @@ It's advisable to add the `mendix-cli` file to your `.gitignore` file. This way 
 - copy `policies` directory to your project directory
 - run `./mendix-cli lint --xunit-report=report.xml`
 
-You will see a report in the terminal and a report in the `report.xml` file. The report is in xUnit format. You can use it in your CI/CD pipeline.
+You will see a summary of the policy evaluations in the terminal and a report in the `report.xml` file. The report is in xUnit format. You can use it in your CI/CD pipeline.
 
 Do you want to create your own policies? Please refer to our guide [Create new policy](./docs/create-new-policy.md)
 
