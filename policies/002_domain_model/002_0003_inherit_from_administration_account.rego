@@ -21,5 +21,12 @@ allow if count(errors) == 0
 errors contains error if {
     some i
     input.Entities[i].MaybeGeneralization.Generalization == "Administration.Account"
-    error := sprintf("Entity %v has a generalization of Administration.Account", [input.Entities[i].Name])
+    error := sprintf("[%v, %v, %v] Entity %v has generaralization of %v",
+        [
+            annotation.custom.severity,
+            annotation.custom.category,
+            annotation.custom.rulenumber,
+            [input.Entities[i].Name],
+            "Administration.Account",
+        ])
 }
