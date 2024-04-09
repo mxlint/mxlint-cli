@@ -16,37 +16,45 @@ ExportLevel: Hidden
 Flows:
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$InheritanceCase
     Value: Administration.Account
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$InheritanceCase
     Value: System.User
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$InheritanceCase
     Value: ""
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 MarkAsUsed: false
@@ -117,6 +125,9 @@ ObjectCollection:
           - $Type: Texts$Translation
             LanguageCode: en_US
             Text: No account information is available for anonymous users.
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
       Type: Information
     AutoGenerateCaption: true
     BackgroundColor: Default
@@ -124,4 +135,5 @@ ObjectCollection:
     Disabled: false
     Documentation: ""
 Url: ""
+UrlSearchParameters: null
 WorkflowActionInfo: null

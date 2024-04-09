@@ -1,18 +1,18 @@
 $Type: Security$ProjectSecurity
-AdminPassword: "1"
+AdminPassword: ""
 AdminUserName: MxAdmin
 AdminUserRole: Administrator
 CheckSecurity: true
 DemoUsers:
 - $Type: Security$DemoUserImpl
   Entity: Administration.Account
-  Password: fwKuVe72ET
+  Password: I2trLMI0IOON
   UserName: demo_administrator
   UserRoles:
   - Administrator
 - $Type: Security$DemoUserImpl
   Entity: Administration.Account
-  Password: xCWg1yUeTt
+  Password: 7IwRQRqV4lpq
   UserName: demo_user
   UserRoles:
   - User
@@ -27,11 +27,11 @@ ImageAccess:
   AccessRules: null
 PasswordPolicySettings:
   $Type: Security$PasswordPolicySettings
-  MinimumLength: 6
+  MinimumLength: 12
   RequireDigit: true
   RequireMixedCase: true
   RequireSymbol: false
-SecurityLevel: CheckEverything
+SecurityLevel: CheckNothing
 StrictMode: false
 StrictPageUrlCheck: true
 UserRoles:

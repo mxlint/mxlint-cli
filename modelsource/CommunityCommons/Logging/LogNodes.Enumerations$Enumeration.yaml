@@ -1,0 +1,18 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: LogNodes
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: CommunityCommons
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: CommunityCommons
+  Name: CommunityCommons

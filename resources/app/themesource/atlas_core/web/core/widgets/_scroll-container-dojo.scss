@@ -1,0 +1,83 @@
+//
+// DISCLAIMER:
+// Do not change this file because it is core styling.
+// Customizing core files will make updating Atlas much more difficult in the future.
+// To customize any core styling, copy the part you want to customize to styles/web/sass/app/ so the core styling is overwritten.
+//
+
+@mixin scroll-container-dojo() {
+    /* ==========================================================================
+       Scroll Container
+
+       Default Mendix Scroll Container Widget.
+    ========================================================================== */
+    .mx-scrollcontainer-wrapper:not(.mx-scrollcontainer-nested) {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mx-scrollcontainer-horizontal {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }
+    .mx-scrollcontainer-horizontal > div {
+        display: table-cell;
+        vertical-align: top;
+    }
+
+    .mx-scrollcontainer-nested {
+        padding: 0;
+    }
+    .mx-scrollcontainer-fixed > .mx-scrollcontainer-middle > .mx-scrollcontainer-wrapper,
+    .mx-scrollcontainer-fixed > .mx-scrollcontainer-left > .mx-scrollcontainer-wrapper,
+    .mx-scrollcontainer-fixed > .mx-scrollcontainer-center > .mx-scrollcontainer-wrapper,
+    .mx-scrollcontainer-fixed > .mx-scrollcontainer-right > .mx-scrollcontainer-wrapper {
+        overflow: auto;
+    }
+
+    .mx-scrollcontainer-move-in {
+        transition: left 250ms ease-out;
+    }
+    .mx-scrollcontainer-move-out {
+        transition: left 250ms ease-in;
+    }
+    .mx-scrollcontainer-shrink .mx-scrollcontainer-toggleable {
+        transition-property: width;
+    }
+
+    .mx-scrollcontainer-toggleable {
+        background-color: #fff;
+    }
+
+    .mx-scrollcontainer-push {
+        position: relative;
+    }
+    .mx-scrollcontainer-shrink > .mx-scrollcontainer-toggleable {
+        overflow: hidden;
+    }
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > div,
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > div {
+        pointer-events: none;
+    }
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable {
+        pointer-events: auto;
+    }
+
+    // Scroll container spacing
+    // NOTE: .mx-placeholder is removed in modern client for the good, this rule is going to be ignored.
+    .mx-scrollcontainer .mx-placeholder {
+        width: 100%;
+        height: 100%;
+
+        .mx-layoutgrid,
+        .mx-layoutgrid-fluid {
+            @include layout-spacing($type: padding, $direction: all, $device: responsive);
+
+            .mx-layoutgrid,
+            .mx-layoutgrid-fluid {
+                padding: 0;
+            }
+        }
+    }
+}

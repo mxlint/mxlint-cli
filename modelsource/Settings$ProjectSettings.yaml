@@ -30,19 +30,21 @@ Settings:
 - $Type: Settings$ModelSettings
   AfterStartupMicroflow: ""
   AllowUserMultipleSessions: true
-  BcryptCost: 10
+  BcryptCost: 12
   BeforeShutdownMicroflow: ""
   DefaultTimeZoneCode: ""
   EnableDataStorageOptimisticLocking: false
   FirstDayOfWeek: Default
   HashAlgorithm: BCrypt
   HealthCheckMicroflow: ""
+  JavaVersion: Java11
   RoundingMode: HalfUp
   ScheduledEventTimeZoneCode: Etc/UTC
-  UseDatabaseForeignKeyConstraints: false
+  UseDatabaseForeignKeyConstraints: true
   UseSystemContextForBackgroundTasks: false
 - $Type: Settings$ConventionSettings
   ActionActivityDefaultColors: null
+  DefaultSequenceFlowLineType: BezierCurve
   LowerCaseMicroflowVariables: false
 - $Type: Settings$LanguageSettings
   DefaultLanguageCode: en_US

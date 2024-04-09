@@ -1,0 +1,27 @@
+
+.mx-administration-lv-dg-list {
+    &.mx-listview > ul {
+        margin: 0;
+    }
+
+    // &.mx-listview > ul > li::after {
+    //     display: inline-block;
+    //     content: ", ";
+    // }
+    
+    // &.mx-listview > ul > li {
+    //     display: inline-block;
+    // }
+
+    .mx-listview-empty {
+        display: none;
+    }
+
+    .mx-button.mx-listview-loadMore {
+        text-align: left;
+        width: auto;
+        margin: 8px 0 0 0;
+    }
+    
+}
+

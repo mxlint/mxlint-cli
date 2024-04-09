@@ -1,0 +1,28 @@
+$Type: Microflows$Rule
+ApplyEntityAccess: false
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowReturnType:
+  $Type: DataTypes$BooleanType
+Name: IsNotEmptyString
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: $String != empty and length(trim($String)) > 0
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: String
+    VariableType:
+      $Type: DataTypes$StringType

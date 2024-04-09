@@ -1,0 +1,23 @@
+/// Creates the blue start button for the feedback widget.
+/// This can be replaced by several starting points in the future.
+
+.mxfeedback-start-button {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%) rotate(270deg);
+    transform-origin: bottom center;
+    padding: $spacing-smaller $spacing-small;
+    border: none;
+    border-radius: $border-radius-default $border-radius-default 0 0;
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+    font-size: $m-header-title-size;
+    box-shadow: $mxfeedback-start-button-shadow;
+    z-index: $mxfeedback-z-index-start-button;
+
+    &:focus,
+    &:hover {
+        background-color: $btn-primary-bg-hover;
+    }
+}

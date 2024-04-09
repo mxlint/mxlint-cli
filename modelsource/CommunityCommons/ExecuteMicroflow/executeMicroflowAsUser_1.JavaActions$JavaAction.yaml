@@ -1,0 +1,59 @@
+$Type: JavaActions$JavaAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: Identical to executeMicroflowAsUser, but takes 1 argument
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$StringType
+MicroflowActionInfo: null
+Name: executeMicroflowAsUser_1
+Parameters:
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: microflow
+  ParameterType:
+    $Type: JavaActions$MicroflowJavaActionParameterType
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: username
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+    Type:
+      $Type: CodeActions$StringType
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: sudoContext
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+    Type:
+      $Type: CodeActions$BooleanType
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: arg1name
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+    Type:
+      $Type: CodeActions$StringType
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: arg1value
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+    Type:
+      $Type: CodeActions$ParameterizedEntityType
+      TypeParameterPointer:
+        Data: miQdbWasck6Q0t8Jl8jNUA==
+        Subtype: 0
+TypeParameters:
+- $Type: CodeActions$TypeParameter
+  Name: TypeParameter

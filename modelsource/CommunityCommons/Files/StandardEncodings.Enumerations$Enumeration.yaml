@@ -1,0 +1,55 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: StandardEncodings
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: US-ASCII
+  Name: US_ASCII
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: ISO-8859-1
+  Name: ISO_8859_1
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: UTF-8
+  Name: UTF_8
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: UTF-16BE
+  Name: UTF_16BE
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: UTF-16LE
+  Name: UTF_16LE
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: UTF-16
+  Name: UTF_16

@@ -1,9 +1,0 @@
-$Type: Constants$Constant
-DefaultValue: ' 2.7.1'
-Documentation: ""
-Excluded: false
-ExportLevel: Hidden
-ExposedToClient: false
-Name: Atlas_UI_Resources_Version
-Type:
-  $Type: DataTypes$StringType

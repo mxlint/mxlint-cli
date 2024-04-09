@@ -16,36 +16,44 @@ ExportLevel: Hidden
 Flows:
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$EnumerationCase
     Value: "true"
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$EnumerationCase
     Value: "false"
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 - $Type: Microflows$SequenceFlow
   IsErrorHandler: false
+  LineType: BezierCurve
   NewCaseValue:
     $Type: Microflows$NoCase
 MarkAsUsed: false
@@ -154,4 +162,5 @@ ObjectCollection:
     Disabled: false
     Documentation: ""
 Url: ""
+UrlSearchParameters: null
 WorkflowActionInfo: null

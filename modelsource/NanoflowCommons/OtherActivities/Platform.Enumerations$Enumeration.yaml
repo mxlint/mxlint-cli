@@ -1,0 +1,31 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: Platform
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Web
+  Name: Web
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Native mobile
+  Name: Native_mobile
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Hybrid mobile
+  Name: Hybrid_mobile

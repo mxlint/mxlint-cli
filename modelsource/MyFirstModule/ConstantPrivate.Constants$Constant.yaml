@@ -1,9 +1,0 @@
-$Type: Constants$Constant
-DefaultValue: secret
-Documentation: ""
-Excluded: false
-ExportLevel: Hidden
-ExposedToClient: false
-Name: ConstantPrivate
-Type:
-  $Type: DataTypes$StringType

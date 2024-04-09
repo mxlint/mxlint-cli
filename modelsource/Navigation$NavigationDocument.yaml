@@ -1,7 +1,7 @@
 $Type: Navigation$NavigationDocument
 Profiles:
 - $Type: Navigation$NavigationProfile
-  AppIcon: Atlas_UI_Resources.Content.Mendix
+  AppIcon: Atlas_Core.Content.Mendix
   AppTitle:
     $Type: Texts$Text
     Items:
@@ -45,52 +45,5 @@ Profiles:
         Code: 57377
       Items: null
   Name: Responsive
-  OfflineEntityConfigs: null
-  ProgressiveWebAppSettings: null
-- $Type: Navigation$NavigationProfile
-  AppIcon: ""
-  AppTitle:
-    $Type: Texts$Text
-    Items:
-    - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Mendix
-  HomeItems: null
-  HomePage:
-    $Type: Navigation$HomePage
-    Microflow: ""
-    Page: MyFirstModule.Home_Phone_Browser
-  Kind: Phone
-  LoginPageSettings:
-    $Type: Forms$FormSettings
-    Form: ""
-    ParameterMappings: null
-    TitleOverride: null
-  Menu:
-    $Type: Menus$MenuItemCollection
-    Items:
-    - $Type: Menus$MenuItem
-      Action:
-        $Type: Forms$FormAction
-        DisabledDuringExecution: true
-        FormSettings:
-          $Type: Forms$FormSettings
-          Form: MyFirstModule.Home_Web
-          ParameterMappings: null
-          TitleOverride: null
-        NumberOfPagesToClose2: ""
-        PagesForSpecializations: null
-      AlternativeText: null
-      Caption:
-        $Type: Texts$Text
-        Items:
-        - $Type: Texts$Translation
-          LanguageCode: en_US
-          Text: Home
-      Icon:
-        $Type: Forms$GlyphIcon
-        Code: 57377
-      Items: null
-  Name: Phone
   OfflineEntityConfigs: null
   ProgressiveWebAppSettings: null

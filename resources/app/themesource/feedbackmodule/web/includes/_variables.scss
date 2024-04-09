@@ -1,0 +1,55 @@
+//== z-index
+$mxfeedback-z-index-start-button: 999998 !default;
+$mxfeedback-z-index-underlay: 1000001 !default;
+$mxfeedback-z-index-lightbox: 1000002 !default;
+$mxfeedback-z-index-annotation-canvas: 1000003 !default;
+$mxfeedback-z-index-frame: 1000004 !default;
+
+//== Dimensions
+$mxfeedback-dialog-width: 560px;
+$mxfeedback-tooltip-width: 240px;
+$tool-list-width: 144px;
+$mxfeedback-screenshot-preview-height: 192px;
+$mxfeedback-dialog-spacing: 40px;
+
+//== Background colors
+$mxfeedback-lightbox-background-color: rgba(0, 0, 0, 0.9);
+$mxfeedback-modal-background-color: rgba(0, 0, 0, 0.9);
+$mxfeedback-annotation-canvas-background-color: rgba(0, 0, 0, 0.5);
+
+//== Shadows
+$mxfeedback-start-button-shadow: -2px 0 4px 0 rgb(0 0 0 / 30%);
+$mxfeedback-shadow-small: 0 2px 4px 0;
+$mxfeedback-shadow-color: rgba(0, 0, 0, 0.2);
+
+//== Icons
+$mxfeedback-icon-size-xs: 9px;
+$mxfeedback-icon-size-sm: 16px;
+$mxfeedback-icon-size-md: 20px;
+$mxfeedback-icon-size-lg: 24px;
+
+//== Annotation
+//## Annotation colors
+$annotation-colors: (
+    "midnight": #2f3646,
+    "grey": #c1c3c8,
+    "green": #4fd84f,
+    "blue": #47a9ff,
+    "purple": #845eff,
+    "magenta": #ca49f8,
+    "red": #fb4a4c,
+    "yellow": #fcc73a
+);
+
+//## Annotation thickness
+$annotation-thickness: (
+    "one": 1px,
+    "two": 2px,
+    "three": 3px,
+    "four": 4px,
+    "five": 5px,
+    "six": 6px
+);
+
+//## Annotation tool variables
+$mxfeedback-annotation-tool-size: 25px;

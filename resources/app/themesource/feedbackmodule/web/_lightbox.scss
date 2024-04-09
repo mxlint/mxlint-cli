@@ -1,0 +1,31 @@
+/// The lightbox displays a preview of the screenshot when clicking on the thumbnail. 
+
+.mxfeedback-lightbox {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    background-color: $mxfeedback-lightbox-background-color;
+    z-index: $mxfeedback-z-index-lightbox;
+
+    &__image {
+        margin: auto;
+        display: block;
+        max-width: 70%;
+
+        @include mq($screen-md) {
+            max-width: calc(100% - 16px);
+        }
+    }
+
+    .mxfeedback-close-button {
+        &__icon {
+            width: $mxfeedback-icon-size-sm;
+            height: $mxfeedback-icon-size-sm;   
+        }
+    }
+}

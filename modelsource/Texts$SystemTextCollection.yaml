@@ -1033,158 +1033,136 @@ SystemTexts:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: This is not a valid decimal number
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: De opgegeven waarde is geen geldig decimaal getal
-- $Type: Texts$SystemText
-  InternalKey: mendix.lib.Validations.field_issue
-  Text:
-    $Type: Texts$Text
-    Items:
     - $Type: Texts$Translation
       LanguageCode: en_US
-      Text: '{1} has an issue: {2}'
-    - $Type: Texts$Translation
-      LanguageCode: nl_NL
-      Text: '{1} heeft een probleem: {2}'
-- $Type: Texts$SystemText
-  InternalKey: mxui.widget.ListView.refresh
-  Text:
-    $Type: Texts$Text
-    Items:
-    - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Refresh/Clear
-    - $Type: Texts$Translation
-      LanguageCode: nl_NL
-      Text: Vernieuwen/Wissen
+      Text: This is not a valid decimal number
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_open_workflow_admin_page_workflow_not_found
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can’t open the workflow page, the Workflow does not exist.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Admin pagina niet openen, want de workflow bestaat niet.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can’t open the workflow page, the Workflow does not exist.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_open_workflow_admin_page_page_not_provided
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can’t open the workflow page, the Workflow Admin page is not defined.
-        Please contact your System Administrator.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Admin pagina niet openen, want de workflow page is niet gedefinieerd.
         Neem contact op met de applicatiebeheerder om deze fout te melden.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can’t open the workflow page, the Workflow Admin page is not defined.
+        Please contact your System Administrator.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_open_workflow_admin_page_definition_not_found
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can’t show the Admin page, the workflow definition was deleted. Please
-        contact your System Administrator.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Admin pagina niet openen, want de workflow definitie is verwijderd.
         Neem contact op met de applicatiebeheerder om deze fout te melden.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can’t show the Admin page, the workflow definition was deleted. Please
+        contact your System Administrator.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_open_task_assigned_to_someone_else
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can’t open this task, it is assigned to someone else.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan deze taak niet openen, want de taak is al aan iemand anders toegewezen.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can’t open this task, it is assigned to someone else.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_open_task_does_not_exist
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: This user task no longer exists. Another user might have completed it.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Deze taak bestaat niet meer, iemand heeft deze taak wellicht al afgerond.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: This user task no longer exists. Another user might have completed it.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_complete_task_not_assigned_to_you
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: You can’t complete this user task, it is not assigned to you.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Je kunt deze taak niet afronden, de taak is niet aan jou toegewezen.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: You can’t complete this user task, it is not assigned to you.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_complete_task_generic
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: You can’t complete this user task, it may be already completed, invalid,
-        or the workflow might have moved on.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Je kunt deze taak niet afronden, de taak is wellicht al afgerond, is niet
         langer geldig of the workflow is al verder gegaan.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: You can’t complete this user task, it may be already completed, invalid,
+        or the workflow might have moved on.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_removed
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate jump-to options for this workflow instance as an in-progress
-        parallel split has been removed since the workflow has started.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
         een van de huidige, in-progress, parallel split activiteiten is verwijderd
         sinds de workflow is gestart.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can't generate jump-to options for this workflow instance as an in-progress
+        parallel split has been removed since the workflow has started.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_branch_removed
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate jump-to options for this workflow instance as an in-progress
-        parallel split branch has been removed since the workflow has started.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
         een van de huidige, in-progress, parallel split branches is verwijderd sinds
         de workflow is gestart.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can't generate jump-to options for this workflow instance as an in-progress
+        parallel split branch has been removed since the workflow has started.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_branch_added
   Text:
     $Type: Texts$Text
     Items:
     - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate the jump-to options for this workflow instance as a branch
-        was added to in-progress parallel splits since the workflow has started.
-    - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
         er is een branch toegevoegd aan een van de huidige, in-progress, parallel
         split activiteiten sinds de workflow is gestart.
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can't generate the jump-to options for this workflow instance as a branch
+        was added to in-progress parallel splits since the workflow has started.
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_lock_workflow_definition_locked
   Text:
@@ -1233,6 +1211,17 @@ SystemTexts:
       LanguageCode: nl_NL
       Text: De {1} die aangeroepen wordt in deze workflow is gesloten. Er kunnen geen
         nieuwe instanties voor deze workflow worden gemaakt.
+- $Type: Texts$SystemText
+  InternalKey: mendix.lib.Validations.field_issue
+  Text:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: '{1} has an issue: {2}'
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: '{1} heeft een probleem: {2}'
 - $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_notify_workflow_wrong_state
   Text:
@@ -1300,3 +1289,25 @@ SystemTexts:
       LanguageCode: nl_NL
       Text: Actie '{1}' is niet uitgevoerd, omdat gelijktijdige uitvoering niet is
         toegestaan.
+- $Type: Texts$SystemText
+  InternalKey: mxui.widget.ListView.refresh
+  Text:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Refresh/Clear
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Vernieuwen/Wissen
+- $Type: Texts$SystemText
+  InternalKey: mendix.platform.workflows.only_named_users_can_complete_user_task
+  Text:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Only named users can complete user task.
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Alleen ingelogde gebruikers kunnen een taak afronden.

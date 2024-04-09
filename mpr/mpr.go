@@ -54,10 +54,17 @@ func exportMetadata(MPRFilePath string, outputDirectory string) error {
 		return fmt.Errorf("error scanning metadata: %v", err)
 	}
 
+	units, err := getMxUnits(MPRFilePath)
+	if err != nil {
+		return fmt.Errorf("error getting units: %v", err)
+	}
+	modules := getMxModules(units)
+
 	// create metadata object
 	metadataObj := MxMetadata{
 		ProductVersion: productVersion,
 		BuildVersion:   buildVersion,
+		Modules:        modules,
 	}
 
 	// write metadata to file
@@ -151,6 +158,7 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 	var folders []MxFolder
 	for _, unit := range units {
 		if unit.ContainmentName == "Folders" || unit.ContainmentName == "Modules" {
+			log.Debugf("Unit: %v", unit)
 			myFolder := MxFolder{
 				Name:       unit.Contents["Name"].(string),
 				ID:         unit.UnitID,
@@ -213,6 +221,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 
 	for _, unit := range units {
 		if Contains(documentTypes, unit.ContainmentName) {
+			log.Debugf("Unit: %v", unit)
 			var name = ""
 			if unit.Contents["Name"] != nil {
 				name = unit.Contents["Name"].(string)
@@ -230,16 +239,16 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 	return documents, nil
 }
 
-func exportUnits(MPRFilePath string, outputDirectory string) error {
+func getMxUnits(MPRFilePath string) ([]MxUnit, error) {
 	db, err := sql.Open("sqlite", MPRFilePath)
 	if err != nil {
-		return fmt.Errorf("error opening database: %v", err)
+		return nil, fmt.Errorf("error opening database: %v", err)
 	}
 	defer db.Close()
 
 	rows, err := db.Query("SELECT UnitID, ContainerID, ContainmentName, Contents FROM Unit")
 	if err != nil {
-		return fmt.Errorf("error querying units: %v", err)
+		return nil, fmt.Errorf("error querying units: %v", err)
 	}
 	defer rows.Close()
 
@@ -249,14 +258,14 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 		var containmentName string
 		var unitID, containerID, contents []byte
 		if err := rows.Scan(&unitID, &containerID, &containmentName, &contents); err != nil {
-			return fmt.Errorf("error scanning unit: %v", err)
+			return nil, fmt.Errorf("error scanning unit: %v", err)
 		}
 
 		var result bson.M
 
 		err := bson.Unmarshal(contents, &result)
 		if err != nil {
-			return fmt.Errorf("error parsing unit: %v", err)
+			return nil, fmt.Errorf("error parsing unit: %v", err)
 		}
 
 		ignoredAttributes := []string{"$ID", "OriginPointer", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
@@ -272,8 +281,15 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 
 		units = append(units, myUnit)
 	}
+	return units, nil
+}
 
-	// modules := getMxModules(units)
+func exportUnits(MPRFilePath string, outputDirectory string) error {
+
+	units, err := getMxUnits(MPRFilePath)
+	if err != nil {
+		return fmt.Errorf("error getting units: %v", err)
+	}
 	folders, err := getMxFolders(units)
 	if err != nil {
 		return fmt.Errorf("error getting folders: %v", err)

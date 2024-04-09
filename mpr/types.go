@@ -1,8 +1,9 @@
 package mpr
 
 type MxMetadata struct {
-	ProductVersion string `yaml:"ProductVersion"`
-	BuildVersion   string `yaml:"BuildVersion"`
+	ProductVersion string     `yaml:"ProductVersion"`
+	BuildVersion   string     `yaml:"BuildVersion"`
+	Modules        []MxModule `yaml:"Modules"`
 }
 
 type MxUnit struct {

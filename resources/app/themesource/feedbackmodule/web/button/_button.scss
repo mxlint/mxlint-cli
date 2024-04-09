@@ -1,0 +1,15 @@
+/// Styles a button that contains an icon.
+/// In Atlas the icons are added differently.
+
+.mxfeedback-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $gutter-size;
+
+    svg {
+        width: $mxfeedback-icon-size-sm;
+        height: $mxfeedback-icon-size-sm;
+        fill: currentColor;
+    }
+}
