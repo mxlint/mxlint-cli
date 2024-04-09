@@ -1,0 +1,2377 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 800
+DisplayName: Timeline
+Documentation: ""
+DocumentationUrl: '{{atlasUrl}}/p/timeline'
+Excluded: false
+ExportLevel: Hidden
+Name: Timeline
+Platform: Web
+TemplateCategory: Timeline
+TemplateCategoryWeight: 120
+Widgets:
+- $Type: Forms$DivContainer
+  Appearance:
+    $Type: Forms$Appearance
+    Class: timeline
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Name: container2
+  NativeAccessibilitySettings: null
+  OnClickAction:
+    $Type: Forms$NoAction
+    DisabledDuringExecution: true
+  RenderMode: Div
+  ScreenReaderHidden: false
+  TabIndex: 0
+  Widgets:
+  - $Type: CustomWidgets$CustomWidget
+    Appearance:
+      $Type: Forms$Appearance
+      Class: ""
+      DesignProperties: null
+      DynamicClasses: ""
+      Style: ""
+    ConditionalEditabilitySettings: null
+    ConditionalVisibilitySettings: null
+    Editable: Always
+    LabelTemplate: null
+    Name: timeline1
+    Object:
+      $Type: CustomWidgets$WidgetObject
+      Properties:
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: 0F38GcnNnka0MZfKj3Rh/Q==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource:
+            $Type: CustomWidgets$CustomWidgetXPathSource
+            EntityRef: null
+            ForceFullObjects: false
+            SortBar:
+              $Type: Forms$GridSortBar
+              SortItems: null
+            SourceVariable: null
+            XPathConstraint: ""
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 5evPSXXvKki/eAKBUjVxHQ==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: 0U1XIyQaSUiwkl2546AEhA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items: null
+          TranslatableValue: null
+          TypePointer:
+            Data: EYQkxloCS0GcvcWfJPlNDw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: MXeDhJfO4Em7c3diPXOkkg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items: null
+          TranslatableValue: null
+          TypePointer:
+            Data: p+wytaC0dkGj0OoBmGGmnA==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: Ni4dT++Gv0On4zUZiyy/hQ==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate:
+            $Type: Forms$ClientTemplate
+            Fallback:
+              $Type: Texts$Text
+              Items: null
+            Parameters: null
+            Template:
+              $Type: Texts$Text
+              Items: null
+          TranslatableValue: null
+          TypePointer:
+            Data: jd5z5d2OZkSav+Z/8JuVYw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: Ar8XCDVYW06Y+VMpyVdeSA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: "true"
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: NJyv2Ub/wEaKtRRvo/XOkg==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: /Kgti0X9tU+EYM4ngtVk+g==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: /TDA2NPnQ06kXE9bz0Khag==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: OlvU2Y0r6U23KW+vGtKfgg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: "true"
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: Y5Sv6NdVfU65mXt6hYhcsw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: oQy1ncbaAUSV0DefGpDUQg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: sHJmwtZ9l0yn6YK9ayF1UQ==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: FjpbxYkxukCNt8EhpCbWrg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: day
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: oO2y0dQF10eDhWIc8HsMIg==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: sZH/fyWIZEinwN+KC3LfuA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: dayName
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: BMHTQSPM6k2XVJj3lqM9Ag==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: 4juoqleR60+pxLZymk3t0w==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: month
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: 8Pt7zQCxr0+2qeaxUUECXw==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: HuHwBah9UEOatwjVyxjZNA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: end
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: LsoEPj1+V0aEFTqnPL+MkQ==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: htsYITIRKUSR4XrsgDQgPg==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: Pf9PbjUiXE282b1vPJV6GQ==
+            Subtype: 0
+          Widgets:
+          - $Type: CustomWidgets$CustomWidget
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalEditabilitySettings: null
+            ConditionalVisibilitySettings: null
+            Editable: Always
+            LabelTemplate: null
+            Name: image1
+            Object:
+              $Type: CustomWidgets$WidgetObject
+              Properties:
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: Pkg0IB7K6EWMgyW+2b2OaQ==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: image
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: ptsZBfRx5065I2ODnfv6Ug==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: +xfqq/xM8U6PX0s+a7PJ1A==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: OPt8NT37+US8bpiazMN42Q==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: IEBAw0uoFEGkRy1fnZr3qg==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: Ffb0MmeQ4ECcM3FInYrDMA==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: nYnlVyIzE06BAV7PDd89Jw==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate:
+                    $Type: Forms$ClientTemplate
+                    Fallback:
+                      $Type: Texts$Text
+                      Items: null
+                    Parameters: null
+                    Template:
+                      $Type: Texts$Text
+                      Items: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: GlK/ye7VQkqk5wpoPwQQeA==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: DuThu+wPgkOq1k+75tKXRA==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: Rehc7TNVvU+FX/nNYnnYUQ==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: y3rR09C3s0O0robBk/mTkA==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: "false"
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: HlGQoCknP0CulJVp01yr4A==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: hOqJet9mP0abbNdefI9VVg==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: G5bqQeIR1kiooqLj8bkfpg==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: StnL23Wnu0KC82tAAPJg0A==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: action
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: JDmhbnKGAkiSkrKY+rwWqw==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: 2243ET0PRUiz0FSmOpkaog==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: s7Tb6n7MzUG+xySYAWfy7A==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: SrPQktbdwEWwDUetXzEqvA==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: ""
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate:
+                    $Type: Forms$ClientTemplate
+                    Fallback:
+                      $Type: Texts$Text
+                      Items: null
+                    Parameters: null
+                    Template:
+                      $Type: Texts$Text
+                      Items: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: PmpTkWx1Bk6molhbMVRZbA==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: DKdZtvlczkGOFlBi0ZLHfg==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: pixels
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: 70SSBopEkkeBIqs9+1ZoDQ==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: X8b1KR23r0Ga+qRXI1cr4g==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: "18"
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: j5CZ/UsVikaHu7i1F93Wcg==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: hOJdyQpK7E+ujWxpway92w==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: pixels
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: 5VtMb+8jBUGxRm297GFSEg==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: dhKMtQolC0yxX2QP1pDwGQ==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: "18"
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: 6d9EqtYOHk2BoekmNQ93fQ==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: GgI/LwFISUSSxtldiLItsw==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: "14"
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: k23+aaaSQk2pvHcJE9Jbpw==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: KFRW0UkQzEaYMbFj7a0q4A==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: fullImage
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: NAlkOHPVV0+yX2+IDb4JfQ==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              - $Type: CustomWidgets$WidgetProperty
+                TypePointer:
+                  Data: nQV5xoP7zE62lm363Ra4ng==
+                  Subtype: 0
+                Value:
+                  $Type: CustomWidgets$WidgetValue
+                  Action:
+                    $Type: Forms$NoAction
+                    DisabledDuringExecution: true
+                  AttributeRef: null
+                  DataSource: null
+                  EntityRef: null
+                  Expression: ""
+                  Form: ""
+                  Icon: null
+                  Microflow: ""
+                  Nanoflow: ""
+                  Objects: null
+                  PrimitiveValue: "false"
+                  Selection: None
+                  SourceVariable: null
+                  TextTemplate: null
+                  TranslatableValue: null
+                  TypePointer:
+                    Data: noMy8eWNUkalmtb+aItE/g==
+                    Subtype: 0
+                  Widgets: null
+                  XPathConstraint: ""
+              TypePointer:
+                Data: HlW9rgJ5n0GzCO4FdiDfzQ==
+                Subtype: 0
+            TabIndex: 0
+            Type:
+              $Type: CustomWidgets$CustomWidgetType
+              HelpUrl: https://docs.mendix.com/appstore/widgets/image
+              ObjectType:
+                $Type: CustomWidgets$WidgetObjectType
+                PropertyTypes:
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Image type
+                  Category: General::Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: datasource
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: image
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: image
+                      Caption: Image
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: imageUrl
+                      Caption: Image URL
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: icon
+                      Caption: Icon
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Image source
+                  Category: General::Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: imageObject
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Image
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Default image
+                  Category: General::Data source
+                  Description: This is the image that is displayed if no image is
+                    uploaded.
+                  IsDefault: false
+                  PropertyKey: defaultImageDynamic
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Image
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Image URL
+                  Category: General::Data source
+                  Description: The link of the external image.
+                  IsDefault: false
+                  PropertyKey: imageUrl
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: TextTemplate
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Icon
+                  Category: General::Data source
+                  Description: The icon image.
+                  IsDefault: false
+                  PropertyKey: imageIcon
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Icon
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Background image
+                  Category: General::Data source
+                  Description: Whether the image is rendered as a background. More
+                    content can be put inside, while design properties will have no
+                    effect.
+                  IsDefault: false
+                  PropertyKey: isBackgroundImage
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: "false"
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Boolean
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Place content here
+                  Category: General::Data source
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: children
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Widgets
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: On click type
+                  Category: General::Events
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: onClickType
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: action
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: action
+                      Caption: Action
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: enlarge
+                      Caption: Enlarge
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: On click
+                  Category: General::Events
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: onClick
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Action
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Alternative text
+                  Category: General::Accessibility
+                  Description: Alternative text of the image for accessibility purposes.
+                  IsDefault: false
+                  PropertyKey: alternativeText
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: TextTemplate
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: <system:Name>
+                  Category: General::Conditional Visibility
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: Name
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: System
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: <system:Visibility>
+                  Category: General::Conditional Visibility
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: Visibility
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: ""
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: false
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: System
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Width unit
+                  Category: Dimensions::Dimensions
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: widthUnit
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: auto
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: auto
+                      Caption: Auto
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: pixels
+                      Caption: Pixels
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: percentage
+                      Caption: Percentage
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Width
+                  Category: Dimensions::Dimensions
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: width
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: "100"
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Integer
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Height unit
+                  Category: Dimensions::Dimensions
+                  Description: Auto will keep the aspect ratio of the image.
+                  IsDefault: false
+                  PropertyKey: heightUnit
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: auto
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: auto
+                      Caption: Auto
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: pixels
+                      Caption: Pixels
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Height
+                  Category: Dimensions::Dimensions
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: height
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: "100"
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Integer
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Icon size
+                  Category: Dimensions::Dimensions
+                  Description: The size of the icon in pixels.
+                  IsDefault: false
+                  PropertyKey: iconSize
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: "14"
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Integer
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Show
+                  Category: Dimensions::Dimensions
+                  Description: ""
+                  IsDefault: false
+                  PropertyKey: displayAs
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: fullImage
+                    EntityProperty: ""
+                    EnumerationValues:
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: fullImage
+                      Caption: Full image
+                    - $Type: CustomWidgets$WidgetEnumerationValue
+                      _Key: thumbnail
+                      Caption: Thumbnail
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Enumeration
+                - $Type: CustomWidgets$WidgetPropertyType
+                  Caption: Responsive
+                  Category: Dimensions::Dimensions
+                  Description: Image will never get larger than its original size.
+                    It can become smaller.
+                  IsDefault: false
+                  PropertyKey: responsive
+                  ValueType:
+                    $Type: CustomWidgets$WidgetValueType
+                    AllowNonPersistableEntities: false
+                    AllowedTypes: null
+                    AssociationTypes: null
+                    DataSourceProperty: ""
+                    DefaultValue: "true"
+                    EntityProperty: ""
+                    EnumerationValues: null
+                    IsList: false
+                    IsPath: "No"
+                    Multiline: false
+                    ObjectType: null
+                    OnChangeProperty: ""
+                    ParameterIsList: false
+                    PathType: None
+                    Required: true
+                    ReturnType: null
+                    SelectableObjectsProperty: ""
+                    SelectionTypes: null
+                    SetLabel: false
+                    Translations: null
+                    Type: Boolean
+              OfflineCapable: true
+              StudioCategory: Images, Videos & Files
+              StudioProCategory: Images, videos & files
+              SupportedPlatform: Web
+              WidgetDescription: Display an image and enlarge it on click.
+              WidgetId: com.mendix.widget.web.image.Image
+              WidgetName: Image
+              WidgetNeedsEntityContext: false
+              WidgetPluginWidget: true
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: vUvdNvm7+EaIX6SKgy4BdA==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: nsbCEfiBWEOJwQdOzNu2wA==
+            Subtype: 0
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Today
+            Name: text5
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: Text
+            TabIndex: 0
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: Uv3q++CHykiW5zkEGc09ag==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: aS5/DM4J30e3a+frq03LIg==
+            Subtype: 0
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Timeline entry title
+            Name: text2
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: H5
+            TabIndex: 0
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: o3bFrFvEc0infPcla9xIKw==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: sX0qB7pYOUa1MU8gyey1xg==
+            Subtype: 0
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties:
+              - $Type: Forms$DesignPropertyValue
+                Key: Color
+                Value:
+                  $Type: Forms$OptionDesignPropertyValue
+                  Option: Brand Primary
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: "14:30"
+            Name: text4
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: H5
+            TabIndex: 0
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: KzbeOzQWrEi2HU2nfCVaKw==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: cCbweq4g+0ytWGx1DlZ3+A==
+            Subtype: 0
+          Widgets:
+          - $Type: Forms$DynamicText
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalVisibilitySettings: null
+            Content:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Timeline entry description
+            Name: text3
+            NativeAccessibilitySettings: null
+            NativeTextStyle: Text
+            RenderMode: Text
+            TabIndex: 0
+          XPathConstraint: ""
+      - $Type: CustomWidgets$WidgetProperty
+        TypePointer:
+          Data: 3d3no/FziEejxviQH6CF5w==
+          Subtype: 0
+        Value:
+          $Type: CustomWidgets$WidgetValue
+          Action:
+            $Type: Forms$NoAction
+            DisabledDuringExecution: true
+          AttributeRef: null
+          DataSource: null
+          EntityRef: null
+          Expression: ""
+          Form: ""
+          Icon: null
+          Microflow: ""
+          Nanoflow: ""
+          Objects: null
+          PrimitiveValue: ""
+          Selection: None
+          SourceVariable: null
+          TextTemplate: null
+          TranslatableValue: null
+          TypePointer:
+            Data: kZOEA8D3EUWwkz9aaCE1iQ==
+            Subtype: 0
+          Widgets: null
+          XPathConstraint: ""
+      TypePointer:
+        Data: yP+aTuo0kUmezArLPmMxMQ==
+        Subtype: 0
+    TabIndex: 0
+    Type:
+      $Type: CustomWidgets$CustomWidgetType
+      HelpUrl: https://docs.mendix.com/appstore/widgets/timeline
+      ObjectType:
+        $Type: CustomWidgets$WidgetObjectType
+        PropertyTypes:
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Data source
+          Category: Data Source::Data source
+          Description: ""
+          IsDefault: false
+          PropertyKey: data
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: true
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: DataSource
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Title
+          Category: Data Source::Data source
+          Description: ""
+          IsDefault: false
+          PropertyKey: title
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: TextTemplate
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Description
+          Category: Data Source::Data source
+          Description: ""
+          IsDefault: false
+          PropertyKey: description
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: TextTemplate
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Time Indication
+          Category: Data Source::Data source
+          Description: ""
+          IsDefault: false
+          PropertyKey: timeIndication
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: TextTemplate
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Custom Visualization
+          Category: General::General
+          Description: Enables free to model timeline.
+          IsDefault: false
+          PropertyKey: customVisualization
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: "false"
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Boolean
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Icon
+          Category: General::General
+          Description: If no icon is configured, a circle will be rendered.
+          IsDefault: false
+          PropertyKey: icon
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Icon
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Group Events
+          Category: General::General
+          Description: Shows a header between grouped events based on event date.
+          IsDefault: false
+          PropertyKey: groupEvents
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: "true"
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Boolean
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Group Attribute
+          Category: General::General
+          Description: Will be used for grouping events, as a group header value.
+            If events have no date time value, use "Unscheduled events placement"
+            to control rendering.
+          IsDefault: false
+          PropertyKey: groupAttribute
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes:
+            - DateTime
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Attribute
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Group by
+          Category: General::General
+          Description: Group events based on day, month or year.
+          IsDefault: false
+          PropertyKey: groupByKey
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: day
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: day
+              Caption: Day
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: month
+              Caption: Month
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: year
+              Caption: Year
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Format
+          Category: General::General
+          Description: Format group header with current language's format
+          IsDefault: false
+          PropertyKey: groupByDayOptions
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: dayName
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: dayName
+              Caption: Day name
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: dayMonth
+              Caption: Day and month
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: fullDate
+              Caption: Day, month, year
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Format
+          Category: General::General
+          Description: ""
+          IsDefault: false
+          PropertyKey: groupByMonthOptions
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: month
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: month
+              Caption: Month
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: monthYear
+              Caption: Month and year
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Ungrouped events position
+          Category: General::General
+          Description: Position in the list of events without a date and time
+          IsDefault: false
+          PropertyKey: ungroupedEventsPosition
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: ""
+            DefaultValue: end
+            EntityProperty: ""
+            EnumerationValues:
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: beginning
+              Caption: Beginning of the timeline
+            - $Type: CustomWidgets$WidgetEnumerationValue
+              _Key: end
+              Caption: End of the timeline
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: true
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Enumeration
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Icon
+          Category: General::Custom
+          Description: Content of the icon
+          IsDefault: false
+          PropertyKey: customIcon
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Group header
+          Category: General::Custom
+          Description: Content of the group header
+          IsDefault: false
+          PropertyKey: customGroupHeader
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Title
+          Category: General::Custom
+          Description: Content of the title
+          IsDefault: false
+          PropertyKey: customTitle
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Event time
+          Category: General::Custom
+          Description: Content of the event time
+          IsDefault: false
+          PropertyKey: customEventDateTime
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: Content
+          Category: General::Custom
+          Description: Content of the description
+          IsDefault: false
+          PropertyKey: customDescription
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Widgets
+        - $Type: CustomWidgets$WidgetPropertyType
+          Caption: On click
+          Category: Events
+          Description: ""
+          IsDefault: false
+          PropertyKey: onClick
+          ValueType:
+            $Type: CustomWidgets$WidgetValueType
+            AllowNonPersistableEntities: false
+            AllowedTypes: null
+            AssociationTypes: null
+            DataSourceProperty: data
+            DefaultValue: ""
+            EntityProperty: ""
+            EnumerationValues: null
+            IsList: false
+            IsPath: "No"
+            Multiline: false
+            ObjectType: null
+            OnChangeProperty: ""
+            ParameterIsList: false
+            PathType: None
+            Required: false
+            ReturnType: null
+            SelectableObjectsProperty: ""
+            SelectionTypes: null
+            SetLabel: false
+            Translations: null
+            Type: Action
+      OfflineCapable: true
+      StudioCategory: Display
+      StudioProCategory: Display
+      SupportedPlatform: Web
+      WidgetDescription: Shows vertical timeline with events
+      WidgetId: com.mendix.widget.web.timeline.Timeline
+      WidgetName: Timeline
+      WidgetNeedsEntityContext: true
+      WidgetPluginWidget: true

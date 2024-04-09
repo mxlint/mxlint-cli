@@ -1,0 +1,11 @@
+.mxfeedback-failed {
+    // TODO: Feels like it can be replaced in the future
+    &__message {
+        align-self: center;
+        margin: $spacing-small;
+    }
+
+    &__error-image {
+        margin-top: 30px;
+    }
+}

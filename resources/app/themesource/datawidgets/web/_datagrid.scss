@@ -1,0 +1,385 @@
+$background-color: #fff !default;
+$icon-color: #606671 !default;
+$icon-size: 14px !default;
+$pagination-button-color: #3b4251 !default;
+$pagination-caption-color: #0a1325 !default;
+$dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
+$dragging-effect-size: 4px;
+
+$grid-bg-striped: #fafafb !default;
+$grid-bg-hover: #f5f6f6 !default;
+$spacing-small: 8px !default;
+$spacing-medium: 16px !default;
+$spacing-large: 24px !default;
+$grid-border-color: #ced0d3 !default;
+
+$brand-primary: #264ae5 !default;
+$brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light;
+
+.table {
+    position: relative;
+    border-width: 0;
+    background-color: $background-color;
+
+    /* Table Content */
+    .table-content {
+        display: grid;
+        position: relative;
+    }
+
+    /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
+    .tr {
+        display: contents;
+    }
+
+    /* Column Header */
+    .th {
+        display: flex;
+        align-items: flex-start;
+        font-weight: 600;
+        background-color: $background-color;
+        border-width: 0;
+        border-color: $grid-border-color;
+        padding: $spacing-medium;
+        top: 0;
+        min-width: 0;
+
+        /* Clickable column header (Sortable) */
+        .clickable {
+            cursor: pointer;
+        }
+
+        /* Column resizer when column is resizable */
+        .column-resizer {
+            padding: 0 4px;
+            align-self: stretch;
+            cursor: col-resize;
+
+            &:hover .column-resizer-bar {
+                background-color: $brand-primary;
+            }
+            &:active .column-resizer-bar {
+                background-color: $brand-primary;
+            }
+
+            .column-resizer-bar {
+                height: 100%;
+                width: 4px;
+            }
+        }
+
+        /* Content of the column header */
+        .column-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            align-self: stretch;
+            min-width: 0;
+            padding-left: $dragging-effect-size;
+            margin-left: -$dragging-effect-size;
+            /* Styles while dragging another column */
+            &.dragging {
+                border-left: $dragging-effect-size solid $dragging-color-effect;
+                padding-left: 0;
+            }
+
+            &:not(:has(.filter)) {
+                .column-header {
+                    height: 100%;
+                }
+            }
+        }
+
+        /* Header text */
+        .column-header {
+            margin: 1px 1px 1px -$dragging-effect-size + 1px;
+
+            display: flex;
+            align-items: baseline;
+
+            span {
+                min-width: 0;
+                flex-grow: 1;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-wrap: nowrap;
+                align-self: center;
+            }
+
+            svg {
+                margin-left: 8px;
+                flex: 0 0 $icon-size;
+                color: $icon-color;
+                height: $icon-size;
+                align-self: center;
+            }
+
+            &:focus:not(:focus-visible) {
+                outline: none;
+            }
+
+            &:focus-visible {
+                outline: 1px solid $brand-primary;
+            }
+        }
+
+        /* Header filter */
+        .filter {
+            display: flex;
+            margin-top: 4px;
+            input:not([type="checkbox"]) {
+                font-weight: normal;
+                flex-grow: 1;
+                width: 100%;
+            }
+            > .form-group {
+                margin-bottom: 0;
+            }
+            > .form-control {
+                flex: unset;
+                min-width: unset;
+            }
+        }
+    }
+
+    /* If Column Header has filter */
+    &:has(.th .column-container .filter:not(:empty)) {
+        .th {
+            &.column-selector {
+                padding: $spacing-medium 0;
+            }
+            /*adjust filter-selector icon to be mid-bottom aligned */
+            .column-selector-content {
+                align-self: flex-end;
+                margin-bottom: 3px;
+            }
+
+            /*adjust checkbox toggle to be mid-bottom aligned */
+            &.widget-datagrid-col-select {
+                align-items: flex-end;
+                padding-bottom: calc($spacing-medium + 11px);
+            }
+        }
+    }
+
+    /* Column selector for hidable columns */
+    .column-selector {
+        padding: 0;
+
+        /* Column content */
+        .column-selector-content {
+            align-self: center;
+            padding-right: $spacing-medium;
+            /* Button containing the eye icon */
+            .column-selector-button {
+                $icon-margin: 7px;
+                /* 2px as path of icon's path is a bit bigger than outer svg */
+                $icon-slack-size: 2px;
+
+                padding: 0;
+                margin: 0;
+
+                height: ($icon-size + $icon-margin * 2 + $icon-slack-size);
+                width: ($icon-size + $icon-margin * 2 + $icon-slack-size);
+
+                svg {
+                    margin: $icon-margin;
+                }
+            }
+
+            /* List of columns to select */
+            .column-selectors {
+                position: absolute;
+                right: 0;
+                margin: 8px;
+                padding: 0 16px;
+                background: $background-color;
+                z-index: 102;
+                border-radius: 3px;
+                border: 1px solid transparent;
+                list-style-type: none;
+                -webkit-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+                -moz-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+                box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+
+                li {
+                    display: flex;
+                    align-items: center;
+
+                    label {
+                        margin: 8px;
+                        font-weight: normal;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+
+    /* Column content */
+    .td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-medium;
+        border-style: solid;
+        border-width: 0;
+        border-color: $grid-border-color;
+        border-bottom-width: 1px;
+        min-width: 0;
+
+        &.td-borders {
+            border-top-width: 1px;
+            border-top-style: solid;
+        }
+
+        &:focus {
+            outline-width: 1px;
+            outline-style: solid;
+            outline-offset: -1px;
+            outline-color: $brand-primary;
+        }
+
+        &.clickable {
+            cursor: pointer;
+        }
+
+        > .td-text {
+            white-space: nowrap;
+            word-break: break-word;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        > .td-custom-content {
+            flex-grow: 1;
+        }
+
+        > .empty-placeholder {
+            width: 100%;
+        }
+
+        &.wrap-text {
+            min-height: 0;
+            min-width: 0;
+
+            > .td-text,
+            > .mx-text {
+                white-space: normal;
+            }
+        }
+    }
+
+    & *:focus {
+        outline: 0;
+    }
+
+    .align-column-left {
+        justify-content: flex-start;
+    }
+
+    .align-column-center {
+        justify-content: center;
+    }
+
+    .align-column-right {
+        justify-content: flex-end;
+    }
+}
+
+.pagination-bar {
+    display: flex;
+    justify-content: flex-end;
+    white-space: nowrap;
+    align-items: baseline;
+    margin: 16px;
+    color: $pagination-caption-color;
+
+    .paging-status {
+        padding: 0 8px 8px;
+    }
+
+    .pagination-button {
+        padding: 6px;
+        color: $pagination-button-color;
+        border-color: transparent;
+        background-color: transparent;
+
+        &:hover {
+            color: $brand-primary;
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        &:disabled {
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 1px solid $brand-primary;
+        }
+    }
+    .pagination-icon {
+        position: relative;
+        top: 4px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Column selector for hidable columns outside DG context */
+/* List of columns to select */
+.column-selectors {
+    position: absolute;
+    right: 0;
+    margin: 8px 0;
+    padding: 0 16px;
+    background: $background-color;
+    z-index: 102;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    list-style-type: none;
+    -webkit-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+    -moz-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+    box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
+
+    &.overflow {
+        height: 250px;
+        overflow-y: scroll;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        label {
+            margin: 8px;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+    }
+}
+
+.widget-datagrid {
+    &.widget-datagrid-selection-method-click {
+        .tr.tr-selected .td {
+            background-color: $grid-selected-row-background;
+        }
+    }
+}
+
+.widget-datagrid-col-select input:focus-visible {
+    outline-offset: 0;
+}
+
+.widget-datagrid-content {
+    overflow-y: auto;
+}

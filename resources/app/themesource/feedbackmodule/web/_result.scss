@@ -1,0 +1,17 @@
+/// Style the image on the successfully submitted page
+
+.mxfeedback-result {
+  &__result-image {
+      align-self: center;
+      width: auto;
+      max-width: 50%;
+  }
+
+  .mxfeedback-dialog__body-text {
+    margin: auto;
+  }
+
+  &__result-image {
+    margin-top: 30px;
+  }
+}

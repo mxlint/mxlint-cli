@@ -1,0 +1,66 @@
+$Type: Forms$Snippet
+CanvasHeight: 600
+CanvasWidth: 800
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: _ReadMe
+Parameters: null
+Type: Web
+Widgets:
+- $Type: Forms$DynamicText
+  Appearance:
+    $Type: Forms$Appearance
+    Class: ""
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Content:
+    $Type: Forms$ClientTemplate
+    Fallback:
+      $Type: Texts$Text
+      Items: null
+    Parameters: null
+    Template:
+      $Type: Texts$Text
+      Items:
+      - $Type: Texts$Translation
+        LanguageCode: nl_NL
+        Text: Tekst
+      - $Type: Texts$Translation
+        LanguageCode: en_US
+        Text: Mendix FeedBack Module
+  Name: text1
+  NativeAccessibilitySettings: null
+  NativeTextStyle: Text
+  RenderMode: H2
+  TabIndex: 0
+- $Type: Forms$DynamicText
+  Appearance:
+    $Type: Forms$Appearance
+    Class: ""
+    DesignProperties: null
+    DynamicClasses: ""
+    Style: ""
+  ConditionalVisibilitySettings: null
+  Content:
+    $Type: Forms$ClientTemplate
+    Fallback:
+      $Type: Texts$Text
+      Items: null
+    Parameters: null
+    Template:
+      $Type: Texts$Text
+      Items:
+      - $Type: Texts$Translation
+        LanguageCode: nl_NL
+        Text: Tekst
+      - $Type: Texts$Translation
+        LanguageCode: en_US
+        Text: "For installation & configuration please refer to documentation\r\nhttps://docs.mendix.com/appstore/modules/mendix-feedback/"
+  Name: text2
+  NativeAccessibilitySettings: null
+  NativeTextStyle: Text
+  RenderMode: Text
+  TabIndex: 0

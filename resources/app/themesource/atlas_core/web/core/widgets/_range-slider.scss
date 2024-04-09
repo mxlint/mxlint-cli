@@ -1,0 +1,30 @@
+//
+// DISCLAIMER:
+// Do not change this file because it is core styling.
+// Customizing core files will make updating Atlas much more difficult in the future.
+// To customize any core styling, copy the part you want to customize to styles/web/sass/app/ so the core styling is overwritten.
+//
+@import "../helpers/slider-color-variant";
+
+@mixin range-slider() {
+    /* ==========================================================================
+       Range slider
+
+       Default Mendix range slider widget.
+    ========================================================================== */
+
+    .widget-range-slider {
+        margin-bottom: 16px;
+        padding: 5px 10px;
+
+        .rc-slider-handle {
+            border-color: $brand-default;
+        }
+
+        .rc-slider.rc-slider-with-marks {
+            padding-bottom: 25px;
+        }
+
+        @include slider-color-variant($brand-primary);
+    }
+}

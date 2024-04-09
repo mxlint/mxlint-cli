@@ -1,0 +1,58 @@
+$Type: Microflows$Nanoflow
+AllowedModuleRoles:
+- Atlas_Web_Content.UserRole
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: ACT_Login
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: LoginContext
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: Atlas_Web_Content.LoginContext
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$JavaScriptActionCallAction
+      ErrorHandlingType: Abort
+      JavaScriptAction: NanoflowCommons.SignIn
+      OutputVariableName: ReturnValueName
+      ParameterMappings:
+      - $Type: Microflows$JavaScriptActionParameterMapping
+        Parameter: NanoflowCommons.SignIn.Username
+        ParameterValue:
+          $Type: Microflows$BasicCodeActionParameterValue
+          Argument: $LoginContext/Username
+      - $Type: Microflows$JavaScriptActionParameterMapping
+        Parameter: NanoflowCommons.SignIn.Password
+        ParameterValue:
+          $Type: Microflows$BasicCodeActionParameterValue
+          Argument: $LoginContext/Password
+      UseReturnVariable: false
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""

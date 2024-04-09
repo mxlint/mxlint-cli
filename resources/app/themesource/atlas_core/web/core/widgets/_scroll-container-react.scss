@@ -1,0 +1,216 @@
+//
+// DISCLAIMER:
+// Do not change this file because it is core styling.
+// Customizing core files will make updating Atlas much more difficult in the future.
+// To customize any core styling, copy the part you want to customize to styles/web/sass/app/ so the core styling is overwritten.
+//
+
+@mixin scroll-container-react() {
+    // CSS VARIABLES
+    //
+    // =========================================
+    // === --closed-sidebar-width
+    // Expected on: scroll container top level or higher.
+    // This variable is set from layout/_layout-atlas-*.scss files.
+    //
+    // It defines half-visible sidebar even if it is closed.
+    // This is used by Atlas default layouts to have navigation icons
+    // visible while texts are "closed".
+    //
+    // =========================================
+    // === --sidebar-size
+    // Expected on: scroll container regions (top, right, bottom, left), on every region individually.
+    // This variable is set from inline styling provided by react components themselves for every region.
+    //
+    // If defines sizing of the side regions
+    // For top and bottom bars it defines their height
+    // For left and right regions it defines their width
+    // it should be always set, regardless of the region is toggleable or not
+    // For toggleable regions it defines the width of a fully open region
+    //
+    // =========================================
+    // === --toggleable-sidebar-width
+    // Expected on: scroll container top level.
+    // This variable is set from inline styling provided by react components on scroll container top level.
+    //
+    // This variable is a copy of --sidebar-size of a toggleable region (there could be only one toggleable).
+    // This is a duplication because we need to be able to use that value in calculation on
+    // other levels of scroll container while --sidebar-size is available on the region level and not higher
+
+    $sidebar-animation-duration: 250ms;
+
+    .mx-page {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mx-scrollcontainer {
+        flex-shrink: 0;
+        flex-grow: 1;
+        flex-basis: 0;
+
+        &:not(.mx-scrollcontainer-fixed) {
+            // Make scroll container use full width and grow outside of it's parent
+            // this makes it fully scrollable without individual regions having scroll containers
+            min-height: auto;
+        }
+
+        &.mx-scrollcontainer-fixed {
+            // Make scroll container scrollable per region
+            // For this we fix height to stay withing the size of the parent,
+            // so that regions of the scroll container can't stretch the scroll container
+            // even if they are higher than the screen
+            max-height: 100%;
+            min-height: 100%;
+        }
+    }
+
+    .mx-scrollcontainer-horizontal {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .mx-scrollcontainer-vertical {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mx-scrollcontainer-fixed {
+        // for scroll per region, regions should overflow if they have long content
+        .mx-scrollcontainer-left,
+        .mx-scrollcontainer-right,
+        .mx-scrollcontainer-center,
+        .mx-scrollcontainer-middle {
+            overflow: auto;
+        }
+    }
+
+    // left and right regions should maintain fixed size, no shrinking or expanding
+    .mx-scrollcontainer-left,
+    .mx-scrollcontainer-right,
+    .mx-scrollcontainer-top,
+    .mx-scrollcontainer-bottom {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    // center region should fill available space
+    .mx-scrollcontainer-middle,
+    .mx-scrollcontainer-center {
+        flex-grow: 1;
+    }
+
+    // if there is a nested scroll container we always want
+    // outer scroll container to stay withing available height
+    // and don't allow inner scroll container to grow
+    .mx-scrollcontainer-nested {
+        height: 100%;
+        padding: 0;
+    }
+
+    // SIDEBAR TOGGLE STYLES
+
+    // If sidebar is not toggleable, simple width
+    .mx-scrollcontainer-right:not(.mx-scrollcontainer-toggleable),
+    .mx-scrollcontainer-left:not(.mx-scrollcontainer-toggleable),
+    .mx-scrollcontainer-top:not(.mx-scrollcontainer-toggleable),
+    .mx-scrollcontainer-bottom:not(.mx-scrollcontainer-toggleable) {
+        flex-basis: var(--sidebar-size);
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+
+    // Animate transitions for toggleable sidebars
+    .mx-scrollcontainer-left.mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-right.mx-scrollcontainer-toggleable {
+        transition: flex-basis $sidebar-animation-duration ease-in, margin-right $sidebar-animation-duration ease-in,
+            margin-left $sidebar-animation-duration ease-in;
+        z-index: 1;
+    }
+
+    // For closed sidebar - stick out
+    .mx-scrollcontainer-shrink:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-push:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-slide:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable {
+        flex-basis: var(--closed-sidebar-width, 0px);
+        overflow: clip;
+    }
+
+    // For open sidebar - full width
+    .mx-scrollcontainer-shrink.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable {
+        flex-basis: var(--sidebar-size);
+    }
+
+    // Slide over content and push specific settings, left
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable.mx-scrollcontainer-left,
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable.mx-scrollcontainer-left {
+        // if open add negative right margin, so content goes under it
+        margin-right: calc(var(--closed-sidebar-width, 0px) - var(--sidebar-size));
+    }
+    .mx-scrollcontainer-slide:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable.mx-scrollcontainer-left,
+    .mx-scrollcontainer-push:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable.mx-scrollcontainer-left {
+        // if closed, put margin back
+        margin-right: 0;
+    }
+
+    // Slide over content and push specific settings, right
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable.mx-scrollcontainer-right,
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable.mx-scrollcontainer-right {
+        // if open add negative left margin, so content goes under it
+        margin-left: calc(var(--closed-sidebar-width, 0px) - var(--sidebar-size));
+    }
+    .mx-scrollcontainer-slide:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable.mx-scrollcontainer-right,
+    .mx-scrollcontainer-push:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable.mx-scrollcontainer-right {
+        // if closed, put margin back
+        margin-left: 0;
+    }
+
+    // Push content aside animation
+    .mx-scrollcontainer-push > :not(.mx-scrollcontainer-toggleable) {
+        transition: transform $sidebar-animation-duration ease-in;
+    }
+
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > :not(.mx-scrollcontainer-toggleable) {
+        // push not toggleable region to the side, so it looks like the content is pushed aside
+        transform: translateX(var(--toggleable-sidebar-width)) translateX(calc(0px - var(--closed-sidebar-width, 0px)));
+    }
+
+    .mx-scrollcontainer-push.mx-scrollcontainer-open.has-right-sidebar-toggle > :not(.mx-scrollcontainer-toggleable),
+    .mx-scrollcontainer-push.mx-scrollcontainer-open:has(.mx-scrollcontainer-right.mx-scrollcontainer-toggleable)
+        > :not(.mx-scrollcontainer-toggleable) {
+        // push not toggleable region to the side, so it looks like the content is pushed aside
+        transform: translateX(calc(0px - var(--toggleable-sidebar-width))) translateX(var(--closed-sidebar-width, 0px));
+    }
+
+    .mx-scrollcontainer-push {
+        // in order to prevent sidebars when content is pushed aside, disable horizontal scroll
+        overflow-x: clip;
+    }
+
+    .mx-scrollcontainer-wrapper:not(.mx-scrollcontainer-nested) {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    // for push aside and slide over the main part should be non-interactive if sidebar is open
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > div,
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > div {
+        pointer-events: none;
+    }
+    .mx-scrollcontainer-push.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable,
+    .mx-scrollcontainer-slide.mx-scrollcontainer-open > .mx-scrollcontainer-toggleable {
+        pointer-events: auto;
+    }
+
+    .mx-scrollcontainer-center {
+        .mx-layoutgrid,
+        .mx-layoutgrid-fluid {
+            @include layout-spacing($type: padding, $direction: all, $device: responsive);
+
+            .mx-layoutgrid,
+            .mx-layoutgrid-fluid {
+                padding: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+/// Styles the annotation toolbar.
+
+.mxfeedback-toolbar {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    gap: $gutter-size;
+    top: $spacing-larger;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: $spacing-medium $spacing-larger;
+    background-color: $bg-color-secondary;
+    border: 1px solid $border-color-default;
+    border-radius: $border-radius-default;
+    font-size: $font-size-small;
+    box-shadow: $mxfeedback-shadow-small $mxfeedback-shadow-color;
+    z-index: $mxfeedback-z-index-frame;
+
+    &--gap-md {
+        gap: $gutter-size * 2;
+    }
+
+    &--gap-lg {
+        gap: $gutter-size * 4;
+    }
+}

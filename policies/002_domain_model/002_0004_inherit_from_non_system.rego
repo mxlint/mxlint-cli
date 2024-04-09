@@ -6,7 +6,7 @@
 # - Xiwen Cheng <x@cinaq.com>
 # custom:
 #  category: Performance
-#  rulename: AvioidInheritanceFromNonSystem
+#  rulename: AvoidInheritanceFromNonSystem
 #  severity: MEDIUM
 #  rulenumber: 002_0004
 #  remediation: Instead of inheritance, just use separate objects which are associated to the main object. As an alternative, you can add the child’s attributes to the super entity and add an ObjectType enumeration.
