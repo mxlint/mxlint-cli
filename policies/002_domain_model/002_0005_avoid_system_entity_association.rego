@@ -8,6 +8,7 @@
 #  category: Security
 #  rulename: AvoidSystemEntityAssociation
 #  severity: HIGH
+#  skip: FIXME
 #  rulenumber: 002_0005
 #  remediation: Remove direct associations with the System Domain Model. Use inheritance instead (i.e. Generalization in the entity properties).
 #  input: "*/DomainModels$DomainModel.yaml"

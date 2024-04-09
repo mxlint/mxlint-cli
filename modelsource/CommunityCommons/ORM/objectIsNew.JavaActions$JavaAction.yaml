@@ -1,0 +1,25 @@
+$Type: JavaActions$JavaAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: Returns true if this object is new (not committed in the database).
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$BooleanType
+MicroflowActionInfo: null
+Name: objectIsNew
+Parameters:
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: mxObject
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+    Type:
+      $Type: CodeActions$ParameterizedEntityType
+      TypeParameterPointer:
+        Data: FQ3mF1kaU0e2/XEd0xs1ew==
+        Subtype: 0
+TypeParameters:
+- $Type: CodeActions$TypeParameter
+  Name: TypeParameter

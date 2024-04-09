@@ -1,0 +1,40 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: DatePartSelector
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: year
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: jaar
+  Name: year
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: month
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: maand
+  Name: month
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: day
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: dag
+  Name: day

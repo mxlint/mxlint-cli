@@ -1,0 +1,175 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "false"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "true"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: UpdateUserHelper
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: UserRole
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: System.UserRole
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: true
+        XpathConstraint: '[Name = $Role]'
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: found?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $UserRole != empty
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeAction
+      ChangeVariableName: User
+      Commit: "Yes"
+      ErrorHandlingType: Rollback
+      Items:
+      - $Type: Microflows$ChangeActionItem
+        Association: ""
+        Attribute: System.User.Name
+        Type: Set
+        Value: $Username
+      - $Type: Microflows$ChangeActionItem
+        Association: ""
+        Attribute: System.User.Password
+        Type: Set
+        Value: $Password
+      - $Type: Microflows$ChangeActionItem
+        Association: ""
+        Attribute: System.User.WebServiceUser
+        Type: Set
+        Value: $WebserviceUser
+      - $Type: Microflows$ChangeActionItem
+        Association: System.UserRoles
+        Attribute: ""
+        Type: Set
+        Value: $UserRole
+      RefreshInClient: false
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Username
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Role
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Password
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: WebserviceUser
+    VariableType:
+      $Type: DataTypes$BooleanType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: User
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: System.User
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$LogMessageAction
+      ErrorHandlingType: Rollback
+      IncludeLatestStackTrace: false
+      Level: Error
+      MessageTemplate:
+        $Type: Microflows$StringTemplate
+        Parameters:
+        - $Type: Microflows$TemplateParameter
+          Expression: $Role
+        Text: Role {1} not found. User could not be created.
+      Node: |
+        getKey(CommunityCommons.LogNodes.CommunityCommons)
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

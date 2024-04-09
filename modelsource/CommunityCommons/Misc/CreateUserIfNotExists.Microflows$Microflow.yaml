@@ -1,0 +1,200 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "true"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "false"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: CreateUserIfNotExists
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Username
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Role
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Password
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: User
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: System.User
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: true
+        XpathConstraint: '[Name = $Username]'
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: empty?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $User = empty
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: WebserviceUser
+    VariableType:
+      $Type: DataTypes$BooleanType
+  - $Type: Microflows$Annotation
+    Caption: 'Create a user with predefined password an role. Useful during startup
+      for integration purposes. '
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Rollback
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: CommunityCommons.UpdateUserHelper
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Username
+          Parameter: CommunityCommons.UpdateUserHelper.Username
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Role
+          Parameter: CommunityCommons.UpdateUserHelper.Role
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Password
+          Parameter: CommunityCommons.UpdateUserHelper.Password
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $WebserviceUser
+          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $User
+          Parameter: CommunityCommons.UpdateUserHelper.User
+        QueueSettings: null
+      ResultVariableName: ""
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Rollback
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: CommunityCommons.UpdateUserHelper
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Username
+          Parameter: CommunityCommons.UpdateUserHelper.Username
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Role
+          Parameter: CommunityCommons.UpdateUserHelper.Role
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Password
+          Parameter: CommunityCommons.UpdateUserHelper.Password
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $WebserviceUser
+          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $NewUser
+          Parameter: CommunityCommons.UpdateUserHelper.User
+        QueueSettings: null
+      ResultVariableName: ""
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateChangeAction
+      Commit: "No"
+      Entity: System.User
+      ErrorHandlingType: Rollback
+      Items: null
+      RefreshInClient: false
+      VariableName: NewUser
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

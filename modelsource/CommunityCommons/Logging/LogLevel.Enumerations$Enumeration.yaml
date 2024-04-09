@@ -1,0 +1,73 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: LogLevel
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Trace
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Trace
+  Name: Trace
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Debug
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Debug
+  Name: Debug
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Info
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Info
+  Name: Info
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Warning
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Warning
+  Name: Warning
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Error
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Error
+  Name: Error
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Critical
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Critical
+  Name: Critical
