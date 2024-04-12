@@ -1,5 +1,5 @@
 $Type: Security$ProjectSecurity
-AdminPassword: ""
+AdminPassword: Hello00!!!!
 AdminUserName: MxAdmin
 AdminUserRole: Administrator
 CheckSecurity: true
@@ -31,7 +31,7 @@ PasswordPolicySettings:
   RequireDigit: true
   RequireMixedCase: true
   RequireSymbol: false
-SecurityLevel: CheckNothing
+SecurityLevel: CheckEverything
 StrictMode: false
 StrictPageUrlCheck: true
 UserRoles:

@@ -30,7 +30,49 @@ CrossAssociations:
 Documentation: ""
 Entities:
 - $Type: DomainModels$EntityImpl
-  AccessRules: null
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: false
+    AllowDelete: false
+    AllowedModuleRoles:
+    - MyFirstModule.User
+    DefaultMemberAccessRights: ReadOnly
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.Image.PublicThumbnailPath
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.Image.EnableCaching
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.FileID
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.Name
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.DeleteAfterDownload
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.Contents
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.HasContents
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: System.FileDocument.Size
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
   Attributes: null
   Documentation: ""
   Events: null
@@ -43,7 +85,29 @@ Entities:
   Source: null
   ValidationRules: null
 - $Type: DomainModels$EntityImpl
-  AccessRules: null
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: false
+    AllowDelete: false
+    AllowedModuleRoles:
+    - MyFirstModule.User
+    DefaultMemberAccessRights: ReadOnly
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: MyFirstModule.Bike.Name
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: MyFirstModule.Bike.PurchaseDate
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: MyFirstModule.Bike_User
+      Attribute: ""
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
   Attributes:
   - $Type: DomainModels$Attribute
     Documentation: ""

@@ -8,7 +8,6 @@
 #  category: Security
 #  rulename: DemoUsersDisabled
 #  severity: HIGH
-#  skip: FIXME
 #  rulenumber: 001_0002
 #  remediation: Disable demo users in Project Security
 #  input: Security$ProjectSecurity.yaml
@@ -21,10 +20,11 @@ allow if count(errors) == 0
 
 errors contains error if {
     input.EnableDemoUsers == true
-    error := sprintf("[%v, %v] %v",
+    error := sprintf("[%v, %v, %v] %v",
         [
             annotation.custom.severity,
             annotation.custom.category,
+            annotation.custom.rulenumber,
             annotation.title,
         ]
     )
