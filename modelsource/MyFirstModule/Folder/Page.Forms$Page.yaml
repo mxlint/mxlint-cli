@@ -136,7 +136,7 @@ FormCall:
                         $Type: Forms$OptionDesignPropertyValue
                         Option: None
                 DynamicClasses: ""
-                Style: 'color: orange;'
+                Style: ""
               ConditionalVisibilitySettings: null
               Content:
                 $Type: Forms$ClientTemplate
@@ -319,50 +319,6 @@ FormCall:
                       LanguageCode: en_US
                       Text: '{1}'
                 Name: text2
-                NativeAccessibilitySettings: null
-                NativeTextStyle: Text
-                RenderMode: Text
-                TabIndex: 0
-              - $Type: Forms$DynamicText
-                Appearance:
-                  $Type: Forms$Appearance
-                  Class: ""
-                  DesignProperties: null
-                  DynamicClasses: ""
-                  Style: ""
-                ConditionalVisibilitySettings: null
-                Content:
-                  $Type: Forms$ClientTemplate
-                  Fallback:
-                    $Type: Texts$Text
-                    Items: null
-                  Parameters:
-                  - $Type: Forms$ClientTemplateParameter
-                    AttributeRef:
-                      $Type: DomainModels$AttributeRef
-                      Attribute: System.User.Name
-                      EntityRef:
-                        $Type: DomainModels$IndirectEntityRef
-                        Steps:
-                        - $Type: DomainModels$EntityRefStep
-                          Association: MyFirstModule.Bike_User
-                          DestinationEntity: System.User
-                    Expression: ""
-                    FormattingInfo:
-                      $Type: Forms$FormattingInfo
-                      CustomDateFormat: ""
-                      DateFormat: Date
-                      DecimalPrecision: 2
-                      EnumFormat: Text
-                      GroupDigits: false
-                    SourceVariable: null
-                  Template:
-                    $Type: Texts$Text
-                    Items:
-                    - $Type: Texts$Translation
-                      LanguageCode: en_US
-                      Text: '{1}'
-                Name: text3
                 NativeAccessibilitySettings: null
                 NativeTextStyle: Text
                 RenderMode: Text

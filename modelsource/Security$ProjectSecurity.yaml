@@ -6,17 +6,17 @@ CheckSecurity: true
 DemoUsers:
 - $Type: Security$DemoUserImpl
   Entity: Administration.Account
-  Password: I2trLMI0IOON
+  Password: '`R38^&uA/0[<'
   UserName: demo_administrator
   UserRoles:
   - Administrator
 - $Type: Security$DemoUserImpl
   Entity: Administration.Account
-  Password: 7IwRQRqV4lpq
+  Password: .>|nR1YXr,'L
   UserName: demo_user
   UserRoles:
   - User
-EnableDemoUsers: true
+EnableDemoUsers: false
 EnableGuestAccess: false
 FileDocumentAccess:
   $Type: Security$FileDocumentAccessRuleContainer
@@ -30,7 +30,7 @@ PasswordPolicySettings:
   MinimumLength: 12
   RequireDigit: true
   RequireMixedCase: true
-  RequireSymbol: false
+  RequireSymbol: true
 SecurityLevel: CheckEverything
 StrictMode: false
 StrictPageUrlCheck: true

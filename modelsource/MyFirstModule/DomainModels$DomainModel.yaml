@@ -9,24 +9,7 @@ Annotations:
   ExportLevel: Hidden
   Width: 440
 Associations: null
-CrossAssociations:
-- $Type: DomainModels$CrossAssociation
-  Child: System.User
-  DeleteBehavior:
-    $Type: DomainModels$DeleteBehavior
-    ChildDeleteBehavior: DeleteMeButKeepReferences
-    ChildErrorMessage: null
-    ParentDeleteBehavior: DeleteMeButKeepReferences
-    ParentErrorMessage: null
-  Documentation: ""
-  ExportLevel: Hidden
-  Name: Bike_User
-  Owner: Default
-  ParentPointer:
-    Data: gHs+zUMPEkqt8W+kjKXWew==
-    Subtype: 0
-  Source: null
-  Type: Reference
+CrossAssociations: null
 Documentation: ""
 Entities:
 - $Type: DomainModels$EntityImpl
@@ -102,10 +85,6 @@ Entities:
       AccessRights: ReadOnly
       Association: ""
       Attribute: MyFirstModule.Bike.PurchaseDate
-    - $Type: DomainModels$MemberAccess
-      AccessRights: ReadOnly
-      Association: MyFirstModule.Bike_User
-      Attribute: ""
     XPathConstraint: ""
     XPathConstraintCaption: ""
   Attributes:

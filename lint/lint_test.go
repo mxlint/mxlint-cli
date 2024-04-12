@@ -34,8 +34,8 @@ func TestLintBundle(t *testing.T) {
 	t.Run("all-policy", func(t *testing.T) {
 		err := EvalAll("./../policies", "./../modelsource", "")
 
-		if err == nil {
-			t.Errorf("We expect failures in the reference model")
+		if err != nil {
+			t.Errorf("No failures expected: %v", err)
 		}
 	})
 }
