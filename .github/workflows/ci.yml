@@ -34,7 +34,7 @@ jobs:
       run: go test -v ./...
 
     - name: xunit-report
-      run: ./bin/mendix-cli lint --xunit-report report.xml || true
+      run: ./bin/mendix-cli lint --xunit-report report.xml
 
     - name: Process xunit-report
       uses: dorny/test-reporter@v1
