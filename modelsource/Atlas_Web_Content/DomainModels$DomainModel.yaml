@@ -5,7 +5,33 @@ CrossAssociations: null
 Documentation: ""
 Entities:
 - $Type: DomainModels$EntityImpl
-  AccessRules: null
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: false
+    AllowDelete: false
+    AllowedModuleRoles:
+    - Atlas_Web_Content.UserRole
+    DefaultMemberAccessRights: None
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: Atlas_Web_Content.LoginContext.Username
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: Atlas_Web_Content.LoginContext.Password
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: Atlas_Web_Content.LoginContext.RememberMe
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: Atlas_Web_Content.LoginContext.ValidationMessage
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
   Attributes:
   - $Type: DomainModels$Attribute
     Documentation: ""

@@ -9,7 +9,15 @@ on:
 
 jobs:
 
-  build:
+  Policies:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Test Policies
+      run: ./run-policy-tests.sh
+
+  CLI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4

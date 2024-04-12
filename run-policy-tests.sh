@@ -4,11 +4,23 @@ set -e
 
 OPA="./bin/opa"
 
+UNAME="$(uname -s)"
+echo "OS: $UNAME"
+
+if [ "$UNAME" = "Linux" ]; then
+    OPA_DL="opa_linux_amd64"
+elif [ "$UNAME" = "Darwin" ]; then
+    OPA_DL="opa_darwin_amd64"
+else
+    echo "Unsupported OS"
+    exit 1
+fi
+
 if [ ! -f "$OPA" ]; then
     echo "Program not found, downloading..."
-    curl -L -o "$OPA" https://openpolicyagent.org/downloads/v0.63.0/opa_darwin_amd64
+    mkdir -p bin
+    curl -L -o "$OPA" "https://openpolicyagent.org/downloads/v0.63.0/$OPA_DL"
     chmod +x "$OPA"
 fi
 
-OPA test -v policies
-
+$OPA test -v policies
