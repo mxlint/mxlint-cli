@@ -6,23 +6,21 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"reflect"
 	"strings"
 
 	"github.com/ghodss/yaml"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	_ "github.com/glebarez/go-sqlite"
 )
 
-func ExportModel(inputDirectory string, outputDirectory string) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool) error {
 	err := filepath.Walk(inputDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
-			exportMPR(path, outputDirectory)
+			exportMPR(path, outputDirectory, raw)
 		}
 		return nil
 	})
@@ -86,57 +84,6 @@ func exportMetadata(MPRFilePath string, outputDirectory string) error {
 
 	return nil
 
-}
-
-func ignoreAttributes(data bson.M, ignore []string) bson.M {
-	result := make(bson.M)
-
-	for key, value := range data {
-		ignoreKey := false
-
-		for _, ignoreAttr := range ignore {
-			//fmt.Printf("'%v' == '%v'\n", key, ignoreAttr)
-			if key == ignoreAttr {
-				ignoreKey = true
-				break
-			}
-		}
-
-		if !ignoreKey {
-			if reflect.TypeOf(value) == reflect.TypeOf(primitive.A{}) {
-				castedData := value.(primitive.A)
-				var interfaceSlice []interface{} = castedData
-				if len(interfaceSlice) > 0 {
-					if reflect.TypeOf(interfaceSlice[0]) == reflect.TypeOf(int32(1)) {
-						value = interfaceSlice[1:]
-					} else {
-						value = interfaceSlice
-					}
-				} else {
-					value = interfaceSlice
-				}
-			}
-			switch v := value.(type) {
-			case bson.M:
-				result[key] = ignoreAttributes(v, ignore)
-			case []interface{}:
-				var slice []interface{}
-				for _, item := range v {
-					switch item := item.(type) {
-					case bson.M:
-						slice = append(slice, ignoreAttributes(item, ignore))
-					default:
-						slice = append(slice, item)
-					}
-				}
-				result[key] = slice
-			default:
-				result[key] = value
-			}
-		}
-	}
-
-	return result
 }
 
 func getMxModules(units []MxUnit) []MxModule {
@@ -233,6 +180,9 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 				Path:       getMxDocumentPath(unit.ContainerID, folders),
 				Attributes: unit.Contents,
 			}
+			if unit.Contents["$Type"] == "Microflows$Microflow" {
+				myDocument = transformMicroflow(myDocument)
+			}
 			documents = append(documents, myDocument)
 		}
 	}
@@ -268,15 +218,12 @@ func getMxUnits(MPRFilePath string) ([]MxUnit, error) {
 			return nil, fmt.Errorf("error parsing unit: %v", err)
 		}
 
-		ignoredAttributes := []string{"$ID", "OriginPointer", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
-		filteredData := ignoreAttributes(result, ignoredAttributes)
-
 		// create unit object
 		myUnit := MxUnit{
 			UnitID:          base64.StdEncoding.EncodeToString(unitID),
 			ContainerID:     base64.StdEncoding.EncodeToString(containerID),
 			ContainmentName: containmentName,
-			Contents:        filteredData,
+			Contents:        result,
 		}
 
 		units = append(units, myUnit)
@@ -284,7 +231,7 @@ func getMxUnits(MPRFilePath string) ([]MxUnit, error) {
 	return units, nil
 }
 
-func exportUnits(MPRFilePath string, outputDirectory string) error {
+func exportUnits(MPRFilePath string, outputDirectory string, raw bool) error {
 
 	units, err := getMxUnits(MPRFilePath)
 	if err != nil {
@@ -311,7 +258,8 @@ func exportUnits(MPRFilePath string, outputDirectory string) error {
 		if document.Name == "" {
 			fname = fmt.Sprintf("%s.yaml", document.Type)
 		}
-		writeFile(filepath.Join(directory, fname), document.Attributes)
+		attributes := cleanData(document.Attributes, raw)
+		writeFile(filepath.Join(directory, fname), attributes)
 	}
 
 	return nil
@@ -331,13 +279,13 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
-func exportMPR(MPRFilePath string, outputDirectory string) error {
+func exportMPR(MPRFilePath string, outputDirectory string, raw bool) error {
 	log.Infof("Exporting %s to %s", MPRFilePath, outputDirectory)
 	if err := exportMetadata(MPRFilePath, outputDirectory); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
-	if err := exportUnits(MPRFilePath, outputDirectory); err != nil {
+	if err := exportUnits(MPRFilePath, outputDirectory, raw); err != nil {
 		return fmt.Errorf("error exporting units: %v", err)
 	}
 	log.Infof("Completed %s", MPRFilePath)

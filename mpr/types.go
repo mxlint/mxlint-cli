@@ -33,3 +33,20 @@ type MxFolder struct {
 	Parent     *MxFolder              `yaml:"Parent"`
 	Attributes map[string]interface{} `yaml:"Attributes"`
 }
+
+type MxMicroflow struct {
+	Name       string                 `yaml:"Name"`
+	ID         string                 `yaml:"ID"`
+	Attributes map[string]interface{} `yaml:"Attributes"`
+}
+
+type MxMicroflowObject struct {
+	Type       string                 `yaml:"Type"`
+	ID         string                 `yaml:"ID"`
+	Attributes map[string]interface{} `yaml:"Attributes"`
+}
+
+type MxID struct {
+	Data    string `yaml:"Data"`
+	Subtype int    `yaml:"Subtype"`
+}
