@@ -186,6 +186,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 			documents = append(documents, myDocument)
 		}
 	}
+	log.Infof("Found %d documents", len(documents))
 	return documents, nil
 }
 
@@ -259,7 +260,11 @@ func exportUnits(MPRFilePath string, outputDirectory string, raw bool) error {
 			fname = fmt.Sprintf("%s.yaml", document.Type)
 		}
 		attributes := cleanData(document.Attributes, raw)
-		writeFile(filepath.Join(directory, fname), attributes)
+		err = writeFile(filepath.Join(directory, fname), attributes)
+		if err != nil {
+			log.Errorf("Error writing file: %v", err)
+			return err
+		}
 	}
 
 	return nil

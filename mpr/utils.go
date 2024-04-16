@@ -92,6 +92,7 @@ func cleanData(data bson.M, raw bool) bson.M {
 func bsonToMap(data bson.M) map[string]interface{} {
 	result := make(map[string]interface{})
 	for key, value := range data {
+		// log.Infof("Key: %s, Value: %v", key, value)
 		switch value.(type) {
 		case string, int, bool, int64:
 			result[key] = value
@@ -115,15 +116,25 @@ func bsonToMap(data bson.M) map[string]interface{} {
 	return result
 }
 
-func convertBsonAToSliceInterface(data bson.A) []map[string]interface{} {
-	result := make([]map[string]interface{}, 0, len(data))
+func convertBsonAToSliceInterface(data bson.A) []interface{} {
+	result := make([]interface{}, 0, len(data))
 	for _, element := range data {
 		switch element.(type) {
 		case int32:
 			continue
+		case string:
+			result = append(result, element.(string))
 		default:
 			result = append(result, bsonToMap(element.(bson.M)))
 		}
 	}
 	return result
+}
+
+func convertMxMicroflowNodeToMap(node *MxMicroflowNode) map[string]interface{} {
+	c := make(map[string]interface{})
+	c["Type"] = node.Type
+	c["ID"] = node.ID
+	c["Attributes"] = node.Attributes
+	return c
 }

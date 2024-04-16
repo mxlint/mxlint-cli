@@ -1,0 +1,91 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items: null
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "true"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "false"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowLoop
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "10"
+      VariableName: counter
+      VariableType:
+        $Type: DataTypes$IntegerType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Enough?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $counter > 0
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: counter
+      ErrorHandlingType: Rollback
+      Value: $counter-1
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

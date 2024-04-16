@@ -1,0 +1,39 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: EnumerationStatus
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Done
+  Name: Done
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: InProgress
+  Name: InProgress
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: New
+  Name: _New
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Cancelled
+  Name: Cancelled

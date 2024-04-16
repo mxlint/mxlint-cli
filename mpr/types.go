@@ -40,10 +40,27 @@ type MxMicroflow struct {
 	Attributes map[string]interface{} `yaml:"Attributes"`
 }
 
+type MxMicroflowEdge struct {
+	Type        string                 `yaml:"Type"`
+	ID          string                 `yaml:"ID"`
+	Origin      string                 `yaml:"Origin"`
+	Destination string                 `yaml:"Destination"`
+	Attributes  map[string]interface{} `yaml:"Attributes"`
+}
 type MxMicroflowObject struct {
+	Type        string                 `yaml:"Type"`
+	ID          string                 `yaml:"ID"`
+	Origin      string                 `yaml:"Origin"`
+	Destination string                 `yaml:"Destination"`
+	Attributes  map[string]interface{} `yaml:"Attributes"`
+}
+
+type MxMicroflowNode struct {
 	Type       string                 `yaml:"Type"`
 	ID         string                 `yaml:"ID"`
 	Attributes map[string]interface{} `yaml:"Attributes"`
+	Parent     *MxMicroflowNode
+	Children   *[]MxMicroflowNode
 }
 
 type MxID struct {

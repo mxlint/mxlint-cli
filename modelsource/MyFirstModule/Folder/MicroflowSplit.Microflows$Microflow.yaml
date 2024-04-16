@@ -1,0 +1,93 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items: null
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Flows:
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "false"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$EnumerationCase
+    Value: "true"
+- $Type: Microflows$SequenceFlow
+  IsErrorHandler: false
+  LineType: BezierCurve
+  NewCaseValue:
+    $Type: Microflows$NoCase
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowSplit
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "false"
+      VariableName: Variable
+      VariableType:
+        $Type: DataTypes$BooleanType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: left or right?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $Variable
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$LogMessageAction
+      ErrorHandlingType: Rollback
+      IncludeLatestStackTrace: false
+      Level: Info
+      MessageTemplate:
+        $Type: Microflows$StringTemplate
+        Parameters: null
+        Text: test
+      Node: '''XXX'''
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null
