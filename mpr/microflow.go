@@ -1,16 +1,8 @@
 package mpr
 
-import "slices"
-
 func transformMicroflow(mf MxDocument) MxDocument {
 	// Transform a microflow
 	log.Infof("Transforming microflow %s", mf.Name)
-	// if !Contains([]string{"MicroflowSimple", "MicroflowSplit", "MicroflowSplitThenMerge", "MicroflowComplexSplit", "MicroflowLoop"}, mf.Name) {
-	// 	return mf
-	// }
-	// if !Contains([]string{"MicroflowLoop"}, mf.Name) {
-	// 	return mf
-	// }
 
 	cleanedData := bsonToMap(mf.Attributes)
 	objsCollection := cleanedData["ObjectCollection"].(map[string]interface{})
@@ -24,30 +16,12 @@ func transformMicroflow(mf MxDocument) MxDocument {
 		ID:         startEvent.ID,
 		Attributes: startEvent.Attributes,
 	}
-	allLoops := make([][]MxMicroflowNode, 0)
-	buildDAG(&root, nil, flows, objs, &allLoops)
-
-	loops := make([]interface{}, 0)
-	extractLoops(&loops, allLoops)
-	mf.Attributes["Loops"] = loops
-
+	buildDAG(&root, nil, flows, objs)
 	mainFlow := make([]map[string]interface{}, 0)
+	// FIXME: flow conversion is not working for loops yet; it generates incomplete flows
 	extractMainFlow(&mainFlow, &root)
 	mf.Attributes["MainFunction"] = mainFlow
 	return mf
-}
-
-func extractLoops(loops *[]interface{}, allLoops [][]MxMicroflowNode) {
-	for _, loop := range allLoops {
-		myLoop := make([]map[string]interface{}, 0)
-		for _, node := range loop {
-			myNode := convertMxMicroflowNodeToMap(&node)
-			myLoop = append(myLoop, myNode)
-		}
-		// reverse the order so that the sequence starts with ExclusiveMerge
-		slices.Reverse(myLoop)
-		*loops = append(*loops, myLoop)
-	}
 }
 
 func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNode) {
@@ -85,15 +59,14 @@ func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNod
 	}
 }
 
-func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicroflowEdge, objects []MxMicroflowObject, allLoops *[][]MxMicroflowNode) {
+func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicroflowEdge, objects []MxMicroflowObject) {
 
 	current.Parent = parent
 	children := make([]MxMicroflowNode, 0)
 
 	switch current.Type {
 	case "Microflows$ExclusiveMerge":
-		newLoop := make([]MxMicroflowNode, 0)
-		start := backtrack(current, current.Parent, &newLoop)
+		start := backtrack(current, current.Parent)
 		if start == nil {
 			// no loop
 			edges := getMxMicroflowEdgesByOrigin(flows, current.ID)
@@ -105,17 +78,12 @@ func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicro
 					Attributes: edge.Attributes,
 				}
 
-				buildDAG(&edgeNode, current, flows, objects, allLoops)
+				buildDAG(&edgeNode, current, flows, objects)
 				children = append(children, edgeNode)
 			}
 		} else {
 			// loop
-			newSlice := append([][]MxMicroflowNode{}, *allLoops...)
-			newSlice = append(newSlice, newLoop)
-			*allLoops = newSlice
-			// mark the merge node as loop for future checks
-			current.Attributes["Loop"] = true
-			children = append(children, *start)
+			return
 		}
 	case "Microflows$SequenceFlow":
 		obj := getMxMicroflowObjectByID(objects, current.Attributes["DestinationPointer"].(string))
@@ -124,7 +92,7 @@ func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicro
 			ID:         obj.ID,
 			Attributes: obj.Attributes,
 		}
-		buildDAG(&objectNode, current, flows, objects, allLoops)
+		buildDAG(&objectNode, current, flows, objects)
 		children = append(children, objectNode)
 	default:
 		edges := getMxMicroflowEdgesByOrigin(flows, current.ID)
@@ -136,24 +104,21 @@ func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicro
 				Attributes: edge.Attributes,
 			}
 
-			buildDAG(&edgeNode, current, flows, objects, allLoops)
+			buildDAG(&edgeNode, current, flows, objects)
 			children = append(children, edgeNode)
 		}
 	}
 	current.Children = &children
 }
 
-func backtrack(current *MxMicroflowNode, parent *MxMicroflowNode, path *[]MxMicroflowNode) *MxMicroflowNode {
+func backtrack(current *MxMicroflowNode, parent *MxMicroflowNode) *MxMicroflowNode {
 	if parent == nil {
 		return nil
 	}
-	newSlice := append([]MxMicroflowNode{}, *path...)
-	newSlice = append(newSlice, *parent)
-	*path = newSlice
 	if parent.ID == current.ID {
 		return parent
 	}
-	return backtrack(current, parent.Parent, path)
+	return backtrack(current, parent.Parent)
 }
 
 func getMxMicroflowEdgesByOrigin(edges []MxMicroflowEdge, originId string) []MxMicroflowEdge {
