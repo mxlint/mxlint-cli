@@ -28,8 +28,6 @@ Parameters:
   Name: value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -37,9 +35,6 @@ Parameters:
   Name: destination
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: If empty, uses default UTF-8
@@ -47,7 +42,4 @@ Parameters:
   Name: encoding
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.StandardEncodings
 TypeParameters: null

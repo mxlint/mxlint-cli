@@ -29,8 +29,6 @@ Parameters:
   Name: Key
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: This field is required.
@@ -38,7 +36,5 @@ Parameters:
   Name: Value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

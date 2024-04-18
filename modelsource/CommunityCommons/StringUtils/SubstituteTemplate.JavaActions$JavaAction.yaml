@@ -37,8 +37,6 @@ Parameters:
   Name: template
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -46,11 +44,6 @@ Parameters:
   Name: substitute
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: OZff+dYeckiohqRq6CCsdg==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -58,8 +51,6 @@ Parameters:
   Name: useHTMLEncoding
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

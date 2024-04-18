@@ -28,8 +28,6 @@ Parameters:
   Name: Latitude
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: This field is required.
@@ -37,8 +35,6 @@ Parameters:
   Name: Longitude
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: This field is required for use on web.
@@ -46,9 +42,6 @@ Parameters:
   Name: GeocodingProvider
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: NanoflowCommons.GeocodingProvider
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: This field is required for use on web. Note that the keys are accessible
@@ -58,7 +51,5 @@ Parameters:
   Name: ProviderApiKey
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

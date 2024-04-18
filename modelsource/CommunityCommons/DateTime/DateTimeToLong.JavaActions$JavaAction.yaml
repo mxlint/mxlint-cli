@@ -27,6 +27,4 @@ Parameters:
   Name: dateObject
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 TypeParameters: null

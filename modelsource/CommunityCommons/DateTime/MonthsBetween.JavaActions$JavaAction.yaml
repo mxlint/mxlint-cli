@@ -30,8 +30,6 @@ Parameters:
   Name: date1
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: Comparison date
@@ -39,6 +37,4 @@ Parameters:
   Name: date2
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 TypeParameters: null

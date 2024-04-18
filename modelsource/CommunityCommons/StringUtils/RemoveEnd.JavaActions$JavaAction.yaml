@@ -27,8 +27,6 @@ Parameters:
   Name: input
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: String to be removed from the end of the input string, if present
@@ -36,6 +34,4 @@ Parameters:
   Name: toRemove
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

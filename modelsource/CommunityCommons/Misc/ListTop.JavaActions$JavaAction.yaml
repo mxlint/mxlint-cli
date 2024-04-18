@@ -32,13 +32,6 @@ Parameters:
   Name: ObjectList
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ListType
-      Parameter:
-        $Type: CodeActions$ParameterizedEntityType
-        TypeParameterPointer:
-          Data: fjFTOFpvv0KMKOvQQQLL0A==
-          Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: Number of items to take from ObjectList, starting at the first element
@@ -46,8 +39,6 @@ Parameters:
   Name: Top
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: ObjectList

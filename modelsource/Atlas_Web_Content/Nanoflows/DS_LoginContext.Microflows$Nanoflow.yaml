@@ -4,17 +4,6 @@ AllowedModuleRoles:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-Flows:
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
 MarkAsUsed: false
 MicroflowReturnType:
   $Type: DataTypes$ObjectType

@@ -29,7 +29,5 @@ Parameters:
   Name: Location
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

@@ -31,8 +31,6 @@ Parameters:
   Name: url
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -40,9 +38,6 @@ Parameters:
   Name: document
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -50,6 +45,4 @@ Parameters:
   Name: filename
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

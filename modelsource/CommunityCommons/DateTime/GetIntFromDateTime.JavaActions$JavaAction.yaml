@@ -29,8 +29,6 @@ Parameters:
   Name: dateObj
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -38,7 +36,4 @@ Parameters:
   Name: selectorObj
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.DatePartSelector
 TypeParameters: null

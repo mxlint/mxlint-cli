@@ -19,11 +19,6 @@ Parameters:
   Name: source
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: ym9chCkK/EyatYiIwYkZlg==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -31,11 +26,6 @@ Parameters:
   Name: target
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: oIQ8kVSCyEWWxzZbFDeoCg==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -43,8 +33,6 @@ Parameters:
   Name: withAssociations
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

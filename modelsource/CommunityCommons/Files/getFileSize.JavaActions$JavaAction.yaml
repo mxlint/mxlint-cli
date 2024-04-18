@@ -30,7 +30,4 @@ Parameters:
   Name: document
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 TypeParameters: null

@@ -68,7 +68,6 @@ LayoutCall:
         SearchBar:
           $Type: Forms$SearchBar
           NewButtons: null
-          Type: FoldableClosed
           WaitForSearch: false
         SortBar:
           $Type: Forms$GridSortBar

@@ -29,11 +29,6 @@ Parameters:
   Name: FilesToMerge
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ListType
-      Parameter:
-        $Type: CodeActions$ConcreteEntityType
-        Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -41,7 +36,4 @@ Parameters:
   Name: MergedDocument
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 TypeParameters: null

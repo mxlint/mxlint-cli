@@ -9,17 +9,37 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-Flows:
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "false"
+      VariableName: Variable
+      VariableType:
+        $Type: DataTypes$BooleanType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
@@ -45,44 +65,6 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
-Sequence:
-- Attributes:
-    $ID: m5wti1Iol0qtevc4CdWU3Q==
-    $Type: Microflows$StartEvent
-    RelativeMiddlePoint: 100;200
-    Size: 20;20
-  ID: m5wti1Iol0qtevc4CdWU3Q==
-  Type: Microflows$StartEvent
-- Attributes:
-    $ID: mYLLN8S/p0uaQ03xTD+aQw==
-    $Type: Microflows$ActionActivity
-    Action:
-      $ID: QPd/7fvLek6Unxri/1WuSw==
-      $Type: Microflows$CreateVariableAction
-      ErrorHandlingType: Rollback
-      InitialValue: "false"
-      VariableName: Variable
-      VariableType:
-        $ID: e+KXYEF46UaZeVela6cW6g==
-        $Type: DataTypes$BooleanType
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-    RelativeMiddlePoint: 388;200
-    Size: 120;60
-  ID: mYLLN8S/p0uaQ03xTD+aQw==
-  Type: Microflows$ActionActivity
-- Attributes:
-    $ID: CL27rrYPYkSYdO5b8N+e1Q==
-    $Type: Microflows$EndEvent
-    Documentation: ""
-    RelativeMiddlePoint: 700;200
-    ReturnValue: ""
-    Size: 20;20
-  ID: CL27rrYPYkSYdO5b8N+e1Q==
-  Type: Microflows$EndEvent
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

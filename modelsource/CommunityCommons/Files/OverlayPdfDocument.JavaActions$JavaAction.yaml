@@ -28,9 +28,6 @@ Parameters:
   Name: generatedDocument
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -38,9 +35,6 @@ Parameters:
   Name: overlay
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -48,6 +42,4 @@ Parameters:
   Name: onTopOfContent
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 TypeParameters: null

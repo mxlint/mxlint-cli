@@ -37,8 +37,6 @@ Parameters:
   Name: html
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: At least one policy is required.
@@ -46,9 +44,6 @@ Parameters:
   Name: policy1
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: May be empty.
@@ -56,9 +51,6 @@ Parameters:
   Name: policy2
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: May be empty.
@@ -66,9 +58,6 @@ Parameters:
   Name: policy3
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: May be empty.
@@ -76,9 +65,6 @@ Parameters:
   Name: policy4
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: May be empty.
@@ -86,9 +72,6 @@ Parameters:
   Name: policy5
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: May be empty.
@@ -96,7 +79,4 @@ Parameters:
   Name: policy6
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.SanitizerPolicy
 TypeParameters: null

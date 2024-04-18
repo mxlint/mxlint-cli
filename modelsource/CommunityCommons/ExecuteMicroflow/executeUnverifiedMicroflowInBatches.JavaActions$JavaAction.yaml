@@ -30,8 +30,6 @@ Parameters:
   Name: xpath
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: modulename.microflowname
@@ -39,8 +37,6 @@ Parameters:
   Name: microflowName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -48,8 +44,6 @@ Parameters:
   Name: batchsize
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -57,8 +51,6 @@ Parameters:
   Name: waitUntilFinished
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -66,6 +58,4 @@ Parameters:
   Name: ascending
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 TypeParameters: null

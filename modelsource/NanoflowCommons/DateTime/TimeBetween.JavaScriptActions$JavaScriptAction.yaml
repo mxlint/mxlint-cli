@@ -29,8 +29,6 @@ Parameters:
   Name: startDate
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -38,8 +36,6 @@ Parameters:
   Name: endDate
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DateTimeType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: 'Must be one of: "MILLISECOND"|"SECOND"|"MINUTE"|"HOUR"|"DAY"'
@@ -47,7 +43,5 @@ Parameters:
   Name: unitOfTime
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

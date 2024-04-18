@@ -8,5 +8,3 @@ Excluded: false
 ExportLevel: Hidden
 ExposedToClient: false
 Name: MergeMultiplePdfs_MaxAtOnce
-Type:
-  $Type: DataTypes$IntegerType

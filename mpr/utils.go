@@ -17,7 +17,7 @@ func SetLogger(logger *logrus.Logger) {
 	log = logger
 }
 
-var ignoredAttributes = []string{"$ID", "OriginPointer", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
+var ignoredAttributes = []string{"$ID", "Flows", "OriginPointer", "Type", "ID", "LineType", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
 
 func Contains(slice []string, str string) bool {
 	for _, item := range slice {
@@ -35,7 +35,6 @@ func ignoreAttributes(data bson.M, ignore []string) bson.M {
 		ignoreKey := false
 
 		for _, ignoreAttr := range ignore {
-			//fmt.Printf("'%v' == '%v'\n", key, ignoreAttr)
 			if key == ignoreAttr {
 				ignoreKey = true
 				break
@@ -70,6 +69,14 @@ func ignoreAttributes(data bson.M, ignore []string) bson.M {
 					}
 				}
 				result[key] = slice
+			case []map[string]interface{}:
+				var slice []map[string]interface{}
+				for _, item := range v {
+					slice = append(slice, ignoreAttributes(item, ignore))
+				}
+				result[key] = slice
+			case map[string]interface{}:
+				result[key] = ignoreAttributes(v, ignore)
 			default:
 				result[key] = value
 			}

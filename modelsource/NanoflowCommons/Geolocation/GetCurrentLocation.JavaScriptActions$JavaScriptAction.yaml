@@ -35,8 +35,6 @@ Parameters:
   Name: Timeout
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: The maximum age (in milliseconds) of a possible cached position that
@@ -47,8 +45,6 @@ Parameters:
   Name: MaximumAge
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: Use a higher accuracy method to determine the current location. Setting
@@ -57,7 +53,5 @@ Parameters:
   Name: HighAccuracy
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 Platform: All
 TypeParameters: null

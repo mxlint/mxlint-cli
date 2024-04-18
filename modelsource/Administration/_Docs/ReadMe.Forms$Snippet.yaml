@@ -6,7 +6,6 @@ Excluded: false
 ExportLevel: Hidden
 Name: ReadMe
 Parameters: null
-Type: Web
 Widgets:
 - $Type: Forms$DynamicText
   Appearance:

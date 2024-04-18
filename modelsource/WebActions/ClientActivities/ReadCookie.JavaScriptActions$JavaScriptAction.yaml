@@ -27,7 +27,5 @@ Parameters:
   Name: key
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: Web
 TypeParameters: null

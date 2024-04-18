@@ -9,39 +9,180 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-Flows:
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$EnumerationCase
-    Value: "false"
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$EnumerationCase
-    Value: "true"
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "false"
+      VariableName: Variable
+      VariableType:
+        $Type: DataTypes$BooleanType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
+    Caption: left or right?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $Variable
+  Splits:
+  - - Attributes:
+        $ID: +8KCFZIC7ki5FLBWb/kDJw==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: -15;0
+        DestinationConnectionIndex: 3
+        DestinationPointer: rCM3lK5dOUmpzH48x5Muow==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: aN4Nm1Ztw0e8gDQvOw2mTQ==
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+        OriginBezierVector: 15;0
+        OriginConnectionIndex: 1
+        OriginPointer: sHFKcFzzTkGhYKvAfPxPHA==
+      ID: +8KCFZIC7ki5FLBWb/kDJw==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: rCM3lK5dOUmpzH48x5Muow==
+        $Type: Microflows$ExclusiveMerge
+        RelativeMiddlePoint: 673;170
+        Size: 90;60
+      ID: rCM3lK5dOUmpzH48x5Muow==
+      Type: Microflows$ExclusiveMerge
+    - Attributes:
+        $ID: 8vn7AWccEUuAh8WI7ecEuw==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: -15;0
+        DestinationConnectionIndex: 3
+        DestinationPointer: cgzL3/ggkUSTsdwnrFQ2PA==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: xUuozi7+DkaKHOnHCW2EZQ==
+          $Type: Microflows$NoCase
+        OriginBezierVector: 15;0
+        OriginConnectionIndex: 1
+        OriginPointer: rCM3lK5dOUmpzH48x5Muow==
+      ID: 8vn7AWccEUuAh8WI7ecEuw==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: cgzL3/ggkUSTsdwnrFQ2PA==
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        RelativeMiddlePoint: 775;170
+        ReturnValue: ""
+        Size: 20;20
+      ID: cgzL3/ggkUSTsdwnrFQ2PA==
+      Type: Microflows$EndEvent
+  - - Attributes:
+        $ID: oOMb9XNPJECBUBECXd+EKw==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: 0;-30
+        DestinationConnectionIndex: 0
+        DestinationPointer: em5G1jBR3EubCFMEV0do/g==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: Jd4hAUJwpE6gt6868Ytiqw==
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+        OriginBezierVector: 0;15
+        OriginConnectionIndex: 2
+        OriginPointer: sHFKcFzzTkGhYKvAfPxPHA==
+      ID: oOMb9XNPJECBUBECXd+EKw==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: em5G1jBR3EubCFMEV0do/g==
+        $Type: Microflows$ActionActivity
+        Action:
+          $ID: x8OFtshswUaedW8pWfD2DA==
+          $Type: Microflows$LogMessageAction
+          ErrorHandlingType: Rollback
+          IncludeLatestStackTrace: false
+          Level: Info
+          MessageTemplate:
+            $ID: 4Uf15FiYjUW21IY1dJvWEA==
+            $Type: Microflows$StringTemplate
+            Parameters: []
+            Text: test
+          Node: '''XXX'''
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+        RelativeMiddlePoint: 420;300
+        Size: 120;60
+      ID: em5G1jBR3EubCFMEV0do/g==
+      Type: Microflows$ActionActivity
+    - Attributes:
+        $ID: i0DlGkV9ZkSkuUgg8D0CIg==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: 0;15
+        DestinationConnectionIndex: 2
+        DestinationPointer: rCM3lK5dOUmpzH48x5Muow==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: +2Dc4CHizkOnL9xyPXkCRA==
+          $Type: Microflows$NoCase
+        OriginBezierVector: 30;0
+        OriginConnectionIndex: 1
+        OriginPointer: em5G1jBR3EubCFMEV0do/g==
+      ID: i0DlGkV9ZkSkuUgg8D0CIg==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: rCM3lK5dOUmpzH48x5Muow==
+        $Type: Microflows$ExclusiveMerge
+        RelativeMiddlePoint: 673;170
+        Size: 90;60
+      ID: rCM3lK5dOUmpzH48x5Muow==
+      Type: Microflows$ExclusiveMerge
+    - Attributes:
+        $ID: 8vn7AWccEUuAh8WI7ecEuw==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: -15;0
+        DestinationConnectionIndex: 3
+        DestinationPointer: cgzL3/ggkUSTsdwnrFQ2PA==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: xUuozi7+DkaKHOnHCW2EZQ==
+          $Type: Microflows$NoCase
+        OriginBezierVector: 15;0
+        OriginConnectionIndex: 1
+        OriginPointer: rCM3lK5dOUmpzH48x5Muow==
+      ID: 8vn7AWccEUuAh8WI7ecEuw==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: cgzL3/ggkUSTsdwnrFQ2PA==
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        RelativeMiddlePoint: 775;170
+        ReturnValue: ""
+        Size: 20;20
+      ID: cgzL3/ggkUSTsdwnrFQ2PA==
+      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:

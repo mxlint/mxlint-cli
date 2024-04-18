@@ -18,11 +18,6 @@ Parameters:
   Name: item
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: cD8t8mJLq0CzO0p1tBAATw==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -30,8 +25,6 @@ Parameters:
   Name: member
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

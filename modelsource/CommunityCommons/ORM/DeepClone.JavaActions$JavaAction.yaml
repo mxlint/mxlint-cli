@@ -30,11 +30,6 @@ Parameters:
   Name: source
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: O3iibBnNMk6NcKstN+0GKQ==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -42,11 +37,6 @@ Parameters:
   Name: target
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: le3k7RNOR0OVlyjijdH/HA==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -54,8 +44,6 @@ Parameters:
   Name: membersToSkip
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -63,8 +51,6 @@ Parameters:
   Name: membersToKeep
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -72,8 +58,6 @@ Parameters:
   Name: reverseAssociations
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -81,8 +65,6 @@ Parameters:
   Name: excludeEntities
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -90,8 +72,6 @@ Parameters:
   Name: excludeModules
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

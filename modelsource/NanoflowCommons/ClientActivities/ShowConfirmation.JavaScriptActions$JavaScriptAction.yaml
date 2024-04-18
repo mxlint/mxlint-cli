@@ -28,8 +28,6 @@ Parameters:
   Name: titleCaption
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: This field is required.
@@ -37,8 +35,6 @@ Parameters:
   Name: Question
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: Set to empty to use default text 'Cancel'.
@@ -46,8 +42,6 @@ Parameters:
   Name: CancelButtonCaption
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: Set to empty to use default text 'OK'.
@@ -55,7 +49,5 @@ Parameters:
   Name: ProceedButtonCaption
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null
