@@ -27,8 +27,6 @@ Parameters:
   Name: iconUrl16x16
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -36,8 +34,6 @@ Parameters:
   Name: iconUrl32x32
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -45,7 +41,5 @@ Parameters:
   Name: appleTouchIconUrl
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: Web
 TypeParameters: null

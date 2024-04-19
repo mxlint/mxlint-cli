@@ -32,9 +32,6 @@ Parameters:
   Name: fileToClone
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.Image
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -42,9 +39,6 @@ Parameters:
   Name: cloneTarget
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.Image
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -52,8 +46,6 @@ Parameters:
   Name: thumbWidth
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -61,6 +53,4 @@ Parameters:
   Name: thumbHeight
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 TypeParameters: null

@@ -17,11 +17,6 @@ Parameters:
   Name: mxObject
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: XJCcgNqgGEqJyovw8ja2oA==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

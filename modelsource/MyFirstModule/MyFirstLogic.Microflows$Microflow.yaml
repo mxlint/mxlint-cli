@@ -9,12 +9,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-Flows:
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:

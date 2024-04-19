@@ -28,7 +28,4 @@ Parameters:
   Name: ImageParameter
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.Image
 TypeParameters: null

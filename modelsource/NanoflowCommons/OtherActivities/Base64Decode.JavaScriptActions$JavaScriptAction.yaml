@@ -27,7 +27,5 @@ Parameters:
   Name: base64
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

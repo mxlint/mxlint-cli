@@ -15,11 +15,6 @@ Parameters:
   Name: item
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: gjJ3caaayEyFxfEkGWTieQ==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

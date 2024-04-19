@@ -27,8 +27,6 @@ Parameters:
   Name: Url
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: The text to share.
@@ -36,8 +34,6 @@ Parameters:
   Name: Text
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: An optional title for the message or url to share. Only some share
@@ -46,7 +42,5 @@ Parameters:
   Name: Title
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

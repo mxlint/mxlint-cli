@@ -28,8 +28,6 @@ Parameters:
   Name: key
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -37,6 +35,4 @@ Parameters:
   Name: valueToEncrypt
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

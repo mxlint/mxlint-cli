@@ -27,11 +27,6 @@ Parameters:
   Name: EntityObject
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: mvDxrH+Q6U+d6V8d2dEo2w==
-        Subtype: 0
 Platform: All
 TypeParameters:
 - $Type: CodeActions$TypeParameter

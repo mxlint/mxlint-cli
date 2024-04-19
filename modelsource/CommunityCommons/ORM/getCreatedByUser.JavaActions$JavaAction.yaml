@@ -16,11 +16,6 @@ Parameters:
   Name: thing
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: y6yGGyDdC0SYK9Ubh5nqSw==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

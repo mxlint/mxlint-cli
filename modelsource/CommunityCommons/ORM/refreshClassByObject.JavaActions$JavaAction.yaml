@@ -18,11 +18,6 @@ Parameters:
   Name: instance
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: HkSBQ/Cs8U6eYsouQ2kRjA==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

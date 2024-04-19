@@ -31,9 +31,6 @@ Parameters:
   Name: fileToClone
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -41,7 +38,4 @@ Parameters:
   Name: cloneTarget
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.FileDocument
 TypeParameters: null

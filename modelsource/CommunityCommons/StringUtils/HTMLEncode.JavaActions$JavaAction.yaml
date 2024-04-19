@@ -31,6 +31,4 @@ Parameters:
   Name: value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

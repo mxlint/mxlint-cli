@@ -27,8 +27,6 @@ Parameters:
   Name: datagridName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -36,8 +34,6 @@ Parameters:
   Name: fileName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -45,8 +41,6 @@ Parameters:
   Name: sheetName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -54,8 +48,6 @@ Parameters:
   Name: includeColumnHeaders
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: The number of items fetched and exported per request.
@@ -63,7 +55,5 @@ Parameters:
   Name: chunkSize
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 Platform: All
 TypeParameters: null

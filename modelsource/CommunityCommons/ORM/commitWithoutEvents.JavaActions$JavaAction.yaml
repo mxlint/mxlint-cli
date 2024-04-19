@@ -17,11 +17,6 @@ Parameters:
   Name: subject
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: iSiwqoDkSUmcNsHy2g49Ew==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

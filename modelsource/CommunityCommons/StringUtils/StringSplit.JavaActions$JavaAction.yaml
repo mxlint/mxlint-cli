@@ -30,8 +30,6 @@ Parameters:
   Name: inputString
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -39,6 +37,4 @@ Parameters:
   Name: splitParameter
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

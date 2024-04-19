@@ -28,8 +28,6 @@ Parameters:
   Name: Recipient
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: To
   Description: The Carbon Copy recipient, or recipients, separated by comma's.
@@ -37,8 +35,6 @@ Parameters:
   Name: Cc
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: To
   Description: The Blind Carbon Copy recipient, or recipients, separated by comma's.
@@ -46,8 +42,6 @@ Parameters:
   Name: Bcc
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: Content
   Description: ""
@@ -55,8 +49,6 @@ Parameters:
   Name: Subject
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: Content
   Description: ""
@@ -64,7 +56,5 @@ Parameters:
   Name: Body
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters: null

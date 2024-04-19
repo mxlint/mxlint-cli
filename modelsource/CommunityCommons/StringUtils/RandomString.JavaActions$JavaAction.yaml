@@ -27,6 +27,4 @@ Parameters:
   Name: length
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 TypeParameters: null

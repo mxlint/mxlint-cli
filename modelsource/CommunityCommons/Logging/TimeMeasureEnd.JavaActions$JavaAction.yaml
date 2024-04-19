@@ -29,8 +29,6 @@ Parameters:
   Name: TimerName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -38,9 +36,6 @@ Parameters:
   Name: Loglevel
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: CommunityCommons.LogLevel
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -48,6 +43,4 @@ Parameters:
   Name: message
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

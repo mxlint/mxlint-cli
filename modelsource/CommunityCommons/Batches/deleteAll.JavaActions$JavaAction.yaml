@@ -27,6 +27,4 @@ Parameters:
   Name: entityType
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

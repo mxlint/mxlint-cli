@@ -27,8 +27,6 @@ Parameters:
   Name: LatitudePoint1
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DecimalType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -36,8 +34,6 @@ Parameters:
   Name: LongitudePoint1
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DecimalType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -45,8 +41,6 @@ Parameters:
   Name: LatitudePoint2
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DecimalType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -54,8 +48,6 @@ Parameters:
   Name: LongitudePoint2
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$DecimalType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -63,8 +55,5 @@ Parameters:
   Name: unit
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: NanoflowCommons.Enum_DistanceUnit
 Platform: All
 TypeParameters: null

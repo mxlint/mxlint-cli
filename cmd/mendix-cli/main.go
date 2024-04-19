@@ -21,6 +21,7 @@ func main() {
 		Run: func(cmd *cobra.Command, args []string) {
 			inputDirectory, _ := cmd.Flags().GetString("input")
 			outputDirectory, _ := cmd.Flags().GetString("output")
+			raw, _ := cmd.Flags().GetBool("raw")
 			verbose, _ := cmd.Flags().GetBool("verbose")
 
 			log := logrus.New()
@@ -31,12 +32,13 @@ func main() {
 			}
 
 			mpr.SetLogger(log)
-			mpr.ExportModel(inputDirectory, outputDirectory)
+			mpr.ExportModel(inputDirectory, outputDirectory, raw)
 		},
 	}
 
 	cmdExportModel.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
 	cmdExportModel.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
+	cmdExportModel.Flags().Bool("raw", false, "If set, the output yaml will include all attributes as they are in the model. Otherwise, only the relevant attributes are included. You should never need this. Only useful when you are developing new functionalities for this tool.")
 	cmdExportModel.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdExportModel)
 

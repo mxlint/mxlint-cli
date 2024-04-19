@@ -19,6 +19,4 @@ Parameters:
   Name: objectType
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

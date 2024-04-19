@@ -27,8 +27,6 @@ Parameters:
   Name: base64
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -36,8 +34,5 @@ Parameters:
   Name: image
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.Image
 Platform: All
 TypeParameters: null

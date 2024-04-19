@@ -22,8 +22,6 @@ Parameters:
   Name: username
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -31,8 +29,6 @@ Parameters:
   Name: sudoContext
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -40,8 +36,6 @@ Parameters:
   Name: arg1name
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -49,11 +43,6 @@ Parameters:
   Name: arg1value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: miQdbWasck6Q0t8Jl8jNUA==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

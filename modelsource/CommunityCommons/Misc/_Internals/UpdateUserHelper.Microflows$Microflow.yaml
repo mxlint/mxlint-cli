@@ -12,39 +12,205 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-Flows:
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$EnumerationCase
-    Value: "false"
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$EnumerationCase
-    Value: "true"
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
-- $Type: Microflows$SequenceFlow
-  IsErrorHandler: false
-  LineType: BezierCurve
-  NewCaseValue:
-    $Type: Microflows$NoCase
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: UserRole
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: System.UserRole
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: true
+        XpathConstraint: '[Name = $Role]'
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
+    Caption: found?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $UserRole != empty
+  Splits:
+  - - Attributes:
+        $ID: qevj4zhO70+uzsM2B+JyZA==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: 0;-30
+        DestinationConnectionIndex: 0
+        DestinationPointer: iXLtC0EU3kau0Yi/vBA8EA==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: GHsKkaS5rkStBPBsHeKa9g==
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+        OriginBezierVector: 0;15
+        OriginConnectionIndex: 2
+        OriginPointer: QFNuCqFG90CpaOUkmHKIvA==
+      ID: qevj4zhO70+uzsM2B+JyZA==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: iXLtC0EU3kau0Yi/vBA8EA==
+        $Type: Microflows$ActionActivity
+        Action:
+          $ID: 9G8+DoDSwE6bl9b+d+XGZA==
+          $Type: Microflows$LogMessageAction
+          ErrorHandlingType: Rollback
+          IncludeLatestStackTrace: false
+          Level: Error
+          MessageTemplate:
+            $ID: aHuMrj+26E23JqhHWNnJfw==
+            $Type: Microflows$StringTemplate
+            Parameters:
+            - $ID: +blbTHZBlEegJEdKk52dxA==
+              $Type: Microflows$TemplateParameter
+              Expression: $Role
+            Text: Role {1} not found. User could not be created.
+          Node: |
+            getKey(CommunityCommons.LogNodes.CommunityCommons)
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+        RelativeMiddlePoint: 265;150
+        Size: 120;60
+      ID: iXLtC0EU3kau0Yi/vBA8EA==
+      Type: Microflows$ActionActivity
+    - Attributes:
+        $ID: aWjNSAnuNkCXKhoKttFIjw==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: 0;-15
+        DestinationConnectionIndex: 0
+        DestinationPointer: 81K9tHbJBEiJy7H9kXKvyw==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: 4k3XSz2k6UC5TLxW6N0BAQ==
+          $Type: Microflows$NoCase
+        OriginBezierVector: 0;30
+        OriginConnectionIndex: 2
+        OriginPointer: iXLtC0EU3kau0Yi/vBA8EA==
+      ID: aWjNSAnuNkCXKhoKttFIjw==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: 81K9tHbJBEiJy7H9kXKvyw==
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        RelativeMiddlePoint: 265;250
+        ReturnValue: ""
+        Size: 20;20
+      ID: 81K9tHbJBEiJy7H9kXKvyw==
+      Type: Microflows$EndEvent
+  - - Attributes:
+        $ID: 6IUJut5AGUKwqKT1ERlq+A==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: -30;0
+        DestinationConnectionIndex: 3
+        DestinationPointer: jguhvecha0OceFFabIwn3g==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: qR2NOihiq0ygqUvq6BjsaQ==
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+        OriginBezierVector: 15;0
+        OriginConnectionIndex: 1
+        OriginPointer: QFNuCqFG90CpaOUkmHKIvA==
+      ID: 6IUJut5AGUKwqKT1ERlq+A==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: jguhvecha0OceFFabIwn3g==
+        $Type: Microflows$ActionActivity
+        Action:
+          $ID: ZCxAUcNrUk6q2eC9num/jA==
+          $Type: Microflows$ChangeAction
+          ChangeVariableName: User
+          Commit: "Yes"
+          ErrorHandlingType: Rollback
+          Items:
+          - $ID: 7R7I0c+R9kCWNrc4mKCvwg==
+            $Type: Microflows$ChangeActionItem
+            Association: ""
+            Attribute: System.User.Name
+            Type: Set
+            Value: $Username
+          - $ID: YzDrb34ehEy3FlUixc+a6Q==
+            $Type: Microflows$ChangeActionItem
+            Association: ""
+            Attribute: System.User.Password
+            Type: Set
+            Value: $Password
+          - $ID: wOADrGc7OkK66HKQYi0LHw==
+            $Type: Microflows$ChangeActionItem
+            Association: ""
+            Attribute: System.User.WebServiceUser
+            Type: Set
+            Value: $WebserviceUser
+          - $ID: 59NLIguUWkOOIVgEBROhxg==
+            $Type: Microflows$ChangeActionItem
+            Association: System.UserRoles
+            Attribute: ""
+            Type: Set
+            Value: $UserRole
+          RefreshInClient: false
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+        RelativeMiddlePoint: 565;50
+        Size: 120;60
+      ID: jguhvecha0OceFFabIwn3g==
+      Type: Microflows$ActionActivity
+    - Attributes:
+        $ID: wIBQO0B2qEKnp7Fh5MRpGg==
+        $Type: Microflows$SequenceFlow
+        DestinationBezierVector: -15;0
+        DestinationConnectionIndex: 3
+        DestinationPointer: yLN/qFVR+0WwfK/hiDt83Q==
+        IsErrorHandler: false
+        LineType: BezierCurve
+        NewCaseValue:
+          $ID: qn6Qc5IXf0ODwFE5BUr/MA==
+          $Type: Microflows$NoCase
+        OriginBezierVector: 30;0
+        OriginConnectionIndex: 1
+        OriginPointer: jguhvecha0OceFFabIwn3g==
+      ID: wIBQO0B2qEKnp7Fh5MRpGg==
+      Type: Microflows$SequenceFlow
+    - Attributes:
+        $ID: yLN/qFVR+0WwfK/hiDt83Q==
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        RelativeMiddlePoint: 720;50
+        ReturnValue: ""
+        Size: 20;20
+      ID: yLN/qFVR+0WwfK/hiDt83Q==
+      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
@@ -90,22 +256,18 @@ ObjectCollection:
       - $Type: Microflows$ChangeActionItem
         Association: ""
         Attribute: System.User.Name
-        Type: Set
         Value: $Username
       - $Type: Microflows$ChangeActionItem
         Association: ""
         Attribute: System.User.Password
-        Type: Set
         Value: $Password
       - $Type: Microflows$ChangeActionItem
         Association: ""
         Attribute: System.User.WebServiceUser
-        Type: Set
         Value: $WebserviceUser
       - $Type: Microflows$ChangeActionItem
         Association: System.UserRoles
         Attribute: ""
-        Type: Set
         Value: $UserRole
       RefreshInClient: false
     AutoGenerateCaption: true

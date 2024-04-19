@@ -28,11 +28,6 @@ Parameters:
   Name: ObjectToRefresh
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: GGyXIp5mvkaCcD/fOEEvsA==
-        Subtype: 0
 Platform: All
 TypeParameters:
 - $Type: CodeActions$TypeParameter

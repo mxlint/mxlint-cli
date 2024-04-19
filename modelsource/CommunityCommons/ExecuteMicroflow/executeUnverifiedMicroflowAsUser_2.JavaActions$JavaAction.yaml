@@ -15,8 +15,6 @@ Parameters:
   Name: microflowName
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -24,8 +22,6 @@ Parameters:
   Name: username
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -33,8 +29,6 @@ Parameters:
   Name: sudoContext
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -42,8 +36,6 @@ Parameters:
   Name: arg1name
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -51,11 +43,6 @@ Parameters:
   Name: arg1value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: eeE6E1TvRUCHvJO7Le/lWw==
-        Subtype: 0
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -63,8 +50,6 @@ Parameters:
   Name: arg2name
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -72,11 +57,6 @@ Parameters:
   Name: arg2value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ParameterizedEntityType
-      TypeParameterPointer:
-        Data: J8TAAZ4kPEuFqxbEmq2a/Q==
-        Subtype: 0
 TypeParameters:
 - $Type: CodeActions$TypeParameter
   Name: TypeParameter

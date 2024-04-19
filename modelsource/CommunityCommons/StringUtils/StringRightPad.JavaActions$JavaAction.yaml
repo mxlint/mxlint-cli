@@ -30,8 +30,6 @@ Parameters:
   Name: value
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -39,8 +37,6 @@ Parameters:
   Name: amount
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaActions$JavaActionParameter
   Category: ""
   Description: ""
@@ -48,6 +44,4 @@ Parameters:
   Name: fillCharacter
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 TypeParameters: null

@@ -1,6 +1,9 @@
 BuildVersion: 10.9.0.31759
 Modules:
 - Attributes:
+    $ID:
+      Data: EBEQuiOQm0CiZysqR/iiQw==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 75fda84f-6c3d-460d-98eb-50cdbfd3b53d
     AppStorePackageId: 109515
@@ -13,6 +16,9 @@ Modules:
   ID: EBEQuiOQm0CiZysqR/iiQw==
   Name: NanoflowCommons
 - Attributes:
+    $ID:
+      Data: N+Ifuf/Of0mwB5I9DLbDOA==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 0404ab0c-4521-419c-9a90-b804e7038da3
     AppStorePackageId: 117187
@@ -25,6 +31,9 @@ Modules:
   ID: N+Ifuf/Of0mwB5I9DLbDOA==
   Name: Atlas_Core
 - Attributes:
+    $ID:
+      Data: TJ9xCCh3h0mdTVo+0PSB5A==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 1d7b7a3f-84e6-4fc1-baf0-afbd0ee23b13
     AppStorePackageId: 23513
@@ -37,6 +46,9 @@ Modules:
   ID: TJ9xCCh3h0mdTVo+0PSB5A==
   Name: Administration
 - Attributes:
+    $ID:
+      Data: ZSsTntE9bkWOq8+tPUe98w==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 08060dc1-8f61-4969-8f90-707c74fc0cc1
     AppStorePackageId: 117183
@@ -49,6 +61,9 @@ Modules:
   ID: ZSsTntE9bkWOq8+tPUe98w==
   Name: Atlas_Web_Content
 - Attributes:
+    $ID:
+      Data: anwcVtQfBESck7qCSr6wYA==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: de8fdcee-11ea-4431-aead-8caba99a1c60
     AppStorePackageId: 205506
@@ -61,6 +76,9 @@ Modules:
   ID: anwcVtQfBESck7qCSr6wYA==
   Name: FeedbackModule
 - Attributes:
+    $ID:
+      Data: rOLa4hehRU2AzTf/EaZ+Hw==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: b0376c9a-37f9-4c96-bca9-491d20f3e975
     AppStorePackageId: 116540
@@ -73,6 +91,9 @@ Modules:
   ID: rOLa4hehRU2AzTf/EaZ+Hw==
   Name: DataWidgets
 - Attributes:
+    $ID:
+      Data: tklS1TNqIECWUG8EyKUaDw==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 87f3694f-b0d1-432e-a150-df1753dbd0e8
     AppStorePackageId: 114337
@@ -85,6 +106,9 @@ Modules:
   ID: tklS1TNqIECWUG8EyKUaDw==
   Name: WebActions
 - Attributes:
+    $ID:
+      Data: xn10Fre2rkKqvyVdyirurw==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: ""
     AppStorePackageId: 0
@@ -97,6 +121,9 @@ Modules:
   ID: xn10Fre2rkKqvyVdyirurw==
   Name: MyFirstModule
 - Attributes:
+    $ID:
+      Data: CJwh54tYwk+hc1+bCPwjDg==
+      Subtype: 0
     $Type: Projects$ModuleImpl
     AppStoreGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
     AppStorePackageId: 170

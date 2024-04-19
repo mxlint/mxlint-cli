@@ -27,9 +27,6 @@ Parameters:
   Name: Picture
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$ConcreteEntityType
-      Entity: System.Image
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: ""
@@ -37,8 +34,6 @@ Parameters:
   Name: showConfirmationScreen
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: The default picture quality is 'Medium'.
@@ -46,9 +41,6 @@ Parameters:
   Name: pictureQuality
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$EnumerationType
-      Enumeration: WebActions.PictureQuality
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: Custom picture quality
   Description: The picture will be scaled to this maximum pixel width, while maintaining
@@ -57,8 +49,6 @@ Parameters:
   Name: maximumWidth
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: Custom picture quality
   Description: The picture will be scaled to this maximum pixel height, while maintaining
@@ -67,7 +57,5 @@ Parameters:
   Name: maximumHeight
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$IntegerType
 Platform: Web
 TypeParameters: null

@@ -27,8 +27,6 @@ Parameters:
   Name: message
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 - $Type: JavaScriptActions$JavaScriptActionParameter
   Category: ""
   Description: Block the user interface immediately.
@@ -36,7 +34,5 @@ Parameters:
   Name: blocking
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$BooleanType
 Platform: All
 TypeParameters: null

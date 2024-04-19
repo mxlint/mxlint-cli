@@ -40,8 +40,6 @@ Parameters:
   Name: ObjectGuid
   ParameterType:
     $Type: CodeActions$BasicParameterType
-    Type:
-      $Type: CodeActions$StringType
 Platform: All
 TypeParameters:
 - $Type: CodeActions$TypeParameter
