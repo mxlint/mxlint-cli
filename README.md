@@ -130,4 +130,4 @@ make test
 
 ## License
 
-This project is an initiative of CINAQ. It is licensed under the [MIT License](./LICENSE). [CINAQ](https://cinaq.com) is a registered trademark of CINAQ B.V.. Mendix is a registered trademark of Mendix B.V. All other trademarks are the property of their respective owners.
+This project is an initiative of CINAQ. See [LICENSE](./LICENSE). [CINAQ](https://cinaq.com) is a registered trademark of CINAQ B.V.. Mendix is a registered trademark of Mendix B.V. All other trademarks are the property of their respective owners.
