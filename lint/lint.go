@@ -208,8 +208,6 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 	result := rsmap["allow"].(bool)
 	errors := rsmap["errors"].([]interface{})
 	if !result {
-		buf := new(strings.Builder)
-		rego.PrintTraceWithLocation(buf, r)
 		myErrors := make([]string, 0)
 		for _, err := range errors {
 			log.Warnf("Rule failed: %s", err)
@@ -218,7 +216,6 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 		failure = &Failure{
 			Message: strings.Join(myErrors, "\n"),
 			Type:    "AssertionError",
-			Data:    buf.String(),
 		}
 	}
 	testcase := &Testcase{
