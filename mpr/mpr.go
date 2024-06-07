@@ -14,13 +14,13 @@ import (
 	_ "github.com/glebarez/go-sqlite"
 )
 
-func ExportModel(inputDirectory string, outputDirectory string, raw bool) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string) error {
 	err := filepath.Walk(inputDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
-			exportMPR(path, outputDirectory, raw)
+			exportMPR(path, outputDirectory, raw, mode)
 		}
 		return nil
 	})
@@ -162,7 +162,7 @@ func getMxDocumentPath(containerID string, folders []MxFolder) string {
 	return ""
 }
 
-func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
+func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocument, error) {
 	var documents []MxDocument
 	documentTypes := []string{"ProjectDocuments", "DomainModel", "ModuleSettings", "ModuleSecurity", "Documents"}
 
@@ -180,7 +180,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 				Path:       getMxDocumentPath(unit.ContainerID, folders),
 				Attributes: unit.Contents,
 			}
-			if unit.Contents["$Type"] == "Microflows$Microflow" {
+			if unit.Contents["$Type"] == "Microflows$Microflow" && mode == "advanced" {
 				myDocument = transformMicroflow(myDocument)
 			}
 			documents = append(documents, myDocument)
@@ -232,7 +232,7 @@ func getMxUnits(MPRFilePath string) ([]MxUnit, error) {
 	return units, nil
 }
 
-func exportUnits(MPRFilePath string, outputDirectory string, raw bool) error {
+func exportUnits(MPRFilePath string, outputDirectory string, raw bool, mode string) error {
 
 	units, err := getMxUnits(MPRFilePath)
 	if err != nil {
@@ -242,7 +242,7 @@ func exportUnits(MPRFilePath string, outputDirectory string, raw bool) error {
 	if err != nil {
 		return fmt.Errorf("error getting folders: %v", err)
 	}
-	documents, err := getMxDocuments(units, folders)
+	documents, err := getMxDocuments(units, folders, mode)
 	if err != nil {
 		return fmt.Errorf("error getting documents: %v", err)
 	}
@@ -284,13 +284,13 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
-func exportMPR(MPRFilePath string, outputDirectory string, raw bool) error {
+func exportMPR(MPRFilePath string, outputDirectory string, raw bool, mode string) error {
 	log.Infof("Exporting %s to %s", MPRFilePath, outputDirectory)
 	if err := exportMetadata(MPRFilePath, outputDirectory); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
-	if err := exportUnits(MPRFilePath, outputDirectory, raw); err != nil {
+	if err := exportUnits(MPRFilePath, outputDirectory, raw, mode); err != nil {
 		return fmt.Errorf("error exporting units: %v", err)
 	}
 	log.Infof("Completed %s", MPRFilePath)
