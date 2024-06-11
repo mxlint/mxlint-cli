@@ -35,7 +35,7 @@ jobs:
 
     - name: Test subcommand export-model
       run: |
-        bin/mendix-cli export-model -i resources/app
+        bin/mendix-cli export-model --mode advanced -i resources/app
         git diff --exit-code modelsource 
 
     - name: Test subcommand lint
