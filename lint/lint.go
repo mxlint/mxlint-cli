@@ -3,6 +3,7 @@ package lint
 import (
 	"context"
 	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -28,7 +29,7 @@ func printTestsuite(ts Testsuite) {
 	fmt.Println("")
 }
 
-func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) error {
+func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
 	testsuites := make([]Testsuite, 0)
 	failuresCount := 0
 	filepath.Walk(policiesPath, func(path string, info os.FileInfo, err error) error {
@@ -56,6 +57,21 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string) er
 
 		encoder := xml.NewEncoder(file)
 		encoder.Indent("", "  ")
+		testsuitesContainer := TestSuites{Testsuites: testsuites}
+		if err := encoder.Encode(testsuitesContainer); err != nil {
+			panic(err)
+		}
+	}
+
+	if jsonFile != "" {
+		file, err := os.Create(jsonFile)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		encoder := json.NewEncoder(file)
+		encoder.SetIndent("", "  ")
 		testsuitesContainer := TestSuites{Testsuites: testsuites}
 		if err := encoder.Encode(testsuitesContainer); err != nil {
 			panic(err)
