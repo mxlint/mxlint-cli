@@ -19,6 +19,10 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		if err != nil {
 			return err
 		}
+		if strings.Contains(path, ".mendix-cache") {
+			log.Debugf("Skipping system managed file %s", path)
+			return nil
+		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
 			exportMPR(path, outputDirectory, raw, mode)
 		}
