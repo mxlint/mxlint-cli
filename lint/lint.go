@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -31,22 +30,20 @@ func printTestsuite(ts Testsuite) {
 
 func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
 	testsuites := make([]Testsuite, 0)
+	policies, err := readPoliciesMetadata(policiesPath)
+	if err != nil {
+		return err
+	}
 	failuresCount := 0
-	filepath.Walk(policiesPath, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.rego") && strings.HasSuffix(info.Name(), ".rego") {
-			testsuite, err := evalTestsuite(path, modelSourcePath)
+	for _, policy := range policies {
+			testsuite, err := evalTestsuite(policy, modelSourcePath)
 			if err != nil {
 				return err
 			}
 			printTestsuite(*testsuite)
 			failuresCount += testsuite.Failures
 			testsuites = append(testsuites, *testsuite)
-		}
-		return nil
-	})
+	}
 
 	if xunitReport != "" {
 		file, err := os.Create(xunitReport)
@@ -72,7 +69,7 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, js
 
 		encoder := json.NewEncoder(file)
 		encoder.SetIndent("", "  ")
-		testsuitesContainer := TestSuites{Testsuites: testsuites}
+		testsuitesContainer := TestSuites{Testsuites: testsuites, Policies: policies}
 		if err := encoder.Encode(testsuitesContainer); err != nil {
 			panic(err)
 		}
@@ -84,69 +81,26 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, js
 	return nil
 }
 
-func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error) {
+func evalTestsuite(policy Policy, modelSourcePath string) (*Testsuite, error) {
 
-	log.Debugf("evaluating policy %s", policyPath)
-
-	// read the policy file
-	policyFile, err := os.Open(policyPath)
-	if err != nil {
-		return nil, err
-	}
-	defer policyFile.Close()
-
-	policyContent, err := os.ReadFile(policyPath)
-	if err != nil {
-		return nil, err
-	}
-	var inputFiles []string = nil
-	var packageName string = ""
-	var pattern string = ""
-	var policy_canonical_name string = ""
-	var skipReason string = ""
-
-	lines := strings.Split(string(policyContent), "\n")
-
-	for _, line := range lines {
-		tokens := strings.Split(line, "#  input: ")
-		if len(tokens) > 1 && inputFiles == nil {
-			pattern = strings.ReplaceAll(tokens[1], "\"", "")
-			inputFiles, err = expandPaths(pattern, modelSourcePath)
-			if err != nil {
-				return nil, err
-			}
-		}
-		tokens = strings.Split(line, "#  skip: ")
-		if len(tokens) > 1 && skipReason == "" {
-			skipReason = tokens[1]
-		}
-		tokens = strings.Split(line, "package ")
-		if len(tokens) > 1 && packageName == "" {
-			packageName = tokens[1]
-		}
-		tokens = strings.Split(line, "default ")
-		if len(tokens) > 1 && policy_canonical_name == "" {
-			policy_canonical_name = strings.Split(tokens[1], " := ")[0]
-		}
-	}
-
-	log.Debugf("package name: %s", packageName)
-	log.Debugf("policy name: %s", policy_canonical_name)
-	log.Debugf("input pattern: %s", pattern)
-	log.Debugf("expanded input files %v", inputFiles)
+	log.Debugf("evaluating policy %s", policy.Path)
 
 	var skipped *Skipped = nil
-	if skipReason != "" {
+	if policy.SkipReason != "" {
 		skipped = &Skipped{
-			Message: skipReason,
+			Message: policy.SkipReason,
 		}
 	}
 
-	queryString := "data." + packageName
+	queryString := "data." + policy.PackageName
 	testcases := make([]Testcase, 0)
 	failuresCount := 0
 	skippedCount := 0
 	totalTime := 0.0
+	inputFiles, err := expandPaths(policy.Pattern, modelSourcePath)
+	if err != nil {
+			return nil, err
+	}
 	testcase := &Testcase{}
 
 	for _, inputFile := range inputFiles {
@@ -158,7 +112,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 			}
 			skippedCount++
 		} else {
-			testcase, err = evalTestcase(policyPath, queryString, inputFile)
+			testcase, err = evalTestcase(policy.Path, queryString, inputFile)
 			if err != nil {
 				return nil, err
 			}
@@ -172,7 +126,7 @@ func evalTestsuite(policyPath string, modelSourcePath string) (*Testsuite, error
 	}
 
 	testsuite := &Testsuite{
-		Name:      policyPath,
+		Name:      policy.Path,
 		Tests:     len(testcases),
 		Failures:  failuresCount,
 		Skipped:   skippedCount,

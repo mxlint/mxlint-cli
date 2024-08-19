@@ -18,7 +18,8 @@ func TestLintSingle(t *testing.T) {
 	// 	}
 	// })
 	t.Run("single policy passes", func(t *testing.T) {
-		result, err := evalTestsuite("./../policies/001_project_settings/001_0003_security_checks.rego", "./../modelsource")
+		policy, _ := parsePolicyMetadata("./../policies/001_project_settings/001_0003_security_checks.rego")
+		result, err := evalTestsuite(*policy, "./../modelsource")
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")
