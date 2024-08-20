@@ -52,6 +52,7 @@ func main() {
 			policiesDirectory, _ := cmd.Flags().GetString("policies")
 			modelDirectory, _ := cmd.Flags().GetString("modelsource")
 			xunitReport, _ := cmd.Flags().GetString("xunit-report")
+			JsonFile, _ := cmd.Flags().GetString("json-file")
 			verbose, _ := cmd.Flags().GetBool("verbose")
 
 			log := logrus.New()
@@ -62,7 +63,7 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := lint.EvalAll(policiesDirectory, modelDirectory, xunitReport)
+			err := lint.EvalAll(policiesDirectory, modelDirectory, xunitReport, JsonFile)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)
@@ -73,6 +74,7 @@ func main() {
 	cmdLint.Flags().StringP("policies", "p", "policies", "Path to directory with policies")
 	cmdLint.Flags().StringP("modelsource", "m", "modelsource", "Path to directory with exported model")
 	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
+	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")
 	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdLint)
 
