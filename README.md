@@ -4,7 +4,11 @@ A set of Command line interface tools for Mendix developers, CICD engineers and 
 
 > This project is in early development stage. Please use with caution. We are looking for contributors to help us improve the tools. Please create a PR with your changes. We believe in open ecosystem and open source. We are looking forward to your contributions. These can be documentation improvements, bug fixes, new features, etc.
 
-## Quick start
+## Mendix Studio Pro extension
+
+The quickest way to try out Mendix-CLI is to use it as Mendix Studio pro extension. Follow the instructions at [mendix-cli-extension](https://github.com/cinaq/mendix-cli-extension)
+
+## Basic Usage
 
 Mendix-cli is a set of tools to help you with your Mendix projects. As such you can use it in many ways. To give you a feeling what it does. Try the following example:
 
