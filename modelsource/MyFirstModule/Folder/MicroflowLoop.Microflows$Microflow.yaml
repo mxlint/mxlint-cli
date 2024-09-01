@@ -53,6 +53,10 @@ ObjectCollection:
     Disabled: false
     Documentation: ""
   - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$Annotation
+    Caption: 'label: label1'
+  - $Type: Microflows$Annotation
+    Caption: 'goto: label1'
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

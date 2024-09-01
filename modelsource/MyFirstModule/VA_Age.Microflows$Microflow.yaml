@@ -1,0 +1,67 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items: null
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$IntegerType
+Name: VA_Age
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: $Variable - $Bike/Year
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Bike
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: MyFirstModule.Bike
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "2024"
+      VariableName: Variable
+      VariableType:
+        $Type: DataTypes$IntegerType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: PhotoList
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: MyFirstModule.Photo
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: false
+        XpathConstraint: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+ReturnVariableName: Variable
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null
