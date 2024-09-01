@@ -19,7 +19,7 @@ fi
 if [ ! -f "$OPA" ]; then
     echo "Program not found, downloading..."
     mkdir -p bin
-    curl -L -o "$OPA" "https://openpolicyagent.org/downloads/v0.63.0/$OPA_DL"
+    curl -s -L -o "$OPA" "https://openpolicyagent.org/downloads/v0.63.0/$OPA_DL"
     chmod +x "$OPA"
 fi
 

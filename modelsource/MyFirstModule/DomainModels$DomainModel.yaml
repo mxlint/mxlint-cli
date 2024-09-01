@@ -85,6 +85,14 @@ Entities:
       AccessRights: ReadOnly
       Association: ""
       Attribute: MyFirstModule.Bike.PurchaseDate
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: MyFirstModule.Bike.VA_age
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: MyFirstModule.Bike.Year
     XPathConstraint: ""
     XPathConstraintCaption: ""
   Attributes:
@@ -108,6 +116,25 @@ Entities:
     Value:
       $Type: DomainModels$StoredValue
       DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: VA_age
+    NewType:
+      $Type: DomainModels$IntegerAttributeType
+    Value:
+      $Type: DomainModels$CalculatedValue
+      Microflow: MyFirstModule.VA_Age
+      PassEntity: true
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Year
+    NewType:
+      $Type: DomainModels$IntegerAttributeType
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: "2010"
   Documentation: ""
   Events: null
   ExportLevel: Hidden

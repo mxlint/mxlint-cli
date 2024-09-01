@@ -41,6 +41,7 @@ Settings:
   RoundingMode: HalfUp
   ScheduledEventTimeZoneCode: Etc/UTC
   UseDatabaseForeignKeyConstraints: true
+  UseOQLVersion2: false
   UseSystemContextForBackgroundTasks: false
 - $Type: Settings$ConventionSettings
   ActionActivityDefaultColors: null

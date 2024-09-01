@@ -15,11 +15,13 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: URCkRcI/hUCAwlb8saslpg==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: 0OYdtovfPU2ahg+VCToStg==
 - Attributes:
     $Type: Microflows$ExclusiveSplit
     Caption: ""
@@ -28,55 +30,30 @@ MainFunction:
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $valueToAssert
+  ID: 9uw1KJ6Tmk+bSjon0mltiA==
   Splits:
   - - Attributes:
-        $ID: e31K1cxRbUyEJhqqKk1NyA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: jXn0eOdW/02sMRof5kLRWg==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: hBFo9Qp6U0KkU/Tc2efNpQ==
           $Type: Microflows$EnumerationCase
           Value: "true"
-        OriginBezierVector: 15;0
-        OriginConnectionIndex: 1
-        OriginPointer: 9uw1KJ6Tmk+bSjon0mltiA==
       ID: e31K1cxRbUyEJhqqKk1NyA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: jXn0eOdW/02sMRof5kLRWg==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 700;200
         ReturnValue: ""
-        Size: 20;20
       ID: jXn0eOdW/02sMRof5kLRWg==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: OwUOaeAvxk+6bsvQajFnyA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-30
-        DestinationConnectionIndex: 0
-        DestinationPointer: vXCgbIaKgkyusfRGsoFRIw==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: kPny4pQBJEu3hnYdfn5POg==
           $Type: Microflows$EnumerationCase
           Value: "false"
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: 9uw1KJ6Tmk+bSjon0mltiA==
       ID: OwUOaeAvxk+6bsvQajFnyA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: vXCgbIaKgkyusfRGsoFRIw==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: g5X/OG71UUSlzJ0tipZFjg==
           $Type: Microflows$JavaActionCallAction
           ErrorHandlingType: Rollback
           JavaAction: CommunityCommons.ThrowException
@@ -96,92 +73,24 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 255;295
-        Size: 120;60
       ID: vXCgbIaKgkyusfRGsoFRIw==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: dtVsdCB2Mka9OQVR6wroWQ==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-15
-        DestinationConnectionIndex: 0
-        DestinationPointer: JiItD2uJlEeBJmFKCFc1cw==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: W1M1NbJGdUiAXImoxpG/bQ==
           $Type: Microflows$NoCase
-        OriginBezierVector: 0;30
-        OriginConnectionIndex: 2
-        OriginPointer: vXCgbIaKgkyusfRGsoFRIw==
       ID: dtVsdCB2Mka9OQVR6wroWQ==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: JiItD2uJlEeBJmFKCFc1cw==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 255;405
         ReturnValue: ""
-        Size: 20;20
       ID: JiItD2uJlEeBJmFKCFc1cw==
-      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: AssertTrue_2
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: valueToAssert
-    VariableType:
-      $Type: DataTypes$BooleanType
-  - $Type: Microflows$ExclusiveSplit
-    Caption: ""
-    Documentation: ""
-    ErrorHandlingType: Rollback
-    SplitCondition:
-      $Type: Microflows$ExpressionSplitCondition
-      Expression: $valueToAssert
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$JavaActionCallAction
-      ErrorHandlingType: Rollback
-      JavaAction: CommunityCommons.ThrowException
-      ParameterMappings:
-      - $Type: Microflows$JavaActionParameterMapping
-        Parameter: CommunityCommons.ThrowException.message
-        Value:
-          $Type: Microflows$BasicCodeActionParameterValue
-          Argument: '''Assertion failed: '' +$message'
-      QueueSettings: null
-      ResultVariableName: sd
-      UseReturnVariable: true
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$Annotation
-    Caption: "Shorthand for checking something, and throwing an error if that something
-      is not true. \r\n\r\nSaves creating three microflow items for things that MUST
-      be true. "
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: message
-    VariableType:
-      $Type: DataTypes$StringType
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

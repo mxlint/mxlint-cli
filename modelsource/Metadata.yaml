@@ -1,5 +1,20 @@
-BuildVersion: 10.9.0.31759
+BuildVersion: 10.12.2.41995
 Modules:
+- Attributes:
+    $ID:
+      Data: CJwh54tYwk+hc1+bCPwjDg==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
+    AppStorePackageId: 170
+    AppStoreVersion: 10.9.0
+    AppStoreVersionGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
+    FromAppStore: true
+    IsThemeModule: false
+    Name: CommunityCommons
+    NewSortIndex: 3
+  ID: CJwh54tYwk+hc1+bCPwjDg==
+  Name: CommunityCommons
 - Attributes:
     $ID:
       Data: EBEQuiOQm0CiZysqR/iiQw==
@@ -120,19 +135,4 @@ Modules:
     NewSortIndex: 2
   ID: xn10Fre2rkKqvyVdyirurw==
   Name: MyFirstModule
-- Attributes:
-    $ID:
-      Data: CJwh54tYwk+hc1+bCPwjDg==
-      Subtype: 0
-    $Type: Projects$ModuleImpl
-    AppStoreGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
-    AppStorePackageId: 170
-    AppStoreVersion: 10.9.0
-    AppStoreVersionGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
-    FromAppStore: true
-    IsThemeModule: false
-    Name: CommunityCommons
-    NewSortIndex: 3
-  ID: CJwh54tYwk+hc1+bCPwjDg==
-  Name: CommunityCommons
-ProductVersion: 10.9.0.31759
+ProductVersion: 10.12.2.41995

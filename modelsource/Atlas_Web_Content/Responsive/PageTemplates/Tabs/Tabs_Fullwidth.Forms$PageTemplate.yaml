@@ -464,9 +464,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -531,9 +537,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -598,9 +610,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -705,9 +723,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -772,9 +796,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -839,9 +869,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: false
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null
@@ -951,9 +987,15 @@ LayoutCall:
                               OnLeaveAction:
                                 $Type: Forms$NoAction
                                 DisabledDuringExecution: true
-                              Placeholder:
-                                $Type: Texts$Text
-                                Items: null
+                              PlaceholderTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
                               ReadOnlyStyle: Inherit
                               ScreenReaderLabel: null
                               SourceVariable: null

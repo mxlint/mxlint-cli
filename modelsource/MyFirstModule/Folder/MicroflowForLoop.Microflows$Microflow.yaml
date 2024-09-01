@@ -1,0 +1,97 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items: null
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: hmdJyqZJHk+gt3IESJijeQ==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: Y1r8MLvJLk2iYmpxZPIsgw==
+- Attributes:
+    $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: BikeList
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: MyFirstModule.Bike
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: false
+        XpathConstraint: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  ID: ChOqjh8r4kK3dYXqGwtxWw==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: Us4aXiLEUkmHXnYFURB86g==
+- Attributes:
+    $Type: Microflows$LoopedActivity
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    LoopSource:
+      $Type: Microflows$IterableList
+      ListVariableName: BikeList
+      VariableName: IteratorBike
+    ObjectCollection:
+      $Type: Microflows$MicroflowObjectCollection
+      Objects:
+      - $ID: JON699i5X06+mJmpljIlIQ==
+        $Type: Microflows$ActionActivity
+        Action:
+          $ID: lBbh4nwji0+ufvpEbuKqgA==
+          $Type: Microflows$CommitAction
+          CommitVariableName: IteratorBike
+          ErrorHandlingType: Rollback
+          RefreshInClient: false
+          WithEvents: true
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+        RelativeMiddlePoint: 186;100
+        Size: 120;60
+  ID: Rdteip+prkClEKtbbvRbHw==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: W0HBAWyKtk6zt8DGjVTwMQ==
+- Attributes:
+    $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  ID: N5KM70bSXkehe4ssftsxhg==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowForLoop
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

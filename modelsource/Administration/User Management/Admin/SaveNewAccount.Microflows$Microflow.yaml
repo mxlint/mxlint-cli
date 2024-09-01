@@ -16,11 +16,13 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: mdk/bGAuGkWTsLTdER9ODg==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: 96PTyNo6o0ykEJa03gwJYg==
 - Attributes:
     $Type: Microflows$ActionActivity
     Action:
@@ -36,11 +38,13 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
+  ID: /YMtQC2nZ0+5cjanYDgfpQ==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: N2iK2bDI1U68F3v3jXB62w==
 - Attributes:
     $Type: Microflows$ExclusiveSplit
     Caption: Passwords equal?
@@ -49,29 +53,18 @@ MainFunction:
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $AccountPasswordData/NewPassword = $AccountPasswordData/ConfirmPassword
+  ID: 0HFO3iM/O0KdWf5PIatlPQ==
   Splits:
   - - Attributes:
-        $ID: whEwm05WVEuvlxJbT/JXcA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: qZP61cEwuUWgoeOkLi+i0Q==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: rMHp4DW8YkmNyyT1baTciw==
           $Type: Microflows$EnumerationCase
           Value: "true"
-        OriginBezierVector: 15;0
-        OriginConnectionIndex: 1
-        OriginPointer: 0HFO3iM/O0KdWf5PIatlPQ==
       ID: whEwm05WVEuvlxJbT/JXcA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: qZP61cEwuUWgoeOkLi+i0Q==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: wTC45gv//Ue/JknM6KQWpw==
           $Type: Microflows$ChangeAction
           ChangeVariableName: Account
           Commit: "Yes"
@@ -89,31 +82,16 @@ MainFunction:
         Caption: Set password and save account
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 635;200
-        Size: 120;60
       ID: qZP61cEwuUWgoeOkLi+i0Q==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: XuV1g09U3Uq3YrF79fcSow==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: +FwH7ZfSckez4fNUsf0ETQ==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: 30P4uJphNUay8IyRdlU7iw==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: qZP61cEwuUWgoeOkLi+i0Q==
       ID: XuV1g09U3Uq3YrF79fcSow==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: +FwH7ZfSckez4fNUsf0ETQ==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: NJ8i7xalw0iAazS8RQ39pA==
           $Type: Microflows$DeleteAction
           DeleteVariableName: AccountPasswordData
           ErrorHandlingType: Rollback
@@ -123,31 +101,16 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 805;200
-        Size: 120;60
       ID: +FwH7ZfSckez4fNUsf0ETQ==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: guC/y5gqoUi9UJC9cgZxFA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: I4ZcD/QiBEmqlUgmZDqJ0w==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: hIkR14cIaUyKz7bObwprWg==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: +FwH7ZfSckez4fNUsf0ETQ==
       ID: guC/y5gqoUi9UJC9cgZxFA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: I4ZcD/QiBEmqlUgmZDqJ0w==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: DOhuIBSS00uthx5m5Q/h3A==
           $Type: Microflows$CloseFormAction
           ErrorHandlingType: Rollback
           NumberOfPagesToClose: ""
@@ -156,66 +119,35 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 975;200
-        Size: 120;60
       ID: I4ZcD/QiBEmqlUgmZDqJ0w==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: YmqfzFt1jUq5nqPk2q9HUg==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: ikVWHPBwEEib6lDhKO7Pqg==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: QfVdLDJSckOH/Xas+CmDGw==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: I4ZcD/QiBEmqlUgmZDqJ0w==
       ID: YmqfzFt1jUq5nqPk2q9HUg==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: ikVWHPBwEEib6lDhKO7Pqg==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 1090;200
         ReturnValue: ""
-        Size: 20;20
       ID: ikVWHPBwEEib6lDhKO7Pqg==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: QnQwycyd2EuRo/G3LEcD+g==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;30
-        DestinationConnectionIndex: 2
-        DestinationPointer: X6yvCFEwVkuWsRpNBpa9hA==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: z474DgovmUixet8hxB7d0w==
           $Type: Microflows$EnumerationCase
           Value: "false"
-        OriginBezierVector: 0;-15
-        OriginConnectionIndex: 0
-        OriginPointer: 0HFO3iM/O0KdWf5PIatlPQ==
       ID: QnQwycyd2EuRo/G3LEcD+g==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: X6yvCFEwVkuWsRpNBpa9hA==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: KjQRyVmVGEOCTXzl1suYSg==
           $Type: Microflows$ShowMessageAction
           Blocking: true
           ErrorHandlingType: Rollback
           Template:
-            $ID: CxTJfHr6hUmLJAHy9TLrlQ==
             $Type: Microflows$TextTemplate
-            Parameters: []
+            Parameters: null
             Text:
-              $ID: cT1Y9NqP8Ue9SFAJhYQQBg==
               $Type: Texts$Text
               Items:
               - $ID: D8PPJCMA/U2m9QfQDhkcMQ==
@@ -226,144 +158,29 @@ MainFunction:
                 $Type: Texts$Translation
                 LanguageCode: nl_NL
                 Text: De ingevoerde wachtwoorden zijn niet gelijk.
-          Type: Error
         AutoGenerateCaption: true
         BackgroundColor: Default
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 430;75
-        Size: 120;60
       ID: X6yvCFEwVkuWsRpNBpa9hA==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: /KfpTLKWyE2jB+1cEj2vjg==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;15
-        DestinationConnectionIndex: 2
-        DestinationPointer: AdpXEmmkHk6LQAiaVBgpXQ==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: 6rPW3Ipvb0SlBouhQpbFWQ==
           $Type: Microflows$NoCase
-        OriginBezierVector: 0;-30
-        OriginConnectionIndex: 0
-        OriginPointer: X6yvCFEwVkuWsRpNBpa9hA==
       ID: /KfpTLKWyE2jB+1cEj2vjg==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: AdpXEmmkHk6LQAiaVBgpXQ==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 430;-20
         ReturnValue: ""
-        Size: 20;20
       ID: AdpXEmmkHk6LQAiaVBgpXQ==
-      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: SaveNewAccount
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$ExclusiveSplit
-    Caption: Passwords equal?
-    Documentation: ""
-    ErrorHandlingType: Rollback
-    SplitCondition:
-      $Type: Microflows$ExpressionSplitCondition
-      Expression: $AccountPasswordData/NewPassword = $AccountPasswordData/ConfirmPassword
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowMessageAction
-      Blocking: true
-      ErrorHandlingType: Rollback
-      Template:
-        $Type: Microflows$TextTemplate
-        Parameters: null
-        Text:
-          $Type: Texts$Text
-          Items:
-          - $Type: Texts$Translation
-            LanguageCode: en_US
-            Text: The entered passwords do not match.
-          - $Type: Texts$Translation
-            LanguageCode: nl_NL
-            Text: De ingevoerde wachtwoorden zijn niet gelijk.
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ChangeAction
-      ChangeVariableName: Account
-      Commit: "Yes"
-      ErrorHandlingType: Rollback
-      Items:
-      - $Type: Microflows$ChangeActionItem
-        Association: ""
-        Attribute: System.User.Password
-        Value: $AccountPasswordData/NewPassword
-      RefreshInClient: true
-    AutoGenerateCaption: false
-    BackgroundColor: Default
-    Caption: Set password and save account
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: AccountPasswordData
-    VariableType:
-      $Type: DataTypes$ObjectType
-      Entity: Administration.AccountPasswordData
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$RetrieveAction
-      ErrorHandlingType: Rollback
-      ResultVariableName: Account
-      RetrieveSource:
-        $Type: Microflows$AssociationRetrieveSource
-        AssociationId: Administration.AccountPasswordData_Account
-        StartVariableName: AccountPasswordData
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$DeleteAction
-      DeleteVariableName: AccountPasswordData
-      ErrorHandlingType: Rollback
-      RefreshInClient: false
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CloseFormAction
-      ErrorHandlingType: Rollback
-      NumberOfPagesToClose: ""
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

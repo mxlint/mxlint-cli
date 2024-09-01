@@ -13,6 +13,7 @@ Values:
       LanguageCode: en_US
       Text: Google
   Name: Google
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -21,6 +22,7 @@ Values:
       LanguageCode: en_US
       Text: Geocodio
   Name: Geocodio
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -29,6 +31,7 @@ Values:
       LanguageCode: en_US
       Text: LocationIQ
   Name: LocationIQ
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -37,3 +40,4 @@ Values:
       LanguageCode: en_US
       Text: MapQuest
   Name: MapQuest
+  RemoteValue: null

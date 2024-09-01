@@ -478,12 +478,18 @@ Widgets:
             OnLeaveAction:
               $Type: Forms$NoAction
               DisabledDuringExecution: false
-            Placeholder:
-              $Type: Texts$Text
-              Items:
-              - $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: Alice
+            PlaceholderTemplate:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Alice
             ReadOnlyStyle: Inherit
             ScreenReaderLabel: null
             SourceVariable: null
@@ -548,12 +554,18 @@ Widgets:
             OnLeaveAction:
               $Type: Forms$NoAction
               DisabledDuringExecution: false
-            Placeholder:
-              $Type: Texts$Text
-              Items:
-              - $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: "+00124059134"
+            PlaceholderTemplate:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: "+00124059134"
             ReadOnlyStyle: Inherit
             ScreenReaderLabel: null
             SourceVariable: null
@@ -618,12 +630,18 @@ Widgets:
             OnLeaveAction:
               $Type: Forms$NoAction
               DisabledDuringExecution: false
-            Placeholder:
-              $Type: Texts$Text
-              Items:
-              - $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: Sall.doe@company.com
+            PlaceholderTemplate:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Sall.doe@company.com
             ReadOnlyStyle: Inherit
             ScreenReaderLabel: null
             SourceVariable: null
@@ -678,12 +696,18 @@ Widgets:
             OnLeaveAction:
               $Type: Forms$NoAction
               DisabledDuringExecution: false
-            Placeholder:
-              $Type: Texts$Text
-              Items:
-              - $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: 11/24/2020
+            PlaceholderTemplate:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: 11/24/2020
             ReadOnlyStyle: Inherit
             ScreenReaderLabel: null
             SourceVariable: null
@@ -739,12 +763,18 @@ Widgets:
             OnLeaveAction:
               $Type: Forms$NoAction
               DisabledDuringExecution: true
-            Placeholder:
-              $Type: Texts$Text
-              Items:
-              - $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: Biography of Sally...
+            PlaceholderTemplate:
+              $Type: Forms$ClientTemplate
+              Fallback:
+                $Type: Texts$Text
+                Items: null
+              Parameters: null
+              Template:
+                $Type: Texts$Text
+                Items:
+                - $Type: Texts$Translation
+                  LanguageCode: en_US
+                  Text: Biography of Sally...
             ReadOnlyStyle: Inherit
             ScreenReaderLabel: null
             SourceVariable: null

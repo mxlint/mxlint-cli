@@ -99,7 +99,7 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 
 		split2 := splits[1].([]interface{})
-		if len(split2) != 6 {
+		if len(split2) != 4 {
 			t.Errorf("Unexpected instructions length. Got: %d", len(split2))
 		}
 	})

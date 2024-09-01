@@ -12,31 +12,24 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: YnSuHVnSgkygVUhmo4WQNQ==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: tCZ8lwGiKkSAKHUntgr4dw==
 - Attributes:
     $Type: Microflows$EndEvent
     Documentation: ""
     ReturnValue: ""
+  ID: rMd3RSkQAk+zg6kL4IZHjw==
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: MyFirstLogic
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$Annotation
-    Caption: "Microflows are used to define server logic in your app.\r\n\r\n- For
-      client logic you can use Nanoflows\r\n- For business process logic you can use
-      Workflows\r\n\r\nDocumentation: https://docs.mendix.com/refguide/application-logic"
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

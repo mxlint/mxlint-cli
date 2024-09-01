@@ -30,3 +30,4 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
+ReturnVariableName: ""

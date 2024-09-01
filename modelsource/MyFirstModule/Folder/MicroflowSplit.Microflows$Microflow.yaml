@@ -12,11 +12,13 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: f+SqZp+VKk65zBqkCg25Zw==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: DkC4qSnQiUeyZ2erDzt4EQ==
 - Attributes:
     $Type: Microflows$ActionActivity
     Action:
@@ -31,11 +33,13 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
+  ID: OytVaGxLtEG5jUML2FYX+g==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: HbIpuLZBLUiAzqHZRXCdkA==
 - Attributes:
     $Type: Microflows$ExclusiveSplit
     Caption: empty?
@@ -44,63 +48,37 @@ MainFunction:
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $Variable != empty and $Variable != ''
+  ID: vVQMFlmXcUakMGCBVCmWCQ==
   Splits:
   - - Attributes:
-        $ID: WeZ9+pYNqkmlmn826Zx7og==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: mSyz99xIW0m9l/RIyYb8Kg==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: 5pQc0Ffffk6oRS0KWA0uWg==
           $Type: Microflows$EnumerationCase
           Value: "false"
-        OriginBezierVector: 15;0
-        OriginConnectionIndex: 1
-        OriginPointer: vVQMFlmXcUakMGCBVCmWCQ==
       ID: WeZ9+pYNqkmlmn826Zx7og==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: mSyz99xIW0m9l/RIyYb8Kg==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 700;170
         ReturnValue: ""
-        Size: 20;20
       ID: mSyz99xIW0m9l/RIyYb8Kg==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: 63t3NkGZ8USO7B31qDs0PA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-30
-        DestinationConnectionIndex: 0
-        DestinationPointer: 7lxu/XbjS0mWaPHhv5C54g==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: fxaQkhvbpUq3X9IcxtTEow==
           $Type: Microflows$EnumerationCase
           Value: "true"
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: vVQMFlmXcUakMGCBVCmWCQ==
       ID: 63t3NkGZ8USO7B31qDs0PA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: 7lxu/XbjS0mWaPHhv5C54g==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: i1DKKInoO0i9cra9oNw6yQ==
           $Type: Microflows$LogMessageAction
           ErrorHandlingType: Rollback
           IncludeLatestStackTrace: false
           Level: Info
           MessageTemplate:
-            $ID: fR0uswWWlUiLL1UojZipYA==
             $Type: Microflows$StringTemplate
-            Parameters: []
+            Parameters: null
             Text: test
           Node: '''XXX'''
         AutoGenerateCaption: true
@@ -108,86 +86,24 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 420;300
-        Size: 120;60
       ID: 7lxu/XbjS0mWaPHhv5C54g==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: B5xFsStcgEW93vihBqwKgg==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-15
-        DestinationConnectionIndex: 0
-        DestinationPointer: M4ZufgbdI02Qwd4QAACVXw==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: dpl6eUL5SUaChpbo+ZkS1g==
           $Type: Microflows$NoCase
-        OriginBezierVector: 0;30
-        OriginConnectionIndex: 2
-        OriginPointer: 7lxu/XbjS0mWaPHhv5C54g==
       ID: B5xFsStcgEW93vihBqwKgg==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: M4ZufgbdI02Qwd4QAACVXw==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 420;410
         ReturnValue: ""
-        Size: 20;20
       ID: M4ZufgbdI02Qwd4QAACVXw==
-      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: MicroflowSplit
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CreateVariableAction
-      ErrorHandlingType: Rollback
-      InitialValue: '''test'' '
-      VariableName: Variable
-      VariableType:
-        $Type: DataTypes$StringType
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveSplit
-    Caption: empty?
-    Documentation: ""
-    ErrorHandlingType: Rollback
-    SplitCondition:
-      $Type: Microflows$ExpressionSplitCondition
-      Expression: $Variable != empty and $Variable != ''
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$LogMessageAction
-      ErrorHandlingType: Rollback
-      IncludeLatestStackTrace: false
-      Level: Info
-      MessageTemplate:
-        $Type: Microflows$StringTemplate
-        Parameters: null
-        Text: test
-      Node: '''XXX'''
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

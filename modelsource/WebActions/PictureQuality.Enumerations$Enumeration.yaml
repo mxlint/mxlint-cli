@@ -13,6 +13,7 @@ Values:
       LanguageCode: en_US
       Text: Original
   Name: original
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -21,6 +22,7 @@ Values:
       LanguageCode: en_US
       Text: Low
   Name: low
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -29,6 +31,7 @@ Values:
       LanguageCode: en_US
       Text: Medium
   Name: medium
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -37,6 +40,7 @@ Values:
       LanguageCode: en_US
       Text: High
   Name: high
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -45,3 +49,4 @@ Values:
       LanguageCode: en_US
       Text: Custom
   Name: custom
+  RemoteValue: null

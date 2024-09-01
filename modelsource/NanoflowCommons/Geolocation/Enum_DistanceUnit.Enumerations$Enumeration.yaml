@@ -13,6 +13,7 @@ Values:
       LanguageCode: en_US
       Text: KILOMETER
   Name: KILOMETER
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -21,6 +22,7 @@ Values:
       LanguageCode: en_US
       Text: STATUTE_MILE
   Name: STATUTE_MILE
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -29,3 +31,4 @@ Values:
       LanguageCode: en_US
       Text: NAUTICAL_MILE
   Name: NAUTICAL_MILE
+  RemoteValue: null

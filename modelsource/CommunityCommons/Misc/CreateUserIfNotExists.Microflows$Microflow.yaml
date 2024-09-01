@@ -15,11 +15,13 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: /YZxhRr9ekS+PfS59fdNTw==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: 7g9eR7mc8EKVQDrQXlrHTA==
 - Attributes:
     $Type: Microflows$ActionActivity
     Action:
@@ -41,11 +43,13 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
+  ID: zKkfraGWgU+ZZpT1eFjtQg==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: J02OWj/5ekG2VIB4sXJBGg==
 - Attributes:
     $Type: Microflows$ExclusiveSplit
     Caption: empty?
@@ -54,34 +58,23 @@ MainFunction:
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $User = empty
+  ID: 3yGlfJxx/EeUtGCW2opOXQ==
   Splits:
   - - Attributes:
-        $ID: 6+JQMm1OMUmEuUB6pZzeFw==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-30
-        DestinationConnectionIndex: 0
-        DestinationPointer: cDmCXoNnukOfRv0sGCp9og==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: fHgRy/r6UkGkcekM7I677g==
           $Type: Microflows$EnumerationCase
           Value: "true"
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: 3yGlfJxx/EeUtGCW2opOXQ==
       ID: 6+JQMm1OMUmEuUB6pZzeFw==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: cDmCXoNnukOfRv0sGCp9og==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: 9ipUcUp/iE+LR05/dpW31A==
           $Type: Microflows$CreateChangeAction
           Commit: "No"
           Entity: System.User
           ErrorHandlingType: Rollback
-          Items: []
+          Items: null
           RefreshInClient: false
           VariableName: NewUser
         AutoGenerateCaption: true
@@ -89,35 +82,19 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 2065;325
-        Size: 120;60
       ID: cDmCXoNnukOfRv0sGCp9og==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: DawwBl5VsUWaVwzHfZzU9w==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: sLt8+jOR1kKbg3vyPGEbSg==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: CTvaw1sxW0yLtFVy3Cnn1A==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: cDmCXoNnukOfRv0sGCp9og==
       ID: DawwBl5VsUWaVwzHfZzU9w==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: sLt8+jOR1kKbg3vyPGEbSg==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: yKccXznLtUeYFPvF9QuASw==
           $Type: Microflows$MicroflowCallAction
           ErrorHandlingType: Rollback
           MicroflowCall:
-            $ID: QETyAVsBXUuup6PedNQjEg==
             $Type: Microflows$MicroflowCall
             Microflow: CommunityCommons.UpdateUserHelper
             ParameterMappings:
@@ -149,61 +126,31 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 2255;325
-        Size: 120;60
       ID: sLt8+jOR1kKbg3vyPGEbSg==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: Nf+mDcPASE+M18LvdhFdvA==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: u9PteX7T7UObYtYmEz0yYg==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: qo3eGRf+nEeNFWM+O2o0jQ==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: sLt8+jOR1kKbg3vyPGEbSg==
       ID: Nf+mDcPASE+M18LvdhFdvA==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: u9PteX7T7UObYtYmEz0yYg==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 2395;325
         ReturnValue: ""
-        Size: 20;20
       ID: u9PteX7T7UObYtYmEz0yYg==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: lgUXY4R0/k212LcTyQSG6Q==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: qV4dCChqZE+h6ahQ7uvxaA==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: ++HN9QATy0eBsA6n771o0A==
           $Type: Microflows$EnumerationCase
           Value: "false"
-        OriginBezierVector: 15;0
-        OriginConnectionIndex: 1
-        OriginPointer: 3yGlfJxx/EeUtGCW2opOXQ==
       ID: lgUXY4R0/k212LcTyQSG6Q==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: qV4dCChqZE+h6ahQ7uvxaA==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: ZBFYg2VQD0mibUGs2JKJiw==
           $Type: Microflows$MicroflowCallAction
           ErrorHandlingType: Rollback
           MicroflowCall:
-            $ID: +BNdXqb5lEuoqXPI4LvZwg==
             $Type: Microflows$MicroflowCall
             Microflow: CommunityCommons.UpdateUserHelper
             ParameterMappings:
@@ -235,180 +182,24 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 2255;200
-        Size: 120;60
       ID: qV4dCChqZE+h6ahQ7uvxaA==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: NScOu8rb9ke7DqDQBvFf9A==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: B9DLwL/jfUyJDUkLkPzJtw==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: 7AUVtSV46kWpp4ZuHmqqMA==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: qV4dCChqZE+h6ahQ7uvxaA==
       ID: NScOu8rb9ke7DqDQBvFf9A==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: B9DLwL/jfUyJDUkLkPzJtw==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 2395;200
         ReturnValue: ""
-        Size: 20;20
       ID: B9DLwL/jfUyJDUkLkPzJtw==
-      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: CreateUserIfNotExists
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: Username
-    VariableType:
-      $Type: DataTypes$StringType
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: Role
-    VariableType:
-      $Type: DataTypes$StringType
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: Password
-    VariableType:
-      $Type: DataTypes$StringType
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$RetrieveAction
-      ErrorHandlingType: Rollback
-      ResultVariableName: User
-      RetrieveSource:
-        $Type: Microflows$DatabaseRetrieveSource
-        Entity: System.User
-        NewSortings:
-          $Type: Microflows$SortingsList
-          Sortings: null
-        Range:
-          $Type: Microflows$ConstantRange
-          SingleObject: true
-        XpathConstraint: '[Name = $Username]'
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveSplit
-    Caption: empty?
-    Documentation: ""
-    ErrorHandlingType: Rollback
-    SplitCondition:
-      $Type: Microflows$ExpressionSplitCondition
-      Expression: $User = empty
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: WebserviceUser
-    VariableType:
-      $Type: DataTypes$BooleanType
-  - $Type: Microflows$Annotation
-    Caption: 'Create a user with predefined password an role. Useful during startup
-      for integration purposes. '
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$MicroflowCallAction
-      ErrorHandlingType: Rollback
-      MicroflowCall:
-        $Type: Microflows$MicroflowCall
-        Microflow: CommunityCommons.UpdateUserHelper
-        ParameterMappings:
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Username
-          Parameter: CommunityCommons.UpdateUserHelper.Username
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Role
-          Parameter: CommunityCommons.UpdateUserHelper.Role
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Password
-          Parameter: CommunityCommons.UpdateUserHelper.Password
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $WebserviceUser
-          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $User
-          Parameter: CommunityCommons.UpdateUserHelper.User
-        QueueSettings: null
-      ResultVariableName: ""
-      UseReturnVariable: true
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$MicroflowCallAction
-      ErrorHandlingType: Rollback
-      MicroflowCall:
-        $Type: Microflows$MicroflowCall
-        Microflow: CommunityCommons.UpdateUserHelper
-        ParameterMappings:
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Username
-          Parameter: CommunityCommons.UpdateUserHelper.Username
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Role
-          Parameter: CommunityCommons.UpdateUserHelper.Role
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $Password
-          Parameter: CommunityCommons.UpdateUserHelper.Password
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $WebserviceUser
-          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
-        - $Type: Microflows$MicroflowCallParameterMapping
-          Argument: $NewUser
-          Parameter: CommunityCommons.UpdateUserHelper.User
-        QueueSettings: null
-      ResultVariableName: ""
-      UseReturnVariable: true
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CreateChangeAction
-      Commit: "No"
-      Entity: System.User
-      ErrorHandlingType: Rollback
-      Items: null
-      RefreshInClient: false
-      VariableName: NewUser
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

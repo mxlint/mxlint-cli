@@ -320,12 +320,18 @@ LayoutCall:
                       OnLeaveAction:
                         $Type: Forms$NoAction
                         DisabledDuringExecution: true
-                      Placeholder:
-                        $Type: Texts$Text
-                        Items:
-                        - $Type: Texts$Translation
-                          LanguageCode: en_US
-                          Text: Date filter
+                      PlaceholderTemplate:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Date filter
                       ReadOnlyStyle: Inherit
                       ScreenReaderLabel:
                         $Type: Forms$ClientTemplate

@@ -16,39 +16,30 @@ ExportLevel: Hidden
 MainFunction:
 - Attributes:
     $Type: Microflows$StartEvent
+  ID: Vb0OchmUpUu9WEQ3ZL3seg==
 - Attributes:
     $Type: Microflows$SequenceFlow
     IsErrorHandler: false
     NewCaseValue:
       $Type: Microflows$NoCase
+  ID: xFmOKmuh1UCIJ+qxjVE9nw==
 - Attributes:
     $Type: Microflows$InheritanceSplit
     Caption: ""
     Documentation: ""
     SplitVariableName: currentUser
+  ID: jBrex3P5DkqeQ9T76U3Mqg==
   Splits:
   - - Attributes:
-        $ID: NQXo7HFzLU23YLm5fDAb5g==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: kpMHICq6SEqKeWwgNiuOag==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: P4XRpzEu4kuo+9C9I5Ok7w==
           $Type: Microflows$InheritanceCase
           Value: Administration.Account
-        OriginBezierVector: 15;0
-        OriginConnectionIndex: 1
-        OriginPointer: jBrex3P5DkqeQ9T76U3Mqg==
       ID: NQXo7HFzLU23YLm5fDAb5g==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: kpMHICq6SEqKeWwgNiuOag==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: 8LJQwWgX9kCc+tom9hVxtA==
           $Type: Microflows$CastAction
           ErrorHandlingType: Rollback
           VariableName: Account
@@ -57,35 +48,19 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 555;200
-        Size: 120;60
       ID: kpMHICq6SEqKeWwgNiuOag==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: /AkfuXXOc0eVv9qqNSDaKQ==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -30;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: 43BwKEQPgk6AnRnUM2ME2g==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: T2hnXDbn80CUg5qm+j9u3A==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: kpMHICq6SEqKeWwgNiuOag==
       ID: /AkfuXXOc0eVv9qqNSDaKQ==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: 43BwKEQPgk6AnRnUM2ME2g==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: lqzix16gVEC1rgO8IKudlg==
           $Type: Microflows$ShowFormAction
           ErrorHandlingType: Rollback
           FormSettings:
-            $ID: F5cBdATskU2fNzue5sbz9A==
             $Type: Forms$FormSettings
             Form: Administration.MyAccount
             ParameterMappings:
@@ -107,89 +82,44 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 730;200
-        Size: 120;60
       ID: 43BwKEQPgk6AnRnUM2ME2g==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: jAYWWKEftkaXsAZYnKs76g==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: rHe2R7msa0WbYFRgnEso1g==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: AIf/ZMgjNECsnnuwnoMpRQ==
           $Type: Microflows$NoCase
-        OriginBezierVector: 30;0
-        OriginConnectionIndex: 1
-        OriginPointer: 43BwKEQPgk6AnRnUM2ME2g==
       ID: jAYWWKEftkaXsAZYnKs76g==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: rHe2R7msa0WbYFRgnEso1g==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 865;200
         ReturnValue: ""
-        Size: 20;20
       ID: rHe2R7msa0WbYFRgnEso1g==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: f7njnImIe0aruIXsl5Thzg==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 15;0
-        DestinationConnectionIndex: 1
-        DestinationPointer: s/sMzU+9jU6gYpEphukSwA==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: ec3vQiJb/kGf8PtjnWOnaQ==
           $Type: Microflows$InheritanceCase
           Value: System.User
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: jBrex3P5DkqeQ9T76U3Mqg==
       ID: f7njnImIe0aruIXsl5Thzg==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: s/sMzU+9jU6gYpEphukSwA==
         $Type: Microflows$ExclusiveMerge
-        RelativeMiddlePoint: 225;300
-        Size: 110;40
       ID: s/sMzU+9jU6gYpEphukSwA==
-      Type: Microflows$ExclusiveMerge
     - Attributes:
-        $ID: Fr61hRYx4UapWP695erL5w==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-30
-        DestinationConnectionIndex: 0
-        DestinationPointer: Ym2XuXT4+E+dUUd7vGWx7Q==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: wczQUyvYa0e61o8qhHfmzA==
           $Type: Microflows$NoCase
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: s/sMzU+9jU6gYpEphukSwA==
       ID: Fr61hRYx4UapWP695erL5w==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: Ym2XuXT4+E+dUUd7vGWx7Q==
         $Type: Microflows$ActionActivity
         Action:
-          $ID: ZdR5izA+yUOpTUou/rsT+g==
           $Type: Microflows$ShowMessageAction
           Blocking: true
           ErrorHandlingType: Rollback
           Template:
-            $ID: frH7uxQnLkKBCSWArucufA==
             $Type: Microflows$TextTemplate
-            Parameters: []
+            Parameters: null
             Text:
-              $ID: EIOXDBOxFEuBbQe0kYhjtQ==
               $Type: Texts$Text
               Items:
               - $ID: L+rp15deWUqpnxV7xbZRhQ==
@@ -200,216 +130,39 @@ MainFunction:
                 $Type: Texts$Translation
                 LanguageCode: nl_NL
                 Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
-          Type: Information
         AutoGenerateCaption: true
         BackgroundColor: Default
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 225;390
-        Size: 120;60
       ID: Ym2XuXT4+E+dUUd7vGWx7Q==
-      Type: Microflows$ActionActivity
     - Attributes:
-        $ID: VW94tAZmo0evwIp12udibg==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-15
-        DestinationConnectionIndex: 0
-        DestinationPointer: AaPW1Ryk7UShiogcvHW+Tw==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: yKPxZ1Pi/UW1PlyhaXjt4A==
           $Type: Microflows$NoCase
-        OriginBezierVector: 0;30
-        OriginConnectionIndex: 2
-        OriginPointer: Ym2XuXT4+E+dUUd7vGWx7Q==
       ID: VW94tAZmo0evwIp12udibg==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: AaPW1Ryk7UShiogcvHW+Tw==
         $Type: Microflows$EndEvent
         Documentation: ""
-        RelativeMiddlePoint: 225;480
         ReturnValue: ""
-        Size: 20;20
       ID: AaPW1Ryk7UShiogcvHW+Tw==
-      Type: Microflows$EndEvent
   - - Attributes:
-        $ID: X9R98F6jbkGcLl542PLGQw==
         $Type: Microflows$SequenceFlow
-        DestinationBezierVector: -15;0
-        DestinationConnectionIndex: 3
-        DestinationPointer: s/sMzU+9jU6gYpEphukSwA==
         IsErrorHandler: false
-        LineType: BezierCurve
         NewCaseValue:
-          $ID: 9EOrgfFCqUqfK/kaK2Zl7Q==
           $Type: Microflows$InheritanceCase
           Value: ""
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: jBrex3P5DkqeQ9T76U3Mqg==
       ID: X9R98F6jbkGcLl542PLGQw==
-      Type: Microflows$SequenceFlow
     - Attributes:
-        $ID: s/sMzU+9jU6gYpEphukSwA==
         $Type: Microflows$ExclusiveMerge
-        RelativeMiddlePoint: 225;300
-        Size: 110;40
       ID: s/sMzU+9jU6gYpEphukSwA==
-      Type: Microflows$ExclusiveMerge
-    - Attributes:
-        $ID: Fr61hRYx4UapWP695erL5w==
-        $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-30
-        DestinationConnectionIndex: 0
-        DestinationPointer: Ym2XuXT4+E+dUUd7vGWx7Q==
-        IsErrorHandler: false
-        LineType: BezierCurve
-        NewCaseValue:
-          $ID: wczQUyvYa0e61o8qhHfmzA==
-          $Type: Microflows$NoCase
-        OriginBezierVector: 0;15
-        OriginConnectionIndex: 2
-        OriginPointer: s/sMzU+9jU6gYpEphukSwA==
-      ID: Fr61hRYx4UapWP695erL5w==
-      Type: Microflows$SequenceFlow
-    - Attributes:
-        $ID: Ym2XuXT4+E+dUUd7vGWx7Q==
-        $Type: Microflows$ActionActivity
-        Action:
-          $ID: ZdR5izA+yUOpTUou/rsT+g==
-          $Type: Microflows$ShowMessageAction
-          Blocking: true
-          ErrorHandlingType: Rollback
-          Template:
-            $ID: frH7uxQnLkKBCSWArucufA==
-            $Type: Microflows$TextTemplate
-            Parameters: []
-            Text:
-              $ID: EIOXDBOxFEuBbQe0kYhjtQ==
-              $Type: Texts$Text
-              Items:
-              - $ID: L+rp15deWUqpnxV7xbZRhQ==
-                $Type: Texts$Translation
-                LanguageCode: en_US
-                Text: No account information is available for anonymous users.
-              - $ID: 1efvL4xzSUqWssDmUOQGzQ==
-                $Type: Texts$Translation
-                LanguageCode: nl_NL
-                Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
-          Type: Information
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-        RelativeMiddlePoint: 225;390
-        Size: 120;60
-      ID: Ym2XuXT4+E+dUUd7vGWx7Q==
-      Type: Microflows$ActionActivity
-    - Attributes:
-        $ID: VW94tAZmo0evwIp12udibg==
-        $Type: Microflows$SequenceFlow
-        DestinationBezierVector: 0;-15
-        DestinationConnectionIndex: 0
-        DestinationPointer: AaPW1Ryk7UShiogcvHW+Tw==
-        IsErrorHandler: false
-        LineType: BezierCurve
-        NewCaseValue:
-          $ID: yKPxZ1Pi/UW1PlyhaXjt4A==
-          $Type: Microflows$NoCase
-        OriginBezierVector: 0;30
-        OriginConnectionIndex: 2
-        OriginPointer: Ym2XuXT4+E+dUUd7vGWx7Q==
-      ID: VW94tAZmo0evwIp12udibg==
-      Type: Microflows$SequenceFlow
-    - Attributes:
-        $ID: AaPW1Ryk7UShiogcvHW+Tw==
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        RelativeMiddlePoint: 225;480
-        ReturnValue: ""
-        Size: 20;20
-      ID: AaPW1Ryk7UShiogcvHW+Tw==
-      Type: Microflows$EndEvent
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: ManageMyAccount
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$InheritanceSplit
-    Caption: ""
-    Documentation: ""
-    SplitVariableName: currentUser
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowFormAction
-      ErrorHandlingType: Rollback
-      FormSettings:
-        $Type: Forms$FormSettings
-        Form: Administration.MyAccount
-        ParameterMappings:
-        - $Type: Forms$PageParameterMapping
-          Argument: $Account
-          Parameter: Administration.MyAccount.Account
-          Variable:
-            $Type: Forms$PageVariable
-            PageParameter: ""
-            SnippetParameter: ""
-            UseAllPages: false
-            Widget: ""
-        TitleOverride: null
-      NumberOfPagesToClose: ""
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CastAction
-      ErrorHandlingType: Rollback
-      VariableName: Account
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveMerge
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowMessageAction
-      Blocking: true
-      ErrorHandlingType: Rollback
-      Template:
-        $Type: Microflows$TextTemplate
-        Parameters: null
-        Text:
-          $Type: Texts$Text
-          Items:
-          - $Type: Texts$Translation
-            LanguageCode: en_US
-            Text: No account information is available for anonymous users.
-          - $Type: Texts$Translation
-            LanguageCode: nl_NL
-            Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null
