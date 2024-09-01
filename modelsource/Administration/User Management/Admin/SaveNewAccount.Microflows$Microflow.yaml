@@ -13,75 +13,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: SaveNewAccount
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$ExclusiveSplit
-    Caption: Passwords equal?
-    Documentation: ""
-    ErrorHandlingType: Rollback
-    SplitCondition:
-      $Type: Microflows$ExpressionSplitCondition
-      Expression: $AccountPasswordData/NewPassword = $AccountPasswordData/ConfirmPassword
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowMessageAction
-      Blocking: true
-      ErrorHandlingType: Rollback
-      Template:
-        $Type: Microflows$TextTemplate
-        Parameters: null
-        Text:
-          $Type: Texts$Text
-          Items:
-          - $Type: Texts$Translation
-            LanguageCode: en_US
-            Text: The entered passwords do not match.
-          - $Type: Texts$Translation
-            LanguageCode: nl_NL
-            Text: De ingevoerde wachtwoorden zijn niet gelijk.
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ChangeAction
-      ChangeVariableName: Account
-      Commit: "Yes"
-      ErrorHandlingType: Rollback
-      Items:
-      - $Type: Microflows$ChangeActionItem
-        Association: ""
-        Attribute: System.User.Password
-        Value: $AccountPasswordData/NewPassword
-      RefreshInClient: true
-    AutoGenerateCaption: false
-    BackgroundColor: Default
-    Caption: Set password and save account
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: AccountPasswordData
-    VariableType:
-      $Type: DataTypes$ObjectType
-      Entity: Administration.AccountPasswordData
-  - $Type: Microflows$ActionActivity
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: mdk/bGAuGkWTsLTdER9ODg==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: 96PTyNo6o0ykEJa03gwJYg==
+- Attributes:
+    $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$RetrieveAction
       ErrorHandlingType: Rollback
@@ -95,27 +38,148 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$DeleteAction
-      DeleteVariableName: AccountPasswordData
-      ErrorHandlingType: Rollback
-      RefreshInClient: false
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
+  ID: /YMtQC2nZ0+5cjanYDgfpQ==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: N2iK2bDI1U68F3v3jXB62w==
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
+    Caption: Passwords equal?
     Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CloseFormAction
-      ErrorHandlingType: Rollback
-      NumberOfPagesToClose: ""
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $AccountPasswordData/NewPassword = $AccountPasswordData/ConfirmPassword
+  ID: 0HFO3iM/O0KdWf5PIatlPQ==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+      ID: whEwm05WVEuvlxJbT/JXcA==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$ChangeAction
+          ChangeVariableName: Account
+          Commit: "Yes"
+          ErrorHandlingType: Rollback
+          Items:
+          - $ID: kJebT5xzF0+WdG5rLtZphQ==
+            $Type: Microflows$ChangeActionItem
+            Association: ""
+            Attribute: System.User.Password
+            Type: Set
+            Value: $AccountPasswordData/NewPassword
+          RefreshInClient: true
+        AutoGenerateCaption: false
+        BackgroundColor: Default
+        Caption: Set password and save account
+        Disabled: false
+        Documentation: ""
+      ID: qZP61cEwuUWgoeOkLi+i0Q==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: XuV1g09U3Uq3YrF79fcSow==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$DeleteAction
+          DeleteVariableName: AccountPasswordData
+          ErrorHandlingType: Rollback
+          RefreshInClient: false
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: +FwH7ZfSckez4fNUsf0ETQ==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: guC/y5gqoUi9UJC9cgZxFA==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$CloseFormAction
+          ErrorHandlingType: Rollback
+          NumberOfPagesToClose: ""
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: I4ZcD/QiBEmqlUgmZDqJ0w==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: YmqfzFt1jUq5nqPk2q9HUg==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: ikVWHPBwEEib6lDhKO7Pqg==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+      ID: QnQwycyd2EuRo/G3LEcD+g==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$ShowMessageAction
+          Blocking: true
+          ErrorHandlingType: Rollback
+          Template:
+            $Type: Microflows$TextTemplate
+            Parameters: null
+            Text:
+              $Type: Texts$Text
+              Items:
+              - $ID: D8PPJCMA/U2m9QfQDhkcMQ==
+                $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: The entered passwords do not match.
+              - $ID: lqGZWK9CtUSPCBQR2uhLTw==
+                $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: De ingevoerde wachtwoorden zijn niet gelijk.
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: X6yvCFEwVkuWsRpNBpa9hA==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: /KfpTLKWyE2jB+1cEj2vjg==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: AdpXEmmkHk6LQAiaVBgpXQ==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: SaveNewAccount
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

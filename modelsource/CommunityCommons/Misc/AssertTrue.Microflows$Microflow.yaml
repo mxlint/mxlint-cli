@@ -12,57 +12,84 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: AssertTrue
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$MicroflowParameter
-    Documentation: ""
-    HasVariableNameBeenChanged: false
-    Name: valueToAssert
-    VariableType:
-      $Type: DataTypes$BooleanType
-  - $Type: Microflows$ExclusiveSplit
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: Qvq57I3IukujnFDPAZy47w==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: 845WSiW3mkOQgqzuBUSeFA==
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
     Caption: ""
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $valueToAssert
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$JavaActionCallAction
-      ErrorHandlingType: Rollback
-      JavaAction: CommunityCommons.ThrowException
-      ParameterMappings:
-      - $Type: Microflows$JavaActionParameterMapping
-        Parameter: CommunityCommons.ThrowException.message
-        Value:
-          $Type: Microflows$BasicCodeActionParameterValue
-          Argument: '''Assertion failed'''
-      QueueSettings: null
-      ResultVariableName: sd
-      UseReturnVariable: true
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$Annotation
-    Caption: "Shorthand for checking something, and throwing an error if that something
-      is not true. \r\n\r\nSaves creating three microflow items for things that MUST
-      be true. "
+  ID: +H9ra7UvPE6wk7IPuHrKrA==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+      ID: JmMgxjpD5E6Ur0bry2BY0A==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: RGm2IVwN00C0o6Xyl2hFzA==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+      ID: rREy25bWEUqY1MhRhvVecQ==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$JavaActionCallAction
+          ErrorHandlingType: Rollback
+          JavaAction: CommunityCommons.ThrowException
+          ParameterMappings:
+          - $ID: WX0+oYczUEKIcQjOcp/Tqw==
+            $Type: Microflows$JavaActionParameterMapping
+            Parameter: CommunityCommons.ThrowException.message
+            Value:
+              $ID: l4+h7hh7LUmuIgScZ5rIQg==
+              $Type: Microflows$BasicCodeActionParameterValue
+              Argument: '''Assertion failed'''
+          QueueSettings: null
+          ResultVariableName: sd
+          UseReturnVariable: true
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: HRMN7wbW9k64i5rNOyL0ew==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: OiSEPLzuZUCothWH+4oG5g==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: 3v2TF6NuFkWizQXTZXPQUg==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: AssertTrue
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

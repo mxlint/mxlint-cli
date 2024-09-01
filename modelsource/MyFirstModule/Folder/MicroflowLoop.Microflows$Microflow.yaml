@@ -9,19 +9,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowLoop
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: h57ht2uywUKMj79wqWwrNA==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: j2l7MveS+U+Nxfh0e6k9Mw==
+- Attributes:
+    $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -34,29 +33,78 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  - $Type: Microflows$ExclusiveSplit
+  ID: HbNWE8TSLEuz3yHfgtsVqA==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: lKS+WTYzb02NHe2gaXTWgg==
+- Attributes:
+    $Type: Microflows$ExclusiveMerge
+  ID: mm5v35DlKkatHhBpRMwrPw==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: clF3GO2qQk6G02i3lq8Fog==
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
     Caption: Enough?
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $counter > 0
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ChangeVariableAction
-      ChangeVariableName: counter
-      ErrorHandlingType: Rollback
-      Value: $counter-1
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveMerge
-  - $Type: Microflows$Annotation
-    Caption: 'label: label1'
-  - $Type: Microflows$Annotation
-    Caption: 'goto: label1'
+  ID: COpkw9C8akOeKVHu0HXlyw==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+      ID: KhTr2W2/KEenPKLcsYtBHg==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: Ls14hPIfTkm92WzqUQK1bg==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+      ID: RsYppctBT0K4QndUOADwFA==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$ChangeVariableAction
+          ChangeVariableName: counter
+          ErrorHandlingType: Rollback
+          Value: $counter-1
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: AEF93j4qgE6l4/tfVn5aJg==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: 2nOMDaYdmESzZcouvcsaow==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: mm5v35DlKkatHhBpRMwrPw==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowLoop
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

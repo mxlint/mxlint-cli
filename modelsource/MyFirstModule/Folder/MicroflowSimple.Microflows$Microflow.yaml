@@ -9,19 +9,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowSimple
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: m5wti1Iol0qtevc4CdWU3Q==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: zTturFRlMkK1eZoQvr5cCA==
+- Attributes:
+    $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -34,6 +33,23 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
+  ID: mYLLN8S/p0uaQ03xTD+aQw==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: 625bzL2FE0CsrXY1V6LC3w==
+- Attributes:
+    $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  ID: CL27rrYPYkSYdO5b8N+e1Q==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowSimple
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

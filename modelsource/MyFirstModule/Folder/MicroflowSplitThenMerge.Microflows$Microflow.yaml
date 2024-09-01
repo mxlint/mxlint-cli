@@ -9,19 +9,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowSplitThenMerge
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: 3ULjPw/HR0KHuEFu+ddBqA==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: vXy7m2BL/E2oyWj1DQEbuQ==
+- Attributes:
+    $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -34,30 +33,83 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  - $Type: Microflows$ExclusiveSplit
+  ID: kpzRUYH980m6qe/7N+8/oQ==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: NbaqvBS/UUK8mtKsb424Vg==
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
     Caption: left or right?
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $Variable
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$LogMessageAction
-      ErrorHandlingType: Rollback
-      IncludeLatestStackTrace: false
-      Level: Info
-      MessageTemplate:
-        $Type: Microflows$StringTemplate
-        Parameters: null
-        Text: test
-      Node: '''XXX'''
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveMerge
+  ID: sHFKcFzzTkGhYKvAfPxPHA==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "false"
+      ID: +8KCFZIC7ki5FLBWb/kDJw==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: rCM3lK5dOUmpzH48x5Muow==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: 8vn7AWccEUuAh8WI7ecEuw==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: cgzL3/ggkUSTsdwnrFQ2PA==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: "true"
+      ID: oOMb9XNPJECBUBECXd+EKw==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$LogMessageAction
+          ErrorHandlingType: Rollback
+          IncludeLatestStackTrace: false
+          Level: Info
+          MessageTemplate:
+            $Type: Microflows$StringTemplate
+            Parameters: null
+            Text: test
+          Node: '''XXX'''
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: em5G1jBR3EubCFMEV0do/g==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: i0DlGkV9ZkSkuUgg8D0CIg==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: rCM3lK5dOUmpzH48x5Muow==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowSplitThenMerge
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

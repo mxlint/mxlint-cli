@@ -18,22 +18,35 @@ func transformMicroflow(mf MxDocument) MxDocument {
 	}
 	buildDAG(&root, nil, flows, objs)
 	mainFlow := make([]map[string]interface{}, 0)
-	// FIXME: flow conversion is not working for loops yet; it generates incomplete flows
-	extractMainFlow(&mainFlow, &root)
+	labels := make(map[string]interface{}, 0)
+	extractMainFlow(&mainFlow, &root, &labels)
 	mf.Attributes["MainFunction"] = mainFlow
+	// remove ObjectCollection
+	delete(mf.Attributes, "ObjectCollection")
 	return mf
 }
 
-func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNode) {
+func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNode, labels *map[string]interface{}) {
 	c := convertMxMicroflowNodeToMap(current)
 	*mainFlow = append(*mainFlow, c)
 	if current.Type == "Microflows$EndEvent" {
 		return
 	}
 
-	if current.Type == "Microflows$ExclusiveMerge" && current.Attributes["Loop"] == true {
-		log.Infof("Loop detected; not traversing")
-		return
+	if current.Type == "Microflows$ExclusiveMerge" {
+		id, ok := c["ID"].(string)
+		if !ok {
+			log.Warn("ID is not a string or is nil")
+			return
+		}
+		// check if label already exists
+		if _, ok := (*labels)[id]; !ok {
+			(*labels)[id] = c
+			// continue expanding this subflow
+		} else {
+			log.Infof("Loop detected; not traversing")
+			return
+		}
 	}
 
 	children := current.Children
@@ -46,13 +59,13 @@ func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNod
 	} else if len(*children) == 1 {
 		// sequence
 		child := (*children)[0]
-		extractMainFlow(mainFlow, &child)
+		extractMainFlow(mainFlow, &child, labels)
 	} else {
 		// split
 		splits := make([]interface{}, 0)
 		for _, child := range *children {
 			subflow := make([]map[string]interface{}, 0)
-			extractMainFlow(&subflow, &child)
+			extractMainFlow(&subflow, &child, labels)
 			splits = append(splits, subflow)
 		}
 		c["Splits"] = splits
@@ -82,7 +95,7 @@ func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicro
 				children = append(children, edgeNode)
 			}
 		} else {
-			// loop
+			log.Infof("Loop detected; not traversing")
 			return
 		}
 	case "Microflows$SequenceFlow":

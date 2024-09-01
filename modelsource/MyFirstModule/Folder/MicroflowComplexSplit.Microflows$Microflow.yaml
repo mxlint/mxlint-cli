@@ -9,19 +9,18 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowComplexSplit
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: z3IV54pBiECtrVaG5OuWmQ==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: zKwC/ITApkuDOmCce8Dewg==
+- Attributes:
+    $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -35,37 +34,117 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  - $Type: Microflows$ExclusiveSplit
+  ID: WA7uSz/RZECnFHUreC5jCA==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: EFsMxdT6Lk2FHHXD0mQ6lA==
+- Attributes:
+    $Type: Microflows$ExclusiveSplit
     Caption: Decision
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $status
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ExclusiveMerge
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CreateChangeAction
-      Commit: "No"
-      Entity: MyFirstModule.Bike
-      ErrorHandlingType: Rollback
-      Items: null
-      RefreshInClient: false
-      VariableName: NewBike
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
+  ID: k1RuhuNXQEawQgedZoo8pg==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: Done
+      ID: xgEbQQI88EOLJz0V0VSvow==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: LNV2V2q760mehPNGxq1Cew==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: 3WVsH6q7I06a+7d+xmf/pA==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: XL9nJFKLeEe4wjk4WL3ZDg==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: InProgress
+      ID: 16DHvQPyHkSemxlRL0j6oQ==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: Wxo9NsWdgU+nCMgIRHpvdw==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: (empty)
+      ID: czmcATaE0EKl4cIZad+jiw==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$CreateChangeAction
+          Commit: "No"
+          Entity: MyFirstModule.Bike
+          ErrorHandlingType: Rollback
+          Items: null
+          RefreshInClient: false
+          VariableName: NewBike
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: pDf2P0kGPUi+32jRDK15ww==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: iWDv0eBH0U+mqTnXWkljnA==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: G7gNyc/7706fP2YANSpKvA==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: Cancelled
+      ID: C04GFMTrD0yrYUtFpQiCdg==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: LNV2V2q760mehPNGxq1Cew==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$EnumerationCase
+          Value: _New
+      ID: 792jungD6E2Y/Luc+TSfXw==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: pfGEys+ztEaW6etK6zaNAw==
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowComplexSplit
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

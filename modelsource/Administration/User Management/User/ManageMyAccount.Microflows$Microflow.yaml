@@ -13,82 +13,155 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
+MainFunction:
+- Attributes:
+    $Type: Microflows$StartEvent
+  ID: Vb0OchmUpUu9WEQ3ZL3seg==
+- Attributes:
+    $Type: Microflows$SequenceFlow
+    IsErrorHandler: false
+    NewCaseValue:
+      $Type: Microflows$NoCase
+  ID: xFmOKmuh1UCIJ+qxjVE9nw==
+- Attributes:
+    $Type: Microflows$InheritanceSplit
+    Caption: ""
+    Documentation: ""
+    SplitVariableName: currentUser
+  ID: jBrex3P5DkqeQ9T76U3Mqg==
+  Splits:
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$InheritanceCase
+          Value: Administration.Account
+      ID: NQXo7HFzLU23YLm5fDAb5g==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$CastAction
+          ErrorHandlingType: Rollback
+          VariableName: Account
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: kpMHICq6SEqKeWwgNiuOag==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: /AkfuXXOc0eVv9qqNSDaKQ==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$ShowFormAction
+          ErrorHandlingType: Rollback
+          FormSettings:
+            $Type: Forms$FormSettings
+            Form: Administration.MyAccount
+            ParameterMappings:
+            - $ID: RpPGqEYBAkmZpdyvXFCJlg==
+              $Type: Forms$PageParameterMapping
+              Argument: $Account
+              Parameter: Administration.MyAccount.Account
+              Variable:
+                $ID: VBhzxaGrCUmywgaWt7xiVg==
+                $Type: Forms$PageVariable
+                PageParameter: ""
+                SnippetParameter: ""
+                UseAllPages: false
+                Widget: ""
+            TitleOverride: null
+          NumberOfPagesToClose: ""
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: 43BwKEQPgk6AnRnUM2ME2g==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: jAYWWKEftkaXsAZYnKs76g==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: rHe2R7msa0WbYFRgnEso1g==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$InheritanceCase
+          Value: System.User
+      ID: f7njnImIe0aruIXsl5Thzg==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: s/sMzU+9jU6gYpEphukSwA==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: Fr61hRYx4UapWP695erL5w==
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$ShowMessageAction
+          Blocking: true
+          ErrorHandlingType: Rollback
+          Template:
+            $Type: Microflows$TextTemplate
+            Parameters: null
+            Text:
+              $Type: Texts$Text
+              Items:
+              - $ID: L+rp15deWUqpnxV7xbZRhQ==
+                $Type: Texts$Translation
+                LanguageCode: en_US
+                Text: No account information is available for anonymous users.
+              - $ID: 1efvL4xzSUqWssDmUOQGzQ==
+                $Type: Texts$Translation
+                LanguageCode: nl_NL
+                Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+      ID: Ym2XuXT4+E+dUUd7vGWx7Q==
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$NoCase
+      ID: VW94tAZmo0evwIp12udibg==
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+      ID: AaPW1Ryk7UShiogcvHW+Tw==
+  - - Attributes:
+        $Type: Microflows$SequenceFlow
+        IsErrorHandler: false
+        NewCaseValue:
+          $Type: Microflows$InheritanceCase
+          Value: ""
+      ID: X9R98F6jbkGcLl542PLGQw==
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+      ID: s/sMzU+9jU6gYpEphukSwA==
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
   $Type: DataTypes$VoidType
 Name: ManageMyAccount
-ObjectCollection:
-  $Type: Microflows$MicroflowObjectCollection
-  Objects:
-  - $Type: Microflows$StartEvent
-  - $Type: Microflows$InheritanceSplit
-    Caption: ""
-    Documentation: ""
-    SplitVariableName: currentUser
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowFormAction
-      ErrorHandlingType: Rollback
-      FormSettings:
-        $Type: Forms$FormSettings
-        Form: Administration.MyAccount
-        ParameterMappings:
-        - $Type: Forms$PageParameterMapping
-          Argument: $Account
-          Parameter: Administration.MyAccount.Account
-          Variable:
-            $Type: Forms$PageVariable
-            PageParameter: ""
-            SnippetParameter: ""
-            UseAllPages: false
-            Widget: ""
-        TitleOverride: null
-      NumberOfPagesToClose: ""
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CastAction
-      ErrorHandlingType: Rollback
-      VariableName: Account
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  - $Type: Microflows$ExclusiveMerge
-  - $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  - $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$ShowMessageAction
-      Blocking: true
-      ErrorHandlingType: Rollback
-      Template:
-        $Type: Microflows$TextTemplate
-        Parameters: null
-        Text:
-          $Type: Texts$Text
-          Items:
-          - $Type: Texts$Translation
-            LanguageCode: en_US
-            Text: No account information is available for anonymous users.
-          - $Type: Texts$Translation
-            LanguageCode: nl_NL
-            Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
