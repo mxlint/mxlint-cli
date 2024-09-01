@@ -20,3 +20,4 @@ ObjectCollection:
     Name: String
     VariableType:
       $Type: DataTypes$StringType
+ReturnVariableName: ""

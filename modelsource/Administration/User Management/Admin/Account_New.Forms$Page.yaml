@@ -251,12 +251,18 @@ FormCall:
                 OnLeaveAction:
                   $Type: Forms$NoAction
                   DisabledDuringExecution: false
-                Placeholder:
-                  $Type: Texts$Text
-                  Items:
-                  - $Type: Texts$Translation
-                    LanguageCode: en_US
-                    Text: ""
+                PlaceholderTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: ""
                 ReadOnlyStyle: Inherit
                 ScreenReaderLabel: null
                 SourceVariable: null
@@ -330,12 +336,18 @@ FormCall:
                 OnLeaveAction:
                   $Type: Forms$NoAction
                   DisabledDuringExecution: false
-                Placeholder:
-                  $Type: Texts$Text
-                  Items:
-                  - $Type: Texts$Translation
-                    LanguageCode: en_US
-                    Text: ""
+                PlaceholderTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: ""
                 ReadOnlyStyle: Inherit
                 ScreenReaderLabel: null
                 SourceVariable: null
@@ -3435,12 +3447,18 @@ FormCall:
               OnLeaveAction:
                 $Type: Forms$NoAction
                 DisabledDuringExecution: false
-              Placeholder:
-                $Type: Texts$Text
-                Items:
-                - $Type: Texts$Translation
-                  LanguageCode: en_US
-                  Text: ""
+              PlaceholderTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
               ReadOnlyStyle: Inherit
               ScreenReaderLabel: null
               SourceVariable:
@@ -3522,12 +3540,18 @@ FormCall:
               OnLeaveAction:
                 $Type: Forms$NoAction
                 DisabledDuringExecution: false
-              Placeholder:
-                $Type: Texts$Text
-                Items:
-                - $Type: Texts$Translation
-                  LanguageCode: en_US
-                  Text: ""
+              PlaceholderTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
               ReadOnlyStyle: Inherit
               ScreenReaderLabel: null
               SourceVariable:

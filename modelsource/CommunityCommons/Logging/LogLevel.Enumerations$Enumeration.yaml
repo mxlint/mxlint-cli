@@ -16,6 +16,7 @@ Values:
       LanguageCode: nl_NL
       Text: Trace
   Name: Trace
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -27,6 +28,7 @@ Values:
       LanguageCode: nl_NL
       Text: Debug
   Name: Debug
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -38,6 +40,7 @@ Values:
       LanguageCode: nl_NL
       Text: Info
   Name: Info
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -49,6 +52,7 @@ Values:
       LanguageCode: nl_NL
       Text: Warning
   Name: Warning
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -60,6 +64,7 @@ Values:
       LanguageCode: nl_NL
       Text: Error
   Name: Error
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -71,3 +76,4 @@ Values:
       LanguageCode: nl_NL
       Text: Critical
   Name: Critical
+  RemoteValue: null

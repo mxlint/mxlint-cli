@@ -1122,48 +1122,6 @@ SystemTexts:
       Text: You can’t complete this user task, it may be already completed, invalid,
         or the workflow might have moved on.
 - $Type: Texts$SystemText
-  InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_removed
-  Text:
-    $Type: Texts$Text
-    Items:
-    - $Type: Texts$Translation
-      LanguageCode: nl_NL
-      Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
-        een van de huidige, in-progress, parallel split activiteiten is verwijderd
-        sinds de workflow is gestart.
-    - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate jump-to options for this workflow instance as an in-progress
-        parallel split has been removed since the workflow has started.
-- $Type: Texts$SystemText
-  InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_branch_removed
-  Text:
-    $Type: Texts$Text
-    Items:
-    - $Type: Texts$Translation
-      LanguageCode: nl_NL
-      Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
-        een van de huidige, in-progress, parallel split branches is verwijderd sinds
-        de workflow is gestart.
-    - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate jump-to options for this workflow instance as an in-progress
-        parallel split branch has been removed since the workflow has started.
-- $Type: Texts$SystemText
-  InternalKey: mendix.platform.workflows.adhoc_jumpto_parallel_split_branch_added
-  Text:
-    $Type: Texts$Text
-    Items:
-    - $Type: Texts$Translation
-      LanguageCode: nl_NL
-      Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, want
-        er is een branch toegevoegd aan een van de huidige, in-progress, parallel
-        split activiteiten sinds de workflow is gestart.
-    - $Type: Texts$Translation
-      LanguageCode: en_US
-      Text: Can't generate the jump-to options for this workflow instance as a branch
-        was added to in-progress parallel splits since the workflow has started.
-- $Type: Texts$SystemText
   InternalKey: mendix.platform.workflows.cant_lock_workflow_definition_locked
   Text:
     $Type: Texts$Text
@@ -1311,3 +1269,16 @@ SystemTexts:
     - $Type: Texts$Translation
       LanguageCode: nl_NL
       Text: Alleen ingelogde gebruikers kunnen een taak afronden.
+- $Type: Texts$SystemText
+  InternalKey: mendix.platform.workflows.adhoc_jumpto_not_allowed
+  Text:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: Can't generate jump-to options for this workflow instance as its current
+        state does not allow it.
+    - $Type: Texts$Translation
+      LanguageCode: nl_NL
+      Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, omdat
+        de huidige state het niet toestaat.

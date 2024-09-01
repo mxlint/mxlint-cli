@@ -1,0 +1,69 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items: null
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowForLoop
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: BikeList
+      RetrieveSource:
+        $Type: Microflows$DatabaseRetrieveSource
+        Entity: MyFirstModule.Bike
+        NewSortings:
+          $Type: Microflows$SortingsList
+          Sortings: null
+        Range:
+          $Type: Microflows$ConstantRange
+          SingleObject: false
+        XpathConstraint: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$LoopedActivity
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    LoopSource:
+      $Type: Microflows$IterableList
+      ListVariableName: BikeList
+      VariableName: IteratorBike
+    ObjectCollection:
+      $Type: Microflows$MicroflowObjectCollection
+      Objects:
+      - $Type: Microflows$ActionActivity
+        Action:
+          $Type: Microflows$CommitAction
+          CommitVariableName: IteratorBike
+          ErrorHandlingType: Rollback
+          RefreshInClient: false
+          WithEvents: true
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

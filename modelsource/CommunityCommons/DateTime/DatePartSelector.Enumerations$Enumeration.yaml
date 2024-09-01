@@ -16,6 +16,7 @@ Values:
       LanguageCode: nl_NL
       Text: jaar
   Name: year
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -27,6 +28,7 @@ Values:
       LanguageCode: nl_NL
       Text: maand
   Name: month
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -38,3 +40,4 @@ Values:
       LanguageCode: nl_NL
       Text: dag
   Name: day
+  RemoteValue: null

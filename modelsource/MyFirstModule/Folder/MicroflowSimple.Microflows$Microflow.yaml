@@ -9,37 +9,6 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-- Attributes:
-    $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CreateVariableAction
-      ErrorHandlingType: Rollback
-      InitialValue: "false"
-      VariableName: Variable
-      VariableType:
-        $Type: DataTypes$BooleanType
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-- Attributes:
-    $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
@@ -65,6 +34,7 @@ ObjectCollection:
     Caption: Activity
     Disabled: false
     Documentation: ""
+ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null
 WorkflowActionInfo: null

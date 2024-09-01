@@ -13,6 +13,7 @@ Values:
       LanguageCode: en_US
       Text: Done
   Name: Done
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -21,6 +22,7 @@ Values:
       LanguageCode: en_US
       Text: InProgress
   Name: InProgress
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -29,6 +31,7 @@ Values:
       LanguageCode: en_US
       Text: New
   Name: _New
+  RemoteValue: null
 - $Type: Enumerations$EnumerationValue
   Caption:
     $Type: Texts$Text
@@ -37,3 +40,4 @@ Values:
       LanguageCode: en_US
       Text: Cancelled
   Name: Cancelled
+  RemoteValue: null
