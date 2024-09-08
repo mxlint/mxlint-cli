@@ -2,8 +2,8 @@ package lint
 
 import (
 	"context"
-	"encoding/xml"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"os"
 	"strings"
@@ -28,21 +28,21 @@ func printTestsuite(ts Testsuite) {
 	fmt.Println("")
 }
 
-func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
+func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
 	testsuites := make([]Testsuite, 0)
-	policies, err := readPoliciesMetadata(policiesPath)
+	rules, err := readRulesMetadata(rulesPath)
 	if err != nil {
 		return err
 	}
 	failuresCount := 0
-	for _, policy := range policies {
-			testsuite, err := evalTestsuite(policy, modelSourcePath)
-			if err != nil {
-				return err
-			}
-			printTestsuite(*testsuite)
-			failuresCount += testsuite.Failures
-			testsuites = append(testsuites, *testsuite)
+	for _, rule := range rules {
+		testsuite, err := evalTestsuite(rule, modelSourcePath)
+		if err != nil {
+			return err
+		}
+		printTestsuite(*testsuite)
+		failuresCount += testsuite.Failures
+		testsuites = append(testsuites, *testsuite)
 	}
 
 	if xunitReport != "" {
@@ -69,7 +69,7 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, js
 
 		encoder := json.NewEncoder(file)
 		encoder.SetIndent("", "  ")
-		testsuitesContainer := TestSuites{Testsuites: testsuites, Policies: policies}
+		testsuitesContainer := TestSuites{Testsuites: testsuites, Rules: rules}
 		if err := encoder.Encode(testsuitesContainer); err != nil {
 			panic(err)
 		}
@@ -81,25 +81,25 @@ func EvalAll(policiesPath string, modelSourcePath string, xunitReport string, js
 	return nil
 }
 
-func evalTestsuite(policy Policy, modelSourcePath string) (*Testsuite, error) {
+func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 
-	log.Debugf("evaluating policy %s", policy.Path)
+	log.Debugf("evaluating rule %s", rule.Path)
 
 	var skipped *Skipped = nil
-	if policy.SkipReason != "" {
+	if rule.SkipReason != "" {
 		skipped = &Skipped{
-			Message: policy.SkipReason,
+			Message: rule.SkipReason,
 		}
 	}
 
-	queryString := "data." + policy.PackageName
+	queryString := "data." + rule.PackageName
 	testcases := make([]Testcase, 0)
 	failuresCount := 0
 	skippedCount := 0
 	totalTime := 0.0
-	inputFiles, err := expandPaths(policy.Pattern, modelSourcePath)
+	inputFiles, err := expandPaths(rule.Pattern, modelSourcePath)
 	if err != nil {
-			return nil, err
+		return nil, err
 	}
 	testcase := &Testcase{}
 
@@ -112,7 +112,7 @@ func evalTestsuite(policy Policy, modelSourcePath string) (*Testsuite, error) {
 			}
 			skippedCount++
 		} else {
-			testcase, err = evalTestcase(policy.Path, queryString, inputFile)
+			testcase, err = evalTestcase(rule.Path, queryString, inputFile)
 			if err != nil {
 				return nil, err
 			}
@@ -126,7 +126,7 @@ func evalTestsuite(policy Policy, modelSourcePath string) (*Testsuite, error) {
 	}
 
 	testsuite := &Testsuite{
-		Name:      policy.Path,
+		Name:      rule.Path,
 		Tests:     len(testcases),
 		Failures:  failuresCount,
 		Skipped:   skippedCount,
@@ -137,8 +137,8 @@ func evalTestsuite(policy Policy, modelSourcePath string) (*Testsuite, error) {
 	return testsuite, nil
 }
 
-func evalTestcase(policyPath string, queryString string, inputFilePath string) (*Testcase, error) {
-	regoFile, _ := os.ReadFile(policyPath)
+func evalTestcase(rulePath string, queryString string, inputFilePath string) (*Testcase, error) {
+	regoFile, _ := os.ReadFile(rulePath)
 	log.Debugf("rego file: \n%s", regoFile)
 
 	yamlFile, err := os.ReadFile(inputFilePath)
@@ -159,7 +159,7 @@ func evalTestcase(policyPath string, queryString string, inputFilePath string) (
 	startTime := time.Now()
 	r := rego.New(
 		rego.Query(queryString),
-		rego.Load([]string{policyPath}, nil),
+		rego.Load([]string{rulePath}, nil),
 		rego.Input(data),
 		rego.Trace(true),
 	)

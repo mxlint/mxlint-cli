@@ -6,36 +6,36 @@ import (
 	"strings"
 )
 
-func readPoliciesMetadata(policiesPath string) ([]Policy, error) {
-	policies := make([]Policy, 0)
-	filepath.Walk(policiesPath, func(path string, info os.FileInfo, err error) error {
+func readRulesMetadata(rulesPath string) ([]Rule, error) {
+	rules := make([]Rule, 0)
+	filepath.Walk(rulesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.rego") && strings.HasSuffix(info.Name(), ".rego") {
-			policy, err := parsePolicyMetadata(path)
+			rule, err := parseRuleMetadata(path)
 			if err != nil {
 				return err
 			}
-			policies = append(policies, *policy)
+			rules = append(rules, *rule)
 		}
 		return nil
 	})
-	return policies, nil
+	return rules, nil
 }
 
-func parsePolicyMetadata(policyPath string) (*Policy, error) {
+func parseRuleMetadata(rulePath string) (*Rule, error) {
 
-	log.Debugf("reading policy %s", policyPath)
+	log.Debugf("reading rule %s", rulePath)
 
-	// read the policy file
-	policyFile, err := os.Open(policyPath)
+	// read the rule file
+	ruleFile, err := os.Open(rulePath)
 	if err != nil {
 		return nil, err
 	}
-	defer policyFile.Close()
+	defer ruleFile.Close()
 
-	policyContent, err := os.ReadFile(policyPath)
+	ruleContent, err := os.ReadFile(rulePath)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func parsePolicyMetadata(policyPath string) (*Policy, error) {
 	var key string = ""
 	var value string = ""
 
-	lines := strings.Split(string(policyContent), "\n")
+	lines := strings.Split(string(ruleContent), "\n")
 
 	for _, line := range lines {
 		tokens := strings.Split(line, "package ")
@@ -93,7 +93,7 @@ func parsePolicyMetadata(policyPath string) (*Policy, error) {
 		}
 	}
 
-	policy := &Policy{
+	rule := &Rule{
 		Title:       title,
 		Description: description,
 		Category:    category,
@@ -101,10 +101,10 @@ func parsePolicyMetadata(policyPath string) (*Policy, error) {
 		RuleNumber:  ruleNumber,
 		Remediation: remediation,
 		RuleName:    ruleName,
-		Path:        policyPath,
+		Path:        rulePath,
 		SkipReason:  skipReason,
 		Pattern:     pattern,
 		PackageName: packageName,
 	}
-	return policy, nil
+	return rule, nil
 }

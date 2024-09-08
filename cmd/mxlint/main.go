@@ -46,10 +46,10 @@ func main() {
 
 	var cmdLint = &cobra.Command{
 		Use:   "lint",
-		Short: "Evaluate Mendix model against policies. Requires the model to be exported first",
-		Long:  "The model is evaluated against a set of policies. The policies are defined in OPA rego files. The output is a list of checked policies and their outcome.",
+		Short: "Evaluate Mendix model against rules. Requires the model to be exported first",
+		Long:  "The model is evaluated against a set of rules. The rules are defined in OPA rego files. The output is a list of checked rules and their outcome.",
 		Run: func(cmd *cobra.Command, args []string) {
-			policiesDirectory, _ := cmd.Flags().GetString("policies")
+			rulesDirectory, _ := cmd.Flags().GetString("rules")
 			modelDirectory, _ := cmd.Flags().GetString("modelsource")
 			xunitReport, _ := cmd.Flags().GetString("xunit-report")
 			JsonFile, _ := cmd.Flags().GetString("json-file")
@@ -63,7 +63,7 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := lint.EvalAll(policiesDirectory, modelDirectory, xunitReport, JsonFile)
+			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)
@@ -71,7 +71,7 @@ func main() {
 		},
 	}
 
-	cmdLint.Flags().StringP("policies", "p", "policies", "Path to directory with policies")
+	cmdLint.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
 	cmdLint.Flags().StringP("modelsource", "m", "modelsource", "Path to directory with exported model")
 	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
 	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")

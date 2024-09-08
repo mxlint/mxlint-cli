@@ -5,7 +5,7 @@ import "encoding/xml"
 type TestSuites struct {
 	XMLName    xml.Name    `xml:"testsuites" json:"-"`
 	Testsuites []Testsuite `xml:"testsuite" json:"testsuites"`
-	Policies  []Policy    `xml:"-" json:"policies"`
+	Rules      []Rule      `xml:"-" json:"rules"`
 }
 
 type Testsuite struct {
@@ -36,7 +36,7 @@ type Skipped struct {
 	Message string `xml:"message,attr" json:"message"`
 }
 
-type Policy struct {
+type Rule struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Category    string `json:"category"`

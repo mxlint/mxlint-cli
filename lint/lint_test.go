@@ -17,9 +17,9 @@ func TestLintSingle(t *testing.T) {
 	// 		t.Errorf("Policy not skipped")
 	// 	}
 	// })
-	t.Run("single policy passes", func(t *testing.T) {
-		policy, _ := parsePolicyMetadata("./../resources/policies/001_0003_security_checks.rego")
-		result, err := evalTestsuite(*policy, "./../modelsource")
+	t.Run("single rule passes", func(t *testing.T) {
+		rule, _ := parseRuleMetadata("./../resources/rules/001_0003_security_checks.rego")
+		result, err := evalTestsuite(*rule, "./../modelsource")
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")
@@ -32,8 +32,8 @@ func TestLintSingle(t *testing.T) {
 }
 
 func TestLintBundle(t *testing.T) {
-	t.Run("all-policy", func(t *testing.T) {
-		err := EvalAll("./../policies", "./../modelsource", "", "")
+	t.Run("all-rules", func(t *testing.T) {
+		err := EvalAll("./../resources/rules", "./../modelsource", "", "")
 
 		if err != nil {
 			t.Errorf("No failures expected: %v", err)

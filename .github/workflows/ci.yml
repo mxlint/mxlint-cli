@@ -31,4 +31,4 @@ jobs:
         git diff --exit-code modelsource 
 
     - name: Test subcommand lint
-      run: ./bin/mxlint lint --xunit-report report.xml --policies ./resources/policies
+      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules
