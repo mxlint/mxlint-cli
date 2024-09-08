@@ -47,4 +47,7 @@ deps:
 	@echo "Fetching dependencies"
 	@go mod tidy
 
-.PHONY: all build-macos build-windows clean test deps
+docs:
+	mkdocs build
+
+.PHONY: all build-macos build-windows clean test deps docs
