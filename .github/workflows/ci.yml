@@ -32,11 +32,3 @@ jobs:
 
     - name: Test subcommand lint
       run: ./bin/mxlint lint --xunit-report report.xml --policies ./resources/policies
-
-    - name: Process xunit-report
-      uses: dorny/test-reporter@v1
-      if: success() || failure()    # run this step even if previous step failed
-      with:
-        name: Lint Test Report
-        path: report.xml
-        reporter: java-junit
