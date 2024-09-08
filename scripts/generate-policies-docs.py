@@ -78,18 +78,19 @@ def generate_policy_docs(policy_file: str, output_file: str):
     del policy["title"]
     del policy["description"]
     del policy["remediation"]
+    del policy["custom"]
 
     with open(output_file, "w") as f:
         f.write(f"# {title}\n")
+        f.write(f"{remediation}\n")
+        f.write(f"## Metadata\n")
         f.write(f"## Description\n")
         f.write(f"{description}\n")
         f.write(f"## Remediation\n")
-        f.write(f"{remediation}\n")
-        f.write(f"## Metadata\n")
         f.write(f"```yaml\n")
         f.write(f"{yaml.dump(policy)}\n")
         f.write(f"```\n")
-        f.write(f"## Test script\n")
+        f.write(f"## Test cases\n")
         f.write(f"```rego\n")
         f.write(f"{get_test_file(policy_file)}\n")
         f.write(f"```\n")
