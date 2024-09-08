@@ -19,7 +19,7 @@ jobs:
         run: go test -v -p=1 -timeout=0 ./...
       - uses: wangyoucao577/go-release-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
           project_path: "./cmd/mxlint"
