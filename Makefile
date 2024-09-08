@@ -1,7 +1,7 @@
 # Makefile for building the Go CLI application
 
 # The output binary name
-BINARY_NAME=mendix-cli
+BINARY_NAME=mxlint
 
 # Go related variables
 GOBASE=$(shell pwd)
@@ -47,7 +47,4 @@ deps:
 	@echo "Fetching dependencies"
 	@go mod tidy
 
-docs:
-	mkdocs build
-
-.PHONY: all build-macos build-windows clean test deps docs
+.PHONY: all build-macos build-windows clean test deps
