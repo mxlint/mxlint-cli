@@ -22,8 +22,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          project_path: "./cmd/mendix-cli"
-          binary_name: "mendix-cli"
+          project_path: "./cmd/mxlint"
+          binary_name: "mxlint"
           ldflags: "-s -w"
           compress_assets: OFF
 

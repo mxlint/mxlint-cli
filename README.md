@@ -1,4 +1,4 @@
-# Mendix CLI
+# MxLint CLI
 
 A set of Command line interface tools for Mendix developers, CICD engineers and platform engineers.
 
@@ -6,11 +6,11 @@ A set of Command line interface tools for Mendix developers, CICD engineers and 
 
 ## Mendix Studio Pro extension
 
-The quickest way to try out Mendix-CLI is to use it as Mendix Studio pro extension. Follow the instructions at [mendix-cli-extension](https://github.com/cinaq/mendix-cli-extension)
+The quickest way to try out MxLint is to use it as Mendix Studio pro extension. Follow the instructions at [mendix-cli-extension](https://github.com/mxlint/mxlint-extension)
 
 ## Basic Usage
 
-Mendix-cli is a set of tools to help you with your Mendix projects. As such you can use it in many ways. To give you a feeling what it does. Try the following example:
+mxlint-cli is a set of tools to help you with your Mendix projects. As such you can use it in many ways. To give you a feeling what it does. Try the following example:
 
 ### Prerequisites
 
@@ -45,22 +45,6 @@ Mendix models are stored in a binary file with `.mpr` extension. This project ex
 ![Mendix Model Exporter](./resources/model-new-entity.png)
 
 See each Mendix document/object as a separate file in the output directory. And see the differences between versions in a version control system. Here we changed the `Documentation` of an entity and added a new `Entity` with one `Attribute`.
-
-### pre-commit hook setup
-
-> As of this writing, Mendix Studio Pro does not support Git hooks. You can use the following workaround to automatically export your Mendix model to Yaml before each commit. Make sure you have git-bash installed on your system. It is already present if you use Mendix 10. If you don't have it, download from [here](https://git-scm.com/download/win).
-
-Open git-bash inside of your project directory (use `cd Mendix/project-name` if needed) and run the following commands:
-
-```bash
-curl https://github.com/cinaq/mendix-cli/raw/main/pre-commit -o .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-
-# try it out
-.git/hooks/pre-commit
-```
-
-Now whenever you commit using git-bash, the Mendix model will be exported to Yaml before the commit. The changes will be included automatically.
 
 #### Pipeline integration
 
