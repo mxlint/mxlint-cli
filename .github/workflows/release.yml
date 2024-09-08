@@ -63,22 +63,3 @@ jobs:
           asset_path: ./policies.tar.gz
           asset_name: policies-${{ steps.get_release.outputs.tag_name}}.tar.gz
           asset_content_type: application/gzip
-  release-docs:
-    name: Release Docs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build
-        run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY -b gh-pages public
-          pip install -r requirements.txt
-          python scripts/generate-policies-docs.py
-          mkdocs build --verbose --clean
-
-      - name: Publish
-        run: |
-          git config --global user.name 'Robot'
-          git config --global user.email 'robot@cinaq.com'
-          rsync -av --delete site/ public/
-          cd public && git add . && git commit -m "Publish" && git push origin gh-pages
