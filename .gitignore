@@ -50,4 +50,8 @@ go.mod
 
 # Visual Studio Code
 .vscode/
+
+# ignore generated files
 site
+docs/policies
+

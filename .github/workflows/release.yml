@@ -42,7 +42,7 @@ jobs:
         id: get_release
         uses: bruceadams/get-release@v1.3.2
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Release Asset (ZIP)
         uses: actions/upload-release-asset@v1
@@ -73,6 +73,7 @@ jobs:
         run: |
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY -b gh-pages public
           pip install -r requirements.txt
+          python scripts/generate-policies-docs.py
           mkdocs build --verbose --clean
 
       - name: Publish
