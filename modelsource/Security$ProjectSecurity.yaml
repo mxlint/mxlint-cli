@@ -1,6 +1,6 @@
 $Type: Security$ProjectSecurity
 AdminPassword: Hello00!!!!
-AdminUserName: MxAdmin
+AdminUserName: MxAdmin2
 AdminUserRole: Administrator
 CheckSecurity: true
 DemoUsers:
