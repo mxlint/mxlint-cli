@@ -6,6 +6,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/glebarez/go-sqlite v1.22.0
 	github.com/open-policy-agent/opa v0.62.1
+	github.com/radovskyb/watcher v1.0.7
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0
 	go.mongodb.org/mongo-driver v1.14.0

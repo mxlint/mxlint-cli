@@ -75,8 +75,21 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 		}
 	}
 
+	for _, ts := range testsuites {
+		if ts.Failures > 0 {
+			log.Warningf("Rule %s: %d failures", ts.Name, ts.Failures)
+			for _, tc := range ts.Testcases {
+				if tc.Failure != nil {
+					log.Warningf("  Document %s: %s", tc.Name, tc.Failure.Message)
+				}
+			}
+		}
+	}
+
 	if failuresCount > 0 {
 		return fmt.Errorf("%d failures", failuresCount)
+	} else {
+		log.Infof("All good my friend")
 	}
 	return nil
 }
@@ -180,7 +193,7 @@ func evalTestcase(rulePath string, queryString string, inputFilePath string) (*T
 	if !result {
 		myErrors := make([]string, 0)
 		for _, err := range errors {
-			log.Warnf("Rule failed: %s", err)
+			//log.Warnf("Rule failed: %s", err)
 			myErrors = append(myErrors, fmt.Sprintf("%s", err))
 		}
 		failure = &Failure{
