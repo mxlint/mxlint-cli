@@ -184,7 +184,8 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 				Path:       getMxDocumentPath(unit.ContainerID, folders),
 				Attributes: unit.Contents,
 			}
-			if unit.Contents["$Type"] == "Microflows$Microflow" {
+
+			if mode == "advanced" && unit.Contents["$Type"] == "Microflows$Microflow" {
 				myDocument = transformMicroflow(myDocument)
 			}
 			documents = append(documents, myDocument)
