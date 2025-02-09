@@ -1,0 +1,20 @@
+{
+    "My widget description": "My widget description",
+    "Associated files": "Associated files",
+    "Action to create new files": "Action to create new files",
+    "Allowed file formats": "Allowed file formats",
+    "List of comma separated file formats. No restrictions if left empty.": "List of comma separated file formats. No restrictions if left empty.",
+    "Configuration mode": "Configuration mode",
+    "Predefined type": "Predefined type",
+    "Mime Type": "Mime Type",
+    "For example 'image/jpeg' or 'application/pdf'": "For example 'image/jpeg' or 'application/pdf'",
+    "Extensions list": "Extensions list",
+    "Comma separated list of extensions. For example: '.jpg,.jpeg'.": "Comma separated list of extensions. For example: '.jpg,.jpeg'.",
+    "Type description": "Type description",
+    "Shown to the end users to describe supported file types.": "Shown to the end users to describe supported file types.",
+    "General": "General",
+    "Maximum number of files": "Maximum number of files",
+    "Limit the number of file per one upload.": "Limit the number of file per one upload.",
+    "Maximum file size (MB)": "Maximum file size (MB)",
+    "Reject files that are bigger than specified size.": "Reject files that are bigger than specified size."
+}

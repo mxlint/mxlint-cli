@@ -27,7 +27,7 @@ jobs:
 
     - name: Test subcommand export-model
       run: |
-        bin/mxlint export-model --mode advanced -i resources/app
+        bin/mxlint export-model --mode basic -i resources/app
         git diff --exit-code modelsource 
 
     - name: Test subcommand lint

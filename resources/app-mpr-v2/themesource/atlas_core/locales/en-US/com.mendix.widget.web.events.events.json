@@ -1,0 +1,11 @@
+{
+    "Events": "Events",
+    "Action": "Action",
+    "Delay": "Delay",
+    "Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.": "Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.",
+    "Repeat": "Repeat",
+    "Interval between repeat action execution. Value is in milliseconds.": "Interval between repeat action execution. Value is in milliseconds.",
+    "Component load": "Component load",
+    "Attribute": "Attribute",
+    "On change": "On change"
+}

@@ -1,0 +1,2264 @@
+$Type: Forms$PageTemplate
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 1000
+DisplayName: ""
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+LayoutCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_Core.Atlas_Default.Main
+    Widgets:
+    - $Type: Forms$DataView
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalEditabilitySettings: null
+      ConditionalVisibilitySettings: null
+      DataSource:
+        $Type: Forms$DataViewSource
+        EntityRef: null
+        ForceFullObjects: false
+        SourceVariable: null
+      Editability: Always
+      FooterWidgets: null
+      LabelWidth: 3
+      Name: dataView2
+      NoEntityMessage:
+        $Type: Texts$Text
+        Items: null
+      ReadOnlyStyle: Control
+      ShowFooter: false
+      TabIndex: 0
+      Widgets:
+      - $Type: Forms$LayoutGrid
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        ConditionalVisibilitySettings: null
+        Name: layoutGrid1
+        Rows:
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: -1
+            PreviewWidth: -1
+            TabletWeight: -1
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: pageheader
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: L
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container1
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: link-back
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: M
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Link
+                ButtonStyle: Default
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Back
+                ConditionalVisibilitySettings: null
+                Icon:
+                  $Type: Forms$IconCollectionIcon
+                Name: actionButton4
+                NativeAccessibilitySettings: null
+                RenderType: Link
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+              - $Type: Forms$LayoutGrid
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: pageheader
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Name: layoutGrid2
+                Rows:
+                - $Type: Forms$LayoutGridRow
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  Columns:
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -1
+                    PreviewWidth: -1
+                    TabletWeight: -1
+                    VerticalAlignment: None
+                    Weight: -1
+                    Widgets:
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: pageheader-title
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: S
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Page header title
+                      Name: text40
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: H1
+                      TabIndex: 0
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: pageheader-subtitle
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Color
+                          Value:
+                            $Type: Forms$OptionDesignPropertyValue
+                            Option: Detail color
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: None
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Supporting text
+                      Name: text39
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: Paragraph
+                      TabIndex: 0
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -2
+                    PreviewWidth: -1
+                    TabletWeight: -2
+                    VerticalAlignment: None
+                    Weight: -2
+                    Widgets:
+                    - $Type: Forms$ActionButton
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties: null
+                        DynamicClasses: ""
+                        Style: ""
+                      AriaRole: Button
+                      ButtonStyle: Primary
+                      CaptionTemplate:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Action
+                      ConditionalVisibilitySettings: null
+                      Icon: null
+                      Name: actionButton2
+                      NativeAccessibilitySettings: null
+                      RenderType: Button
+                      TabIndex: 0
+                      Tooltip:
+                        $Type: Texts$Text
+                        Items: null
+                    - $Type: Forms$ActionButton
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-left
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: S
+                        DynamicClasses: ""
+                        Style: ""
+                      AriaRole: Button
+                      ButtonStyle: Default
+                      CaptionTemplate:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Action
+                      ConditionalVisibilitySettings: null
+                      Icon: null
+                      Name: actionButton3
+                      NativeAccessibilitySettings: null
+                      RenderType: Button
+                      TabIndex: 0
+                      Tooltip:
+                        $Type: Texts$Text
+                        Items: null
+                  ConditionalVisibilitySettings: null
+                  HorizontalAlignment: None
+                  SpacingBetweenColumns: true
+                  VerticalAlignment: None
+                TabIndex: 0
+                Width: FullWidth
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: None
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: -1
+            PreviewWidth: -1
+            TabletWeight: -1
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: M
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container2
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$LayoutGrid
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Name: layoutGrid4
+                Rows:
+                - $Type: Forms$LayoutGridRow
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  Columns:
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -1
+                    PreviewWidth: -1
+                    TabletWeight: -1
+                    VerticalAlignment: None
+                    Weight: -1
+                    Widgets:
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: card-title
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: S
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Card title
+                      Name: text23
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: H4
+                      TabIndex: 0
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -2
+                    PreviewWidth: -1
+                    TabletWeight: -2
+                    VerticalAlignment: None
+                    Weight: -2
+                    Widgets:
+                    - $Type: CustomWidgets$CustomWidget
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties: null
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalEditabilitySettings: null
+                      ConditionalVisibilitySettings: null
+                      Editable: Always
+                      LabelTemplate: null
+                      Name: badge1
+                      Object:
+                        $Type: CustomWidgets$WidgetObject
+                        Properties:
+                        - $Type: CustomWidgets$WidgetProperty
+                          TypePointer:
+                            Data: T9kZZP9emEm5ZxmhrchwFg==
+                            Subtype: 0
+                          Value:
+                            $Type: CustomWidgets$WidgetValue
+                            Action:
+                              $Type: Forms$NoAction
+                              DisabledDuringExecution: true
+                            AttributeRef: null
+                            DataSource: null
+                            EntityRef: null
+                            Expression: ""
+                            Form: ""
+                            Icon: null
+                            Microflow: ""
+                            Nanoflow: ""
+                            Objects: null
+                            PrimitiveValue: label
+                            Selection: None
+                            SourceVariable: null
+                            TextTemplate: null
+                            TranslatableValue: null
+                            TypePointer:
+                              Data: UIO0WxqgPk+r2QWq3ohVlQ==
+                              Subtype: 0
+                            Widgets: null
+                            XPathConstraint: ""
+                        - $Type: CustomWidgets$WidgetProperty
+                          TypePointer:
+                            Data: Ov+/u0OHJEmBNUmDTx9Lew==
+                            Subtype: 0
+                          Value:
+                            $Type: CustomWidgets$WidgetValue
+                            Action:
+                              $Type: Forms$NoAction
+                              DisabledDuringExecution: true
+                            AttributeRef: null
+                            DataSource: null
+                            EntityRef: null
+                            Expression: ""
+                            Form: ""
+                            Icon: null
+                            Microflow: ""
+                            Nanoflow: ""
+                            Objects: null
+                            PrimitiveValue: ""
+                            Selection: None
+                            SourceVariable: null
+                            TextTemplate:
+                              $Type: Forms$ClientTemplate
+                              Fallback:
+                                $Type: Texts$Text
+                                Items: null
+                              Parameters: null
+                              Template:
+                                $Type: Texts$Text
+                                Items:
+                                - $Type: Texts$Translation
+                                  LanguageCode: en_US
+                                  Text: Badge
+                                - $Type: Texts$Translation
+                                  LanguageCode: nl_NL
+                                  Text: Badge
+                            TranslatableValue: null
+                            TypePointer:
+                              Data: cy5UQ71eO0KGjzdZiP89rQ==
+                              Subtype: 0
+                            Widgets: null
+                            XPathConstraint: ""
+                        - $Type: CustomWidgets$WidgetProperty
+                          TypePointer:
+                            Data: uq2PifjyBka9CjR9oi20BQ==
+                            Subtype: 0
+                          Value:
+                            $Type: CustomWidgets$WidgetValue
+                            Action:
+                              $Type: Forms$NoAction
+                              DisabledDuringExecution: true
+                            AttributeRef: null
+                            DataSource: null
+                            EntityRef: null
+                            Expression: ""
+                            Form: ""
+                            Icon: null
+                            Microflow: ""
+                            Nanoflow: ""
+                            Objects: null
+                            PrimitiveValue: ""
+                            Selection: None
+                            SourceVariable: null
+                            TextTemplate: null
+                            TranslatableValue: null
+                            TypePointer:
+                              Data: EA570fYg2UCpI3SMkEx2eQ==
+                              Subtype: 0
+                            Widgets: null
+                            XPathConstraint: ""
+                        TypePointer:
+                          Data: rVMHitIgT0CFW32qMNdYEw==
+                          Subtype: 0
+                      TabIndex: 0
+                  ConditionalVisibilitySettings: null
+                  HorizontalAlignment: None
+                  SpacingBetweenColumns: true
+                  VerticalAlignment: None
+                TabIndex: 0
+                Width: FullWidth
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: L
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Supporting text
+                Name: text24
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: Paragraph
+                TabIndex: 0
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: card-title
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Card title
+                Name: text30
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: H4
+                TabIndex: 0
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: L
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Supporting text
+                Name: text31
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: Paragraph
+                TabIndex: 0
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: -1
+            PreviewWidth: -1
+            TabletWeight: -1
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: M
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container3
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$LayoutGrid
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Name: layoutGrid3
+                Rows:
+                - $Type: Forms$LayoutGridRow
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  Columns:
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -1
+                    PreviewWidth: -1
+                    TabletWeight: -1
+                    VerticalAlignment: None
+                    Weight: -1
+                    Widgets:
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: card-title
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: S
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Card title
+                      Name: text25
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: H4
+                      TabIndex: 0
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: L
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Supporting text
+                      Name: text26
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: Paragraph
+                      TabIndex: 0
+                  - $Type: Forms$LayoutGridColumn
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    PhoneWeight: -1
+                    PreviewWidth: -1
+                    TabletWeight: -1
+                    VerticalAlignment: None
+                    Weight: -1
+                    Widgets:
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: card-title
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: S
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Card title
+                      Name: text27
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: H4
+                      TabIndex: 0
+                    - $Type: Forms$DynamicText
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties:
+                        - $Type: Forms$DesignPropertyValue
+                          Key: Spacing
+                          Value:
+                            $Type: Forms$CompoundDesignPropertyValue
+                            Properties:
+                            - $Type: Forms$DesignPropertyValue
+                              Key: margin-bottom
+                              Value:
+                                $Type: Forms$OptionDesignPropertyValue
+                                Option: L
+                        DynamicClasses: ""
+                        Style: ""
+                      ConditionalVisibilitySettings: null
+                      Content:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Supporting text
+                      Name: text28
+                      NativeAccessibilitySettings: null
+                      NativeTextStyle: Text
+                      RenderMode: Paragraph
+                      TabIndex: 0
+                  ConditionalVisibilitySettings: null
+                  HorizontalAlignment: None
+                  SpacingBetweenColumns: true
+                  VerticalAlignment: None
+                TabIndex: 0
+                Width: FullWidth
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: L
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container5
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: card-title
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: S
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Card title
+                Name: text29
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: H4
+                TabIndex: 0
+              - $Type: CustomWidgets$CustomWidget
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalEditabilitySettings: null
+                ConditionalVisibilitySettings: null
+                Editable: Always
+                LabelTemplate: null
+                Name: progressBar1
+                Object:
+                  $Type: CustomWidgets$WidgetObject
+                  Properties:
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: nQY24nuX+Uino8JbRa4s0A==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: static
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: 8n09+6CaPEG4x9s3fY3Abw==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: +daL6AcC1UeWryPUA4+tRA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: "50"
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: mS+R05rjNkaEBlttLNyloQ==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: 4gLsxAgNXEm6YVqIKveqEA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: CX11vdAXwk6H/VxggpX63w==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: WH7YZbns4UyK/1saV00V1g==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: Te1/s/ufD0eDYWvlVyufig==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: fS/Awwn+0E2lG2Zitn8rYw==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: "0"
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: qlbjpoURUE2+lk6M3aXM7g==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: xF1bxb0h6EaUMoPJm5WVxw==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: 3CbtQr42YkutRiyxaQlyjg==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: Db8jCLrzHECy3pG70EXqbA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: CRRGi2Ns1UGhDp/Or4JfQQ==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: z5mkHE+Me0GhE4qftLOKmw==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: "100"
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: qej0l1Re3U+v/4xR44eUAg==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: wfcRKmf9vUiJyrTSBXVbJg==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: 8LC2cZCO4EWZ1u/NJ+fwwQ==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: 27Ptsr5ECkiB8CfYES5kxA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: HumLlMb7206KibfLOH43vQ==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: v6rBuqPcnUKiKDbhZQnhKg==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: Zmm8k9/t00SbaRs1cwckGg==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: j5V/XTj5I0KfbLOR+aByXA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: "false"
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: UadtrX0+zECTnSjphJZrSA==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: DjBNdPEzF0GyIYSRK9bkcQ==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: text
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: Ig4K63UcHEqyE0nXPAspvg==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: H7JaEiCT1E2QMmhS23PODQ==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate:
+                        $Type: Forms$ClientTemplate
+                        Fallback:
+                          $Type: Texts$Text
+                          Items: null
+                        Parameters: null
+                        Template:
+                          $Type: Texts$Text
+                          Items: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: UGu4pPGC7UyAf+ed5dwYbw==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  - $Type: CustomWidgets$WidgetProperty
+                    TypePointer:
+                      Data: mZqyi5UQokC7mXAsmFiRWA==
+                      Subtype: 0
+                    Value:
+                      $Type: CustomWidgets$WidgetValue
+                      Action:
+                        $Type: Forms$NoAction
+                        DisabledDuringExecution: true
+                      AttributeRef: null
+                      DataSource: null
+                      EntityRef: null
+                      Expression: ""
+                      Form: ""
+                      Icon: null
+                      Microflow: ""
+                      Nanoflow: ""
+                      Objects: null
+                      PrimitiveValue: ""
+                      Selection: None
+                      SourceVariable: null
+                      TextTemplate: null
+                      TranslatableValue: null
+                      TypePointer:
+                        Data: XE6TlX6ZZ0CabF2N6ouOiw==
+                        Subtype: 0
+                      Widgets: null
+                      XPathConstraint: ""
+                  TypePointer:
+                    Data: qnJp4ezfUEKY5ZBx60pd1g==
+                    Subtype: 0
+                TabIndex: 0
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: None
+        - $Type: Forms$LayoutGridRow
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          Columns:
+          - $Type: Forms$LayoutGridColumn
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            PhoneWeight: -1
+            PreviewWidth: -1
+            TabletWeight: -1
+            VerticalAlignment: None
+            Weight: -1
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: card
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: L
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container6
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: card-title
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: S
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Card title
+                Name: text32
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: H4
+                TabIndex: 0
+              - $Type: Forms$ListView
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Style
+                    Value:
+                      $Type: Forms$OptionDesignPropertyValue
+                      Option: Lined
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Hover style
+                    Value:
+                      $Type: Forms$ToggleDesignPropertyValue
+                  DynamicClasses: ""
+                  Style: ""
+                ClickAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                ConditionalVisibilitySettings: null
+                DataSource:
+                  $Type: Forms$ListViewXPathSource
+                  EntityRef: null
+                  ForceFullObjects: false
+                  Search:
+                    $Type: Forms$ListViewSearch
+                    SearchRefs: null
+                  SortBar:
+                    $Type: Forms$GridSortBar
+                    SortItems: null
+                  SourceVariable: null
+                  XPathConstraint: ""
+                Editable: false
+                Name: listView3
+                NumberOfColumns: 1
+                PageSize: 5
+                PullDownAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                ScrollDirection: Vertical
+                TabIndex: 0
+                Templates: null
+                Widgets:
+                - $Type: Forms$LayoutGrid
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: ""
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  ConditionalVisibilitySettings: null
+                  Name: layoutGrid5
+                  Rows:
+                  - $Type: Forms$LayoutGridRow
+                    Appearance:
+                      $Type: Forms$Appearance
+                      Class: ""
+                      DesignProperties: null
+                      DynamicClasses: ""
+                      Style: ""
+                    Columns:
+                    - $Type: Forms$LayoutGridColumn
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties: null
+                        DynamicClasses: ""
+                        Style: ""
+                      PhoneWeight: -2
+                      PreviewWidth: -1
+                      TabletWeight: -2
+                      VerticalAlignment: Center
+                      Weight: -2
+                      Widgets:
+                      - $Type: CustomWidgets$CustomWidget
+                        Appearance:
+                          $Type: Forms$Appearance
+                          Class: ""
+                          DesignProperties:
+                          - $Type: Forms$DesignPropertyValue
+                            Key: Image style
+                            Value:
+                              $Type: Forms$OptionDesignPropertyValue
+                              Option: Circle
+                          DynamicClasses: ""
+                          Style: ""
+                        ConditionalEditabilitySettings: null
+                        ConditionalVisibilitySettings: null
+                        Editable: Always
+                        LabelTemplate: null
+                        Name: image11
+                        Object:
+                          $Type: CustomWidgets$WidgetObject
+                          Properties:
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: o2y37bzgPUuz9hjZHfC7NQ==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: image
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: COmQfcJzyk6iTzV95CTf+w==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: IeIcIjphdEus9957V5QYYw==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: yDV5dq2AwEuQUn6JJesHOw==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: 9WZmhid+pUGhuJB42aSocw==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: V7tilaAuGkG0WqmpFcrWMg==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: mWyo9bL9+Ui+ACINXCZxVg==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: KaTYvEZZKEu1uYf98UmuwA==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: FCJCEwC5ykG2WtsJo3rToA==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: azVnskaDCka5h83P+EtSnQ==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: bT40tgVFgUq3uuDU+AWgCg==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: "false"
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: YZsBfGX/PkKY6P4QBjDaNg==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: ktsyKMVbVkSQD8Saanb9wQ==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: OWZxqSxDeUOrFzj+SCEgSQ==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: LdU4OVLggUmyodbNUCfYjA==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: action
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: VZ1zuZE/pkudhRXcX6Ew5A==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: kBzSuPZHsUOxspoM0KOZhw==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: yAweT2hcKUaQjkNmgtwASg==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: ple6I1tLU0KdLo7fyoZB2g==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: ""
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate:
+                                $Type: Forms$ClientTemplate
+                                Fallback:
+                                  $Type: Texts$Text
+                                  Items: null
+                                Parameters: null
+                                Template:
+                                  $Type: Texts$Text
+                                  Items: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: 2Ban2f3ExEq82GNHtjAFuA==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: rxt6lykShkG+ms8bZcElrw==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: pixels
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: Y38ruALOPk22i8pEnE2N7Q==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: mXAlW8TaHE2fH1AsIURt1w==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: "44"
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: p7o8cFmkm0G/FWQSkO2Jyg==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: ru9lUkQQcUGQtbHNfJs7KQ==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: pixels
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: 50CzKCPXpUCehICHa/yCRA==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: hG6kBOqSxE+OMn+yr5Q+GA==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: "44"
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: Y6Nx5Zeb20C21an50IYicw==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: GJanQkTgwkGiVSa9fsMNDA==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: "14"
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: T9wEoaolQEa/IgjeZaIOKg==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: pOvYba3n+EiEmQ5KgLfVdA==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: fullImage
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: iO/Bj1uHqkeWz9/5XUKXIw==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          - $Type: CustomWidgets$WidgetProperty
+                            TypePointer:
+                              Data: sz+r0Y0hMkGTpWs3QWfdtw==
+                              Subtype: 0
+                            Value:
+                              $Type: CustomWidgets$WidgetValue
+                              Action:
+                                $Type: Forms$NoAction
+                                DisabledDuringExecution: true
+                              AttributeRef: null
+                              DataSource: null
+                              EntityRef: null
+                              Expression: ""
+                              Form: ""
+                              Icon: null
+                              Microflow: ""
+                              Nanoflow: ""
+                              Objects: null
+                              PrimitiveValue: "false"
+                              Selection: None
+                              SourceVariable: null
+                              TextTemplate: null
+                              TranslatableValue: null
+                              TypePointer:
+                                Data: Oi2XCl3CbkSMIJcHob32rA==
+                                Subtype: 0
+                              Widgets: null
+                              XPathConstraint: ""
+                          TypePointer:
+                            Data: Xh/f+OShckWYPMY+IxvkYQ==
+                            Subtype: 0
+                        TabIndex: 0
+                    - $Type: Forms$LayoutGridColumn
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties: null
+                        DynamicClasses: ""
+                        Style: ""
+                      PhoneWeight: -1
+                      PreviewWidth: -1
+                      TabletWeight: -1
+                      VerticalAlignment: None
+                      Weight: -1
+                      Widgets:
+                      - $Type: Forms$DynamicText
+                        Appearance:
+                          $Type: Forms$Appearance
+                          Class: ""
+                          DesignProperties:
+                          - $Type: Forms$DesignPropertyValue
+                            Key: Spacing
+                            Value:
+                              $Type: Forms$CompoundDesignPropertyValue
+                              Properties:
+                              - $Type: Forms$DesignPropertyValue
+                                Key: margin-bottom
+                                Value:
+                                  $Type: Forms$OptionDesignPropertyValue
+                                  Option: None
+                          DynamicClasses: ""
+                          Style: ""
+                        ConditionalVisibilitySettings: null
+                        Content:
+                          $Type: Forms$ClientTemplate
+                          Fallback:
+                            $Type: Texts$Text
+                            Items: null
+                          Parameters: null
+                          Template:
+                            $Type: Texts$Text
+                            Items:
+                            - $Type: Texts$Translation
+                              LanguageCode: en_US
+                              Text: List item title
+                        Name: text10
+                        NativeAccessibilitySettings: null
+                        NativeTextStyle: Text
+                        RenderMode: H4
+                        TabIndex: 0
+                      - $Type: Forms$DynamicText
+                        Appearance:
+                          $Type: Forms$Appearance
+                          Class: ""
+                          DesignProperties:
+                          - $Type: Forms$DesignPropertyValue
+                            Key: Spacing
+                            Value:
+                              $Type: Forms$CompoundDesignPropertyValue
+                              Properties:
+                              - $Type: Forms$DesignPropertyValue
+                                Key: margin-bottom
+                                Value:
+                                  $Type: Forms$OptionDesignPropertyValue
+                                  Option: None
+                          DynamicClasses: ""
+                          Style: ""
+                        ConditionalVisibilitySettings: null
+                        Content:
+                          $Type: Forms$ClientTemplate
+                          Fallback:
+                            $Type: Texts$Text
+                            Items: null
+                          Parameters: null
+                          Template:
+                            $Type: Texts$Text
+                            Items:
+                            - $Type: Texts$Translation
+                              LanguageCode: en_US
+                              Text: Secondary text
+                        Name: text41
+                        NativeAccessibilitySettings: null
+                        NativeTextStyle: Text
+                        RenderMode: Paragraph
+                        TabIndex: 0
+                    - $Type: Forms$LayoutGridColumn
+                      Appearance:
+                        $Type: Forms$Appearance
+                        Class: ""
+                        DesignProperties: null
+                        DynamicClasses: ""
+                        Style: ""
+                      PhoneWeight: -2
+                      PreviewWidth: -1
+                      TabletWeight: -2
+                      VerticalAlignment: None
+                      Weight: -2
+                      Widgets:
+                      - $Type: Forms$ActionButton
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        Appearance:
+                          $Type: Forms$Appearance
+                          Class: ""
+                          DesignProperties: null
+                          DynamicClasses: ""
+                          Style: ""
+                        AriaRole: Button
+                        ButtonStyle: Default
+                        CaptionTemplate:
+                          $Type: Forms$ClientTemplate
+                          Fallback:
+                            $Type: Texts$Text
+                            Items: null
+                          Parameters: null
+                          Template:
+                            $Type: Texts$Text
+                            Items:
+                            - $Type: Texts$Translation
+                              LanguageCode: en_US
+                              Text: ""
+                        ConditionalVisibilitySettings: null
+                        Icon:
+                          $Type: Forms$IconCollectionIcon
+                        Name: actionButton5
+                        NativeAccessibilitySettings: null
+                        RenderType: Link
+                        TabIndex: 0
+                        Tooltip:
+                          $Type: Texts$Text
+                          Items:
+                          - $Type: Texts$Translation
+                            LanguageCode: en_US
+                            Text: Menu Right Icon
+                    ConditionalVisibilitySettings: null
+                    HorizontalAlignment: None
+                    SpacingBetweenColumns: true
+                    VerticalAlignment: Center
+                  TabIndex: 0
+                  Width: FullWidth
+          ConditionalVisibilitySettings: null
+          HorizontalAlignment: None
+          SpacingBetweenColumns: true
+          VerticalAlignment: None
+        TabIndex: 0
+        Width: FullWidth
+  Form: Atlas_Core.Atlas_Default
+Name: Detail_Cards
+TemplateCategory: Detail Pages
+TemplateCategoryWeight: 70
+TemplateType:
+  $Type: Forms$RegularPageTemplateType

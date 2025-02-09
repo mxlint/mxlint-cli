@@ -12,84 +12,63 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: URCkRcI/hUCAwlb8saslpg==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: 0OYdtovfPU2ahg+VCToStg==
-- Attributes:
-    $Type: Microflows$ExclusiveSplit
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: AssertTrue_2
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: valueToAssert
+    VariableType:
+      $Type: DataTypes$BooleanType
+  - $Type: Microflows$ExclusiveSplit
     Caption: ""
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $valueToAssert
-  ID: 9uw1KJ6Tmk+bSjon0mltiA==
-  Splits:
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "true"
-      ID: e31K1cxRbUyEJhqqKk1NyA==
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-      ID: jXn0eOdW/02sMRof5kLRWg==
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "false"
-      ID: OwUOaeAvxk+6bsvQajFnyA==
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
-          $Type: Microflows$JavaActionCallAction
-          ErrorHandlingType: Rollback
-          JavaAction: CommunityCommons.ThrowException
-          ParameterMappings:
-          - $ID: 2F3i1r5TykS+wzE4SFjRbg==
-            $Type: Microflows$JavaActionParameterMapping
-            Parameter: CommunityCommons.ThrowException.message
-            Value:
-              $ID: Z3UelnatVU2viNLSroUOYw==
-              $Type: Microflows$BasicCodeActionParameterValue
-              Argument: '''Assertion failed: '' +$message'
-          QueueSettings: null
-          ResultVariableName: sd
-          UseReturnVariable: true
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-      ID: vXCgbIaKgkyusfRGsoFRIw==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: dtVsdCB2Mka9OQVR6wroWQ==
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-      ID: JiItD2uJlEeBJmFKCFc1cw==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: AssertTrue_2
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$JavaActionCallAction
+      ErrorHandlingType: Rollback
+      JavaAction: CommunityCommons.ThrowException
+      ParameterMappings:
+      - $Type: Microflows$JavaActionParameterMapping
+        Parameter: CommunityCommons.ThrowException.message
+        Value:
+          $Type: Microflows$BasicCodeActionParameterValue
+          Argument: '''Assertion failed: '' +$message'
+      QueueSettings: null
+      ResultVariableName: sd
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$Annotation
+    Caption: "Shorthand for checking something, and throwing an error if that something
+      is not true. \r\n\r\nSaves creating three microflow items for things that MUST
+      be true. "
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: message
+    VariableType:
+      $Type: DataTypes$StringType
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

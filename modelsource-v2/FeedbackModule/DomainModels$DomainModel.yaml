@@ -1,0 +1,295 @@
+$Type: DomainModels$DomainModel
+Annotations: null
+Associations: null
+CrossAssociations: null
+Documentation: ""
+Entities:
+- $Type: DomainModels$EntityImpl
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: false
+    AllowDelete: false
+    AllowedModuleRoles:
+    - FeedbackModule.User
+    DefaultMemberAccessRights: None
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadOnly
+      Association: ""
+      Attribute: FeedbackModule.ResponseHelper.URL
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
+  Attributes:
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: URL
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 0
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  Documentation: ""
+  Events: null
+  ExportLevel: Hidden
+  Indexes: null
+  MaybeGeneralization:
+    $Type: DomainModels$NoGeneralization
+    HasChangedByAttr: false
+    HasChangedDateAttr: false
+    HasCreatedDateAttr: false
+    HasOwnerAttr: false
+    Persistable: false
+  Name: ResponseHelper
+  Source: null
+  ValidationRules: null
+- $Type: DomainModels$EntityImpl
+  AccessRules:
+  - $Type: DomainModels$AccessRule
+    AllowCreate: true
+    AllowDelete: true
+    AllowedModuleRoles:
+    - FeedbackModule.User
+    DefaultMemberAccessRights: ReadWrite
+    Documentation: ""
+    MemberAccesses:
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Subject
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Description
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.SubmitterUUID
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.SubmitterEmail
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.SubmitterDisplayName
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.ImageB64
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.ActiveUserRoles
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.PageName
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Browser
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.EnvironmentURL
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.ScreenshotName
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.AppID
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Priority
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.ScreenWidth
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback.ScreenHeight
+    - $Type: DomainModels$MemberAccess
+      AccessRights: ReadWrite
+      Association: ""
+      Attribute: FeedbackModule.Feedback._showEmail
+    XPathConstraint: ""
+    XPathConstraintCaption: ""
+  Attributes:
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Subject
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Description
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 0
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: SubmitterUUID
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: SubmitterEmail
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: SubmitterDisplayName
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: ImageB64
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 0
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: ActiveUserRoles
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 1000
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: PageName
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 0
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Browser
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 400
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: EnvironmentURL
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 400
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: ScreenshotName
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: AppID
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: Priority
+    NewType:
+      $Type: DomainModels$StringAttributeType
+      Length: 200
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: ""
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: ScreenWidth
+    NewType:
+      $Type: DomainModels$IntegerAttributeType
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: "0"
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: ScreenHeight
+    NewType:
+      $Type: DomainModels$IntegerAttributeType
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: "0"
+  - $Type: DomainModels$Attribute
+    Documentation: ""
+    ExportLevel: Hidden
+    Name: _showEmail
+    NewType:
+      $Type: DomainModels$BooleanAttributeType
+    Value:
+      $Type: DomainModels$StoredValue
+      DefaultValue: "true"
+  Documentation: ""
+  Events: null
+  ExportLevel: Hidden
+  Indexes: null
+  MaybeGeneralization:
+    $Type: DomainModels$NoGeneralization
+    HasChangedByAttr: false
+    HasChangedDateAttr: false
+    HasCreatedDateAttr: false
+    HasOwnerAttr: false
+    Persistable: false
+  Name: Feedback
+  Source: null
+  ValidationRules: null

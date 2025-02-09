@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Gallery default
+
+//== Design Properties
+//## Helper classes to change the look and feel of the component
+========================================================================== */
+// All borders
+.widget-gallery-bordered-all {
+    .widget-gallery-item {
+        border: 1px solid var(--grid-border-color, $dg-grid-border-color);
+    }
+}
+
+// Vertical borders
+.widget-gallery-bordered-vertical {
+    .widget-gallery-item {
+        border-color: var(--grid-border-color, $dg-grid-border-color);
+        border-style: solid;
+        border-width: 0;
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+}
+
+// Horizontal orders
+.widget-gallery-bordered-horizontal {
+    .widget-gallery-item {
+        border-color: var(--grid-border-color, $dg-grid-border-color);
+        border-style: solid;
+        border-width: 0;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+    }
+}
+
+// Hover styles
+.widget-gallery-hover {
+    .widget-gallery-items {
+        .widget-gallery-item:hover {
+            background-color: var(--grid-bg-hover, $dg-grid-bg-hover);
+        }
+    }
+}
+
+// Striped styles
+.widget-gallery-striped {
+    .widget-gallery-item:nth-child(odd) {
+        background-color: var(--grid-bg-striped, $dg-grid-bg-striped);
+    }
+    .widget-gallery-item:nth-child(even) {
+        background-color: #fff;
+    }
+}
+
+// Grid spacing none
+.widget-gallery.widget-gallery-gridgap-none {
+    .widget-gallery-items {
+        gap: 0;
+    }
+}
+
+// Grid spacing small
+.widget-gallery.widget-gallery-gridgap-small {
+    .widget-gallery-items {
+        gap: var(--spacing-small, $dg-spacing-small);
+    }
+}
+
+// Grid spacing medium
+.widget-gallery.widget-gallery-gridgap-medium {
+    .widget-gallery-items {
+        gap: var(--spacing-medium, $dg-spacing-medium);
+    }
+}
+
+// Grid spacing large
+.widget-gallery.widget-gallery-gridgap-large {
+    .widget-gallery-items {
+        gap: var(--spacing-large, $dg-spacing-large);
+    }
+}
+
+// Pagination left
+.widget-gallery-pagination-left {
+    .widget-gallery-pagination {
+        .pagination-bar {
+            justify-content: flex-start;
+        }
+    }
+}
+
+// Pagination center
+.widget-gallery-pagination-center {
+    .widget-gallery-pagination {
+        .pagination-bar {
+            justify-content: center;
+        }
+    }
+}
+
+.widget-gallery-disable-selected-items-highlight {
+    // placeholder
+    // this class in needed to disable standard styles of highlighted items
+}

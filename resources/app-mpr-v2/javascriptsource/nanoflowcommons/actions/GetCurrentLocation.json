@@ -1,0 +1,6 @@
+{
+  "nativeDependencies": {
+    "react-native-geolocation-service": "5.2.0",
+    "@react-native-community/geolocation": "2.0.2"
+  }
+}
