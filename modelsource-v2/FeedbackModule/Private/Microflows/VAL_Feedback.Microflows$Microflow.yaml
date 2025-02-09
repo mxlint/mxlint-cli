@@ -1,0 +1,264 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles:
+- FeedbackModule.User
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$BooleanType
+Name: VAL_Feedback
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "true"
+      VariableName: ValidFeedback
+      VariableType:
+        $Type: DataTypes$BooleanType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Subject not empty?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: |-
+        trim($Feedback/Subject) != empty and
+        trim($Feedback/Subject) != ''
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ValidationFeedbackAction
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Subject
+      ErrorHandlingType: Rollback
+      FeedbackTemplate:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Subject is required
+      ValidationVariableName: Feedback
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: ValidFeedback
+      ErrorHandlingType: Rollback
+      Value: "false"
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Email not empty?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: |-
+        $Feedback/SubmitterEmail != empty and
+        $Feedback/SubmitterEmail != ''
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ValidationFeedbackAction
+      Association: ""
+      Attribute: FeedbackModule.Feedback.SubmitterEmail
+      ErrorHandlingType: Rollback
+      FeedbackTemplate:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Email is required
+      ValidationVariableName: Feedback
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    IsRequired: true
+    Name: Feedback
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: FeedbackModule.Feedback
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Description < 32000 characters?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: |
+        length(trim($Feedback/Description)) <= 32000
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ValidationFeedbackAction
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Description
+      ErrorHandlingType: Rollback
+      FeedbackTemplate:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Description length cannot be longer than 32000 characters
+      ValidationVariableName: Feedback
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: ValidFeedback
+      ErrorHandlingType: Rollback
+      Value: "false"
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Email is Valid?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $IsValidEmail
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ValidationFeedbackAction
+      Association: ""
+      Attribute: FeedbackModule.Feedback.SubmitterEmail
+      ErrorHandlingType: Rollback
+      FeedbackTemplate:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: Email is not valid
+      ValidationVariableName: Feedback
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: ValidFeedback
+      ErrorHandlingType: Rollback
+      Value: "false"
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$JavaActionCallAction
+      ErrorHandlingType: Rollback
+      JavaAction: FeedbackModule.ValidateEmail
+      ParameterMappings:
+      - $Type: Microflows$JavaActionParameterMapping
+        Parameter: FeedbackModule.ValidateEmail.EmailAddress
+        Value:
+          $Type: Microflows$BasicCodeActionParameterValue
+          Argument: $Feedback/SubmitterEmail
+      QueueSettings: null
+      ResultVariableName: IsValidEmail
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: $ValidFeedback
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Subject < 200 characters
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: length(trim($Feedback/Subject)) <= 200
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ValidationFeedbackAction
+      Association: ""
+      Attribute: FeedbackModule.Feedback.Subject
+      ErrorHandlingType: Rollback
+      FeedbackTemplate:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: |
+              Subject length cannot be longer than 200 characters
+      ValidationVariableName: Feedback
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$Annotation
+    Caption: The validations are identical to those used in the Mendix Feedback API
+      v2
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

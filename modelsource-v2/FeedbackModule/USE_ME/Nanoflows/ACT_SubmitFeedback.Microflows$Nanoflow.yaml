@@ -1,0 +1,154 @@
+$Type: Microflows$Nanoflow
+AllowedModuleRoles:
+- FeedbackModule.User
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: ACT_SubmitFeedback
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    IsRequired: true
+    Name: Feedback
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: FeedbackModule.Feedback
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Abort
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: FeedbackModule.VAL_Feedback
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Feedback
+          Parameter: FeedbackModule.VAL_Feedback.Feedback
+        QueueSettings: null
+      ResultVariableName: isValid
+      UseReturnVariable: true
+    AutoGenerateCaption: false
+    BackgroundColor: Default
+    Caption: Validate Feedback
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Feedback form Valid?
+    Documentation: ""
+    ErrorHandlingType: Abort
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $isValid
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Abort
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: FeedbackModule.SUB_Feedback_SendToServer
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Feedback
+          Parameter: FeedbackModule.SUB_Feedback_SendToServer.Feedback
+        QueueSettings: null
+      ResultVariableName: ResponseHelper
+      UseReturnVariable: true
+    AutoGenerateCaption: false
+    BackgroundColor: Default
+    Caption: Send Feedback to Server
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$NanoflowCallAction
+      ErrorHandlingType: Abort
+      NanoflowCall:
+        $Type: Microflows$NanoflowCall
+        Nanoflow: FeedbackModule.SUB_Feedback_ResetLocalStorage
+        ParameterMappings:
+        - $Type: Microflows$NanoflowCallParameterMapping
+          Argument: $Feedback
+          Parameter: FeedbackModule.SUB_Feedback_ResetLocalStorage.Feedback
+      OutputVariableName: ""
+      UseReturnVariable: true
+    AutoGenerateCaption: false
+    BackgroundColor: Default
+    Caption: Reset Stored Feedback Object
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveSplit
+    Caption: is Success?
+    Documentation: ""
+    ErrorHandlingType: Abort
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $ResponseHelper != empty
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ShowFormAction
+      ErrorHandlingType: Abort
+      FormSettings:
+        $Type: Forms$FormSettings
+        Form: FeedbackModule.PopupFailure
+        ParameterMappings: null
+        TitleOverride: null
+      NumberOfPagesToClose: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ShowFormAction
+      ErrorHandlingType: Abort
+      FormSettings:
+        $Type: Forms$FormSettings
+        Form: FeedbackModule.PopupSuccess
+        ParameterMappings:
+        - $Type: Forms$PageParameterMapping
+          Argument: $ResponseHelper
+          Parameter: FeedbackModule.PopupSuccess.Response
+          Variable:
+            $Type: Forms$PageVariable
+            LocalVariable: ""
+            PageParameter: ""
+            SnippetParameter: ""
+            UseAllPages: false
+            Widget: ""
+        TitleOverride: null
+      NumberOfPagesToClose: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CloseFormAction
+      ErrorHandlingType: Abort
+      NumberOfPagesToClose: "1"
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+ReturnVariableName: ""

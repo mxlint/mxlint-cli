@@ -1,0 +1,20 @@
+{
+    "Google tag integration widget": "Google tag integration widget",
+    "Widget mode": "Widget mode",
+    "The basic option automatically sends page view events. Place this widget in the layouts to automatically send events when pages are changed. The advanced option can be used for more control.": "The basic option automatically sends page view events. Place this widget in the layouts to automatically send events when pages are changed. The advanced option can be used for more control.",
+    "Tag ID": "Tag ID",
+    "Examples of tag IDs include GT-XXXXXXXXX, G-XXXXXXXXX, and AW-XXXXXXXXX": "Examples of tag IDs include GT-XXXXXXXXX, G-XXXXXXXXX, and AW-XXXXXXXXX",
+    "Parameters": "Parameters",
+    "Name": "Name",
+    "Value": "Value",
+    "Standard value": "Standard value",
+    "Custom value": "Custom value",
+    "General": "General",
+    "Share user ID": "Share user ID",
+    "Expose the authenticated User ID to uniquely identify individual users in Google Analytics.": "Expose the authenticated User ID to uniquely identify individual users in Google Analytics.",
+    "Command": "Command",
+    "Event can be used to send an event. Config can be used to configure advanced configuration parameters.": "Event can be used to send an event. Config can be used to configure advanced configuration parameters.",
+    "Event name": "Event name",
+    "Track page changes": "Track page changes",
+    "Send the event when the page is changed.": "Send the event when the page is changed."
+}

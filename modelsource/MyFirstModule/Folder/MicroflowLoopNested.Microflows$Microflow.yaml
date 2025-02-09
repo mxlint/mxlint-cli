@@ -9,18 +9,19 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: YW5aNy+UAk+Mpxs7drwg+w==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: 4qseb+tT/UGb8GhP4oavXg==
-- Attributes:
-    $Type: Microflows$ActionActivity
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowLoopNested
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -33,154 +34,57 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: 4ETsb97VGka4HdlBGibyXA==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: BwyoNGALXkO39TX+eSQQrA==
-- Attributes:
-    $Type: Microflows$ExclusiveMerge
-  ID: rD6EQqHvzU+7eDrt6S9teA==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: 0LsG6CGTHUq1fB6KeFR2ag==
-- Attributes:
-    $Type: Microflows$ExclusiveSplit
+  - $Type: Microflows$ExclusiveSplit
     Caption: Enough?
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $counter > 0
-  ID: Yr2JGbtIyEmBjHq7kDYjOA==
-  Splits:
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "true"
-      ID: rwyKUOfwqkixBU/nJaeTuQ==
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-      ID: 9mg8MENK20u4MAS/D+hHsA==
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "false"
-      ID: 6CP7WVEV00+yLj8W3Germw==
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
-          $Type: Microflows$CreateVariableAction
-          ErrorHandlingType: Rollback
-          InitialValue: "20"
-          VariableName: counter2
-          VariableType:
-            $Type: DataTypes$IntegerType
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-      ID: cvbbYo9jsEeJhNfL78GMfQ==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: fFZ9ukqszEiG6spOLELCBw==
-    - Attributes:
-        $Type: Microflows$ExclusiveMerge
-      ID: O+jOVEpmq028C4ddQs9i8Q==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: lM2yAGcll0OcjT4Q87km1Q==
-    - Attributes:
-        $Type: Microflows$ExclusiveSplit
-        Caption: more?
-        Documentation: ""
-        ErrorHandlingType: Rollback
-        SplitCondition:
-          $Type: Microflows$ExpressionSplitCondition
-          Expression: $counter2 > 0
-      ID: pBk8+RnogECNXtLp4JdnvQ==
-      Splits:
-      - - Attributes:
-            $Type: Microflows$SequenceFlow
-            IsErrorHandler: false
-            NewCaseValue:
-              $Type: Microflows$EnumerationCase
-              Value: "false"
-          ID: Em15voA6o0SDby6+lO+97w==
-        - Attributes:
-            $Type: Microflows$ActionActivity
-            Action:
-              $Type: Microflows$ChangeVariableAction
-              ChangeVariableName: counter
-              ErrorHandlingType: Rollback
-              Value: $counter-1
-            AutoGenerateCaption: true
-            BackgroundColor: Default
-            Caption: Activity
-            Disabled: false
-            Documentation: ""
-          ID: /GNSJ6Op20KQC/A+zC7GPw==
-        - Attributes:
-            $Type: Microflows$SequenceFlow
-            IsErrorHandler: false
-            NewCaseValue:
-              $Type: Microflows$NoCase
-          ID: p5t7IKDhmUeFa4xSTvKwrg==
-        - Attributes:
-            $Type: Microflows$ExclusiveMerge
-          ID: rD6EQqHvzU+7eDrt6S9teA==
-      - - Attributes:
-            $Type: Microflows$SequenceFlow
-            IsErrorHandler: false
-            NewCaseValue:
-              $Type: Microflows$EnumerationCase
-              Value: "true"
-          ID: xNkLRf/jhU616YrIsldjHA==
-        - Attributes:
-            $Type: Microflows$ActionActivity
-            Action:
-              $Type: Microflows$ChangeVariableAction
-              ChangeVariableName: counter2
-              ErrorHandlingType: Rollback
-              Value: $counter2-1
-            AutoGenerateCaption: true
-            BackgroundColor: Default
-            Caption: Activity
-            Disabled: false
-            Documentation: ""
-          ID: dGQdyTuxTk+s+evXZ1WvbQ==
-        - Attributes:
-            $Type: Microflows$SequenceFlow
-            IsErrorHandler: false
-            NewCaseValue:
-              $Type: Microflows$NoCase
-          ID: W87kN6bZzkGDBrjvCUyVrQ==
-        - Attributes:
-            $Type: Microflows$ExclusiveMerge
-          ID: O+jOVEpmq028C4ddQs9i8Q==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowLoopNested
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: counter
+      ErrorHandlingType: Rollback
+      Value: $counter-1
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$ExclusiveSplit
+    Caption: more?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: $counter2 > 0
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateVariableAction
+      ErrorHandlingType: Rollback
+      InitialValue: "20"
+      VariableName: counter2
+      VariableType:
+        $Type: DataTypes$IntegerType
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ChangeVariableAction
+      ChangeVariableName: counter2
+      ErrorHandlingType: Rollback
+      Value: $counter2-1
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

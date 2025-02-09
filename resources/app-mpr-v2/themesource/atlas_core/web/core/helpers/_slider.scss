@@ -1,0 +1,32 @@
+//
+// DISCLAIMER:
+// Do not change this file because it is core styling.
+// Customizing core files will make updating Atlas much more difficult in the future.
+// To customize any core styling, copy the part you want to customize to styles/web/sass/app/ so the core styling is overwritten.
+//
+@import "slider-color-variant";
+
+@mixin slider-helpers() {
+    /* ==========================================================================
+       Slider
+
+    //== Design Properties
+    //## Helper classes to change the look and feel of the component
+    ========================================================================== */
+
+    .widget-slider-primary {
+        @include slider-color-variant($brand-primary);
+    }
+
+    .widget-slider-success {
+        @include slider-color-variant($brand-success);
+    }
+
+    .widget-slider-warning {
+        @include slider-color-variant($brand-warning);
+    }
+
+    .widget-slider-danger {
+        @include slider-color-variant($brand-danger);
+    }
+}

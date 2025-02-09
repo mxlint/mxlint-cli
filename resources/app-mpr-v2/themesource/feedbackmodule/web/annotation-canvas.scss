@@ -1,0 +1,19 @@
+/// Creates the canvas for annotation. 
+/// The background color is required to cover the page behind the annotation canvas.
+
+.mxfeedback-annotation-canvas {
+    z-index: $mxfeedback-z-index-annotation-canvas;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $mxfeedback-annotation-canvas-background-color;
+
+    &__canvas {
+        position: fixed;
+        margin-top: $spacing-largest;
+    }
+}

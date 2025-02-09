@@ -1,0 +1,18 @@
+$Type: JavaActions$JavaAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$BooleanType
+MicroflowActionInfo: null
+Name: ValidateEmail
+Parameters:
+- $Type: JavaActions$JavaActionParameter
+  Category: ""
+  Description: Email address to validate
+  IsRequired: true
+  Name: EmailAddress
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+TypeParameters: null

@@ -1,0 +1,21 @@
+$Type: JavaScriptActions$JavaScriptAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: "What does this JavaScript action do?\r\n\r\nReturns meta data from
+  the clients internet browser. \r\n\r\nThis includes; \r\n\r\nActiveUserRoles\r\nPageName\r\nEnvironmentURL\r\nBrowser\r\nScreenWidth\r\nScreenHeight"
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$ConcreteEntityType
+  Entity: FeedbackModule.Feedback
+MicroflowActionInfo: null
+Name: JS_PopulateFeedbackMetadata
+Parameters:
+- $Type: JavaScriptActions$JavaScriptActionParameter
+  Category: ""
+  Description: ""
+  IsRequired: true
+  Name: Feedback
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+Platform: All
+TypeParameters: null

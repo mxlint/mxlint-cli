@@ -1,0 +1,56 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$StringType
+Name: ConvertBase64String
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: |+
+      substring($ImageB64,find($ImageB64, ',') + 1,length($ImageB64)-22)
+
+  - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    IsRequired: true
+    Name: ImageB64
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$ExclusiveSplit
+    Caption: Has Screenshot?
+    Documentation: ""
+    ErrorHandlingType: Rollback
+    SplitCondition:
+      $Type: Microflows$ExpressionSplitCondition
+      Expression: |-
+        $ImageB64 != empty and
+        $ImageB64 != ''
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: empty
+  - $Type: Microflows$Annotation
+    Caption: We need to separate the section containing the base64 string. The original
+      value is used to render the base64 on the ShareFeedback page.
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

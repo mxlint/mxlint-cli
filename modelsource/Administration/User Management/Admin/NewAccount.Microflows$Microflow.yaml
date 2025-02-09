@@ -13,18 +13,19 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: 8c2YGdcatE6sXeAUKYFK3g==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: tevQQDihi0iT44+4iRnwSg==
-- Attributes:
-    $Type: Microflows$ActionActivity
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: NewAccount
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateChangeAction
       Commit: "No"
@@ -38,43 +39,7 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: xFPl5MVrR02awwVkWVo3pA==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: l3vSHZupW0+Xdb3GOmtnrg==
-- Attributes:
-    $Type: Microflows$ActionActivity
-    Action:
-      $Type: Microflows$CreateChangeAction
-      Commit: "No"
-      Entity: Administration.AccountPasswordData
-      ErrorHandlingType: Rollback
-      Items:
-      - $ID: 940uQ+GcDkiQZVr7iKX58w==
-        $Type: Microflows$ChangeActionItem
-        Association: Administration.AccountPasswordData_Account
-        Attribute: ""
-        Type: Set
-        Value: $NewAccount
-      RefreshInClient: false
-      VariableName: AccountPasswordData
-    AutoGenerateCaption: true
-    BackgroundColor: Default
-    Caption: Activity
-    Disabled: false
-    Documentation: ""
-  ID: C6fmOd9O/U2MCz/6YjvrHQ==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: HMnv1at6mEe2UqeAkquIXA==
-- Attributes:
-    $Type: Microflows$ActionActivity
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$ShowFormAction
       ErrorHandlingType: Rollback
@@ -82,12 +47,10 @@ MainFunction:
         $Type: Forms$FormSettings
         Form: Administration.Account_New
         ParameterMappings:
-        - $ID: TVySyF5W9kaCUu4E6cx66w==
-          $Type: Forms$PageParameterMapping
+        - $Type: Forms$PageParameterMapping
           Argument: $AccountPasswordData
           Parameter: Administration.Account_New.AccountPasswordData
           Variable:
-            $ID: Eu+1G/z1CUe4Cvl/l/0f1g==
             $Type: Forms$PageVariable
             PageParameter: ""
             SnippetParameter: ""
@@ -100,23 +63,24 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: mGRFDJrJE0Cqx2XLvQYFdQ==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: lyebQ6NEmUiKv0pdcvPnBQ==
-- Attributes:
-    $Type: Microflows$EndEvent
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateChangeAction
+      Commit: "No"
+      Entity: Administration.AccountPasswordData
+      ErrorHandlingType: Rollback
+      Items:
+      - $Type: Microflows$ChangeActionItem
+        Association: Administration.AccountPasswordData_Account
+        Attribute: ""
+        Value: $NewAccount
+      RefreshInClient: false
+      VariableName: AccountPasswordData
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
     Documentation: ""
-    ReturnValue: ""
-  ID: 1tVKVLawxEi2PKU8mEJ+1w==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: NewAccount
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

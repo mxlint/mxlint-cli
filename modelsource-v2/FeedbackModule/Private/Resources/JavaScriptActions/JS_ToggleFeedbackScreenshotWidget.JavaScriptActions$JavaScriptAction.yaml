@@ -1,0 +1,16 @@
+$Type: JavaScriptActions$JavaScriptAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: "What does this JavaScript action do?\r\n\r\nLets to take a screenshot
+  of the current visible page\r\n\r\nMore detailed explanation:\r\nThe Mendix Feedback
+  Widget handles annotation, screenshot and also renders a default styled button on
+  your page. \r\n\r\nUsage:\r\nYou should use this JavaScript action to trigger the
+  screenshot functionality.\r\n\r\nReturn Type:\r\nWill return a image base64 string\r\n"
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$StringType
+MicroflowActionInfo: null
+Name: JS_ToggleFeedbackScreenshotWidget
+Parameters: null
+Platform: All
+TypeParameters: null

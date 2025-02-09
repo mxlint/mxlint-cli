@@ -1,0 +1,16 @@
+$Type: Enumerations$Enumeration
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+Name: LogNodes
+RemoteSource: null
+Values:
+- $Type: Enumerations$EnumerationValue
+  Caption:
+    $Type: Texts$Text
+    Items:
+    - $Type: Texts$Translation
+      LanguageCode: en_US
+      Text: FeedbackModule
+  Name: FeedbackModule
+  RemoteValue: null

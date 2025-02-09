@@ -1,0 +1,769 @@
+:root {
+    /*
+   DISCLAIMER:
+   This is a mapping file which will be used to help moving towards CSS variables over time.
+   Do not change this file because it is core styling.
+   Customizing core files will make updating Atlas much more difficult in the future.
+   To customize any core styling, copy the part you want to customize to styles/web/sass/app/ so the core styling is overwritten.
+  
+  
+   ██████╗  █████╗ ███████╗██╗ ██████╗
+   ██╔══██╗██╔══██╗██╔════╝██║██╔════╝
+   ██████╔╝███████║███████╗██║██║
+   ██╔══██╗██╔══██║╚════██║██║██║
+   ██████╔╝██║  ██║███████║██║╚██████╗
+   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝
+  */
+
+    /*== Gray Shades*/
+    /*## Different gray shades to be used for our variables and components */
+    --gray-darker: #{$gray-darker};
+    --gray-dark: #{$gray-dark};
+    --gray: #{$gray};
+    --gray-light: #{$gray-light};
+    --gray-primary: #{$gray-primary};
+    --gray-lighter: #{$gray-lighter};
+
+    /*== Step 1: Brand Colors */
+    --brand-default: #{$brand-default};
+    --brand-primary: #{$brand-primary};
+    --brand-success: #{$brand-success};
+    --brand-warning: #{$brand-warning};
+    --brand-danger: #{$brand-danger};
+
+    --brand-logo: #{$brand-logo};
+    --brand-logo-height: #{$brand-logo-height};
+    --brand-logo-width: #{$brand-logo-width}; /* Only used for CSS brand logo */
+
+    /*== Step 2: UI Customization */
+
+    /* Default Font Size & Color */
+    --font-size-default: #{$font-size-default};
+    --font-color-default: #{$font-color-default};
+
+    /* Global Border Color */
+    --border-color-default: #{$border-color-default};
+    --border-radius-default: #{$border-radius-default};
+
+    /* Topbar */
+    --topbar-bg: #{$topbar-bg};
+    --topbar-minimalheight: #{$topbar-minimalheight};
+    --topbar-border-color: #{$topbar-border-color};
+
+    /* Topbar mobile */
+    --m-header-height: #{$m-header-height};
+    --m-header-bg: #{$m-header-bg};
+    --m-header-color: #{$m-header-color};
+    --m-header-title-size: #{$m-header-title-size};
+
+    /* Navbar Brand Name / For your company, product, or project name (used in layouts/base/) */
+    --navbar-brand-name: #{$navbar-brand-name};
+
+    /* Background Colors */
+    /* Backgrounds */
+    --bg-color: #{$bg-color};
+    --bg-color: #f8f8f8;
+    --bg-color-secondary: #{$bg-color-secondary};
+
+    /* Default Link Color */
+    --link-color: #{$link-color};
+    --link-hover-color: #{$link-hover-color};
+
+    /*
+    █████╗ ██████╗ ██╗   ██╗ █████╗ ███╗   ██╗ ██████╗███████╗██████╗
+   ██╔══██╗██╔══██╗██║   ██║██╔══██╗████╗  ██║██╔════╝██╔════╝██╔══██╗
+   ███████║██║  ██║██║   ██║███████║██╔██╗ ██║██║     █████╗  ██║  ██║
+   ██╔══██║██║  ██║╚██╗ ██╔╝██╔══██║██║╚██╗██║██║     ██╔══╝  ██║  ██║
+   ██║  ██║██████╔╝ ╚████╔╝ ██║  ██║██║ ╚████║╚██████╗███████╗██████╔╝
+   ╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚═════╝
+  */
+
+    /*== Typography */
+    /*## Change your font family, weight, line-height, headings and more (used in components/typography) */
+
+    /* Font Family Import (Used for google font plugin in theme creater) */
+    --font-family-import: #{$font-family-import};
+
+    /* Font Family / False = fallback from Bootstrap (Helvetica Neue) */
+    --font-family-base: #{$font-family-base};
+
+    /* Font Sizes */
+    --font-size-large: #{$font-size-large};
+    --font-size-small: #{$font-size-small};
+
+    /* Font Weights */
+    --font-weight-light: #{$font-weight-light};
+    --font-weight-normal: #{$font-weight-normal};
+    --font-weight-semibold: #{$font-weight-semibold};
+    --font-weight-bold: #{$font-weight-bold};
+
+    /* Font Size Headers */
+    --font-size-h1: #{$font-size-h1};
+    --font-size-h2: #{$font-size-h2};
+    --font-size-h3: #{$font-size-h3};
+    --font-size-h4: #{$font-size-h4};
+    --font-size-h5: #{$font-size-h5};
+    --font-size-h6: #{$font-size-h6};
+
+    /* Font Weight Headers */
+    --font-weight-header: #{$font-weight-header};
+
+    /* Line Height */
+    --line-height-base: #{$line-height-base};
+
+    /* Spacing */
+    --font-header-margin: #{$font-header-margin};
+
+    /* Text Colors */
+    --font-color-detail: #{$font-color-detail};
+    --font-color-header: #{$font-color-header};
+
+    /*== Navigation */
+    /*## Used in components/navigation
+  
+  /* Default Navigation styling */
+    --navigation-item-height: #{$navigation-item-height};
+    --navigation-item-padding: #{$navigation-item-padding};
+
+    --navigation-font-size: #{$navigation-font-size};
+    --navigation-sub-font-size: #{$navigation-sub-font-size};
+    --navigation-glyph-size: #{$navigation-glyph-size}; /* For glyphicons that you can select in the Mendix Modeler */
+
+    --navigation-color: #{$navigation-color};
+    --navigation-color-hover: #{$navigation-color-hover};
+    --navigation-color-active: #{$navigation-color-active};
+
+    --navigation-sub-color: #{$navigation-sub-color};
+    --navigation-sub-color-hover: #{$navigation-sub-color-hover};
+    --navigation-sub-color-active: #{$navigation-sub-color-active};
+
+    /* Navigation Sidebar */
+    --navsidebar-font-size: #{$navsidebar-font-size};
+    --navsidebar-sub-font-size: #{$navsidebar-sub-font-size};
+    --navsidebar-glyph-size: #{$navsidebar-glyph-size}; /* For glyphicons that you can select in the Mendix Modeler */
+
+    --navsidebar-color: #{$navsidebar-color};
+    --navsidebar-color-hover: #{$navsidebar-color-hover};
+    --navsidebar-color-active: #{$navsidebar-color-active};
+
+    --navsidebar-sub-color: #{$navsidebar-sub-color};
+    --navsidebar-sub-color-hover: #{$navsidebar-sub-color-hover};
+    --navsidebar-sub-color-active: #{$navsidebar-sub-color-active};
+
+    --navsidebar-width-closed: #{$navsidebar-width-closed};
+    --navsidebar-width-open: #{$navsidebar-width-open};
+
+    /* Navigation topbar */
+    --navtopbar-font-size: #{$navtopbar-font-size};
+    --navtopbar-sub-font-size: #{$navtopbar-sub-font-size};
+    --navtopbar-glyph-size: #{$navtopbar-glyph-size};
+
+    --navtopbar-bg: #{$navtopbar-bg};
+    --navtopbar-bg-hover: #{$navtopbar-bg-hover};
+    --navtopbar-bg-active: #{$navtopbar-bg-active};
+    --navtopbar-color: #{$navtopbar-color};
+    --navtopbar-color-hover: #{$navtopbar-color-hover};
+    --navtopbar-color-active: #{$navtopbar-color-active};
+
+    --navtopbar-sub-bg: #{$navtopbar-sub-bg};
+    --navtopbar-sub-bg-hover: #{$navtopbar-sub-bg-hover};
+    --navtopbar-sub-bg-active: #{$navtopbar-sub-bg-active};
+    --navtopbar-sub-color: #{$navtopbar-sub-color};
+    --navtopbar-sub-color-hover: #{$navtopbar-sub-color-hover};
+    --navtopbar-sub-color-active: #{$navtopbar-sub-color-active};
+
+    /*== Cards */
+    /* Shadow color */
+    --shadow-color-border: #{$shadow-color-border};
+    --shadow-color: #{$shadow-color};
+
+    /*Shadow size */
+    --shadow-small: #{$shadow-small};
+    --shadow-medium: #{$shadow-medium};
+    --shadow-large: #{$shadow-large};
+
+    /*## Used in layouts/base */
+    --navtopbar-border-color: #{$navtopbar-border-color};
+
+    /*== Form */
+    /*## Used in components/inputs */
+
+    /* Values that can be used default | lined */
+    --form-input-style: #{$form-input-style};
+
+    /* Form Label */
+    --form-label-size: #{$form-label-size};
+    --form-label-weight: #{$form-label-weight};
+    --form-label-gutter: #{$form-label-gutter};
+
+    /* Form Input dimensions */
+    --form-input-height: #{$form-input-height};
+    --form-input-padding-y: #{$form-input-padding-y};
+    --form-input-padding-x: #{$form-input-padding-x};
+    --form-input-static-padding-y: #{$form-input-static-padding-y};
+    --form-input-static-padding-x: #{$form-input-static-padding-x};
+    --form-input-font-size: #{$form-input-font-size};
+    --form-input-line-height: #{$form-input-line-height};
+    --form-input-border-radius: #{$form-input-border-radius};
+
+    /* Form Input styling */
+    --form-input-bg: #{$form-input-bg};
+    --form-input-bg-focus: #{$form-input-bg-focus};
+    --form-input-bg-hover: #{$form-input-bg-hover};
+    --form-input-bg-disabled: #{$form-input-bg-disabled};
+    --form-input-color: #{$form-input-color};
+    --form-input-focus-color: #{$form-input-focus-color};
+    --form-input-disabled-color: #{$form-input-disabled-color};
+    --form-input-placeholder-color: #{$form-input-placeholder-color};
+    --form-input-border-color: #{$form-input-border-color};
+    --form-input-border-focus-color: #{$form-input-border-focus-color};
+
+    /* Form Input Static styling */
+    --form-input-static-border-color: #{$form-input-static-border-color};
+
+    /* Form Group */
+    --form-group-margin-bottom: #{$form-group-margin-bottom};
+    --form-group-gutter: #{$form-group-gutter};
+
+    /*== Buttons */
+    /*## Define background-color, border-color and text. Used in components/buttons */
+
+    /* Default button style */
+    --btn-font-size: #{$btn-font-size};
+    --btn-bordered: #{$btn-bordered}; /* Default value false, set to true if you want this effect */
+    --btn-border-radius: #{$btn-border-radius};
+
+    /* Button Background Color */
+    --btn-default-bg: #{$btn-default-bg};
+    --btn-primary-bg: #{$btn-primary-bg};
+    --btn-success-bg: #{$btn-success-bg};
+    --btn-warning-bg: #{$btn-warning-bg};
+    --btn-danger-bg: #{$btn-danger-bg};
+
+    /* Button Border Color */
+    --btn-default-border-color: #{$btn-default-border-color};
+    --btn-primary-border-color: #{$btn-primary-border-color};
+    --btn-success-border-color: #{$btn-success-border-color};
+    --btn-warning-border-color: #{$btn-warning-border-color};
+    --btn-danger-border-color: #{$btn-danger-border-color};
+
+    /* Button Text Color */
+    --btn-default-color: #{$btn-default-color};
+    --btn-primary-color: #{$btn-primary-color};
+    --btn-success-color: #{$btn-success-color};
+    --btn-warning-color: #{$btn-warning-color};
+    --btn-danger-color: #{$btn-danger-color};
+
+    /* Button Icon Color */
+    --btn-default-icon-color: #{$btn-default-icon-color};
+
+    /* Button Background Color */
+    --btn-default-bg-hover: #{$btn-default-bg-hover};
+    --btn-primary-bg-hover: #{$btn-primary-bg-hover};
+    --btn-success-bg-hover: #{$btn-success-bg-hover};
+    --btn-warning-bg-hover: #{$btn-warning-bg-hover};
+    --btn-danger-bg-hover: #{$btn-danger-bg-hover};
+    --btn-link-bg-hover: #{$btn-link-bg-hover};
+
+    /*== Header blocks */
+    /*## Define look and feel over multible building blocks that serve as header */
+
+    --header-min-height: #{$header-min-height};
+    --header-bg-color: #{$header-bg-color};
+    --header-bgimage-filter: #{$header-bgimage-filter};
+    --header-text-color: #{$header-text-color};
+    --header-text-color-detail: #{$header-text-color-detail};
+
+    /*
+   ███████╗██╗  ██╗██████╗ ███████╗██████╗ ████████╗
+   ██╔════╝╚██╗██╔╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝
+   █████╗   ╚███╔╝ ██████╔╝█████╗  ██████╔╝   ██║
+   ██╔══╝   ██╔██╗ ██╔═══╝ ██╔══╝  ██╔══██╗   ██║
+   ███████╗██╔╝ ██╗██║     ███████╗██║  ██║   ██║
+   ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝
+  */
+
+    /*== Color variations */
+    /*## These variations are used to support several other variables and components */
+
+    /* Color variations */
+    --color-default-darker: #{$color-default-darker};
+    --color-default-dark: #{$color-default-dark};
+    --color-default-light: #{$color-default-light};
+    --color-default-lighter: #{$color-default-lighter};
+
+    --color-primary-darker: #{$color-primary-darker};
+    --color-primary-dark: #{$color-primary-dark};
+    --color-primary-light: #{$color-primary-light};
+    --color-primary-lighter: #{$color-primary-lighter};
+
+    --color-success-darker: #{$color-success-darker};
+    --color-success-dark: #{$color-success-dark};
+    --color-success-light: #{$color-success-light};
+    --color-success-lighter: #{$color-success-lighter};
+
+    --color-warning-darker: #{$color-warning-darker};
+    --color-warning-dark: #{$color-warning-dark};
+    --color-warning-light: #{$color-warning-light};
+    --color-warning-lighter: #{$color-warning-lighter};
+
+    --color-danger-darker: #{$color-danger-darker};
+    --color-danger-dark: #{$color-danger-dark};
+    --color-danger-light: #{$color-danger-light};
+    --color-danger-lighter: #{$color-danger-lighter};
+
+    --brand-gradient: #{$brand-gradient};
+
+    /*== Grids */
+    /*## Used for Datagrid, Templategrid, Listview & Tables (see components folder) */
+
+    /* Default Border Colors */
+    --grid-border-color: #{$grid-border-color};
+
+    /* Spacing */
+    /* Default */
+    --grid-padding-top: #{$grid-padding-top};
+    --grid-padding-right: #{$grid-padding-right};
+    --grid-padding-bottom: #{$grid-padding-bottom};
+    --grid-padding-left: #{$grid-padding-left};
+
+    /* Listview */
+    --listview-padding-top: #{$listview-padding-top};
+    --listview-padding-right: #{$listview-padding-right};
+    --listview-padding-bottom: #{$listview-padding-bottom};
+    --listview-padding-left: #{$listview-padding-left};
+
+    /* Background Colors */
+    --grid-bg: #{$grid-bg};
+    --grid-bg-header: #{$grid-bg-header}; //Grid Headers
+    --grid-bg-hover: #{$grid-bg-hover};
+    --grid-bg-selected: #{$grid-bg-selected};
+    --grid-bg-selected-hover: #{$grid-bg-selected-hover};
+
+    /* Striped Background Color */
+    --grid-bg-striped: #{$grid-bg-striped};
+
+    /* Background Footer Color */
+    --grid-footer-bg: #{$grid-footer-bg};
+
+    /* Text Color */
+    --grid-selected-color: #{$grid-selected-color};
+
+    /* Paging Colors */
+    --grid-paging-bg: #{$grid-paging-bg};
+    --grid-paging-bg-hover: #{$grid-paging-bg-hover};
+    --grid-paging-border-color: #{$grid-paging-border-color};
+    --grid-paging-border-color-hover: #{$grid-paging-border-color-hover};
+    --grid-paging-color: #{$grid-paging-color};
+    --grid-paging-color-hover: #{$grid-paging-color-hover};
+
+    /*== Tabs */
+    /*## Default variables for Tab Container Widget (used in components/tabcontainer) */
+
+    /* Text Color */
+    --tabs-color: #{$tabs-color};
+    --tabs-color-active: #{$tabs-color-active};
+    --tabs-lined-color-active: #{$tabs-lined-color-active};
+
+    --tabs-lined-border-width: #{$tabs-lined-border-width};
+
+    /* Border Color */
+    --tabs-border-color: #{$tabs-border-color};
+    --tabs-lined-border-color: #{$tabs-lined-border-color};
+
+    /* Background Color */
+    --tabs-bg: #{$tabs-bg};
+    --tabs-bg-pills: #{$tabs-bg-pills};
+    --tabs-bg-hover: #{$tabs-bg-hover};
+    --tabs-bg-active: #{$tabs-bg-active};
+
+    /*== Modals */
+    /*## Default Mendix Modal, Blocking Modal and Login Modal (used in components/modals) */
+
+    /* Background Color */
+    --modal-header-bg: #{$modal-header-bg};
+
+    /* Border Color */
+    --modal-header-border-color: #{$modal-header-border-color};
+
+    /* Text Color */
+    --modal-header-color: #{$modal-header-color};
+
+    /*== Dataview */
+    /*## Default variables for Dataview Widget (used in components/dataview) */
+
+    /* Controls */
+    --dataview-controls-bg: #{$dataview-controls-bg};
+    --dataview-controls-border-color: #{$dataview-controls-border-color};
+
+    /* Empty Message */
+    --dataview-emptymessage-bg: #{$dataview-emptymessage-bg};
+    --dataview-emptymessage-color: #{$dataview-emptymessage-color};
+
+    /*== Alerts */
+    /*## Default Bootstrap alerts, not a widget in the Modeler (used in components/alerts) */
+
+    /* Background Color */
+    --alert-primary-bg: #{$alert-primary-bg};
+    --alert-secondary-bg: #{$alert-secondary-bg};
+    --alert-success-bg: #{$alert-success-bg};
+    --alert-warning-bg: #{$alert-warning-bg};
+    --alert-danger-bg: #{$alert-danger-bg};
+
+    /* Text Color */
+    --alert-primary-color: #{$alert-primary-color};
+    --alert-secondary-color: #{$alert-secondary-color};
+    --alert-success-color: #{$alert-success-color};
+    --alert-warning-color: #{$alert-warning-color};
+    --alert-danger-color: #{$alert-danger-color};
+
+    /* Border Color */
+    --alert-primary-border-color: #{$alert-primary-border-color};
+    --alert-secondary-border-color: #{$alert-secondary-border-color};
+    --alert-success-border-color: #{$alert-success-border-color};
+    --alert-warning-border-color: #{$alert-warning-border-color};
+    --alert-danger-border-color: #{$alert-danger-border-color};
+
+    /*== Wizard */
+
+    --wizard-step-height: #{$wizard-step-height};
+    --wizard-step-number-size: #{$wizard-step-number-size};
+    --wizard-step-number-font-size: #{$wizard-step-number-font-size};
+
+    /*Wizard states */
+    --wizard-default: #{$wizard-default};
+    --wizard-active: #{$wizard-active};
+    --wizard-visited: #{$wizard-visited};
+
+    /*Wizard step states */
+    --wizard-default-bg: #{$wizard-default-bg};
+    --wizard-default-color: #{$wizard-default-color};
+    --wizard-default-step-color: #{$wizard-default-step-color};
+    --wizard-default-border-color: #{$wizard-default-border-color};
+
+    --wizard-active-bg: #{$wizard-active-bg};
+    --wizard-active-color: #{$wizard-active-color};
+    --wizard-active-step-color: #{$wizard-active-step-color};
+    --wizard-active-border-color: #{$wizard-active-border-color};
+
+    --wizard-visited-bg: #{$wizard-visited-bg};
+    --wizard-visited-color: #{$wizard-visited-color};
+    --wizard-visited-step-color: #{$wizard-visited-step-color};
+    --wizard-visited-border-color: #{$wizard-visited-border-color};
+
+    /*== Labels */
+    /*## Default Bootstrap Labels, not a widget in the Modeler (used in components/labels) */
+
+    /* Background Color */
+    --label-default-bg: #{$label-default-bg};
+    --label-primary-bg: #{$label-primary-bg};
+    --label-success-bg: #{$label-success-bg};
+    --label-warning-bg: #{$label-warning-bg};
+    --label-danger-bg: #{$label-danger-bg};
+
+    /* Border Color */
+    --label-default-border-color: #{$label-default-border-color};
+    --label-primary-border-color: #{$label-primary-border-color};
+    --label-success-border-color: #{$label-success-border-color};
+    --label-warning-border-color: #{$label-warning-border-color};
+    --label-danger-border-color: #{$label-danger-border-color};
+
+    /* Text Color */
+    --label-default-color: #{$label-default-color};
+    --label-primary-color: #{$label-primary-color};
+    --label-success-color: #{$label-success-color};
+    --label-warning-color: #{$label-warning-color};
+    --label-danger-color: #{$label-danger-color};
+
+    /*== Groupbox */
+    /*## Default variables for Groupbox Widget (used in components/groupbox) */
+
+    /* Background Color */
+    --groupbox-default-bg: #{$groupbox-default-bg};
+    --groupbox-primary-bg: #{$groupbox-primary-bg};
+    --groupbox-success-bg: #{$groupbox-success-bg};
+    --groupbox-warning-bg: #{$groupbox-warning-bg};
+    --groupbox-danger-bg: #{$groupbox-danger-bg};
+    --groupbox-white-bg: #{$groupbox-white-bg};
+
+    /* Text Color */
+    --groupbox-default-color: #{$groupbox-default-color};
+    --groupbox-primary-color: #{$groupbox-primary-color};
+    --groupbox-success-color: #{$groupbox-success-color};
+    --groupbox-warning-color: #{$groupbox-warning-color};
+    --groupbox-danger-color: #{$groupbox-danger-color};
+    --groupbox-white-color: #{$groupbox-white-color};
+
+    /*== Callout (groupbox) Colors */
+    /*## Extended variables for Groupbox Widget (used in components/groupbox) */
+
+    /* Text and Border Color */
+    --callout-default-color: #{$callout-default-color};
+    --callout-primary-color: #{$callout-primary-color};
+    --callout-success-color: #{$callout-success-color};
+    --callout-warning-color: #{$callout-warning-color};
+    --callout-danger-color: #{$callout-danger-color};
+
+    /* Background Color */
+    --callout-default-bg: #{$callout-default-bg};
+    --callout-primary-bg: #{$callout-primary-bg};
+    --callout-success-bg: #{$callout-success-bg};
+    --callout-warning-bg: #{$callout-warning-bg};
+    --callout-danger-bg: #{$callout-danger-bg};
+
+    /*== Timeline */
+    /*## Extended variables for Timeline Widget */
+    /* Colors */
+    --timeline-icon-color: #{$timeline-icon-color};
+    --timeline-border-color: #{$timeline-border-color};
+    --timeline-event-time-color: #{$timeline-event-time-color};
+
+    /* Sizes */
+    --timeline-icon-size: #{$timeline-icon-size};
+    --timeline-image-size: #{$timeline-image-size};
+
+    /*Timeline grouping */
+    --timeline-grouping-size: #{$timeline-grouping-size};
+    --timeline-grouping-border-radius: #{$timeline-grouping-border-radius};
+    --timeline-grouping-border-color: #{$timeline-grouping-border-color};
+
+    /*== Accordions */
+    /*## Extended variables for Accordion Widget */
+
+    /* Default */
+    --accordion-header-default-bg: #{$accordion-header-default-bg};
+    --accordion-header-default-bg-hover: #{$accordion-header-default-bg-hover};
+    --accordion-header-default-color: #{$accordion-header-default-color};
+    --accordion-default-border-color: #{$accordion-default-border-color};
+
+    --accordion-bg-striped: #{$accordion-bg-striped};
+    --accordion-bg-striped-hover: #{$accordion-bg-striped-hover};
+
+    /* Semantic background colors */
+    --accordion-header-primary-bg: #{$accordion-header-primary-bg};
+    --accordion-header-secondary-bg: #{$accordion-header-secondary-bg};
+    --accordion-header-success-bg: #{$accordion-header-success-bg};
+    --accordion-header-warning-bg: #{$accordion-header-warning-bg};
+    --accordion-header-danger-bg: #{$accordion-header-danger-bg};
+
+    --accordion-header-primary-bg-hover: #{$accordion-header-primary-bg-hover};
+    --accordion-header-secondary-bg-hover: #{$accordion-header-secondary-bg-hover};
+    --accordion-header-success-bg-hover: #{$accordion-header-success-bg-hover};
+    --accordion-header-warning-bg-hover: #{$accordion-header-warning-bg-hover};
+    --accordion-header-danger-bg-hover: #{$accordion-header-danger-bg-hover};
+
+    /* Semantic text colors */
+    --accordion-header-primary-color: #{$accordion-header-primary-color};
+    --accordion-header-secondary-color: #{$accordion-header-secondary-color};
+    --accordion-header-success-color: #{$accordion-header-success-color};
+    --accordion-header-warning-color: #{$accordion-header-warning-color};
+    --accordion-header-danger-color: #{$accordion-header-danger-color};
+
+    /* Semantic border colors */
+    --accordion-primary-border-color: #{$accordion-primary-border-color};
+    --accordion-secondary-border-color: #{$accordion-secondary-border-color};
+    --accordion-success-border-color: #{$accordion-success-border-color};
+    --accordion-warning-border-color: #{$accordion-warning-border-color};
+    --accordion-danger-border-color: #{$accordion-danger-border-color};
+
+    /*== Spacing */
+    /*## Advanced layout options (used in base/mixins/default-spacing) */
+
+    /* Smallest spacing */
+    --spacing-smallest: #{$spacing-smallest};
+
+    /* Smaller spacing */
+    --spacing-smaller: #{$spacing-smaller};
+
+    /* Small spacing */
+    --spacing-small: #{$spacing-small};
+
+    /* Medium spacing */
+    --spacing-medium: #{$spacing-medium};
+    --t-spacing-medium: #{$t-spacing-medium};
+    --m-spacing-medium: #{$m-spacing-medium};
+
+    /* Large spacing */
+    --spacing-large: #{$spacing-large};
+    --t-spacing-large: #{$t-spacing-large};
+    --m-spacing-large: #{$m-spacing-large};
+
+    /* Larger spacing */
+    --spacing-larger: #{$spacing-larger};
+
+    /* Largest spacing */
+    --spacing-largest: #{$spacing-largest};
+
+    /* Layout spacing */
+    --layout-spacing-top: #{$layout-spacing-top};
+    --layout-spacing-right: #{$layout-spacing-right};
+    --layout-spacing-bottom: #{$layout-spacing-bottom};
+    --layout-spacing-left: #{$layout-spacing-left};
+
+    --t-layout-spacing-top: #{$t-layout-spacing-top};
+    --t-layout-spacing-right: #{$t-layout-spacing-right};
+    --t-layout-spacing-bottom: #{$t-layout-spacing-bottom};
+    --t-layout-spacing-left: #{$t-layout-spacing-left};
+
+    --m-layout-spacing-top: #{$m-layout-spacing-top};
+    --m-layout-spacing-right: #{$m-layout-spacing-right};
+    --m-layout-spacing-bottom: #{$m-layout-spacing-bottom};
+    --m-layout-spacing-left: #{$m-layout-spacing-left};
+
+    /* Combined layout spacing */
+    --layout-spacing: #{$layout-spacing};
+    --m-layout-spacing: #{$m-layout-spacing};
+    --t-layout-spacing: #{$t-layout-spacing};
+
+    /* Gutter size */
+    --gutter-size: #{$gutter-size};
+
+    /*== Tables */
+    /*## Table spacing options (used in components/tables) */
+
+    --padding-table-cell-top: #{$padding-table-cell-top};
+    --padding-table-cell-bottom: #{$padding-table-cell-bottom};
+    --padding-table-cell-left: #{$padding-table-cell-left};
+    --padding-table-cell-right: #{$padding-table-cell-right};
+
+    /*== Media queries breakpoints */
+    /*## Define the breakpoints at which your layout will change, adapting to different screen sizes. */
+
+    --screen-xs: #{$screen-xs};
+    --screen-sm: #{$screen-sm};
+    --screen-md: #{$screen-md};
+    --screen-lg: #{$screen-lg};
+    --screen-xl: #{$screen-xl};
+
+    /* So media queries don't overlap when required, provide a maximum (used for max-width) */
+    --screen-xs-max: #{$screen-xs-max};
+    --screen-sm-max: #{$screen-sm-max};
+    --screen-md-max: #{$screen-md-max};
+    --screen-lg-max: #{$screen-lg-max};
+
+    /*== Settings */
+    /*## Enable or disable your desired framework features */
+    /* Use of !important */
+    --important-flex: #{$important-flex}; // ./base/flex.scss
+    --important-spacing: #{$important-spacing}; // ./base/spacing.scss
+    --important-helpers: #{$important-helpers}; // ./helpers/helperclasses.scss
+
+    /*===== Legacy variables ===== */
+
+    /*== Step 1: Brand Colors */
+    --brand-inverse: #{$brand-inverse};
+    --brand-info: #{$brand-info};
+
+    /*== Step 2: UI Customization */
+    /* Sidebar */
+    --sidebar-bg: #{$sidebar-bg};
+
+    /*== Navigation */
+    /*## Used in components/navigation */
+
+    /* Default Navigation styling */
+    --navigation-bg: #{$navigation-bg};
+    --navigation-bg-hover: #{$navigation-bg-hover};
+    --navigation-bg-active: #{$navigation-bg-active};
+
+    --navigation-sub-bg: #{$navigation-sub-bg};
+    --navigation-sub-bg-hover: #{$navigation-sub-bg-hover};
+    --navigation-sub-bg-active: #{$navigation-sub-bg-active};
+
+    --navigation-border-color: #{$navigation-border-color};
+
+    /* Navigation Sidebar */
+    --navsidebar-bg: #{$navsidebar-bg};
+    --navsidebar-bg-hover: #{$navsidebar-bg-hover};
+    --navsidebar-bg-active: #{$navsidebar-bg-active};
+
+    --navsidebar-sub-bg: #{$navsidebar-sub-bg};
+    --navsidebar-sub-bg-hover: #{$navsidebar-sub-bg-hover};
+    --navsidebar-sub-bg-active: #{$navsidebar-sub-bg-active};
+
+    --navsidebar-border-color: #{$navsidebar-border-color};
+
+    /*== Form */
+    /*## Used in components/inputs */
+
+    /* Form Label */
+    --form-label-color: #{$form-label-color};
+
+    /*== Buttons */
+    /*## Define background-color, border-color and text. Used in components/buttons */
+
+    /* Button Background Color */
+    --btn-inverse-bg: #{$btn-inverse-bg};
+    --btn-info-bg: #{$btn-info-bg};
+
+    /* Button Border Color */
+    --btn-inverse-border-color: #{$btn-inverse-border-color};
+    --btn-info-border-color: #{$btn-info-border-color};
+
+    /* Button Text Color */
+    --btn-inverse-color: #{$btn-inverse-color};
+    --btn-info-color: #{$btn-info-color};
+
+    /* Button Background Color */
+    --btn-inverse-bg-hover: #{$btn-inverse-bg-hover};
+    --btn-info-bg-hover: #{$btn-info-bg-hover};
+
+    /*== Color variations */
+    /*## These variations are used to support several other variables and components */
+
+    /* Color variations */
+    --color-inverse-darker: #{$color-inverse-darker};
+    --color-inverse-dark: #{$color-inverse-dark};
+    --color-inverse-light: #{$color-inverse-light};
+    --color-inverse-lighter: #{$color-inverse-lighter};
+
+    --color-info-darker: #{$color-info-darker};
+    --color-info-dark: #{$color-info-dark};
+    --color-info-light: #{$color-info-light};
+    --color-info-lighter: #{$color-info-lighter};
+
+    /*== Alerts */
+    /*## Default Bootstrap alerts, not a widget in the Modeler (used in components/alerts) */
+
+    /* Background Color */
+    --alert-info-bg: #{$alert-info-bg};
+
+    /* Text Color */
+    --alert-info-color: #{$alert-info-color};
+
+    /* Border Color */
+    --alert-info-border-color: #{$alert-info-border-color};
+    /*== Labels */
+    /*## Default Bootstrap Labels, not a widget in the Modeler (used in components/labels) */
+
+    /* Background Color */
+    --label-info-bg: #{$label-info-bg};
+    --label-inverse-bg: #{$label-inverse-bg};
+
+    /* Border Color */
+    --label-info-border-color: #{$label-info-border-color};
+    --label-inverse-border-color: #{$label-inverse-border-color};
+
+    /* Text Color */
+    --label-info-color: #{$label-info-color};
+    --label-inverse-color: #{$label-inverse-color};
+
+    /*== Groupbox */
+    /*## Default variables for Groupbox Widget (used in components/groupbox) */
+
+    /* Background Color */
+    --groupbox-inverse-bg: #{$groupbox-inverse-bg};
+    --groupbox-info-bg: #{$groupbox-info-bg};
+
+    /* Text Color */
+    --groupbox-inverse-color: #{$groupbox-inverse-color};
+    --groupbox-info-color: #{$groupbox-info-color};
+    /*== Callout (groupbox) Colors */
+    /*## Extended variables for Groupbox Widget (used in components/groupbox) */
+
+    /* Text and Border Color */
+    --callout-info-color: #{$callout-info-color};
+
+    /* Background Color */
+    --callout-info-bg: #{$callout-info-bg};
+}

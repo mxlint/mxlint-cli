@@ -1,0 +1,54 @@
+$Type: ImportMappings$ImportMapping
+Documentation: ""
+Elements:
+- $Type: ImportMappings$ObjectMappingElement
+  Association: ""
+  Children:
+  - $Type: ImportMappings$ValueMappingElement
+    Attribute: FeedbackModule.ResponseHelper.URL
+    Converter: FeedbackModule.ConvertUUIDToURL
+    Documentation: ""
+    ElementType: Value
+    ExposedName: Uuid
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|uuid
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  CustomHandlerCall: null
+  Documentation: ""
+  ElementType: Object
+  Entity: FeedbackModule.ResponseHelper
+  ExposedName: Root
+  IsDefaultType: false
+  JsonPath: (Object)
+  MaxOccurs: 1
+  MinOccurs: 1
+  Nillable: true
+  ObjectHandling: Create
+  ObjectHandlingBackup: Create
+  ObjectHandlingBackupAllowOverride: false
+  XmlPath: ""
+Excluded: false
+ExportLevel: Hidden
+JsonStructure: FeedbackModule.JSON_AppInsightsResponse
+MappingSourceReference: null
+MessageDefinition: ""
+Name: IMM_PostResponse
+OperationName: ""
+ParameterType:
+  $Type: DataTypes$UnknownType
+PublicName: ""
+ServiceName: ""
+UseSubtransactionsForMicroflows: false
+WsdlFile: ""
+XmlSchema: ""
+XsdRootElementName: ""

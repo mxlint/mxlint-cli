@@ -1,0 +1,6 @@
+/// Styles the underlay behind the dialog.
+
+.mxfeedback-underlay {
+    inset: 0;
+    z-index: $mxfeedback-z-index-underlay;
+}

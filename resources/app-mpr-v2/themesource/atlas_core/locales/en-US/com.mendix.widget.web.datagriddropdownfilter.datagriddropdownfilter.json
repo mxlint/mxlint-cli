@@ -1,0 +1,22 @@
+{
+    "Automatic options": "Automatic options",
+    "Show options based on the references or the enumeration values and captions.": "Show options based on the references or the enumeration values and captions.",
+    "Enable advanced options": "Enable advanced options",
+    "Default value": "Default value",
+    "Empty option caption will be shown by default or if configured default value matches none of the options": "Empty option caption will be shown by default or if configured default value matches none of the options",
+    "Options": "Options",
+    "Caption": "Caption",
+    "Value": "Value",
+    "Empty option caption": "Empty option caption",
+    "Multiselect": "Multiselect",
+    "General": "General",
+    "Saved attribute": "Saved attribute",
+    "Attribute used to store the last value of the filter. Associations are not supported.": "Attribute used to store the last value of the filter. Associations are not supported.",
+    "Configurations": "Configurations",
+    "On change": "On change",
+    "Action to be triggered when the value or filter changes.": "Action to be triggered when the value or filter changes.",
+    "Events": "Events",
+    "Input caption": "Input caption",
+    "Assistive technology will read this upon reaching the input element.": "Assistive technology will read this upon reaching the input element.",
+    "Accessibility": "Accessibility"
+}

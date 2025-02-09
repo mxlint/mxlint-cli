@@ -1,0 +1,288 @@
+$Type: JsonStructures$JsonStructure
+Documentation: ""
+Elements:
+- $Type: JsonStructures$JsonElement
+  Children:
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: ProjectId
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"00000000-0000-0000-0000-000000000000"'
+    Path: (Object)|projectId
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: SubmitterDisplayName
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"John Doe"'
+    Path: (Object)|submitterDisplayName
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: SubmitterEmail
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"john.doe@email.com"'
+    Path: (Object)|submitterEmail
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: SubmitterUUID
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"00000000-0000-0000-0000-000000000000"'
+    Path: (Object)|submitterUUID
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: Subject
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"Unable to export feedback"'
+    Path: (Object)|subject
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: Description
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"When I click the ''Export'' button on the feedback overview,
+      I get an error telling me to contact the system administrator."'
+    Path: (Object)|description
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: Screenshot
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"Base64 string"'
+    Path: (Object)|screenshot
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: ScreenshotName
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"FeedbackExportBug1.png"'
+    Path: (Object)|screenshotName
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: Priority
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"Urgent"'
+    Path: (Object)|priority
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: ActiveUserRoles
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"User"'
+    Path: (Object)|activeUserRoles
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: PageName
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"Home"'
+    Path: (Object)|pageName
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: Browser
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"Chrome"'
+    Path: (Object)|browser
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: EnvironmentURL
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: '"url"'
+    Path: (Object)|environmentURL
+    PrimitiveType: String
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: ScreenWidth
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: -1
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: "1280"
+    Path: (Object)|screenWidth
+    PrimitiveType: Integer
+    TotalDigits: -1
+    WarningMessage: ""
+  - $Type: JsonStructures$JsonElement
+    Children: null
+    ElementType: Value
+    ErrorMessage: ""
+    ExposedItemName: ""
+    ExposedName: ScreenHeight
+    FractionDigits: -1
+    IsDefaultType: false
+    MaxLength: -1
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: "720"
+    Path: (Object)|screenHeight
+    PrimitiveType: Integer
+    TotalDigits: -1
+    WarningMessage: ""
+  ElementType: Object
+  ErrorMessage: ""
+  ExposedItemName: ""
+  ExposedName: Root
+  FractionDigits: -1
+  IsDefaultType: false
+  MaxLength: -1
+  MaxOccurs: 1
+  MinOccurs: 1
+  Nillable: true
+  OriginalValue: ""
+  Path: (Object)
+  PrimitiveType: Unknown
+  TotalDigits: -1
+  WarningMessage: ""
+Excluded: false
+ExportLevel: Hidden
+JsonSnippet: "{\r\n    \"projectId\": \"00000000-0000-0000-0000-000000000000\",\r\n
+  \   \"submitterDisplayName\": \"John Doe\",\r\n    \"submitterEmail\": \"john.doe@email.com\",\r\n
+  \   \"submitterUUID\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"subject\":
+  \"Unable to export feedback\",\r\n    \"description\": \"When I click the 'Export'
+  button on the feedback overview, I get an error telling me to contact the system
+  administrator.\",\r\n    \"screenshot\": \"Base64 string\",\r\n    \"screenshotName\":
+  \"FeedbackExportBug1.png\",\r\n    \"priority\": \"Urgent\",\r\n    \"activeUserRoles\":
+  \"User\",\r\n    \"pageName\": \"Home\",\r\n    \"browser\": \"Chrome\",\r\n    \"environmentURL\":
+  \"url\",\r\n    \"screenWidth\": 1280,\r\n    \"screenHeight\": 720\r\n}"
+Name: JSON_AppInsightsRequest

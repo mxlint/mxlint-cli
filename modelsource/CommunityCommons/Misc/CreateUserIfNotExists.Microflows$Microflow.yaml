@@ -12,18 +12,37 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: /YZxhRr9ekS+PfS59fdNTw==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: 7g9eR7mc8EKVQDrQXlrHTA==
-- Attributes:
-    $Type: Microflows$ActionActivity
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: CreateUserIfNotExists
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Username
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Role
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Password
+    VariableType:
+      $Type: DataTypes$StringType
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$RetrieveAction
       ErrorHandlingType: Rollback
@@ -43,162 +62,101 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: zKkfraGWgU+ZZpT1eFjtQg==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: J02OWj/5ekG2VIB4sXJBGg==
-- Attributes:
-    $Type: Microflows$ExclusiveSplit
+  - $Type: Microflows$ExclusiveSplit
     Caption: empty?
     Documentation: ""
     ErrorHandlingType: Rollback
     SplitCondition:
       $Type: Microflows$ExpressionSplitCondition
       Expression: $User = empty
-  ID: 3yGlfJxx/EeUtGCW2opOXQ==
-  Splits:
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "true"
-      ID: 6+JQMm1OMUmEuUB6pZzeFw==
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
-          $Type: Microflows$CreateChangeAction
-          Commit: "No"
-          Entity: System.User
-          ErrorHandlingType: Rollback
-          Items: null
-          RefreshInClient: false
-          VariableName: NewUser
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-      ID: cDmCXoNnukOfRv0sGCp9og==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: DawwBl5VsUWaVwzHfZzU9w==
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
-          $Type: Microflows$MicroflowCallAction
-          ErrorHandlingType: Rollback
-          MicroflowCall:
-            $Type: Microflows$MicroflowCall
-            Microflow: CommunityCommons.UpdateUserHelper
-            ParameterMappings:
-            - $ID: YY+IqbYnzE+ByUhirjbG1g==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Username
-              Parameter: CommunityCommons.UpdateUserHelper.Username
-            - $ID: j7wPIIolP0+uqdZA0ELfeQ==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Role
-              Parameter: CommunityCommons.UpdateUserHelper.Role
-            - $ID: dIO4XQxWQEevDXlKExYB6w==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Password
-              Parameter: CommunityCommons.UpdateUserHelper.Password
-            - $ID: H7FAyB7TIUimnJjKTZmXgQ==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $WebserviceUser
-              Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
-            - $ID: QV48IPZ5sk+U9DEafplvyQ==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $NewUser
-              Parameter: CommunityCommons.UpdateUserHelper.User
-            QueueSettings: null
-          ResultVariableName: ""
-          UseReturnVariable: true
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-      ID: sLt8+jOR1kKbg3vyPGEbSg==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: Nf+mDcPASE+M18LvdhFdvA==
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-      ID: u9PteX7T7UObYtYmEz0yYg==
-  - - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$EnumerationCase
-          Value: "false"
-      ID: lgUXY4R0/k212LcTyQSG6Q==
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
-          $Type: Microflows$MicroflowCallAction
-          ErrorHandlingType: Rollback
-          MicroflowCall:
-            $Type: Microflows$MicroflowCall
-            Microflow: CommunityCommons.UpdateUserHelper
-            ParameterMappings:
-            - $ID: i5pyqo8PPkOuYmARANU6lw==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Username
-              Parameter: CommunityCommons.UpdateUserHelper.Username
-            - $ID: K6OOwQ3SM0KA+s0q7Tshvg==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Role
-              Parameter: CommunityCommons.UpdateUserHelper.Role
-            - $ID: 2aDIDbThn0m1RwSkQHZQyQ==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $Password
-              Parameter: CommunityCommons.UpdateUserHelper.Password
-            - $ID: bZKg134j6Ua5U+/DsY5Aaw==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $WebserviceUser
-              Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
-            - $ID: YyJWO4+3QEWOwuEgqs93CQ==
-              $Type: Microflows$MicroflowCallParameterMapping
-              Argument: $User
-              Parameter: CommunityCommons.UpdateUserHelper.User
-            QueueSettings: null
-          ResultVariableName: ""
-          UseReturnVariable: true
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-      ID: qV4dCChqZE+h6ahQ7uvxaA==
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        IsErrorHandler: false
-        NewCaseValue:
-          $Type: Microflows$NoCase
-      ID: NScOu8rb9ke7DqDQBvFf9A==
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-      ID: B9DLwL/jfUyJDUkLkPzJtw==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: CreateUserIfNotExists
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: WebserviceUser
+    VariableType:
+      $Type: DataTypes$BooleanType
+  - $Type: Microflows$Annotation
+    Caption: 'Create a user with predefined password an role. Useful during startup
+      for integration purposes. '
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Rollback
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: CommunityCommons.UpdateUserHelper
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Username
+          Parameter: CommunityCommons.UpdateUserHelper.Username
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Role
+          Parameter: CommunityCommons.UpdateUserHelper.Role
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Password
+          Parameter: CommunityCommons.UpdateUserHelper.Password
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $WebserviceUser
+          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $User
+          Parameter: CommunityCommons.UpdateUserHelper.User
+        QueueSettings: null
+      ResultVariableName: ""
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$MicroflowCallAction
+      ErrorHandlingType: Rollback
+      MicroflowCall:
+        $Type: Microflows$MicroflowCall
+        Microflow: CommunityCommons.UpdateUserHelper
+        ParameterMappings:
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Username
+          Parameter: CommunityCommons.UpdateUserHelper.Username
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Role
+          Parameter: CommunityCommons.UpdateUserHelper.Role
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $Password
+          Parameter: CommunityCommons.UpdateUserHelper.Password
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $WebserviceUser
+          Parameter: CommunityCommons.UpdateUserHelper.WebserviceUser
+        - $Type: Microflows$MicroflowCallParameterMapping
+          Argument: $NewUser
+          Parameter: CommunityCommons.UpdateUserHelper.User
+        QueueSettings: null
+      ResultVariableName: ""
+      UseReturnVariable: true
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CreateChangeAction
+      Commit: "No"
+      Entity: System.User
+      ErrorHandlingType: Rollback
+      Items: null
+      RefreshInClient: false
+      VariableName: NewUser
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

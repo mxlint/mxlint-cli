@@ -1,0 +1,14 @@
+{
+    "Target selector": "Target selector",
+    "Selector to find the first HTML element you want to target which must be a valid CSS selector like '.mx-name-texbox1 input'": "Selector to find the first HTML element you want to target which must be a valid CSS selector like '.mx-name-texbox1 input'",
+    "Content": "Content",
+    "HTML Attributes": "HTML Attributes",
+    "HTML attribute": "HTML attribute",
+    "The HTML attribute to be set based on the condition. The following attributes are not allowed: 'class', 'style', 'widgetid', 'data-mendix-id'.": "The HTML attribute to be set based on the condition. The following attributes are not allowed: 'class', 'style', 'widgetid', 'data-mendix-id'.",
+    "Source type": "Source type",
+    "Expression value": "Expression value",
+    "Text value": "Text value",
+    "Condition": "Condition",
+    "Condition to determine if the HTML attribute must be set or not": "Condition to determine if the HTML attribute must be set or not",
+    "General": "General"
+}

@@ -1,0 +1,45 @@
+/// Styles the screenshot preview container in the form.
+
+.mxfeedback-screenshot-preview {
+  display: flex;
+  justify-content: left;
+  position: relative;
+  margin: $spacing-large auto;
+  cursor: pointer;
+
+  &__image > img {
+    display: block;
+    object-fit: contain;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid $gray;
+    border-radius: $border-radius-default;
+
+    &:hover {
+      background-color: $gray-lighter;
+      border: 1px solid $gray-dark;
+      border-radius: $border-radius-default;
+      opacity: 0.5;
+    }
+  }
+
+  &__preview-icon {
+    width: $mxfeedback-icon-size-md;
+    height: $mxfeedback-icon-size-md;
+    fill: $gray-lighter;
+  }
+
+  &__delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    z-index: 1;
+    color: $btn-default-color;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    font-size: 12px;
+  }
+}

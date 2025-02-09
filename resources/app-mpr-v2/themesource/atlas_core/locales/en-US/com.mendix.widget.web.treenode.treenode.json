@@ -1,0 +1,23 @@
+{
+    "Display a tree view structure": "Display a tree view structure",
+    "Enable advanced options": "Enable advanced options",
+    "Data source": "Data source",
+    "Header type": "Header type",
+    "Open node when": "Open node when",
+    "Define which part of the node, when clicked, should open or close this node. \"Header is clicked\" means the whole header is clickable, while \"Icon is clicked\" means only the icon is used to switch node state.": "Define which part of the node, when clicked, should open or close this node. \"Header is clicked\" means the whole header is clickable, while \"Icon is clicked\" means only the icon is used to switch node state.",
+    "Header": "Header",
+    "Header caption": "Header caption",
+    "Has children": "Has children",
+    "Indicate whether the node has children or is an end node. When set to yes, a composable region becomes available to define the child nodes.": "Indicate whether the node has children or is an end node. When set to yes, a composable region becomes available to define the child nodes.",
+    "Start expanded": "Start expanded",
+    "Place other Tree nodes here": "Place other Tree nodes here",
+    "Animate": "Animate",
+    "General": "General",
+    "Show icon": "Show icon",
+    "Expanded icon": "Expanded icon",
+    "Collapsed icon": "Collapsed icon",
+    "Animate icon": "Animate icon",
+    "Animate the icon when the group is collapsing or expanding.": "Animate the icon when the group is collapsing or expanding.",
+    "Icon": "Icon",
+    "Visualization": "Visualization"
+}

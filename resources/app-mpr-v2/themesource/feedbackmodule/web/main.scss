@@ -1,0 +1,29 @@
+/* 
+    ==| Variables |=========================================================================================
+*/
+@import "../../../theme/web/custom-variables.scss"; 
+@import "variables";
+@import "helpers";
+
+/* 
+    ==| Widget blocks |=====================================================================================
+    These blocks contains styles directly related to the widget's appearance and are mostly unique styles
+    needed to display the widget's UI correctly.
+*/
+
+@import "feedback-button";
+@import "annotation-canvas";
+@import "annotation-frame";
+
+/* 
+    ==| Generic blocks |====================================================================================
+    These blocks are generic blocks. These styles are styles that apply to the widget's entire UI and
+    outline the basic styles of the widget (in accordance with Atlas UI).
+*/
+
+@import "toolbar";
+@import "tool-button";
+@import "button-group";
+@import "button";
+@import "screenshot-preview";
+@import "underlay";

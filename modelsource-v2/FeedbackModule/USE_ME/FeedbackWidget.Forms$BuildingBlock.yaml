@@ -1,0 +1,13 @@
+$Type: Forms$BuildingBlock
+CanvasHeight: 600
+CanvasWidth: 500
+DisplayName: ""
+Documentation: ""
+DocumentationUrl: ""
+Excluded: false
+ExportLevel: Hidden
+Name: FeedbackWidget
+Platform: Web
+TemplateCategory: ""
+TemplateCategoryWeight: 0
+Widgets: null

@@ -1,0 +1,16 @@
+{
+    "The widget lets you display a percentage as a bar": "The widget lets you display a percentage as a bar",
+    "Type": "Type",
+    "Current value": "Current value",
+    "Minimum value": "Minimum value",
+    "Maximum value": "Maximum value",
+    "General": "General",
+    "On click": "On click",
+    "Events": "Events",
+    "Show label": "Show label",
+    "Label type": "Label type",
+    "Note: If the Size of the progress bar is set to \"Small\" in the Appearance tab, then text and percentage labels will be shown in a tooltip and custom labels will be ignored.": "Note: If the Size of the progress bar is set to \"Small\" in the Appearance tab, then text and percentage labels will be shown in a tooltip and custom labels will be ignored.",
+    "Label text": "Label text",
+    "Custom label": "Custom label",
+    "Progress Label": "Progress Label"
+}
