@@ -167,6 +167,15 @@ func evalTestcase(rulePath string, queryString string, inputFilePath string) (*T
 		return nil, err
 	}
 
+	// if data["Documentation"] contains #noqa, skip the testcase; Documentation attribute might not exist
+	if doc, ok := data["Documentation"].(string); ok && strings.Contains(doc, "#noqa") {
+		return &Testcase{
+			Name:    inputFilePath,
+			Time:    0,
+			Skipped: &Skipped{Message: "Skipped because of #noqa"},
+		}, nil
+	}
+
 	ctx := context.Background()
 
 	startTime := time.Now()

@@ -26,7 +26,7 @@ func TestMPRMetadata(t *testing.T) {
 			t.Errorf("Failed to unmarshal metadata file")
 		}
 		// check metadata
-		expectedProductVersion := "10.12.2.41995"
+		expectedProductVersion := "10.18.3.58900"
 		if metadataObj.ProductVersion != expectedProductVersion {
 			t.Errorf("ProductVersion is incorrect. Expected: %s, Got: %s", expectedProductVersion, metadataObj.ProductVersion)
 		}

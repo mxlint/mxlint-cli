@@ -168,6 +168,11 @@ FormCall:
           Weight: 12
           Widgets:
           - $Type: Forms$TabControl
+            ActivePageAttributeRef: null
+            ActivePageOnChangeAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            ActivePageSourceVariable: null
             Appearance:
               $Type: Forms$Appearance
               Class: tabsfullwidth
@@ -9025,3 +9030,4 @@ Title:
     LanguageCode: nl_NL
     Text: Gebruikers
 Url: ""
+Variables: null

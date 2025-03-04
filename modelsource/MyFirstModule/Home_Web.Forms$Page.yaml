@@ -6,10 +6,10 @@ Appearance:
   Class: ""
   DesignProperties: null
   DynamicClasses: ""
-  Style: ""
+  Style: 'background-color: red;'
 CanvasHeight: 600
 CanvasWidth: 1200
-Documentation: ""
+Documentation: 'hello #noqa'
 Excluded: false
 ExportLevel: Hidden
 FormCall:
@@ -200,3 +200,4 @@ Title:
     LanguageCode: en_US
     Text: Homepage
 Url: ""
+Variables: null

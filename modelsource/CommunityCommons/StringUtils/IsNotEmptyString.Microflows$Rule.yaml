@@ -15,8 +15,10 @@ ObjectCollection:
     Documentation: ""
     ReturnValue: $String != empty and length(trim($String)) > 0
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: String
     VariableType:
       $Type: DataTypes$StringType

@@ -34,6 +34,7 @@ FormCall:
         ForceFullObjects: false
         SourceVariable:
           $Type: Forms$PageVariable
+          LocalVariable: ""
           PageParameter: Account
           SnippetParameter: ""
           UseAllPages: false
@@ -198,6 +199,7 @@ FormCall:
         ScreenReaderLabel: null
         SourceVariable:
           $Type: Forms$PageVariable
+          LocalVariable: ""
           PageParameter: Account
           SnippetParameter: ""
           UseAllPages: false
@@ -288,6 +290,7 @@ FormCall:
         ScreenReaderLabel: null
         SourceVariable:
           $Type: Forms$PageVariable
+          LocalVariable: ""
           PageParameter: Account
           SnippetParameter: ""
           UseAllPages: false
@@ -1337,3 +1340,4 @@ Title:
     LanguageCode: nl_NL
     Text: Mijn account
 Url: ""
+Variables: null
