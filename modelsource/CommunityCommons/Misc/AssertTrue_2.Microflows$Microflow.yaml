@@ -25,8 +25,10 @@ ObjectCollection:
     Documentation: ""
     ReturnValue: ""
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: valueToAssert
     VariableType:
       $Type: DataTypes$BooleanType
@@ -64,8 +66,10 @@ ObjectCollection:
       is not true. \r\n\r\nSaves creating three microflow items for things that MUST
       be true. "
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: message
     VariableType:
       $Type: DataTypes$StringType

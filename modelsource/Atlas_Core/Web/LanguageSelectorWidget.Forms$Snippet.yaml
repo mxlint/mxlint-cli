@@ -6,6 +6,7 @@ Excluded: false
 ExportLevel: Hidden
 Name: LanguageSelectorWidget
 Parameters: null
+Variables: null
 Widgets:
 - $Type: CustomWidgets$CustomWidget
   Appearance:

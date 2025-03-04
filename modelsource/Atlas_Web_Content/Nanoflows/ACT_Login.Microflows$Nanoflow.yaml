@@ -16,8 +16,10 @@ ObjectCollection:
     Documentation: ""
     ReturnValue: ""
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: LoginContext
     VariableType:
       $Type: DataTypes$ObjectType

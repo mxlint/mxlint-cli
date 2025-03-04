@@ -204,6 +204,11 @@ LayoutCall:
             TabIndex: 0
             Widgets:
             - $Type: Forms$TabControl
+              ActivePageAttributeRef: null
+              ActivePageOnChangeAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              ActivePageSourceVariable: null
               Appearance:
                 $Type: Forms$Appearance
                 Class: ""

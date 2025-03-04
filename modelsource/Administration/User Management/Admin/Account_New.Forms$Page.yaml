@@ -66,6 +66,7 @@ FormCall:
               ForceFullObjects: false
               SourceVariable:
                 $Type: Forms$PageVariable
+                LocalVariable: ""
                 PageParameter: AccountPasswordData
                 SnippetParameter: ""
                 UseAllPages: false
@@ -3463,6 +3464,7 @@ FormCall:
               ScreenReaderLabel: null
               SourceVariable:
                 $Type: Forms$PageVariable
+                LocalVariable: ""
                 PageParameter: AccountPasswordData
                 SnippetParameter: ""
                 UseAllPages: false
@@ -3556,6 +3558,7 @@ FormCall:
               ScreenReaderLabel: null
               SourceVariable:
                 $Type: Forms$PageVariable
+                LocalVariable: ""
                 PageParameter: AccountPasswordData
                 SnippetParameter: ""
                 UseAllPages: false
@@ -3604,3 +3607,4 @@ Title:
     LanguageCode: nl_NL
     Text: Nieuwe gebruiker
 Url: ""
+Variables: null

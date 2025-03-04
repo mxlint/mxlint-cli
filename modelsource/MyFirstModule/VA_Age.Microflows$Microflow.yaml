@@ -22,8 +22,10 @@ ObjectCollection:
     Documentation: ""
     ReturnValue: $Variable - $Bike/Year
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: Bike
     VariableType:
       $Type: DataTypes$ObjectType

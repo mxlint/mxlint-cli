@@ -81,32 +81,42 @@ ObjectCollection:
     Documentation: ""
     ReturnValue: ""
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: Username
     VariableType:
       $Type: DataTypes$StringType
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: Role
     VariableType:
       $Type: DataTypes$StringType
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: Password
     VariableType:
       $Type: DataTypes$StringType
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: WebserviceUser
     VariableType:
       $Type: DataTypes$BooleanType
   - $Type: Microflows$MicroflowParameter
+    DefaultValue: ""
     Documentation: ""
     HasVariableNameBeenChanged: false
+    IsRequired: true
     Name: User
     VariableType:
       $Type: DataTypes$ObjectType

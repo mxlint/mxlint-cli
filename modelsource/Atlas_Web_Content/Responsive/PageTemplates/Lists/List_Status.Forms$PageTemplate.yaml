@@ -777,6 +777,11 @@ LayoutCall:
           Weight: -1
           Widgets:
           - $Type: Forms$TabControl
+            ActivePageAttributeRef: null
+            ActivePageOnChangeAction:
+              $Type: Forms$NoAction
+              DisabledDuringExecution: true
+            ActivePageSourceVariable: null
             Appearance:
               $Type: Forms$Appearance
               Class: ""

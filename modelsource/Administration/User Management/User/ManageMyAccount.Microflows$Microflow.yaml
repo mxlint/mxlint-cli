@@ -42,6 +42,7 @@ ObjectCollection:
           Parameter: Administration.MyAccount.Account
           Variable:
             $Type: Forms$PageVariable
+            LocalVariable: ""
             PageParameter: ""
             SnippetParameter: ""
             UseAllPages: false

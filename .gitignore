@@ -55,3 +55,4 @@ go.mod
 site
 docs/policies
 
+project-settings.user.json
