@@ -56,3 +56,5 @@ site
 docs/policies
 
 project-settings.user.json
+.mendix-cache
+*.lock
