@@ -1,0 +1,232 @@
+:root {
+    --pico-font-family-sans-serif: Inter, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, Helvetica, Arial, "Helvetica Neue", sans-serif, var(--pico-font-family-emoji);
+    --pico-font-size: 87.5%;
+    /* Original: 100% */
+    --pico-line-height: 1.25;
+    /* Original: 1.5 */
+    --pico-form-element-spacing-vertical: 0.5rem;
+    /* Original: 1rem */
+    --pico-form-element-spacing-horizontal: 1.0rem;
+    /* Original: 1.25rem */
+    --pico-border-radius: 0.375rem;
+    /* Original: 0.25rem */
+}
+
+@media screen and (max-width: 700px) {
+    table {
+        border: 0;
+    }
+
+        table caption {
+            font-size: 1.3em;
+        }
+
+        table thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        table tr {
+            /*border-bottom: 3px solid #ddd;*/
+            display: block;
+            margin-bottom: 1.5em;
+        }
+
+        table td {
+            /*border-bottom: 1px solid #ddd;*/
+            display: block;
+            text-align: left;
+        }
+
+            table td::before {
+                /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+                content: attr(data-label);
+                float: left;
+                width: 10em;
+                padding-left: 0.5em;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+}
+
+@media (min-width: 576px) {
+    :root {
+        --pico-font-size: 87.5%;
+        /* Original: 106.25% */
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --pico-font-size: 87.5%;
+        /* Original: 112.5% */
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --pico-font-size: 87.5%;
+        /* Original: 118.75% */
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --pico-font-size: 87.5%;
+        /* Original: 125% */
+    }
+}
+
+@media (min-width: 1536px) {
+    :root {
+        --pico-font-size: 87.5%;
+        /* Original: 131.25% */
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    --pico-font-weight: 600;
+    /* Original: 700 */
+}
+
+article {
+    border: 1px solid var(--pico-muted-border-color);
+    /* Original doesn't have a border */
+    border-radius: calc(var(--pico-border-radius) * 2);
+    /* Original: var(--pico-border-radius) */
+}
+
+    article > footer {
+        border-radius: calc(var(--pico-border-radius) * 2);
+        /* Original: var(--pico-border-radius) */
+    }
+
+
+.label {
+    padding: 0.2em 0.5em 0.5em 0.5em;
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: var(--pico-border-radius);
+    margin: 0;
+}
+
+table {
+    font-size: small;
+}
+
+header {
+    font-weight: 600;
+}
+
+td, th {
+    vertical-align: top;
+    padding: 0.5em 0;
+}
+
+    td > *, th > * {
+        padding: 0 0.5em;
+    }
+
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+
+.bar-chart {
+    width: 100%;
+    margin: 0.5em 0 0 0;
+    overflow: hidden;
+}
+
+.bar {
+    text-align: left;
+    padding: 6px 0;
+    margin: 0;
+    border-radius: 0;
+    float: left;
+    height: 2em;
+}
+
+a {
+    text-decoration: none;
+}
+
+.large {
+    font-size: 2em;
+}
+
+.box {
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: 1em;
+    margin: 1em 1em 0 0;
+    min-width: 5em;
+    height: 5em;
+    display: block;
+    float: left;
+}
+
+    .box > .title {
+        font-size: 0.9em;
+        clear: right
+    }
+
+    .box > .value {
+        font-size: 1.5em;
+    }
+
+#btn-filter {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: end;
+    transition: 1s;
+}
+
+#filterOuter {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+#filter-content{
+    padding: 10px;
+}
+
+fieldset {
+    border: 1px solid #7d7d7d;
+    border-radius: 5px;
+}
+
+fieldset div {
+    display: inline-block;
+    width: 30%;
+    margin: 5px;
+    text-align: center;
+}
+
+fieldset legend {
+    padding: 0 10px;
+}

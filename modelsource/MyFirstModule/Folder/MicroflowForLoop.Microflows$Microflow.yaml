@@ -9,18 +9,19 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: hmdJyqZJHk+gt3IESJijeQ==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: Y1r8MLvJLk2iYmpxZPIsgw==
-- Attributes:
-    $Type: Microflows$ActionActivity
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MicroflowForLoop
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$RetrieveAction
       ErrorHandlingType: Rollback
@@ -40,15 +41,7 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: ChOqjh8r4kK3dYXqGwtxWw==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: Us4aXiLEUkmHXnYFURB86g==
-- Attributes:
-    $Type: Microflows$LoopedActivity
+  - $Type: Microflows$LoopedActivity
     Documentation: ""
     ErrorHandlingType: Rollback
     LoopSource:
@@ -58,20 +51,16 @@ MainFunction:
     ObjectCollection:
       $Type: Microflows$MicroflowObjectCollection
       Objects:
-      - $ID: REoQzbooxUqlJfxtM61uuw==
-        $Type: Microflows$ActionActivity
+      - $Type: Microflows$ActionActivity
         Action:
-          $ID: ePBJZv2ockmxBjt1gRJInw==
           $Type: Microflows$ChangeAction
           ChangeVariableName: IteratorBike
           Commit: "No"
           ErrorHandlingType: Rollback
           Items:
-          - $ID: vlZ2qLGLHkaufP+Kexafqg==
-            $Type: Microflows$ChangeActionItem
+          - $Type: Microflows$ChangeActionItem
             Association: ""
             Attribute: MyFirstModule.Bike.Name
-            Type: Set
             Value: '''abc'''
           RefreshInClient: false
         AutoGenerateCaption: true
@@ -79,17 +68,7 @@ MainFunction:
         Caption: Activity
         Disabled: false
         Documentation: ""
-        RelativeMiddlePoint: 184;120
-        Size: 120;60
-  ID: Rdteip+prkClEKtbbvRbHw==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: W0HBAWyKtk6zt8DGjVTwMQ==
-- Attributes:
-    $Type: Microflows$ActionActivity
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CommitAction
       CommitVariableName: BikeList
@@ -101,23 +80,6 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: JON699i5X06+mJmpljIlIQ==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: 1BJyNGW1pkmDcmd1xjlRQw==
-- Attributes:
-    $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: ""
-  ID: N5KM70bSXkehe4ssftsxhg==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$VoidType
-Name: MicroflowForLoop
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: null

@@ -1,0 +1,301 @@
+$Type: ExportMappings$ExportMapping
+Documentation: ""
+Elements:
+- $Type: ExportMappings$ObjectMappingElement
+  Association: ""
+  Children:
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.AppID
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: ProjectId
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|projectId
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.SubmitterDisplayName
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: SubmitterDisplayName
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|submitterDisplayName
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.SubmitterEmail
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: SubmitterEmail
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|submitterEmail
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.SubmitterUUID
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: SubmitterUUID
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|submitterUUID
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.Subject
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: Subject
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|subject
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.Description
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: Description
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|description
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.ImageB64
+    Converter: FeedbackModule.ConvertBase64String
+    Documentation: ""
+    ElementType: Value
+    ExposedName: Screenshot
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|screenshot
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.ScreenshotName
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: ScreenshotName
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|screenshotName
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.ActiveUserRoles
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: ActiveUserRoles
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|activeUserRoles
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.PageName
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: PageName
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|pageName
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.Browser
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: Browser
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|browser
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.EnvironmentURL
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: EnvironmentURL
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|environmentURL
+    MaxLength: 0
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: String
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.ScreenWidth
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: ScreenWidth
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|screenWidth
+    MaxLength: -1
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: Integer
+  - $Type: ExportMappings$ValueMappingElement
+    Attribute: FeedbackModule.Feedback.ScreenHeight
+    Converter: ""
+    Documentation: ""
+    ElementType: Value
+    ExposedName: ScreenHeight
+    FractionDigits: -1
+    IsContent: false
+    IsKey: false
+    IsXmlAttribute: false
+    JsonPath: (Object)|screenHeight
+    MaxLength: -1
+    MaxOccurs: 1
+    MinOccurs: 0
+    Nillable: true
+    OriginalValue: ""
+    TotalDigits: -1
+    XmlPath: ""
+    XmlPrimitiveType: Integer
+  CustomHandlerCall: null
+  Documentation: ""
+  ElementType: Object
+  Entity: FeedbackModule.Feedback
+  ExposedName: Root
+  IsDefaultType: false
+  JsonPath: (Object)
+  MaxOccurs: 1
+  MinOccurs: 1
+  Nillable: true
+  ObjectHandling: Parameter
+  ObjectHandlingBackup: Error
+  ObjectHandlingBackupAllowOverride: false
+  XmlPath: ""
+Excluded: false
+ExportLevel: Hidden
+IsHeaderParameter: false
+JsonStructure: FeedbackModule.JSON_AppInsightsRequest
+MappingSourceReference: null
+MessageDefinition: ""
+Name: EXM_PostFeedback
+NullValueOption: LeaveOutElement
+OperationName: ""
+ParameterName: ""
+PublicName: ""
+ServiceName: ""
+WsdlFile: ""
+XmlSchema: ""
+XsdRootElementName: ""

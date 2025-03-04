@@ -1,0 +1,96 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles:
+- Administration.User
+ApplyEntityAccess: true
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: ManageMyAccount
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$InheritanceSplit
+    Caption: ""
+    Documentation: ""
+    SplitVariableName: currentUser
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ShowFormAction
+      ErrorHandlingType: Rollback
+      FormSettings:
+        $Type: Forms$FormSettings
+        Form: Administration.MyAccount
+        ParameterMappings:
+        - $Type: Forms$PageParameterMapping
+          Argument: $Account
+          Parameter: Administration.MyAccount.Account
+          Variable:
+            $Type: Forms$PageVariable
+            LocalVariable: ""
+            PageParameter: ""
+            SnippetParameter: ""
+            UseAllPages: false
+            Widget: ""
+        TitleOverride: null
+      NumberOfPagesToClose: ""
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$CastAction
+      ErrorHandlingType: Rollback
+      VariableName: Account
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+  - $Type: Microflows$ExclusiveMerge
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$ShowMessageAction
+      Blocking: true
+      ErrorHandlingType: Rollback
+      Template:
+        $Type: Microflows$TextTemplate
+        Parameters: null
+        Text:
+          $Type: Texts$Text
+          Items:
+          - $Type: Texts$Translation
+            LanguageCode: en_US
+            Text: No account information is available for anonymous users.
+          - $Type: Texts$Translation
+            LanguageCode: nl_NL
+            Text: Geen accountinformatie beschikbaar voor anonieme gebruikers.
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

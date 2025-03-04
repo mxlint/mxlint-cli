@@ -11,7 +11,7 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/full-app-v2.mpr", "./../tmp"); err != nil {
+		if err := exportMetadata("./../resources/app", "./../tmp"); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 
@@ -26,7 +26,7 @@ func TestMPRMetadata(t *testing.T) {
 			t.Errorf("Failed to unmarshal metadata file")
 		}
 		// check metadata
-		expectedProductVersion := "10.7.0.26214"
+		expectedProductVersion := "10.12.2.41995"
 		if metadataObj.ProductVersion != expectedProductVersion {
 			t.Errorf("ProductVersion is incorrect. Expected: %s, Got: %s", expectedProductVersion, metadataObj.ProductVersion)
 		}
@@ -35,7 +35,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportUnits("./../resources/full-app-v2.mpr", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app", "./../tmp", false, "basic"); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})

@@ -1,0 +1,15 @@
+{
+    "Data source": "Data source",
+    "Recommended: Database data source with System.Language as entity.": "Recommended: Database data source with System.Language as entity.",
+    "Language caption": "Language caption",
+    "Recommended: $currentObject/Description.": "Recommended: $currentObject/Description.",
+    "Languages": "Languages",
+    "Menu position": "Menu position",
+    "The location of the menu relative to the current selected language (click area).": "The location of the menu relative to the current selected language (click area).",
+    "Open menu on": "Open menu on",
+    "Hide for single language": "Hide for single language",
+    "General": "General",
+    "Label caption": "Label caption",
+    "Assistive technology will read this upon reaching the input element.": "Assistive technology will read this upon reaching the input element.",
+    "Accessibility": "Accessibility"
+}

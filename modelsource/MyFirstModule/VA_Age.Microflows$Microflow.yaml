@@ -9,18 +9,26 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-- Attributes:
-    $Type: Microflows$StartEvent
-  ID: J2EykLp4ykOo7PmfCSP22A==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: p5822sHwBUiP5QU+pnToMQ==
-- Attributes:
-    $Type: Microflows$ActionActivity
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$IntegerType
+Name: VA_Age
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: $Variable - $Bike/Year
+  - $Type: Microflows$MicroflowParameter
+    Documentation: ""
+    HasVariableNameBeenChanged: false
+    Name: Bike
+    VariableType:
+      $Type: DataTypes$ObjectType
+      Entity: MyFirstModule.Bike
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$CreateVariableAction
       ErrorHandlingType: Rollback
@@ -33,15 +41,7 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: FfKB9FGL4ki0KutLbHmgoA==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: sTRfm+otLkytVlpeWSVH0g==
-- Attributes:
-    $Type: Microflows$ActionActivity
+  - $Type: Microflows$ActionActivity
     Action:
       $Type: Microflows$RetrieveAction
       ErrorHandlingType: Rollback
@@ -61,23 +61,6 @@ MainFunction:
     Caption: Activity
     Disabled: false
     Documentation: ""
-  ID: t16MkgsASEu/71Txxk+Rrw==
-- Attributes:
-    $Type: Microflows$SequenceFlow
-    IsErrorHandler: false
-    NewCaseValue:
-      $Type: Microflows$NoCase
-  ID: zOB8GkzO4EGm1a6UcuURMA==
-- Attributes:
-    $Type: Microflows$EndEvent
-    Documentation: ""
-    ReturnValue: $Variable - $Bike/Year
-  ID: QqsACVDPnEGQpMIDM2/RYA==
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-  $Type: DataTypes$IntegerType
-Name: VA_Age
 ReturnVariableName: Variable
 Url: ""
 UrlSearchParameters: null

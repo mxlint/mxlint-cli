@@ -2,44 +2,83 @@ package mpr
 
 import (
 	"database/sql"
-	"encoding/base64"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/ghodss/yaml"
-	"go.mongodb.org/mongo-driver/bson"
 
 	_ "github.com/glebarez/go-sqlite"
 )
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string) error {
-	err := filepath.Walk(inputDirectory, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if strings.Contains(path, ".mendix-cache") {
-			log.Debugf("Skipping system managed file %s", path)
-			return nil
-		}
-		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
-			exportMPR(path, outputDirectory, raw, mode)
-		}
-		return nil
-	})
-	return err
+
+	log.Infof("Exporting to %s", outputDirectory)
+	if err := exportMetadata(inputDirectory, outputDirectory); err != nil {
+		return fmt.Errorf("error exporting metadata: %v", err)
+	}
+
+	if err := exportUnits(inputDirectory, outputDirectory, raw, mode); err != nil {
+		return fmt.Errorf("error exporting units: %v", err)
+	}
+	log.Infof("Completed model export")
+	return nil
 }
 
-func exportMetadata(MPRFilePath string, outputDirectory string) error {
+func getMprVersion(MPRFilePath string) (int, error) {
 
 	db, err := sql.Open("sqlite", MPRFilePath)
+	if err != nil {
+		return -1, err
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT _FormatVersion FROM _MetaData")
+	if err != nil {
+		return 1, nil
+	}
+
+	defer rows.Close()
+
+	if !rows.Next() {
+		return -1, fmt.Errorf("no metadata found")
+	}
+
+	var FormatVersion string
+	if err := rows.Scan(&FormatVersion); err != nil {
+		return -1, fmt.Errorf("error reading _formatVersion from metadata: %v", err)
+	}
+
+	if strings.Compare(FormatVersion, "2") == 0 {
+		return 2, nil
+	} else {
+		return 1, nil
+	}
+}
+
+func exportMetadata(inputDirectory string, outputDirectory string) error {
+
+	mprPath, err := getMprPath(inputDirectory)
+	if err != nil {
+		return err
+	}
+
+	mprVersion, err := getMprVersion(mprPath)
+	if err != nil {
+		return fmt.Errorf("error getting mpr version: %v", err)
+	}
+
+	log.Infof("MPR version detected: %d", mprVersion)
+
+	db, err := sql.Open("sqlite", mprPath)
 	if err != nil {
 		return err
 	}
 	defer db.Close()
 
 	rows, err := db.Query("SELECT _ProductVersion, _BuildVersion FROM _MetaData")
+
 	if err != nil {
 		return fmt.Errorf("error querying units: %v", err)
 	}
@@ -56,10 +95,12 @@ func exportMetadata(MPRFilePath string, outputDirectory string) error {
 		return fmt.Errorf("error scanning metadata: %v", err)
 	}
 
-	units, err := getMxUnits(MPRFilePath)
+	units, err := getMxUnits(inputDirectory)
 	if err != nil {
-		return fmt.Errorf("error getting units: %v", err)
+		log.Errorf("Failed to parse MxUnits: %s", err)
+		return err
 	}
+
 	modules := getMxModules(units)
 
 	// create metadata object
@@ -195,51 +236,9 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func getMxUnits(MPRFilePath string) ([]MxUnit, error) {
-	db, err := sql.Open("sqlite", MPRFilePath)
-	if err != nil {
-		return nil, fmt.Errorf("error opening database: %v", err)
-	}
-	defer db.Close()
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string) error {
 
-	rows, err := db.Query("SELECT UnitID, ContainerID, ContainmentName, Contents FROM Unit")
-	if err != nil {
-		return nil, fmt.Errorf("error querying units: %v", err)
-	}
-	defer rows.Close()
-
-	units := make([]MxUnit, 0)
-
-	for rows.Next() {
-		var containmentName string
-		var unitID, containerID, contents []byte
-		if err := rows.Scan(&unitID, &containerID, &containmentName, &contents); err != nil {
-			return nil, fmt.Errorf("error scanning unit: %v", err)
-		}
-
-		var result bson.M
-
-		err := bson.Unmarshal(contents, &result)
-		if err != nil {
-			return nil, fmt.Errorf("error parsing unit: %v", err)
-		}
-
-		// create unit object
-		myUnit := MxUnit{
-			UnitID:          base64.StdEncoding.EncodeToString(unitID),
-			ContainerID:     base64.StdEncoding.EncodeToString(containerID),
-			ContainmentName: containmentName,
-			Contents:        result,
-		}
-
-		units = append(units, myUnit)
-	}
-	return units, nil
-}
-
-func exportUnits(MPRFilePath string, outputDirectory string, raw bool, mode string) error {
-
-	units, err := getMxUnits(MPRFilePath)
+	units, err := getMxUnits(inputDirectory)
 	if err != nil {
 		return fmt.Errorf("error getting units: %v", err)
 	}
@@ -289,15 +288,19 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
-func exportMPR(MPRFilePath string, outputDirectory string, raw bool, mode string) error {
-	log.Infof("Exporting %s to %s", MPRFilePath, outputDirectory)
-	if err := exportMetadata(MPRFilePath, outputDirectory); err != nil {
-		return fmt.Errorf("error exporting metadata: %v", err)
+func getMxUnits(inputDirectory string) ([]MxUnit, error) {
+	mprPath, err := getMprPath(inputDirectory)
+	if err != nil {
+		return nil, err
+	}
+	mprVersion, err := getMprVersion(mprPath)
+	if err != nil {
+		return nil, err
 	}
 
-	if err := exportUnits(MPRFilePath, outputDirectory, raw, mode); err != nil {
-		return fmt.Errorf("error exporting units: %v", err)
+	if mprVersion == 2 {
+		return readMxUnitsV2(inputDirectory)
+	} else {
+		return readMxUnitsV1(inputDirectory)
 	}
-	log.Infof("Completed %s", MPRFilePath)
-	return nil
 }

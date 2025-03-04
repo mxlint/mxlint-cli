@@ -1,0 +1,136 @@
+/// Styles the color and thickness options in the annotation toolbar.
+
+.mxfeedback-tool-button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    padding: 0;
+
+    &--active {
+        color: $brand-primary;
+    }
+
+    &:focus-visible {
+        color: $btn-primary-bg-hover;
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__icon {
+        width: $mxfeedback-icon-size-lg;
+        height: $mxfeedback-icon-size-lg;
+        fill: currentColor;
+    }
+
+    &__label {
+        margin-top: $spacing-smaller;
+        color: inherit
+    }
+
+    &__caret {
+        fill: $gray-darker;
+        width: 8px;
+        height: 8px;
+    }
+
+    &__dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__menu {
+        display: flex;
+        flex-direction: column;
+        gap: $gutter-size;
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+        padding: $spacing-small;
+        background: $bg-color-secondary;
+        border: 1px solid $border-color-default;
+        border-radius: $border-radius-default;
+        width: $tool-list-width;
+        z-index: 1;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); // 4 columns is our default, override with modifier
+        gap: calc(#{$gutter-size} / 2);
+
+        &--col-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &__color {
+        position: relative;
+        padding: 0;
+        border: none;
+        border-radius: 100%;
+        aspect-ratio: 1 / 1;
+
+        &:focus {
+            outline: 2px solid $brand-primary;
+            outline-offset: 2px;
+        }
+
+        @each $color, $class in $annotation-colors {
+            &--#{$color} {
+                background-color: $class;
+            }
+        }
+
+        svg {
+            width: 10px;
+            height: 10px;
+            stroke: $btn-primary-color;
+        }
+    }
+
+    &__thickness {
+        background-color: transparent;
+        border: none;
+        border-radius: $border-radius-default;
+        aspect-ratio: 4 / 3;
+
+        &:hover {
+            background-color: $gray-light;
+        }
+
+        &:focus {
+            outline: 2px solid $brand-primary;
+            outline-offset: 2px;
+        }
+
+        &--selected {
+            background-color: $gray;
+        }
+
+        &::before {
+            content: "";
+            display: block;
+            background-color: map-get($annotation-colors, "midnight");
+            width: 100%;
+            transform: rotate(-45deg);
+        }
+
+        @each $thickness, $height in $annotation-thickness {
+            &--#{$thickness} {
+                &::before {
+                    height: $height;
+                }
+            }
+        }
+    }
+}

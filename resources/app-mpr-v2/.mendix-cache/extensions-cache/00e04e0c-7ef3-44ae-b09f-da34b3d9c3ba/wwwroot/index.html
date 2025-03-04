@@ -1,0 +1,182 @@
+<html lang="en">
+
+<head>
+    <title>MxLint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pico-v2.0.6.css">
+    <link rel="stylesheet" href="pico.colors-v2.0.6.css">
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <script type="module" src="./main.js"></script>
+</head>
+
+<body>
+    <main class="container-fluid">
+        <article>
+            <header>
+                Summary
+
+                <span id="ready" class="label pico-background-blue hidden">Ready</span>
+                <span aria-busy="true" id="loading" class="label pico-background-sand hidden">Checking...</span>
+            </header>
+
+            <div class="bar-chart" role="group">
+                <span id="summaryPass" class="bar pico-background-cyan" style="width: 40%;"></span>
+                <span id="summarySkip" class="bar pico-background-slate" style="width: 1%;"></span>
+                <span id="summaryFail" class="bar pico-background-orange" style="width: 59%;"></span>
+            </div>
+            <div class="bar-chart">
+                <span class="box pico-background-cyan">
+                    <span class="title">Pass</span></br>
+                    <span id="pass" class="value">40</span>
+                </span>
+                <span class="box pico-background-slate">
+                    <span class="title">Skip</span></br>
+                    <span id="skip" class="value">1</span>
+                </span>
+                <span class="box pico-background-orange">
+                    <span class="title">Fail</span></br>
+                    <span id="fail" class="value">59</span>
+                </span>
+                <span class="box pico-background-blue">
+                    <span class="title">Total</span></br>
+                    <span id="total" class="value">100</span>
+                </span>
+                <span class="box pico-background-indigo">
+                    <span class="title">Rules</span></br>
+                    <span id="rules" class="value">3</span>
+                </span>
+            </div>
+        </article>
+        <article id="filterOuter">
+            <button id="btn-filter"><i class="fa fa-filter" aria-hidden="true"></i></button>
+            <div id ="filter-content" class="hidden">
+                <fieldset>
+                    <legend>Severity</legend>
+                    <div><input class="filter-checkbox" id="filter-severity-1" type="checkbox" parentFilter="Severity" value="HIGH"><label for="filter-severity-1">HIGH</label></div>
+                    <div><input class="filter-checkbox" id="filter-severity-2" type="checkbox" parentFilter="Severity" value="MEDIUM"><label for="filter-severity-2">MEDIUM</label></div>
+                    <div><input class="filter-checkbox" id="filter-severity-3" type="checkbox" parentFilter="Severity" value="LOW"><label for="filter-severity-3">LOW</label></div>
+                </fieldset>
+            </div>
+        </article>
+        <article>
+            <header>Rules</header>
+
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 5%;">
+                            <span>Severity</span>
+                        </th>
+                        <th scope="col" style="width: 45%;">
+                            <span>Document</span>
+                        </th>
+                        <th scope="col" style="width: 10%;">
+                            <span>Module</span>
+                        </th>
+                        <th scope="col" style="width: 5%;">
+                            <span>Type</span>
+                        </th>
+                        <th scope="col" style="width: 25%;">
+                            <span>Rule</span>
+                        </th>
+                        <th scope="col" style="width: 5%;">
+                            <span>Category</span>
+                        </th>
+                        <th scope="col" style="width: 5%;">
+                            <span>Status</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="testcases">
+                    <tr>
+                        <td>
+                            <span>MEDIUM</span>
+                        </td>
+                        <td>
+                            <a href="#">
+                                System Administration.ActiveSessions
+                            </a>
+                        </td>
+                        <td>
+                            <span>Administration</span>
+                        </td>
+                        <td>
+                            <span>Forms$Page</span>
+                        </td>
+                        <td>
+                            <details>
+                                <summary>
+                                    InlineStylePropertyUsed
+                                </summary>
+                                <p>
+                                    <strong>Inline style property used</strong>
+                                    <br />
+                                    Avoid using the style property, because this will make the life of your UI designer a lot more complicated. It will be harder to overrule styles from CSS file level.
+                                </p>
+                            </details>
+                        </td>
+                        <td>
+                            <span>Maintainability</span>
+                        </td>
+                        <td>
+                            <span class="pico-background-orange label">Failed</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>HIGH</span>
+                        </td>
+                        <td>
+                            <a href="#">ProjectSettings</a>
+                        </td>
+                        <td>
+                            <span>-</span>
+                        </td>
+                        <td>
+                            <span>Security$ProjectSecurity</span>
+                        </td>
+                        <td>
+                            <details>
+                                <summary>
+                                    PasswordPolicy
+                                </summary>
+                                <p>
+                                    <strong>Strong password policy</strong>
+                                    <br />
+                                    Bruteforce is quite common. Ensure passwords are very strong.
+                                    Avoid using the style property, because this will make the life of your UI designer a lot more complicated. It will be harder to overrule styles from CSS file level.
+                                </p>
+                                <p class="pico-color-blue">
+                                    <strong>Remediation</strong>
+                                    <br />Ensure minimum password length of at least 8 characters and must use all character classes.
+                                </p>
+                                <p class="pico-color-orange">
+                                    <strong>Error</strong>
+                                    <br />[HIGH, Security, 4100] Password must require symbols
+                                </p>
+                            </details>
+                        </td>
+                        <td>
+                            <span>Security</span>
+                        </td>
+                        <td>
+                            <span class="pico-background-orange label">Failed</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <article class="hidden" id="debug">
+            <header>Debug</header>
+            <button onclick="window.location.reload()">Reload</button>
+            <button id="LintButton">Lint</button>
+        </article>
+        <div class="center">
+            <a href="#" id="toggleDebug">Debug</a> |
+            <a href="https://mxlint.com">MxLint.com</a>
+        </div>
+    </main>
+</body>
+
+</html>

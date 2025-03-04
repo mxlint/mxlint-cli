@@ -1,0 +1,1697 @@
+$Type: Forms$Page
+AllowedModuleRoles:
+- FeedbackModule.User
+Appearance:
+  $Type: Forms$Appearance
+  Class: ""
+  DesignProperties: null
+  DynamicClasses: ""
+  Style: ""
+CanvasHeight: 600
+CanvasWidth: 900
+Documentation: ""
+Excluded: false
+ExportLevel: Hidden
+FormCall:
+  $Type: Forms$LayoutCall
+  Arguments:
+  - $Type: Forms$FormCallArgument
+    Parameter: Atlas_Core.PopupLayout.Main
+    Widgets:
+    - $Type: Forms$LayoutGrid
+      Appearance:
+        $Type: Forms$Appearance
+        Class: ""
+        DesignProperties: null
+        DynamicClasses: ""
+        Style: ""
+      ConditionalVisibilitySettings: null
+      Name: layoutGrid1
+      Rows:
+      - $Type: Forms$LayoutGridRow
+        Appearance:
+          $Type: Forms$Appearance
+          Class: ""
+          DesignProperties: null
+          DynamicClasses: ""
+          Style: ""
+        Columns:
+        - $Type: Forms$LayoutGridColumn
+          Appearance:
+            $Type: Forms$Appearance
+            Class: ""
+            DesignProperties: null
+            DynamicClasses: ""
+            Style: ""
+          PhoneWeight: -1
+          PreviewWidth: -1
+          TabletWeight: -1
+          VerticalAlignment: None
+          Weight: -1
+          Widgets:
+          - $Type: Forms$DataView
+            Appearance:
+              $Type: Forms$Appearance
+              Class: ""
+              DesignProperties: null
+              DynamicClasses: ""
+              Style: ""
+            ConditionalEditabilitySettings: null
+            ConditionalVisibilitySettings: null
+            DataSource:
+              $Type: Forms$NanoflowSource
+              ForceFullObjects: false
+              Nanoflow: FeedbackModule.DS_Feedback_Populate
+              ParameterMappings: null
+            Editability: Always
+            FooterWidgets: null
+            LabelWidth: 0
+            Name: dataView5
+            NoEntityMessage:
+              $Type: Texts$Text
+              Items: null
+            ReadOnlyStyle: Control
+            ShowFooter: false
+            TabIndex: 0
+            Widgets:
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: M
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container5
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Help us make your experience better and share your feedback
+                        with us!
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Help ons onze diensten te verbeteren en deel je feedback
+                        met ons!
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Aidez-nous à améliorer votre expérience et partagez vos
+                        retours avec nous!
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Ajude-nos a melhorar sua experiência e compartilhe seus
+                        comentários conosco!
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: अपने अनुभव को बेहतर बनाने में हमारी सहायता करें और अपनी
+                        प्रतिक्रिया हमारे साथ शेयर करें!
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Ayúdanos a mejorar tu experiencia compartiendo tus comentarios
+                        con nosotros.
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Deneyiminizi daha iyi hale getirmemize yardımcı olun ve
+                        geri bildiriminizi bizimle paylaşın!
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Helfen Sie uns, Ihre Erfahrung zu verbessern, und teilen
+                        Sie Ihr Feedback mit uns!
+                Name: text1
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: Paragraph
+                TabIndex: 0
+              - $Type: Forms$TextBox
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRequired: false
+                AttributeRef:
+                  $Type: DomainModels$AttributeRef
+                  Attribute: FeedbackModule.Feedback.Subject
+                  EntityRef: null
+                AutoFocus: false
+                Autocomplete: true
+                AutocompletePurpose: "On"
+                ConditionalEditabilitySettings: null
+                ConditionalVisibilitySettings: null
+                Editable: Always
+                FormattingInfo:
+                  $Type: Forms$FormattingInfo
+                  CustomDateFormat: ""
+                  DateFormat: Date
+                  DecimalPrecision: 2
+                  EnumFormat: Text
+                  GroupDigits: false
+                InputMask: ""
+                IsPasswordBox: false
+                KeyboardType: Default
+                LabelTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Subject
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Onderwerp
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Sujet
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: विषय
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Assunto
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Asunto
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Konu
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Betreff
+                MaxLengthCode: -1
+                Name: feedback_subject
+                NativeAccessibilitySettings: null
+                OnChangeAction:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.OCH_Feedback_SaveToLocalStorage
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                OnEnterAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                OnEnterKeyPressAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                OnLeaveAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: false
+                PlaceholderTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Summarize your feedback in a few words
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Leg je feedback uit in een aantal woorden
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Resuma seu feedback em poucas palavras
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: अपनी प्रतिक्रिया को कुछ शब्दों में संक्षेपित करें
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Resume tu comentario en pocas palabras.
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Geri bildiriminizi birkaç kelimeyle özetleyin
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Résumez vos commentaires en quelques mots
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Fassen Sie Ihr Feedback in wenigen Worten zusammen
+                ReadOnlyStyle: Inherit
+                ScreenReaderLabel: null
+                SourceVariable: null
+                SubmitBehaviour: WhileEditing
+                SubmitOnInputDelay: 300
+                TabIndex: 0
+                Validation:
+                  $Type: Forms$WidgetValidation
+                  Expression: ""
+                  Message:
+                    $Type: Texts$Text
+                    Items: null
+              - $Type: Forms$TextArea
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRequired: false
+                AttributeRef:
+                  $Type: DomainModels$AttributeRef
+                  Attribute: FeedbackModule.Feedback.Description
+                  EntityRef: null
+                AutoFocus: false
+                Autocomplete: true
+                ConditionalEditabilitySettings: null
+                ConditionalVisibilitySettings: null
+                CounterMessage:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+                Editable: Always
+                LabelTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Description
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Omschrijving
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Description
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Descrição
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: विवरण
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Descripción
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Açıklama
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Beschreibung
+                MaxLengthCode: -1
+                Name: textArea2
+                NativeAccessibilitySettings: null
+                NumberOfLines: 5
+                OnChangeAction:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.OCH_Feedback_SaveToLocalStorage
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                OnEnterAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                OnLeaveAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                PlaceholderTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Please add a detailed description, including steps you
+                        took before finding issue, or how this idea would help improve
+                        the experience for you and other users
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Voeg een gedetailleerde omschrijving toe, inclusief de
+                        stappen die je hebt genomen voor het probleem ontstond, of
+                        hoe dit idee de ervaring van jou en andere gebruikers kan
+                        verbeteren
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Veuillez ajouter une description détaillée, y compris
+                        les étapes que vous avez suivies avant de rencontrer le problème,
+                        ou comment cette idée pourrait aider à améliorer l'expérience
+                        pour vous et les autres utilisateurs.
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Adicione uma descrição detalhada, incluindo as etapas
+                        que você seguiu antes de encontrar o problema, ou como essa
+                        ideia ajudaria a melhorar a experiência para você e outros
+                        usuários
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: कृपया एक विस्तृत विवरण जोड़ें, जिसमें समस्या ढूंढने से
+                        पहले आपके द्वारा उठाए गए कदम शामिल हों, या यह विचार आपके और
+                        अन्य उपयोगकर्ताओं के अनुभव को बेहतर बनाने में कैसे मदद करेगा
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Por favor, incluye una descripción detallada, incluyendo
+                        los pasos que seguiste antes de encontrar el problema, o como
+                        tu idea ayudaría a mejorar la experiencia de otros usuarios.
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Lütfen ayrıntılı bir açıklama ekleyin, sorunu bulmadan
+                        önce attığınız adımları veya bu fikrin sizin ve diğer kullanıcıların
+                        deneyimini nasıl iyileştireceğini belirtin
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Bitte fügen Sie eine detaillierte Beschreibung hinzu,
+                        einschließlich der Schritte, die Sie unternommen haben, bevor
+                        Sie das Problem gefunden haben, oder wie diese Idee helfen
+                        würde, die Erfahrung für Sie und andere Nutzer zu verbessern.
+                ReadOnlyStyle: Inherit
+                ScreenReaderLabel: null
+                SourceVariable: null
+                SubmitBehaviour: WhileEditing
+                SubmitOnInputDelay: 300
+                TabIndex: 0
+                TextTooLongMessage:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: ""
+                Validation:
+                  $Type: Forms$WidgetValidation
+                  Expression: ""
+                  Message:
+                    $Type: Texts$Text
+                    Items: null
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Align content
+                  Value:
+                    $Type: Forms$OptionDesignPropertyValue
+                    Option: Left align as a column
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: S
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings: null
+              Name: container4
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$Label
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: text-semibold
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Spacing
+                    Value:
+                      $Type: Forms$CompoundDesignPropertyValue
+                      Properties:
+                      - $Type: Forms$DesignPropertyValue
+                        Key: margin-bottom
+                        Value:
+                          $Type: Forms$OptionDesignPropertyValue
+                          Option: None
+                  DynamicClasses: ""
+                  Style: ""
+                Caption:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Attachment
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: Bijlage
+                  - $Type: Texts$Translation
+                    LanguageCode: fr_FR
+                    Text: Pièce jointe
+                  - $Type: Texts$Translation
+                    LanguageCode: pt_PT
+                    Text: Anexo
+                  - $Type: Texts$Translation
+                    LanguageCode: hi_IN
+                    Text: फ़ाइलों को संलग्न करें
+                  - $Type: Texts$Translation
+                    LanguageCode: es_ES
+                    Text: Adjunto
+                  - $Type: Texts$Translation
+                    LanguageCode: tr_TR
+                    Text: Ek
+                  - $Type: Texts$Translation
+                    LanguageCode: de_DE
+                    Text: Anhang
+                ConditionalVisibilitySettings: null
+                Name: label1
+                TabIndex: 0
+              - $Type: Forms$DynamicText
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Weight
+                    Value:
+                      $Type: Forms$OptionDesignPropertyValue
+                      Option: Light
+                  DynamicClasses: ""
+                  Style: ""
+                ConditionalVisibilitySettings: null
+                Content:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Upload a jpg, jpeg, png or gif image file of max. 5MB.
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Upload een jpg, jpeg, png of een gif afbeelding van maximaal
+                        5MB.
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Téléchargez un fichier image au format jpg, jpeg, png
+                        ou gif d'un maximum de 5 Mo
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Carregue um arquivo de imagem jpg, jpeg, png ou gif de
+                        no máximo 5 MB.
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: अधिकतम एक jpg, jpeg, png या gif छवि फ़ाइल अपलोड करें।
+                        5MB.
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Cargue un archivo de imagen jpg, jpeg, png o gif de un
+                        máximo de 5 MB.
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Maksimum 5MB boyutunda jpg, jpeg, png veya gif formatında
+                        bir resim dosyası yükleyinç
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Laden Sie eine Bilddatei im Format jpg, jpeg, png oder
+                        gif mit maximal 5 MB hoch
+                Name: text2
+                NativeAccessibilitySettings: null
+                NativeTextStyle: Text
+                RenderMode: Text
+                TabIndex: 0
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flexcontainer justify-content-start
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: M
+                DynamicClasses: ""
+                Style: 'gap: 8px;'
+              ConditionalVisibilitySettings: null
+              Name: container2
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.ACT_Feedback_TriggerScreenshotMode
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Button
+                ButtonStyle: Default
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Take Screenshot
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Schermafbeelding maken
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Prendre une capture d'écran
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Tirar captura de tela
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: स्क्रीनशॉट लीजिये
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Captura pantalla
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Ekran Görüntüsü Al
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Screenshot Machen
+                ConditionalVisibilitySettings: null
+                Icon:
+                  $Type: Forms$GlyphIcon
+                  Code: 57414
+                Name: actionButton4
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.ACT_Feedback_UploadImage
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Button
+                ButtonStyle: Default
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Upload
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Télécharger
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Carregar
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: अपलोड
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Subir archivo
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Yükle
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Hochladen
+                ConditionalVisibilitySettings: null
+                Icon:
+                  $Type: Forms$GlyphIcon
+                  Code: 57703
+                Name: actionButton5
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: mxfeedback-screenshot-preview
+                DesignProperties:
+                - $Type: Forms$DesignPropertyValue
+                  Key: Spacing
+                  Value:
+                    $Type: Forms$CompoundDesignPropertyValue
+                    Properties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: margin-bottom
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: M
+                DynamicClasses: ""
+                Style: ""
+              ConditionalVisibilitySettings:
+                $Type: Forms$ConditionalVisibilitySettings
+                Attribute: ""
+                Conditions: null
+                Expression: $currentObject/ImageB64 != empty
+                IgnoreSecurity: false
+                ModuleRoles: null
+                SourceVariable: null
+              Name: container6
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$DivContainer
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: 'position: relative; '
+                ConditionalVisibilitySettings: null
+                Name: container7
+                NativeAccessibilitySettings: null
+                OnClickAction:
+                  $Type: Forms$NoAction
+                  DisabledDuringExecution: true
+                RenderMode: Div
+                ScreenReaderHidden: false
+                TabIndex: 0
+                Widgets:
+                - $Type: Forms$ActionButton
+                  Action:
+                    $Type: Forms$CallNanoflowClientAction
+                    ConfirmationInfo: null
+                    DisabledDuringExecution: true
+                    Nanoflow: FeedbackModule.ACT_Feedback_ClearImage
+                    ParameterMappings: null
+                    ProgressBar: None
+                    ProgressMessage: null
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: mxfeedback-screenshot-preview__delete-button
+                    DesignProperties: null
+                    DynamicClasses: ""
+                    Style: ""
+                  AriaRole: Button
+                  ButtonStyle: Default
+                  CaptionTemplate:
+                    $Type: Forms$ClientTemplate
+                    Fallback:
+                      $Type: Texts$Text
+                      Items: null
+                    Parameters: null
+                    Template:
+                      $Type: Texts$Text
+                      Items:
+                      - $Type: Texts$Translation
+                        LanguageCode: nl_NL
+                        Text: Knop
+                      - $Type: Texts$Translation
+                        LanguageCode: en_US
+                        Text: ""
+                  ConditionalVisibilitySettings: null
+                  Icon:
+                    $Type: Forms$GlyphIcon
+                    Code: 57364
+                  Name: actionButton1
+                  NativeAccessibilitySettings: null
+                  RenderType: Button
+                  TabIndex: 0
+                  Tooltip:
+                    $Type: Texts$Text
+                    Items: null
+                - $Type: CustomWidgets$CustomWidget
+                  Appearance:
+                    $Type: Forms$Appearance
+                    Class: 'mxfeedback-screenshot-preview__image '
+                    DesignProperties:
+                    - $Type: Forms$DesignPropertyValue
+                      Key: Center image
+                      Value:
+                        $Type: Forms$ToggleDesignPropertyValue
+                    - $Type: Forms$DesignPropertyValue
+                      Key: Image fit
+                      Value:
+                        $Type: Forms$OptionDesignPropertyValue
+                        Option: Contain
+                    DynamicClasses: ""
+                    Style: 'width: auto;'
+                  ConditionalEditabilitySettings: null
+                  ConditionalVisibilitySettings: null
+                  Editable: Always
+                  LabelTemplate: null
+                  Name: image1
+                  Object:
+                    $Type: CustomWidgets$WidgetObject
+                    Properties:
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: eqvJ6GHevECrlBzE8/tc9A==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: imageUrl
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: OdbfDkeoU0KGk2JNVH3TOg==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: aI3qJQMvE02K3cCy4wo1rQ==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: cbQodMKw6UGSN7Wz9vgoDg==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: 0Zs6BA5Gu0CDyiZ6RgK/tg==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: Ur0v24sr9kOiP7r2XIfuvA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: e872zaiuHk6DydzBVutiEg==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate:
+                          $Type: Forms$ClientTemplate
+                          Fallback:
+                            $Type: Texts$Text
+                            Items: null
+                          Parameters:
+                          - $Type: Forms$ClientTemplateParameter
+                            AttributeRef:
+                              $Type: DomainModels$AttributeRef
+                              Attribute: FeedbackModule.Feedback.ImageB64
+                              EntityRef: null
+                            Expression: ""
+                            FormattingInfo:
+                              $Type: Forms$FormattingInfo
+                              CustomDateFormat: ""
+                              DateFormat: Date
+                              DecimalPrecision: 2
+                              EnumFormat: Text
+                              GroupDigits: false
+                            SourceVariable: null
+                          Template:
+                            $Type: Texts$Text
+                            Items:
+                            - $Type: Texts$Translation
+                              LanguageCode: en_US
+                              Text: '{1}'
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: itsj4jFCDUO/1+rF54AG/w==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: zB6oSl4sv0qoNwGzBtggog==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: 2amgszp9CEOpidOrYXE0Xg==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: 72CU0n5pP0u4NZvunKE+fQ==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: "false"
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: L1H3VsEG/Ee93n3gql91Zw==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: 22L8/NWYJ0ikAdDEXm/YVg==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: nwaTF8dz20iT7oK0qUMtBA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: RW5z/xW8gE+QxZkeq87V5A==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: action
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: sfLMdrY4dESYumgdMW09Ow==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: fpjIy0S/EE2u1vD6/8Bcng==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: uSP/Dw/z/U+/nHdZ++KW4Q==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: F2YlXv3VHEqcaYgrM+ICHQ==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: ""
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate:
+                          $Type: Forms$ClientTemplate
+                          Fallback:
+                            $Type: Texts$Text
+                            Items: null
+                          Parameters:
+                          - $Type: Forms$ClientTemplateParameter
+                            AttributeRef: null
+                            Expression: '''A Preview of the Feedback image that was
+                              from the screenshot or upload'''
+                            FormattingInfo:
+                              $Type: Forms$FormattingInfo
+                              CustomDateFormat: ""
+                              DateFormat: Date
+                              DecimalPrecision: 2
+                              EnumFormat: Text
+                              GroupDigits: false
+                            SourceVariable: null
+                          Template:
+                            $Type: Texts$Text
+                            Items:
+                            - $Type: Texts$Translation
+                              LanguageCode: en_US
+                              Text: '{1}'
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: 8ez9Rm0bMk+yAkIuhgYyeA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: WKB2QbXAjUqkD8BfWBhXUQ==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: auto
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: Y7I6S1x5a0e9AbXWNCMhzw==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: HfEdhQWO8E+RHNDp9K7FPA==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: "100"
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: gnqLEaq1M0mbXgFsESxXNA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: OBxOvi+E0kKjvfTurWV0Qw==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: auto
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: fzz8F79cQkCZeNNJg6T4Ug==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: t/DHhcl+aEyMZ5uS7Hr8qg==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: "100"
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: 9hHi8b7dXUSImtPDWvHKMQ==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: eNqK99qxXEC+UYlxqvLvPg==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: "14"
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: SqgFktouGECa37Edg2VWaA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: ipJR6HCa9k6Ei3G5xLk6qQ==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: fullImage
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: O5q9wJrqX0CdDdYimdQSPA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    - $Type: CustomWidgets$WidgetProperty
+                      TypePointer:
+                        Data: cf2fBo6U+E2zu1mMXHiicA==
+                        Subtype: 0
+                      Value:
+                        $Type: CustomWidgets$WidgetValue
+                        Action:
+                          $Type: Forms$NoAction
+                          DisabledDuringExecution: true
+                        AttributeRef: null
+                        DataSource: null
+                        EntityRef: null
+                        Expression: ""
+                        Form: ""
+                        Icon: null
+                        Microflow: ""
+                        Nanoflow: ""
+                        Objects: null
+                        PrimitiveValue: "true"
+                        Selection: None
+                        SourceVariable: null
+                        TextTemplate: null
+                        TranslatableValue: null
+                        TypePointer:
+                          Data: rIHmUS70GkyWhk8f87vNOA==
+                          Subtype: 0
+                        Widgets: null
+                        XPathConstraint: ""
+                    TypePointer:
+                      Data: 5lO2x++g6EGDTy1MMw9vlg==
+                      Subtype: 0
+                  TabIndex: 0
+            - $Type: Forms$TextBox
+              Appearance:
+                $Type: Forms$Appearance
+                Class: ""
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: ""
+              AriaRequired: false
+              AttributeRef:
+                $Type: DomainModels$AttributeRef
+                Attribute: FeedbackModule.Feedback.SubmitterEmail
+                EntityRef: null
+              AutoFocus: false
+              Autocomplete: true
+              AutocompletePurpose: "On"
+              ConditionalEditabilitySettings: null
+              ConditionalVisibilitySettings:
+                $Type: Forms$ConditionalVisibilitySettings
+                Attribute: FeedbackModule.Feedback._showEmail
+                Conditions:
+                - $Type: Enumerations$Condition
+                  AttributeValue: "true"
+                  EditableVisible: true
+                - $Type: Enumerations$Condition
+                  AttributeValue: "false"
+                  EditableVisible: false
+                Expression: ""
+                IgnoreSecurity: false
+                ModuleRoles: null
+                SourceVariable: null
+              Editable: Always
+              FormattingInfo:
+                $Type: Forms$FormattingInfo
+                CustomDateFormat: ""
+                DateFormat: Date
+                DecimalPrecision: 2
+                EnumFormat: Text
+                GroupDigits: false
+              InputMask: ""
+              IsPasswordBox: false
+              KeyboardType: Default
+              LabelTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: Email
+                  - $Type: Texts$Translation
+                    LanguageCode: hi_IN
+                    Text: ईमेल
+                  - $Type: Texts$Translation
+                    LanguageCode: tr_TR
+                    Text: E-posta
+              MaxLengthCode: -1
+              Name: textBox1
+              NativeAccessibilitySettings: null
+              OnChangeAction:
+                $Type: Forms$CallNanoflowClientAction
+                ConfirmationInfo: null
+                DisabledDuringExecution: true
+                Nanoflow: FeedbackModule.OCH_Feedback_SaveToLocalStorage
+                ParameterMappings: null
+                ProgressBar: None
+                ProgressMessage: null
+              OnEnterAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              OnEnterKeyPressAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              OnLeaveAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              PlaceholderTemplate:
+                $Type: Forms$ClientTemplate
+                Fallback:
+                  $Type: Texts$Text
+                  Items: null
+                Parameters: null
+                Template:
+                  $Type: Texts$Text
+                  Items:
+                  - $Type: Texts$Translation
+                    LanguageCode: en_US
+                    Text: name@company.com
+                  - $Type: Texts$Translation
+                    LanguageCode: nl_NL
+                    Text: naam@bedrijf.nl
+              ReadOnlyStyle: Inherit
+              ScreenReaderLabel: null
+              SourceVariable: null
+              SubmitBehaviour: WhileEditing
+              SubmitOnInputDelay: 300
+              TabIndex: 0
+              Validation:
+                $Type: Forms$WidgetValidation
+                Expression: ""
+                Message:
+                  $Type: Texts$Text
+                  Items: null
+            - $Type: Forms$DivContainer
+              Appearance:
+                $Type: Forms$Appearance
+                Class: flex-row flexcontainer justify-content-end
+                DesignProperties: null
+                DynamicClasses: ""
+                Style: 'gap: 8px;'
+              ConditionalVisibilitySettings: null
+              Name: container3
+              NativeAccessibilitySettings: null
+              OnClickAction:
+                $Type: Forms$NoAction
+                DisabledDuringExecution: true
+              RenderMode: Div
+              ScreenReaderHidden: false
+              TabIndex: 0
+              Widgets:
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$ClosePageClientAction
+                  DisabledDuringExecution: true
+                  NumberOfPagesToClose: ""
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: border:0
+                AriaRole: Button
+                ButtonStyle: Default
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Cancel
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Annuleer
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Annuler
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Cancelar
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: रद्द करना
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Cancelar
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: İptal Et
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Abbrechen
+                ConditionalVisibilitySettings: null
+                Icon: null
+                Name: feedback_cancel
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.ACT_Feedback_ClearForm
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties:
+                  - $Type: Forms$DesignPropertyValue
+                    Key: Border
+                    Value:
+                      $Type: Forms$ToggleDesignPropertyValue
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Button
+                ButtonStyle: Default
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Clear
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Maak leeg
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Nettoyer
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Limpar
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: स्पष्ट
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Borrar
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Temizle
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Sauber machen
+                ConditionalVisibilitySettings: null
+                Icon: null
+                Name: feedback_clear
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+              - $Type: Forms$ActionButton
+                Action:
+                  $Type: Forms$CallNanoflowClientAction
+                  ConfirmationInfo: null
+                  DisabledDuringExecution: true
+                  Nanoflow: FeedbackModule.ACT_SubmitFeedback
+                  ParameterMappings: null
+                  ProgressBar: None
+                  ProgressMessage: null
+                Appearance:
+                  $Type: Forms$Appearance
+                  Class: ""
+                  DesignProperties: null
+                  DynamicClasses: ""
+                  Style: ""
+                AriaRole: Button
+                ButtonStyle: Primary
+                CaptionTemplate:
+                  $Type: Forms$ClientTemplate
+                  Fallback:
+                    $Type: Texts$Text
+                    Items: null
+                  Parameters: null
+                  Template:
+                    $Type: Texts$Text
+                    Items:
+                    - $Type: Texts$Translation
+                      LanguageCode: en_US
+                      Text: Submit
+                    - $Type: Texts$Translation
+                      LanguageCode: nl_NL
+                      Text: Verstuur
+                    - $Type: Texts$Translation
+                      LanguageCode: fr_FR
+                      Text: Soumettre
+                    - $Type: Texts$Translation
+                      LanguageCode: de_DE
+                      Text: Absenden
+                    - $Type: Texts$Translation
+                      LanguageCode: hi_IN
+                      Text: सबमिट करें
+                    - $Type: Texts$Translation
+                      LanguageCode: pt_PT
+                      Text: Enviar
+                    - $Type: Texts$Translation
+                      LanguageCode: es_ES
+                      Text: Enviar
+                    - $Type: Texts$Translation
+                      LanguageCode: tr_TR
+                      Text: Gönder
+                ConditionalVisibilitySettings: null
+                Icon: null
+                Name: feedback_submit
+                NativeAccessibilitySettings: null
+                RenderType: Button
+                TabIndex: 0
+                Tooltip:
+                  $Type: Texts$Text
+                  Items: null
+        ConditionalVisibilitySettings: null
+        HorizontalAlignment: None
+        SpacingBetweenColumns: true
+        VerticalAlignment: None
+      TabIndex: 0
+      Width: FullWidth
+  Form: Atlas_Core.PopupLayout
+MarkAsUsed: false
+Name: ShareFeedback
+Parameters: null
+PopupCloseAction: ""
+PopupHeight: 0
+PopupResizable: true
+PopupWidth: 0
+Title:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: Share your feedback
+  - $Type: Texts$Translation
+    LanguageCode: nl_NL
+    Text: Deel feedback
+  - $Type: Texts$Translation
+    LanguageCode: fr_FR
+    Text: Partagez vos commentaires
+  - $Type: Texts$Translation
+    LanguageCode: pt_PT
+    Text: Compartilhe seu feedback
+  - $Type: Texts$Translation
+    LanguageCode: es_ES
+    Text: Enviar Comentarios
+  - $Type: Texts$Translation
+    LanguageCode: tr_TR
+    Text: Geri Bildiriminizi paylașın
+  - $Type: Texts$Translation
+    LanguageCode: de_DE
+    Text: Teilen Sie Ihr Feedback
+Url: ""
+Variables: null

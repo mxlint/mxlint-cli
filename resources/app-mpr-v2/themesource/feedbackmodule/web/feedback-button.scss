@@ -1,0 +1,54 @@
+/* 
+About: =========================================================
+----------------------------------------------------------------
+This styling targets the main Feedback Button rendered on your page.
+The Feedback widget button can be rendered on page in 3 formats.
+
+Render Modes: ==================================================
+----------------------------------------------------------------
+Each render mode can be selected by double clicking the Feedback widget settings in Studio Pro.
+
+'Side Tab' - Fixes the button to the right hand margin and rotates by 270 degrees.
+'Button' - Mimics a normal Mendix button.
+'Do not render' - Hides the button on the live website but is still visible in the page editor for developers.
+
+CSS BEM Enumeration values: ====================================
+----------------------------------------------------------------
+At a code level each render mode selected has a coresspoinding CSS BEM modifier value.
+Use these BEM modifiers to custom style each render mode.
+
+Side Tab = "side"
+Button = "normal"
+Do not render = "none"
+
+*/
+.mxfeedback-start-button {
+
+    // &--normal {
+        // Use this if you want to style the Feedback Button when set Render mode = 'Button'
+    // }
+
+    &--none {
+        display: none !important;
+    }
+    &--side {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translate(50%, -50%) rotate(270deg);
+        transform-origin: bottom center;
+        padding: $spacing-smaller $spacing-small;
+        border: none;
+        border-radius: $border-radius-default $border-radius-default 0 0;
+        background-color: $btn-primary-bg;
+        color: $btn-primary-color;
+        font-size: $m-header-title-size;
+        box-shadow: $mxfeedback-start-button-shadow;
+        z-index: $mxfeedback-z-index-start-button;
+
+        &:focus,
+        &:hover {
+            background-color: $btn-primary-bg-hover;
+        }
+    }
+}

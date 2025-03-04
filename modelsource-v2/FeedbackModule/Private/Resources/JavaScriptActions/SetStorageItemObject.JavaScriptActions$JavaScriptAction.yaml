@@ -1,0 +1,42 @@
+$Type: JavaScriptActions$JavaScriptAction
+ActionDefaultReturnName: ReturnValueName
+Documentation: Store a Mendix object in device storage, identified by a unique key.
+  Can be accesed by the GetStargeItemObject action. Please note that users can clear
+  the device storage.
+Excluded: false
+ExportLevel: Hidden
+JavaReturnType:
+  $Type: CodeActions$VoidType
+MicroflowActionInfo:
+  $Type: CodeActions$MicroflowActionInfo
+  Caption: Set storage item object
+  Category: Local storage
+  IconData:
+    Data: iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAABGVJREFUeAHtWT1oFEEU3r09SMQulUIiFkIKQay0TSNySe6iWCgc10kK4SoVglrmx87CImIrAYUEzV1MOkmrVRAsAlYa0epIlwRvb/3eZlfe7czsTy77c9wu3M3s25n3vu+bN7O7s5qWH7kCuQK5ArkCg6uAnhb1UuOwpHWs13b8gj67VRneSgNLIY2gdkyQtzRtlH7/hUgBTGoC2MQdwryetAapCZA0UVW8XACVMoNizzNgUEZaxTPPAJUyg2LPM2BQRlrFM88AlTKDYs8zYFBGWsWzqLrQq73rfd8o1LfKQx+i+Cw1j25pZuel3SfG/YL4pgB/3zetVRC6G1YAuy36JLFfEJ8AjK2lWYZmWithRHDIr9h9mI+4qvEJgLTXNd10gYcRQUbe9gFfrp/TLmPdE1QT0quW2XnLyehG4R5lCR/5Y/J6FevHO972NOuxCkBAVSJwotSOyHJbEuSP49J/zIdMBL+QSZEnDLFngEs0rAhJku9JgCkclmUtw8mYS9Ip9wzDmG02m8I+f5AIfuTL5XLJNE36jjDK4+m6/gPnDz7i4Paw9RPdBSYnJ6+D/BqCeMlT3FEHqIDBXswMvWoT9Vz1I09NZeTJDhwX8FslTHQe9YgswMzMzBhUp6e6oajBqL0rAmYfnnPcA3UI08NqP0yYCJvrMWwZSYBarXa23W43oPg5nwD2FPC5bougG9Y8QLftH+pB5Glaweeeyi9hImyEUdVGZg+9CCKAPj09vYbyNncEAguYfs+4Lak6lqF54HnK4wHP+42NjTsoWYbxFt310AIg2AKCPeHdowbjfU+j7jMoixiULmFU8UJNAYx8VUJ+Z2RkpBZWaRWAXuwU28Gww/0QVsLMbap6YAY4q+s2HAy7ThD4T7FYvLa+vv7TtaVZ0uKH+f8FxPnadAhME5ubm5/9sPkK0Itjv6BxXDvpQCmngGrFLxQK94NUjYNgkE/CRNh4O8qIoDuDVAB01Fut1huUV7lDpP4CVtgVbstSnbAB4yLHRBwcLtJslxqzuOJzUn51GjzF7Vp6ZxAEQOelTqcz5xekj68tYap03cqFKQDyj/qYYBD0x94GggBoENtOsTd4CucCN5kAKeBKL6SgiBcK5oywTnjbZPkczwe+7wQDnwG5AFlO3ySwBa4BSYCQxVDtAUraKvcgJW0FU2angGoPUGDgswcpaSuYMiuAgDQmg0yAvzxW1D023reXetAeIPOt3IOUYO/iRj5ka8Av2C/SRTr29/dvoIj0bd/u2OOf810h8i4vD+tg5ybi1nUIGYDXyU+8Bd4NlvF2OFWv10+0Dc59JVUnrIQZ2F/xmF5udE14yqtUKpewAH3Fa+UZ3rnf6yB/gGl1pdFofOdcDH5C9d3d3db4+PgBBLjpvdbP59gtmsO0Ej6fCVOASKLhC3R4iOpRP5N2sB8RF+Ik4yJMAd4IDyOXaXME2TCBFDqPUsgY3j4rdWA1gfU3ym2Qfw7y37KCLceRK5ArkC0F/gHey/Ze6J3mVgAAAABJRU5ErkJggg==
+    Subtype: 0
+  IconDataDark:
+    Data: ""
+    Subtype: 0
+  ImageDataDark:
+    Data: ""
+    Subtype: 0
+Name: SetStorageItemObject
+Parameters:
+- $Type: JavaScriptActions$JavaScriptActionParameter
+  Category: ""
+  Description: This field is required.
+  IsRequired: true
+  Name: Key
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+- $Type: JavaScriptActions$JavaScriptActionParameter
+  Category: ""
+  Description: This field is required.
+  IsRequired: true
+  Name: Value
+  ParameterType:
+    $Type: CodeActions$BasicParameterType
+Platform: All
+TypeParameters:
+- $Type: CodeActions$TypeParameter
+  Name: Entity
