@@ -1,5 +1,0 @@
-$Type: Security$ModuleSecurity
-ModuleRoles:
-- $Type: Security$ModuleRole
-  Description: ""
-  Name: User

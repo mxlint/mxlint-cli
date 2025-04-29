@@ -3,6 +3,7 @@ module github.com/cinaq/mendix-cli
 go 1.22.0
 
 require (
+	github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb
 	github.com/ghodss/yaml v1.0.0
 	github.com/glebarez/go-sqlite v1.22.0
 	github.com/open-policy-agent/opa v0.62.1
@@ -15,6 +16,7 @@ require (
 
 require (
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
+	github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect

@@ -1,5 +1,9 @@
 github.com/OneOfOne/xxhash v1.2.8 h1:31czK/TI9sNkxIKfaUfGlU47BAxQ0ztGgd9vPyqimf8=
 github.com/OneOfOne/xxhash v1.2.8/go.mod h1:eZbhyaAYD41SGSSsnmcpxVoRiQ/MPUTjUdIIOT9Um7Q=
+github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb h1:uDEw72N0Bu4jz4Zanq7+zMplGNd26mGYehgaAKNxdNI=
+github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb/go.mod h1:s2r4vPgOSlp+g+SpTNclqYDxKqfaExmkBR6YxRLuoo4=
+github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a h1:ChPWtF2nL9L0+tgUa31T3ZguZHdPBe6Sd7NDS1E9Hbg=
+github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a/go.mod h1:7r++ofdTSM2ahUuJUErQNYLbfqfircMx/qDQQulZJ40=
 github.com/agnivade/levenshtein v1.1.1 h1:QY8M92nrzkmr798gCo3kmMyqXFzdQVpxLlGPRBij0P8=
 github.com/agnivade/levenshtein v1.1.1/go.mod h1:veldBMzWxcCG2ZvUTKD2kJNRdCk5hVbJomOvKkmgYbo=
 github.com/arbovm/levenshtein v0.0.0-20160628152529-48b4e1c0c4d0 h1:jfIu9sQUG6Ig+0+Ap1h4unLjW6YQJpKZVmUzxsD4E/Q=
