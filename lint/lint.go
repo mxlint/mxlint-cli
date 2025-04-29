@@ -175,7 +175,8 @@ func evalTestcase(rulePath string, queryString string, inputFilePath string) (*T
 		lines := strings.Split(doc, "\n")
 		for _, line := range lines {
 			line = strings.TrimSpace(line)
-			if strings.HasPrefix(line, NOQA) || strings.HasPrefix(line, NOQA_ALIAS) {
+			lineLower := strings.ToLower(line)
+			if strings.HasPrefix(lineLower, NOQA) || strings.HasPrefix(lineLower, NOQA_ALIAS) {
 				return &Testcase{
 					Name:    inputFilePath,
 					Time:    0,
