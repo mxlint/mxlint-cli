@@ -84,6 +84,10 @@ PASS (0.00158s) modelsource/MyFirstModule/DomainModels$DomainModel.yaml
 ![Mendix Lint report](./resources/lint-xunit-report.png)
 Lint Mendix Yaml files. This tool checks for common mistakes and enforces best practices. It uses OPA as policy engine. Therefore policies must be written in the powerful Rego language. Please refer to [Rego language reference](https://www.openpolicyagent.org/docs/latest/policy-reference/) for more information on the syntax and semantics.
 
+### NOQA (Ignore document)
+
+A specific document can be marked as "Skipped" if you have a line in the `documentation` field that starts with either `#noqa` or `# noqa` followed by an optional message (Case in-sensitive). This message will be included as "Skipped" reason in linting results.
+
 ## watch
 
 Watch for changes in the model and lint the changes.
