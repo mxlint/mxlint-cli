@@ -13,6 +13,9 @@ import (
 	"github.com/open-policy-agent/opa/rego"
 )
 
+const NOQA = "# noqa"
+const NOQA_ALIAS = "#noqa"
+
 func printTestsuite(ts Testsuite) {
 	fmt.Printf("## %s\n", ts.Name)
 	for _, tc := range ts.Testcases {
@@ -168,12 +171,18 @@ func evalTestcase(rulePath string, queryString string, inputFilePath string) (*T
 	}
 
 	// if data["Documentation"] contains #noqa, skip the testcase; Documentation attribute might not exist
-	if doc, ok := data["Documentation"].(string); ok && strings.Contains(doc, "#noqa") {
-		return &Testcase{
-			Name:    inputFilePath,
-			Time:    0,
-			Skipped: &Skipped{Message: "Skipped because of #noqa"},
-		}, nil
+	if doc, ok := data["Documentation"].(string); ok {
+		lines := strings.Split(doc, "\n")
+		for _, line := range lines {
+			line = strings.TrimSpace(line)
+			if strings.HasPrefix(line, NOQA) || strings.HasPrefix(line, NOQA_ALIAS) {
+				return &Testcase{
+					Name:    inputFilePath,
+					Time:    0,
+					Skipped: &Skipped{Message: line},
+				}, nil
+			}
+		}
 	}
 
 	ctx := context.Background()
