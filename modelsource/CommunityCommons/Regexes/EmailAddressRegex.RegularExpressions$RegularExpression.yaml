@@ -1,6 +1,0 @@
-$Type: RegularExpressions$RegularExpression
-Documentation: A, not too restrictive, email address regular expression
-Excluded: false
-ExportLevel: Hidden
-Expression: \w+((-|\+|\.)\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+
-Name: EmailAddressRegex

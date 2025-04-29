@@ -11,7 +11,7 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/app", "./../tmp"); err != nil {
+		if err := exportMetadata("./../resources/app", "./../tmp", nil); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 

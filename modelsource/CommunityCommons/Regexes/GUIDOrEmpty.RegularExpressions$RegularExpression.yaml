@@ -1,6 +1,0 @@
-$Type: RegularExpressions$RegularExpression
-Documentation: 'Same as GUIDRegex, but accepts empty string as well. '
-Excluded: false
-ExportLevel: Hidden
-Expression: ^[a-zA-Z0-9_-]+|$
-Name: GUIDOrEmpty

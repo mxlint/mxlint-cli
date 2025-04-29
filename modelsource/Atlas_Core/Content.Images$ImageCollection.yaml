@@ -1,9 +1,0 @@
-$Type: Images$ImageCollection
-Documentation: ""
-Excluded: false
-ExportLevel: Hidden
-Images:
-- $Type: Images$Image
-  ImageFormat: Png
-  Name: Mendix
-Name: Content

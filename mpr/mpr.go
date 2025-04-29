@@ -1,21 +1,19 @@
 package mpr
 
 import (
-	"crypto/sha256"
 	"database/sql"
-	"encoding/hex"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/Varjelus/dirsync"
 	"github.com/ghodss/yaml"
 
 	_ "github.com/glebarez/go-sqlite"
 )
 
-func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool) error {
 
 	// create tmp directory in user tmp directory
 	tmpDir := filepath.Join(os.TempDir(), "mxlint")
@@ -26,7 +24,16 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	defer os.RemoveAll(tmpDir)
 
 	log.Infof("Exporting to %s", tmpDir)
-	if err := exportMetadata(inputDirectory, tmpDir); err != nil {
+
+	units, err := getMxUnits(inputDirectory)
+	if err != nil {
+		log.Errorf("Failed to parse MxUnits: %s", err)
+		return err
+	}
+
+	modules := getMxModules(units)
+
+	if err := exportMetadata(inputDirectory, tmpDir, modules); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
@@ -35,8 +42,13 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	}
 
 	// sync tmp directory to output directory
-	if err := syncDir(tmpDir, outputDirectory); err != nil {
+	err = dirsync.Sync(tmpDir, outputDirectory)
+	if err != nil {
 		return fmt.Errorf("error syncing tmp directory to output directory: %v", err)
+	}
+	if !appstore {
+		// remove appstore modules
+		removeAppstoreModules(outputDirectory, modules)
 	}
 
 	log.Infof("Completed model export")
@@ -74,7 +86,7 @@ func getMprVersion(MPRFilePath string) (int, error) {
 	}
 }
 
-func exportMetadata(inputDirectory string, outputDirectory string) error {
+func exportMetadata(inputDirectory string, outputDirectory string, modules []MxModule) error {
 
 	mprPath, err := getMprPath(inputDirectory)
 	if err != nil {
@@ -111,14 +123,6 @@ func exportMetadata(inputDirectory string, outputDirectory string) error {
 	if err := rows.Scan(&productVersion, &buildVersion); err != nil {
 		return fmt.Errorf("error scanning metadata: %v", err)
 	}
-
-	units, err := getMxUnits(inputDirectory)
-	if err != nil {
-		log.Errorf("Failed to parse MxUnits: %s", err)
-		return err
-	}
-
-	modules := getMxModules(units)
 
 	// create metadata object
 	metadataObj := MxMetadata{
@@ -323,166 +327,35 @@ func getMxUnits(inputDirectory string) ([]MxUnit, error) {
 	}
 }
 
-func syncDir(sourceDir string, destDir string) error {
-	// Create destination directory if it doesn't exist
-	if err := os.MkdirAll(destDir, 0755); err != nil {
-		return fmt.Errorf("error creating destination directory: %v", err)
+// removeAppstoreModules removes appstore modules from the temporary directory
+func removeAppstoreModules(tmpDir string, modules []MxModule) error {
+	for _, module := range modules {
+		// Check if module is an appstore module by looking at its attributes
+		if isAppstoreModule(module) {
+			moduleDir := filepath.Join(tmpDir, module.Name)
+			log.Infof("Discarding appstore module: %s", moduleDir)
+			if err := os.RemoveAll(moduleDir); err != nil {
+				return fmt.Errorf("error removing appstore module %s: %v", module.Name, err)
+			}
+		}
 	}
-	log.Debugf("Created destination directory: %s", destDir)
-
-	// First, collect all files in source directory
-	sourceFiles := make(map[string]struct{})
-	err := filepath.Walk(sourceDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() {
-			relPath, err := filepath.Rel(sourceDir, path)
-			if err != nil {
-				return err
-			}
-			log.Debugf("Adding file %s to source files", relPath)
-			sourceFiles[relPath] = struct{}{}
-		}
-		return nil
-	})
-	if err != nil {
-		return fmt.Errorf("error walking source directory: %v", err)
-	}
-
-	// Then, walk through destination directory and remove files that don't exist in source
-	err = filepath.Walk(destDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		relPath, err := filepath.Rel(destDir, path)
-		if err != nil {
-			return err
-		}
-		// skip root directory
-		if relPath == "." {
-			return nil
-		}
-		// skip directories for now
-		if info.IsDir() {
-			return nil
-		}
-		if _, exists := sourceFiles[relPath]; !exists {
-			log.Debugf("Removing file/directory %s", relPath)
-			if err := os.RemoveAll(path); err != nil {
-				return fmt.Errorf("error removing file/directory %s: %v", path, err)
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return fmt.Errorf("error cleaning destination directory: %v", err)
-	}
-
-	// remove empty directories
-	err = filepath.Walk(destDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			// Check if directory is empty
-			entries, err := os.ReadDir(path)
-			if err != nil {
-				return fmt.Errorf("error reading directory %s: %v", path, err)
-			}
-			if len(entries) == 0 {
-				if err := os.RemoveAll(path); err != nil {
-					return fmt.Errorf("error removing empty directory %s: %v", path, err)
-				}
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return fmt.Errorf("error removing empty directories: %v", err)
-	}
-
-	// Finally, copy all files from source to destination
-	err = filepath.Walk(sourceDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		relPath, err := filepath.Rel(sourceDir, path)
-		if err != nil {
-			return err
-		}
-		destPath := filepath.Join(destDir, relPath)
-
-		if info.IsDir() {
-			// Create directory in destination
-			if err := os.MkdirAll(destPath, info.Mode()); err != nil {
-				return fmt.Errorf("error creating directory %s: %v", destPath, err)
-			}
-		} else {
-			// skip file if they are identical
-			if targetInfo, err := os.Stat(destPath); err == nil {
-				// Check if files are identical by comparing content hash
-				if targetInfo.Size() == info.Size() {
-					srcHash, err := hashFile(path)
-					if err != nil {
-						return fmt.Errorf("error calculating source file hash %s: %v", path, err)
-					}
-					destHash, err := hashFile(destPath)
-					if err != nil {
-						return fmt.Errorf("error calculating destination file hash %s: %v", destPath, err)
-					}
-					if srcHash == destHash {
-						// Files are identical, skip copying
-						return nil
-					}
-				}
-			}
-
-			srcFile, err := os.Open(path)
-			if err != nil {
-				return fmt.Errorf("error opening source file %s: %v", path, err)
-			}
-			defer srcFile.Close()
-
-			destFile, err := os.Create(destPath)
-			if err != nil {
-				return fmt.Errorf("error creating destination file %s: %v", destPath, err)
-			}
-			defer destFile.Close()
-
-			if _, err := destFile.ReadFrom(srcFile); err != nil {
-				return fmt.Errorf("error copying file %s to %s: %v", path, destPath, err)
-			}
-
-			// Set file permissions and modification time
-			if err := os.Chmod(destPath, info.Mode()); err != nil {
-				return fmt.Errorf("error setting permissions for %s: %v", destPath, err)
-			}
-			if err := os.Chtimes(destPath, info.ModTime(), info.ModTime()); err != nil {
-				return fmt.Errorf("error setting modification time for %s: %v", destPath, err)
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return fmt.Errorf("error copying files: %v", err)
-	}
-
 	return nil
 }
 
-// hashFile calculates the SHA256 hash of a file
-func hashFile(path string) (string, error) {
-	f, err := os.Open(path)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-
-	h := sha256.New()
-	if _, err := io.Copy(h, f); err != nil {
-		return "", err
+// isAppstoreModule checks if a module is an appstore module based on its attributes
+func isAppstoreModule(module MxModule) bool {
+	// Check for appstore module indicators
+	if module.Attributes == nil {
+		return false
 	}
 
-	return hex.EncodeToString(h.Sum(nil)), nil
+	// Check if module has appstore specific attributes
+	if _, ok := module.Attributes["FromAppStore"]; ok {
+		fromAppStore := module.Attributes["FromAppStore"].(bool)
+		if fromAppStore {
+			return true
+		}
+	}
+
+	return false
 }

@@ -1,6 +1,0 @@
-$Type: RegularExpressions$RegularExpression
-Documentation: 'Supports alphanumeric characters, dash and underscore. '
-Excluded: false
-ExportLevel: Hidden
-Expression: ^[a-zA-Z0-9_-]+$
-Name: GUIDRegex
