@@ -1,8 +1,11 @@
 package mpr
 
 import (
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,14 +17,28 @@ import (
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string) error {
 
-	log.Infof("Exporting to %s", outputDirectory)
-	if err := exportMetadata(inputDirectory, outputDirectory); err != nil {
+	// create tmp directory in user tmp directory
+	tmpDir := filepath.Join(os.TempDir(), "mxlint")
+	if err := os.MkdirAll(tmpDir, 0755); err != nil {
+		return fmt.Errorf("error creating tmp directory: %v", err)
+	}
+	log.Debugf("Created tmp directory: %s", tmpDir)
+	defer os.RemoveAll(tmpDir)
+
+	log.Infof("Exporting to %s", tmpDir)
+	if err := exportMetadata(inputDirectory, tmpDir); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
-	if err := exportUnits(inputDirectory, outputDirectory, raw, mode); err != nil {
+	if err := exportUnits(inputDirectory, tmpDir, raw, mode); err != nil {
 		return fmt.Errorf("error exporting units: %v", err)
 	}
+
+	// sync tmp directory to output directory
+	if err := syncDir(tmpDir, outputDirectory); err != nil {
+		return fmt.Errorf("error syncing tmp directory to output directory: %v", err)
+	}
+
 	log.Infof("Completed model export")
 	return nil
 }
@@ -250,6 +267,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 	if err != nil {
 		return fmt.Errorf("error getting documents: %v", err)
 	}
+
 	for _, document := range documents {
 		// write document
 		directory := filepath.Join(outputDirectory, document.Path)
@@ -303,4 +321,168 @@ func getMxUnits(inputDirectory string) ([]MxUnit, error) {
 	} else {
 		return readMxUnitsV1(inputDirectory)
 	}
+}
+
+func syncDir(sourceDir string, destDir string) error {
+	// Create destination directory if it doesn't exist
+	if err := os.MkdirAll(destDir, 0755); err != nil {
+		return fmt.Errorf("error creating destination directory: %v", err)
+	}
+	log.Debugf("Created destination directory: %s", destDir)
+
+	// First, collect all files in source directory
+	sourceFiles := make(map[string]struct{})
+	err := filepath.Walk(sourceDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			relPath, err := filepath.Rel(sourceDir, path)
+			if err != nil {
+				return err
+			}
+			log.Debugf("Adding file %s to source files", relPath)
+			sourceFiles[relPath] = struct{}{}
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("error walking source directory: %v", err)
+	}
+
+	// Then, walk through destination directory and remove files that don't exist in source
+	err = filepath.Walk(destDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		relPath, err := filepath.Rel(destDir, path)
+		if err != nil {
+			return err
+		}
+		// skip root directory
+		if relPath == "." {
+			return nil
+		}
+		// skip directories for now
+		if info.IsDir() {
+			return nil
+		}
+		if _, exists := sourceFiles[relPath]; !exists {
+			log.Debugf("Removing file/directory %s", relPath)
+			if err := os.RemoveAll(path); err != nil {
+				return fmt.Errorf("error removing file/directory %s: %v", path, err)
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("error cleaning destination directory: %v", err)
+	}
+
+	// remove empty directories
+	err = filepath.Walk(destDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			// Check if directory is empty
+			entries, err := os.ReadDir(path)
+			if err != nil {
+				return fmt.Errorf("error reading directory %s: %v", path, err)
+			}
+			if len(entries) == 0 {
+				if err := os.RemoveAll(path); err != nil {
+					return fmt.Errorf("error removing empty directory %s: %v", path, err)
+				}
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("error removing empty directories: %v", err)
+	}
+
+	// Finally, copy all files from source to destination
+	err = filepath.Walk(sourceDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		relPath, err := filepath.Rel(sourceDir, path)
+		if err != nil {
+			return err
+		}
+		destPath := filepath.Join(destDir, relPath)
+
+		if info.IsDir() {
+			// Create directory in destination
+			if err := os.MkdirAll(destPath, info.Mode()); err != nil {
+				return fmt.Errorf("error creating directory %s: %v", destPath, err)
+			}
+		} else {
+			// skip file if they are identical
+			if targetInfo, err := os.Stat(destPath); err == nil {
+				// Check if files are identical by comparing content hash
+				if targetInfo.Size() == info.Size() {
+					srcHash, err := hashFile(path)
+					if err != nil {
+						return fmt.Errorf("error calculating source file hash %s: %v", path, err)
+					}
+					destHash, err := hashFile(destPath)
+					if err != nil {
+						return fmt.Errorf("error calculating destination file hash %s: %v", destPath, err)
+					}
+					if srcHash == destHash {
+						// Files are identical, skip copying
+						return nil
+					}
+				}
+			}
+
+			srcFile, err := os.Open(path)
+			if err != nil {
+				return fmt.Errorf("error opening source file %s: %v", path, err)
+			}
+			defer srcFile.Close()
+
+			destFile, err := os.Create(destPath)
+			if err != nil {
+				return fmt.Errorf("error creating destination file %s: %v", destPath, err)
+			}
+			defer destFile.Close()
+
+			if _, err := destFile.ReadFrom(srcFile); err != nil {
+				return fmt.Errorf("error copying file %s to %s: %v", path, destPath, err)
+			}
+
+			// Set file permissions and modification time
+			if err := os.Chmod(destPath, info.Mode()); err != nil {
+				return fmt.Errorf("error setting permissions for %s: %v", destPath, err)
+			}
+			if err := os.Chtimes(destPath, info.ModTime(), info.ModTime()); err != nil {
+				return fmt.Errorf("error setting modification time for %s: %v", destPath, err)
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("error copying files: %v", err)
+	}
+
+	return nil
+}
+
+// hashFile calculates the SHA256 hash of a file
+func hashFile(path string) (string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	h := sha256.New()
+	if _, err := io.Copy(h, f); err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
