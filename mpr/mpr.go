@@ -41,11 +41,19 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("error exporting units: %v", err)
 	}
 
-	// sync tmp directory to output directory
+	// remove output directory if it exists
+	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
+		if err := os.MkdirAll(outputDirectory, 0755); err != nil {
+			return fmt.Errorf("error creating directory: %v", err)
+		}
+	}
+
+	// copy tmp directory to output directory
 	err = dirsync.Sync(tmpDir, outputDirectory)
 	if err != nil {
-		return fmt.Errorf("error syncing tmp directory to output directory: %v", err)
+		return fmt.Errorf("error moving tmp directory to output directory: %v", err)
 	}
+
 	if !appstore {
 		// remove appstore modules
 		removeAppstoreModules(outputDirectory, modules)
