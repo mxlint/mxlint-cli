@@ -1,4 +1,4 @@
-module github.com/cinaq/mendix-cli
+module github.com/mxlint/mxlint-cli
 
 go 1.22.0
 
