@@ -10,7 +10,7 @@ import (
 	"github.com/ghodss/yaml"
 )
 
-func evalTestcase_Javascript(rulePath string, queryString string, inputFilePath string) (*Testcase, error) {
+func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, error) {
 	ruleContent, _ := os.ReadFile(rulePath)
 	log.Debugf("js file: \n%s", ruleContent)
 

@@ -29,7 +29,7 @@ func printTestsuite(ts Testsuite) {
 
 func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
 	testsuites := make([]Testsuite, 0)
-	rules, err := readRulesMetadata(rulesPath)
+	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
 	}
@@ -127,7 +127,7 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 			if rule.Language == LanguageRego {
 				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
 			} else if rule.Language == LanguageJavascript {
-				testcase, err = evalTestcase_Javascript(rule.Path, queryString, inputFile)
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
 			}
 			if err != nil {
 				return nil, err
@@ -153,7 +153,7 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 	return testsuite, nil
 }
 
-func readRulesMetadata(rulesPath string) ([]Rule, error) {
+func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
 	rules := make([]Rule, 0)
 	filepath.Walk(rulesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
