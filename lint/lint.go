@@ -1,16 +1,12 @@
 package lint
 
 import (
-	"context"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
-	"time"
-
-	"github.com/ghodss/yaml"
-	"github.com/open-policy-agent/opa/rego"
 )
 
 const NOQA = "# noqa"
@@ -128,7 +124,11 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 			}
 			skippedCount++
 		} else {
-			testcase, err = evalTestcase(rule.Path, queryString, inputFile)
+			if rule.Language == LanguageRego {
+				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+			} else if rule.Language == LanguageJavascript {
+				testcase, err = evalTestcase_Javascript(rule.Path, queryString, inputFile)
+			}
 			if err != nil {
 				return nil, err
 			}
@@ -153,78 +153,27 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 	return testsuite, nil
 }
 
-func evalTestcase(rulePath string, queryString string, inputFilePath string) (*Testcase, error) {
-	regoFile, _ := os.ReadFile(rulePath)
-	log.Debugf("rego file: \n%s", regoFile)
-
-	yamlFile, err := os.ReadFile(inputFilePath)
-	if err != nil {
-		log.Errorf("Error reading YAML file: %s\n", err)
-		return nil, err
-	}
-
-	var data map[string]interface{}
-	err = yaml.Unmarshal(yamlFile, &data)
-	if err != nil {
-		log.Errorf("Error parsing YAML file: %s\n", err)
-		return nil, err
-	}
-
-	// if data["Documentation"] contains #noqa, skip the testcase; Documentation attribute might not exist
-	if doc, ok := data["Documentation"].(string); ok {
-		lines := strings.Split(doc, "\n")
-		for _, line := range lines {
-			line = strings.TrimSpace(line)
-			lineLower := strings.ToLower(line)
-			if strings.HasPrefix(lineLower, NOQA) || strings.HasPrefix(lineLower, NOQA_ALIAS) {
-				return &Testcase{
-					Name:    inputFilePath,
-					Time:    0,
-					Skipped: &Skipped{Message: line},
-				}, nil
+func readRulesMetadata(rulesPath string) ([]Rule, error) {
+	rules := make([]Rule, 0)
+	filepath.Walk(rulesPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.rego") && strings.HasSuffix(info.Name(), ".rego") {
+			rule, err := parseRuleMetadata_Rego(path)
+			if err != nil {
+				return err
 			}
+			rules = append(rules, *rule)
 		}
-	}
-
-	ctx := context.Background()
-
-	startTime := time.Now()
-	r := rego.New(
-		rego.Query(queryString),
-		rego.Load([]string{rulePath}, nil),
-		rego.Input(data),
-		rego.Trace(true),
-	)
-
-	rs, err := r.Eval(ctx)
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-	duration := time.Since(startTime)
-
-	var failure *Failure = nil
-
-	log.Debugf("Result: %v", rs)
-	rsmap := rs[0].Expressions[0].Value.(map[string]interface{})
-	result := rsmap["allow"].(bool)
-	errors := rsmap["errors"].([]interface{})
-	if !result {
-		myErrors := make([]string, 0)
-		for _, err := range errors {
-			//log.Warnf("Rule failed: %s", err)
-			myErrors = append(myErrors, fmt.Sprintf("%s", err))
+		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.js") && strings.HasSuffix(info.Name(), ".js") {
+			rule, err := parseRuleMetadata_Javascript(path)
+			if err != nil {
+				return err
+			}
+			rules = append(rules, *rule)
 		}
-		failure = &Failure{
-			Message: strings.Join(myErrors, "\n"),
-			Type:    "AssertionError",
-		}
-	}
-	testcase := &Testcase{
-		Name:    inputFilePath,
-		Time:    float64(duration.Nanoseconds()) / 1e9, // convert to seconds
-		Failure: failure,
-		Skipped: nil,
-	}
-	return testcase, nil
+		return nil
+	})
+	return rules, nil
 }
