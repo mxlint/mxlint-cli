@@ -99,7 +99,6 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 
 	var packageName string = ""
 	var pattern string = ""
-	var skipReason string = ""
 	var title string = ""
 	var description string = ""
 	var category string = ""
@@ -131,8 +130,6 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 		switch key {
 		case "input":
 			pattern = value
-		case "skip":
-			skipReason = value
 		case "title":
 			title = value
 		case "description":
@@ -159,7 +156,6 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 		Remediation: remediation,
 		RuleName:    ruleName,
 		Path:        rulePath,
-		SkipReason:  skipReason,
 		Pattern:     pattern,
 		PackageName: packageName,
 		Language:    LanguageRego,

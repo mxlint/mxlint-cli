@@ -50,7 +50,6 @@ type Rule struct {
 	Remediation string `json:"remediation"`
 	RuleName    string `json:"ruleName"`
 	Path        string `json:"path"`
-	SkipReason  string `json:"skipReason"`
 	Pattern     string `json:"pattern"`
 	PackageName string `json:"packageName"`
 	Language    string `json:"language"`

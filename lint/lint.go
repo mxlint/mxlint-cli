@@ -97,13 +97,6 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 
 	log.Debugf("evaluating rule %s", rule.Path)
 
-	var skipped *Skipped = nil
-	if rule.SkipReason != "" {
-		skipped = &Skipped{
-			Message: rule.SkipReason,
-		}
-	}
-
 	queryString := "data." + rule.PackageName
 	testcases := make([]Testcase, 0)
 	failuresCount := 0
@@ -116,26 +109,23 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 	testcase := &Testcase{}
 
 	for _, inputFile := range inputFiles {
-		if skipped != nil {
-			testcase = &Testcase{
-				Name:    inputFile,
-				Time:    0,
-				Skipped: skipped,
-			}
-			skippedCount++
-		} else {
-			if rule.Language == LanguageRego {
-				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
-			} else if rule.Language == LanguageJavascript {
-				testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
-			}
-			if err != nil {
-				return nil, err
-			}
+
+		if rule.Language == LanguageRego {
+			testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+		} else if rule.Language == LanguageJavascript {
+			testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+		}
+		if err != nil {
+			return nil, err
 		}
 		if testcase.Failure != nil {
 			failuresCount++
 		}
+
+		if testcase.Skipped != nil {
+			skippedCount++
+		}
+
 		totalTime += testcase.Time
 
 		testcases = append(testcases, *testcase)

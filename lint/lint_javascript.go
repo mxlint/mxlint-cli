@@ -122,7 +122,6 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 	var ruleNumber string = custom.Get("rulenumber").String()
 	var remediation string = custom.Get("remediation").String()
 	var ruleName string = custom.Get("rulename").String()
-	var skipReason string = ""
 	var pattern string = custom.Get("input").String()
 
 	rule := &Rule{
@@ -134,7 +133,6 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 		Remediation: remediation,
 		RuleName:    ruleName,
 		Path:        rulePath,
-		SkipReason:  skipReason,
 		Pattern:     pattern,
 		PackageName: packageName,
 		Language:    LanguageJavascript,
