@@ -140,6 +140,21 @@ WARN[0000]   Document modelsource/Security$ProjectSecurity.yaml: [HIGH, Security
 WARN[0000] Lint failed: 1 failures 
 ```
 
+## test-rules
+
+Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
+
+```
+$ ./bin/mxlint-darwin-arm64 test-rules -r resources/rules
+INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js 
+INFO[0000] PASS  allow
+INFO[0000] PASS  no_allow
+INFO[0000] >> resources/rules/001_0003_security_checks.rego 
+INFO[0000] PASS  allow
+INFO[0000] PASS  no_allow_1
+INFO[0000] PASS  no_allow_2
+```
+
 ### Features
 
 - Export Mendix model to Yaml
