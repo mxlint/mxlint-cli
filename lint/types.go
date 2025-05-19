@@ -36,6 +36,11 @@ type Skipped struct {
 	Message string `xml:"message,attr" json:"message"`
 }
 
+const (
+	LanguageRego       = "rego"
+	LanguageJavascript = "javascript"
+)
+
 type Rule struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -45,7 +50,7 @@ type Rule struct {
 	Remediation string `json:"remediation"`
 	RuleName    string `json:"ruleName"`
 	Path        string `json:"path"`
-	SkipReason  string `json:"skipReason"`
 	Pattern     string `json:"pattern"`
 	PackageName string `json:"packageName"`
+	Language    string `json:"language"`
 }

@@ -17,8 +17,20 @@ func TestLintSingle(t *testing.T) {
 	// 		t.Errorf("Policy not skipped")
 	// 	}
 	// })
-	t.Run("single rule passes", func(t *testing.T) {
-		rule, _ := parseRuleMetadata("./../resources/rules/001_0003_security_checks.rego")
+	t.Run("single Rego rule passes", func(t *testing.T) {
+		rule, _ := parseRuleMetadata_Rego("./../resources/rules/001_0003_security_checks.rego")
+		result, err := evalTestsuite(*rule, "./../modelsource")
+
+		if err != nil {
+			t.Errorf("Failed to evaluate")
+		}
+
+		if result.Failures != 0 {
+			t.Errorf("Policy passes")
+		}
+	})
+	t.Run("single JS rule passes", func(t *testing.T) {
+		rule, _ := parseRuleMetadata_Javascript("./../resources/rules/001_0002_demo_users_disabled.js")
 		result, err := evalTestsuite(*rule, "./../modelsource")
 
 		if err != nil {

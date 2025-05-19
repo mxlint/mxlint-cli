@@ -6,7 +6,7 @@ A set of Command line interface tools for Mendix developers, CICD engineers and 
 
 ## Mendix Studio Pro extension
 
-The quickest way to try out MxLint is to use it as Mendix Studio pro extension. Follow the instructions at [mendix-cli-extension](https://github.com/mxlint/mxlint-extension)
+The quickest way to try out MxLint is to use it as Mendix Studio pro extension. Follow the instructions at [mxlint-extension](https://github.com/mxlint/mxlint-extension)
 
 ## Basic Usage
 
@@ -16,23 +16,23 @@ mxlint-cli is a set of tools to help you with your Mendix projects. As such you 
 
 - Mendix Project source
 - Operating system: Linux, MacOS, Windows
-- Download your platform specific binary from the [releases page](https://github.com/cinaq/mendix-cli/releases)
-- Download the policies from the [releases page](https://github.com/cinaq/mendix-cli/releases) and extract them to a directory
+- Download your platform specific binary from the [releases page](https://github.com/mxlint/mxlint-cli/releases)
+- Download the policies from the [releases page](https://github.com/mxlint/mxlint-rules/releases) and extract them to a directory
 
 ### Export Mendix model to Yaml
 
-- copy `mendix-cli` to your project directory
+- copy `mxlint-cli` to your project directory
 - Open a terminal and navigate to your project directory; ideally use git-bash on Windows or Terminal on MacOS/Linux
-- run `./mendix-cli export-model`
+- run `./mxlint-cli export-model`
 
 You will see a new directory `modelsource` with the exported Mendix model in Yaml format
 
-It's advisable to add the `mendix-cli` file to your `.gitignore` file. This way you don't accidentally commit it to your repository.
+It's advisable to add the `mxlint-cli` file to your `.gitignore` file. This way you don't accidentally commit it to your repository.
 
 ### Lint Mendix Yaml files
 
 - copy `policies` directory to your project directory
-- run `./mendix-cli lint --xunit-report=report.xml`
+- run `./mxlint-cli lint --xunit-report=report.xml`
 
 You will see a summary of the policy evaluations in the terminal and a report in the `report.xml` file. The report is in xUnit format. You can use it in your CI/CD pipeline.
 
@@ -51,11 +51,11 @@ See each Mendix document/object as a separate file in the output directory. And 
 If you do not want to export the model to Yaml on your local machine, you can do it in your pipeline. Here's a high-level example:
 
 ```bash
-$ ./bin/mendix-cli-darwin-arm64 export-model -i resources/full-app-v1.mpr
+$ ./bin/mxlint-cli-darwin-arm64 export-model -i resources/full-app-v1.mpr
 INFO[0000] Exporting resources/full-app-v1.mpr to modelsource
 INFO[0000] Completed resources/full-app-v1.mpr
 
-$ ./bin/mendix-cli-darwin-arm64 lint
+$ ./bin/mxlint-cli-darwin-arm64 lint
 ## policies/001_project_settings/001_0001_anonymous_disabled.rego
 PASS (0.00148s) modelsource/Security$ProjectSecurity.yaml
 
@@ -138,6 +138,21 @@ FAIL (0.00171s) modelsource/Security$ProjectSecurity.yaml
 WARN[0000] Rule resources/rules/001_0003_security_checks.rego: 1 failures 
 WARN[0000]   Document modelsource/Security$ProjectSecurity.yaml: [HIGH, Security, 4099] Security check is not enabled in Project Security 
 WARN[0000] Lint failed: 1 failures 
+```
+
+## test-rules
+
+Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
+
+```
+$ ./bin/mxlint-darwin-arm64 test-rules -r resources/rules
+INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js 
+INFO[0000] PASS  allow
+INFO[0000] PASS  no_allow
+INFO[0000] >> resources/rules/001_0003_security_checks.rego 
+INFO[0000] PASS  allow
+INFO[0000] PASS  no_allow_1
+INFO[0000] PASS  no_allow_2
 ```
 
 ### Features

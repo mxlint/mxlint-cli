@@ -6,8 +6,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/cinaq/mendix-cli/lint"
-	"github.com/cinaq/mendix-cli/mpr"
+	"github.com/mxlint/mxlint-cli/lint"
+	"github.com/mxlint/mxlint-cli/mpr"
+	"github.com/mxlint/mxlint-cli/rules"
 	"github.com/radovskyb/watcher"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -15,10 +16,10 @@ import (
 
 func main() {
 
-	var rootCmd = &cobra.Command{Use: "mendix-cli"}
+	var rootCmd = &cobra.Command{Use: "mxlint-cli"}
 
 	var cmdExportModel = &cobra.Command{
-		Use:   "export-model ",
+		Use:   "export-model",
 		Short: "Export Mendix model to yaml files",
 		Long:  "The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -152,6 +153,34 @@ func main() {
 	cmdWatch.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
 	cmdWatch.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
 	rootCmd.AddCommand(cmdWatch)
+
+	var cmdRules = &cobra.Command{
+		Use:   "test-rules",
+		Short: "Ensure rules are working as expected against predefined test cases",
+		Long:  "When you are developing a new rule, you can use this command to ensure it works as expected against predefined test cases.",
+		Run: func(cmd *cobra.Command, args []string) {
+			rulesDirectory, _ := cmd.Flags().GetString("rules")
+			verbose, _ := cmd.Flags().GetBool("verbose")
+
+			log := logrus.New()
+			if verbose {
+				log.SetLevel(logrus.DebugLevel)
+			} else {
+				log.SetLevel(logrus.InfoLevel)
+			}
+
+			lint.SetLogger(log)
+			err := rules.TestAll(rulesDirectory)
+			if err != nil {
+				log.Errorf("Test rules failed: %s", err)
+				os.Exit(1)
+			}
+		},
+	}
+
+	cmdRules.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
+	cmdRules.Flags().Bool("verbose", false, "Turn on for debug logs")
+	rootCmd.AddCommand(cmdRules)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
