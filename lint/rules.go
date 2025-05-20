@@ -1,4 +1,4 @@
-package rules
+package lint
 
 import (
 	"context"
@@ -7,15 +7,13 @@ import (
 	"strings"
 
 	"github.com/dop251/goja"
-	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/open-policy-agent/opa/rego"
-	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
 func TestAll(rulesPath string) error {
 
-	allRules, err := lint.ReadRulesMetadata(rulesPath)
+	allRules, err := ReadRulesMetadata(rulesPath)
 
 	if err != nil {
 		return err
@@ -27,14 +25,14 @@ func TestAll(rulesPath string) error {
 	return nil
 }
 
-func runTestCases(rule lint.Rule) error {
+func runTestCases(rule Rule) error {
 	log.Infof(">> %s", rule.Path)
-	if rule.Language == lint.LanguageJavascript {
+	if rule.Language == LanguageJavascript {
 		err := runJavaScriptTestCases(rule)
 		if err != nil {
 			log.Errorf("Failed: %v", err)
 		}
-	} else if rule.Language == lint.LanguageRego {
+	} else if rule.Language == LanguageRego {
 		err := runRegoTestCases(rule)
 		if err != nil {
 			log.Errorf("Failed: %v", err)
@@ -45,7 +43,7 @@ func runTestCases(rule lint.Rule) error {
 	return nil
 }
 
-func runJavaScriptTestCases(rule lint.Rule) error {
+func runJavaScriptTestCases(rule Rule) error {
 
 	ruleContent, err := os.ReadFile(rule.Path)
 	if err != nil {
@@ -97,7 +95,7 @@ func runJavaScriptTestCases(rule lint.Rule) error {
 	return nil
 }
 
-func runRegoTestCases(rule lint.Rule) error {
+func runRegoTestCases(rule Rule) error {
 
 	packageName := getPackageName(rule.Path)
 	queryString := fmt.Sprintf("data.%s.allow", packageName)
@@ -133,6 +131,10 @@ func runRegoTestCases(rule lint.Rule) error {
 		result := rs[0].Expressions[0].Value.(bool)
 		if result != allow {
 			log.Errorf("FAIL %s: Expected: %v, got: %v", testCaseMap["name"], allow, result)
+			errors := rs[0].Expressions[1].Value.([]interface{})
+			for _, error := range errors {
+				log.Errorf("Error: %s", error)
+			}
 		} else {
 			log.Infof("PASS  %s", testCaseMap["name"])
 		}
@@ -145,7 +147,31 @@ func runRegoTestCases(rule lint.Rule) error {
 func convertToStringKeyMap(m map[interface{}]interface{}) map[string]interface{} {
 	result := make(map[string]interface{})
 	for k, v := range m {
-		result[fmt.Sprintf("%v", k)] = v
+		key := fmt.Sprintf("%v", k)
+		switch val := v.(type) {
+		case map[interface{}]interface{}:
+			result[key] = convertToStringKeyMap(val)
+		case []interface{}:
+			result[key] = convertSlice(val)
+		default:
+			result[key] = v
+		}
+	}
+	return result
+}
+
+// convertSlice converts a slice of interface{} to a slice of properly converted values
+func convertSlice(s []interface{}) []interface{} {
+	result := make([]interface{}, len(s))
+	for i, v := range s {
+		switch val := v.(type) {
+		case map[interface{}]interface{}:
+			result[i] = convertToStringKeyMap(val)
+		case []interface{}:
+			result[i] = convertSlice(val)
+		default:
+			result[i] = v
+		}
 	}
 	return result
 }
@@ -175,6 +201,7 @@ func readTestCases(testFilePath string) ([]interface{}, error) {
 	var data map[string]interface{}
 	err = yaml.Unmarshal(testFileContent, &data)
 	if err != nil {
+		log.Errorf("Failed to parse test file %s: %v", testFilePath, err)
 		return nil, err
 	}
 	testCases := data["TestCases"].([]interface{})
