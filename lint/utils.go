@@ -1,7 +1,10 @@
 package lint
 
 import (
+	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 )
@@ -14,11 +17,43 @@ func SetLogger(logger *logrus.Logger) {
 }
 
 func expandPaths(pattern string, workingDirectory string) ([]string, error) {
-	matches, err := filepath.Glob(filepath.Join(workingDirectory, pattern))
+	// backwards compatible with old filepath.glob(...)
+	if !strings.HasPrefix(pattern, ".*") {
+		pattern = strings.ReplaceAll(pattern, "$", "\\$")
+		pattern = strings.ReplaceAll(pattern, ".", "\\.")
+		pattern = strings.ReplaceAll(pattern, "**", ".*")
+	}
+	// First get all files recursively under working directory
+	var matches []string
+	err := filepath.Walk(workingDirectory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		// Skip directories
+		if info.IsDir() {
+			return nil
+		}
+		// Get relative path from working directory
+		relPath, err := filepath.Rel(workingDirectory, path)
+		if err != nil {
+			return err
+		}
+		// Check if path matches pattern
+		matched, err := regexp.MatchString(pattern, relPath)
+		if err != nil {
+			log.Errorf("Error matching path %v against pattern %v: %v", relPath, pattern, err)
+			return err
+		}
+		if matched {
+			matches = append(matches, path)
+		}
+		return nil
+	})
 	if err != nil {
-		// An error occurred while globbing, return the error.
 		return nil, err
 	}
-	// Return the matches found.
+	if len(matches) == 0 {
+		log.Warnf("No matches found for pattern %v ", pattern)
+	}
 	return matches, nil
 }
