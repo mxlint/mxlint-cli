@@ -1,0 +1,48 @@
+/// Create a Tooltip on hover effect.
+
+$_block: ".mxfeedback-tooltip";
+#{$_block} {
+    $_offset: 32px;
+    display: flex;
+    position: relative;
+
+    &__icon {
+        width: $mxfeedback-icon-size-sm;
+        height: $mxfeedback-icon-size-sm;
+
+        &:hover ~ #{$_block}__tip {
+            visibility: visible;
+        }
+    }
+
+    &__tip {
+        visibility: hidden;
+        position: absolute;
+        top: calc(100% + #{$spacing-small});
+        left: calc(50% - #{$_offset});
+        width: $mxfeedback-tooltip-width;
+        max-width: calc(100vw - #{$spacing-larger});
+        padding: 6px 8px; // not using variables here as its padding should be precise
+        margin-bottom: 0;
+        border-radius: 2px; // not using variables here as its border radius should be precise
+        background-color: $gray-darker;
+        color: $label-primary-color;
+        font-size: $font-size-small;
+        line-height: 1.5;
+        z-index: 1;
+        transition: visibility 100ms ease-in-out;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: $_offset;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background-color: inherit;
+            text-align: center;
+            pointer-events: none;
+        }
+    }
+}

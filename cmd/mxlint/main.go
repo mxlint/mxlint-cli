@@ -8,7 +8,6 @@ import (
 
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
-	"github.com/mxlint/mxlint-cli/rules"
 	"github.com/radovskyb/watcher"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -170,7 +169,7 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := rules.TestAll(rulesDirectory)
+			err := lint.TestAll(rulesDirectory)
 			if err != nil {
 				log.Errorf("Test rules failed: %s", err)
 				os.Exit(1)

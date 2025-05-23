@@ -11,7 +11,7 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/app", "./../tmp", nil); err != nil {
+		if err := exportMetadata("./../resources/app-mpr-v1", "./../tmp", nil); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 
@@ -35,7 +35,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportUnits("./../resources/app", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic"); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})

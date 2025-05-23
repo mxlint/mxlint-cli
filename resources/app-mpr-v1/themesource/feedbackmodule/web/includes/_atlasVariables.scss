@@ -1,0 +1,52 @@
+/// Based on ATLAS UI 3
+
+$gray-darker: #0a1325;
+$gray-dark: #474e5c;
+$gray: #787d87;
+$gray-light: #a9acb3;
+$gray-primary: #e7e7e9;
+$gray-lighter: #f8f8f8;
+
+$brand-default: $gray-primary;
+$brand-primary: #264ae5;
+$brand-success: #3cb33d;
+$brand-warning: #eca51c;
+$brand-danger: #e33f4e;
+
+$font-size-default: 14px;
+$font-color-default: #0a1325;
+
+$border-color-default: #ced0d3;
+$border-radius-default: 4px;
+
+$m-header-title-size: 16px;
+
+$bg-color-secondary: #fff;
+
+$font-size-large: 18px;
+$font-size-small: 12px;
+
+$font-weight-semibold: 600;
+$font-weight-bold: bold;
+
+$btn-primary-bg: $brand-primary;
+$btn-primary-bg-hover: mix($btn-primary-bg, black, 80%);
+$btn-primary-color: #fff;
+
+$label-primary-color: #fff;
+
+$spacing-smallest: 2px;
+$spacing-smaller: 4px;
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+$spacing-larger: 32px;
+$spacing-largest: 48px;
+
+$gutter-size: 8px;
+
+$screen-xs: 480px;
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-xl: 1200px;

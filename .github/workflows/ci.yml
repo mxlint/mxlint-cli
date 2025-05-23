@@ -25,10 +25,18 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: Test subcommand export-model
+    - name: Test subcommand export-model mpr-v1
       run: |
-        bin/mxlint export-model --mode basic -i resources/app
-        git diff --exit-code modelsource 
+        bin/mxlint export-model --mode basic -i resources/app-mpr-v1 -o resources/modelsource-v1
+        git diff --exit-code resources/modelsource-v1 
+
+    - name: Test subcommand export-model mpr-v2
+      run: |
+        bin/mxlint export-model --mode basic -i resources/app-mpr-v2 -o resources/modelsource-v2
+        git diff --exit-code resources/modelsource-v2
 
     - name: Test subcommand lint
-      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules
+      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules -m resources/app-mpr-v1
+
+    - name: Test subcommand test-rules
+      run: ./bin/mxlint test-rules --rules ./resources/rules

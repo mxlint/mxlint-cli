@@ -1,0 +1,30 @@
+/// Styles the dialogs.
+/// The styling is shared between the different windows.
+
+.mxfeedback-dialog {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: $spacing-large;
+    width: $mxfeedback-dialog-width;
+    max-width: calc(100% - #{$mxfeedback-dialog-spacing});
+    max-height: calc(100% - #{$mxfeedback-dialog-spacing});
+    background-color: $bg-color-secondary;
+    border: 1px solid $border-color-default;
+    border-radius: $border-radius-default;
+    box-shadow: $mxfeedback-shadow-small $mxfeedback-shadow-color;
+    overflow: hidden auto;
+    z-index: $mxfeedback-z-index-underlay;
+
+    &__title {
+        font-size: $font-size-large;
+        font-weight: $font-weight-semibold;
+        line-height: 120%;
+        margin: 0 0 $spacing-medium;
+        color: $font-color-default;
+        align-self: center;
+    }
+}

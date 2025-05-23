@@ -1,0 +1,48 @@
+$Type: Microflows$Microflow
+AllowConcurrentExecution: true
+AllowedModuleRoles: null
+ApplyEntityAccess: false
+ConcurrencyErrorMicroflow: ""
+ConcurrenyErrorMessage:
+  $Type: Texts$Text
+  Items:
+  - $Type: Texts$Translation
+    LanguageCode: en_US
+    Text: ""
+Documentation: '#noqa'
+Excluded: false
+ExportLevel: Hidden
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+  $Type: DataTypes$VoidType
+Name: MyFirstLogic
+ObjectCollection:
+  $Type: Microflows$MicroflowObjectCollection
+  Objects:
+  - $Type: Microflows$StartEvent
+  - $Type: Microflows$EndEvent
+    Documentation: ""
+    ReturnValue: ""
+  - $Type: Microflows$Annotation
+    Caption: "Microflows are used to define server logic in your app.\r\n\r\n- For
+      client logic you can use Nanoflows\r\n- For business process logic you can use
+      Workflows\r\n\r\nDocumentation: https://docs.mendix.com/refguide/application-logic"
+  - $Type: Microflows$ActionActivity
+    Action:
+      $Type: Microflows$RetrieveAction
+      ErrorHandlingType: Rollback
+      ResultVariableName: SessionList
+      RetrieveSource:
+        $Type: Microflows$AssociationRetrieveSource
+        AssociationId: System.Session_User
+        StartVariableName: currentUser
+    AutoGenerateCaption: true
+    BackgroundColor: Default
+    Caption: Activity
+    Disabled: false
+    Documentation: ""
+ReturnVariableName: ""
+Url: ""
+UrlSearchParameters: null
+WorkflowActionInfo: null

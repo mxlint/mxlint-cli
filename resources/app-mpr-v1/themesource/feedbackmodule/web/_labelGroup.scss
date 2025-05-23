@@ -1,0 +1,12 @@
+/// Styles the label plus tooltip icon.
+
+.mxfeedback-label-group {
+    display: flex;
+    align-items: center;
+    gap: calc(#{$gutter-size} / 2);
+    margin-bottom: $spacing-smaller;
+
+    &__label.control-label {
+        margin-bottom: 0;
+    }
+}

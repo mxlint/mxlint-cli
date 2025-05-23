@@ -1,7 +1,0 @@
-$Type: Constants$Constant
-DefaultValue: mxfeedback-form-data
-Documentation: ""
-Excluded: false
-ExportLevel: Hidden
-ExposedToClient: true
-Name: LocalStorageKey

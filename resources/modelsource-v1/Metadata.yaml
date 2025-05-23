@@ -1,0 +1,138 @@
+BuildVersion: 10.18.3.58900
+Modules:
+- Attributes:
+    $ID:
+      Data: CJwh54tYwk+hc1+bCPwjDg==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
+    AppStorePackageId: 170
+    AppStoreVersion: 10.9.0
+    AppStoreVersionGuid: 1f12fd41-98dc-4965-8473-ae46e16ad853
+    FromAppStore: true
+    IsThemeModule: false
+    Name: CommunityCommons
+    NewSortIndex: 3
+  ID: CJwh54tYwk+hc1+bCPwjDg==
+  Name: CommunityCommons
+- Attributes:
+    $ID:
+      Data: EBEQuiOQm0CiZysqR/iiQw==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 75fda84f-6c3d-460d-98eb-50cdbfd3b53d
+    AppStorePackageId: 109515
+    AppStoreVersion: 4.0.2
+    AppStoreVersionGuid: 4bb5080c-8939-4001-a86d-e16d1711a693
+    FromAppStore: true
+    IsThemeModule: false
+    Name: NanoflowCommons
+    NewSortIndex: 2.75
+  ID: EBEQuiOQm0CiZysqR/iiQw==
+  Name: NanoflowCommons
+- Attributes:
+    $ID:
+      Data: N+Ifuf/Of0mwB5I9DLbDOA==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 0404ab0c-4521-419c-9a90-b804e7038da3
+    AppStorePackageId: 117187
+    AppStoreVersion: 3.14.0
+    AppStoreVersionGuid: bed44828-c85d-4b50-ad20-8633589dd6a9
+    FromAppStore: true
+    IsThemeModule: true
+    Name: Atlas_Core
+    NewSortIndex: 38
+  ID: N+Ifuf/Of0mwB5I9DLbDOA==
+  Name: Atlas_Core
+- Attributes:
+    $ID:
+      Data: TJ9xCCh3h0mdTVo+0PSB5A==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 1d7b7a3f-84e6-4fc1-baf0-afbd0ee23b13
+    AppStorePackageId: 23513
+    AppStoreVersion: 4.1.0
+    AppStoreVersionGuid: 08b6928f-4a67-4983-b98e-decffcec5a82
+    FromAppStore: true
+    IsThemeModule: false
+    Name: Administration
+    NewSortIndex: -0.5
+  ID: TJ9xCCh3h0mdTVo+0PSB5A==
+  Name: Administration
+- Attributes:
+    $ID:
+      Data: ZSsTntE9bkWOq8+tPUe98w==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 08060dc1-8f61-4969-8f90-707c74fc0cc1
+    AppStorePackageId: 117183
+    AppStoreVersion: 3.5.1
+    AppStoreVersionGuid: 5fb7fee5-dbd7-44ad-a948-b96d3f4c3f9a
+    FromAppStore: true
+    IsThemeModule: true
+    Name: Atlas_Web_Content
+    NewSortIndex: 39
+  ID: ZSsTntE9bkWOq8+tPUe98w==
+  Name: Atlas_Web_Content
+- Attributes:
+    $ID:
+      Data: anwcVtQfBESck7qCSr6wYA==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: de8fdcee-11ea-4431-aead-8caba99a1c60
+    AppStorePackageId: 205506
+    AppStoreVersion: 1.4.0
+    AppStoreVersionGuid: 8d3b9e71-ac72-4aab-ba3f-ee283bf4d81a
+    FromAppStore: true
+    IsThemeModule: false
+    Name: FeedbackModule
+    NewSortIndex: 4
+  ID: anwcVtQfBESck7qCSr6wYA==
+  Name: FeedbackModule
+- Attributes:
+    $ID:
+      Data: rOLa4hehRU2AzTf/EaZ+Hw==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: b0376c9a-37f9-4c96-bca9-491d20f3e975
+    AppStorePackageId: 116540
+    AppStoreVersion: 2.13.0
+    AppStoreVersionGuid: 43ef2e62-089b-465b-be44-20144ef9e0be
+    FromAppStore: true
+    IsThemeModule: true
+    Name: DataWidgets
+    NewSortIndex: 2
+  ID: rOLa4hehRU2AzTf/EaZ+Hw==
+  Name: DataWidgets
+- Attributes:
+    $ID:
+      Data: tklS1TNqIECWUG8EyKUaDw==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: 87f3694f-b0d1-432e-a150-df1753dbd0e8
+    AppStorePackageId: 114337
+    AppStoreVersion: 2.10.0
+    AppStoreVersionGuid: 507824ec-9757-4b89-85b5-8d1f4fc4bc34
+    FromAppStore: true
+    IsThemeModule: false
+    Name: WebActions
+    NewSortIndex: 3
+  ID: tklS1TNqIECWUG8EyKUaDw==
+  Name: WebActions
+- Attributes:
+    $ID:
+      Data: xn10Fre2rkKqvyVdyirurw==
+      Subtype: 0
+    $Type: Projects$ModuleImpl
+    AppStoreGuid: ""
+    AppStorePackageId: 0
+    AppStoreVersion: ""
+    AppStoreVersionGuid: ""
+    FromAppStore: false
+    IsThemeModule: false
+    Name: MyFirstModule
+    NewSortIndex: 2
+  ID: xn10Fre2rkKqvyVdyirurw==
+  Name: MyFirstModule
+ProductVersion: 10.18.3.58900

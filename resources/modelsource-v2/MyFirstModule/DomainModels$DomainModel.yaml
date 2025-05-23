@@ -1,0 +1,14 @@
+$Type: DomainModels$DomainModel
+Annotations:
+- $Type: DomainModels$Annotation
+  Caption: "This Domain model defines the data structure of this module. \r\n\r\nAdd
+    new entities and associations to define your database tables and their relations.
+    \r\nWe automatically provision the underlying database for you.\r\n\r\nTo define
+    in-memory data, you can turn off the 'persistable' property on the entity.\r\n\r\nMore
+    info: https://docs.mendix.com/refguide/domain-model"
+  ExportLevel: Hidden
+  Width: 440
+Associations: null
+CrossAssociations: null
+Documentation: ""
+Entities: null

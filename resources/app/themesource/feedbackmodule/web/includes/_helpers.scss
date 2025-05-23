@@ -1,7 +1,0 @@
-/// For responsiveness
-
-@mixin mq($width, $type: min) {
-     @media only screen and (#{$type}-width: $width) {
-        @content;
-    }
-}
