@@ -1,9 +1,0 @@
-$Type: Images$ImageCollection
-Documentation: ""
-Excluded: true
-ExportLevel: Hidden
-Images:
-- $Type: Images$Image
-  ImageFormat: Png
-  Name: Your_logo
-Name: Image_collection_Logo
