@@ -36,4 +36,7 @@ jobs:
         git diff --exit-code resources/modelsource-v2
 
     - name: Test subcommand lint
-      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules
+      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules -m resources/app-mpr-v1
+
+    - name: Test subcommand test-rules
+      run: ./bin/mxlint test-rules --rules ./resources/rules
