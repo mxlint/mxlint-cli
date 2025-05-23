@@ -27,8 +27,8 @@ jobs:
 
     - name: Test subcommand export-model mpr-v1
       run: |
-        bin/mxlint export-model --mode basic -i resources/app -o resources/modelsource
-        git diff --exit-code resources/modelsource 
+        bin/mxlint export-model --mode basic -i resources/app-mpr-v1 -o resources/modelsource-v1
+        git diff --exit-code resources/modelsource-v1 
 
     - name: Test subcommand export-model mpr-v2
       run: |

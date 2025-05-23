@@ -51,7 +51,7 @@ See each Mendix document/object as a separate file in the output directory. And 
 If you do not want to export the model to Yaml on your local machine, you can do it in your pipeline. Here's a high-level example:
 
 ```bash
-$ ./bin/mxlint-cli-darwin-arm64 export-model -i resources/full-app-v1.mpr
+$ ./bin/mxlint-cli-darwin-arm64 export-model -i resources/app-mpr-v1/
 INFO[0000] Exporting resources/full-app-v1.mpr to modelsource
 INFO[0000] Completed resources/full-app-v1.mpr
 
@@ -93,7 +93,7 @@ A specific document can be marked as "Skipped" if you have a line in the `docume
 Watch for changes in the model and lint the changes.
 
 ```
-./bin/mxlint-darwin-arm64 watch --input resources/app/ --rules resources/rules
+./bin/mxlint-darwin-arm64 watch --input resources/app-mpr-v1 --rules resources/rules
 FILE "triggered event" CREATE [-]
 INFO[0000] Watching for changes in /Users/xcheng/private/git/mxlint-cli/resources/app 
 INFO[0000] Output directory: modelsource                
