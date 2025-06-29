@@ -9,7 +9,7 @@ const metadata = {
         severity: "HIGH",
         rulenumber: "001_0002",
         remediation: "Disable demo users in Project Security",
-        input: ".*Security\\$ProjectSecurity\\.yaml"
+        input: ".*Security\\$ProjectSecurity\\.yaml$"
     }
 };
 

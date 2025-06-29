@@ -1,0 +1,25 @@
+TestCases:
+- name: allow microflow with correct empty string check
+  allow: true
+  input:
+    $Type: Microflow$Page
+    Name: mf1
+    ObjectCollection:
+      $Type: Microflows$MicroflowObjectCollection
+      Objects:
+        - $Type: Microflows$ExclusiveSplit
+          SplitCondition:
+            $Type: Microflows$ExpressionSplitCondition
+            Expression: "$Variable != empty and $Variable != ''"
+- name: do not allow microflow with incomplete empty string check
+  allow: false
+  input:
+    $Type: Microflow$Page
+    Name: mf1
+    ObjectCollection:
+      $Type: Microflows$MicroflowObjectCollection
+      Objects:
+        - $Type: Microflows$ExclusiveSplit
+          SplitCondition:
+            $Type: Microflows$ExpressionSplitCondition
+            Expression: "$Variable != ''"

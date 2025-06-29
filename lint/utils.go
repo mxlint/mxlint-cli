@@ -19,9 +19,11 @@ func SetLogger(logger *logrus.Logger) {
 func expandPaths(pattern string, workingDirectory string) ([]string, error) {
 	// backwards compatible with old filepath.glob(...)
 	if !strings.HasPrefix(pattern, ".*") {
+		oldPattern := pattern
 		pattern = strings.ReplaceAll(pattern, "$", "\\$")
 		pattern = strings.ReplaceAll(pattern, ".", "\\.")
 		pattern = strings.ReplaceAll(pattern, "**", ".*")
+		log.Infof("Expanded old pattern: %v -> %v", oldPattern, pattern)
 	}
 	// First get all files recursively under working directory
 	var matches []string
