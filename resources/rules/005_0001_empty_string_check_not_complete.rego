@@ -10,7 +10,7 @@
 #  severity: MEDIUM
 #  rulenumber: 005_0001
 #  remediation: Always check a string for empty based on != empty and != "". The first one equals database NULL value, the latter one indicates a truncated string.
-#  input: .*\$Microflow\.yaml$
+#  input: .*\$Microflow\.yaml
 package app.mendix.microflows.empty_string_check_not_complete
 import rego.v1
 annotation := rego.metadata.chain()[1].annotations

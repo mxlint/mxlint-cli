@@ -10,7 +10,7 @@
 #  severity: HIGH
 #  rulenumber: 001_0003
 #  remediation: Set Security check to production in Project Security
-#  input: Security$ProjectSecurity.yaml
+#  input: .*Security\$ProjectSecurity\.yaml
 package app.mendix.project_settings.security_checks
 import rego.v1
 annotation := rego.metadata.chain()[1].annotations
