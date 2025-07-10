@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -65,6 +66,13 @@ func runServe(cmd *cobra.Command, args []string) {
 
 	mpr.SetLogger(log)
 	lint.SetLogger(log)
+
+	// Check if rules directory exists, if not download it
+	if _, err := os.Stat(rulesDirectory); os.IsNotExist(err) {
+		if err := DownloadRules(rulesDirectory, log); err != nil {
+			log.Fatalf("Failed to download rules: %v", err)
+		}
+	}
 
 	expandedPath, err := filepath.Abs(inputDirectory)
 	if err != nil {
