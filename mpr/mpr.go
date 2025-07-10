@@ -25,6 +25,15 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 
 	log.Infof("Exporting to %s", tmpDir)
 
+	// Check if we can find an MPR file
+	mprPath, err := getMprPath(inputDirectory)
+	if err != nil {
+		return fmt.Errorf("error finding MPR file: %v", err)
+	}
+	if mprPath == "" {
+		return fmt.Errorf("no MPR file found in directory: %s", inputDirectory)
+	}
+
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
 		log.Errorf("Failed to parse MxUnits: %s", err)
@@ -46,6 +55,15 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		if err := os.MkdirAll(outputDirectory, 0755); err != nil {
 			return fmt.Errorf("error creating directory: %v", err)
 		}
+	}
+
+	// Ensure both source and destination directories exist before syncing
+	if _, err := os.Stat(tmpDir); os.IsNotExist(err) {
+		return fmt.Errorf("source directory does not exist: %v", err)
+	}
+
+	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
+		return fmt.Errorf("destination directory does not exist: %v", err)
 	}
 
 	// copy tmp directory to output directory

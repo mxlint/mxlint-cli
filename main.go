@@ -8,6 +8,7 @@ import (
 
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
+	"github.com/mxlint/mxlint-cli/serve"
 	"github.com/radovskyb/watcher"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -152,6 +153,10 @@ func main() {
 	cmdWatch.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
 	cmdWatch.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
 	rootCmd.AddCommand(cmdWatch)
+
+	// Add the serve command
+	serveCmd := serve.NewServeCommand()
+	rootCmd.AddCommand(serveCmd)
 
 	var cmdRules = &cobra.Command{
 		Use:   "test-rules",

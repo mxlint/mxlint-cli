@@ -27,6 +27,79 @@ func printTestsuite(ts Testsuite) {
 	fmt.Println("")
 }
 
+// EvalAllWithResults evaluates all rules and returns the results
+// This is similar to EvalAll but returns the results instead of just printing them
+func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) (interface{}, error) {
+	testsuites := make([]Testsuite, 0)
+	rules, err := ReadRulesMetadata(rulesPath)
+	if err != nil {
+		return nil, err
+	}
+	failuresCount := 0
+	for _, rule := range rules {
+		testsuite, err := evalTestsuite(rule, modelSourcePath)
+		if err != nil {
+			return nil, err
+		}
+		printTestsuite(*testsuite)
+		failuresCount += testsuite.Failures
+		testsuites = append(testsuites, *testsuite)
+	}
+
+	if xunitReport != "" {
+		file, err := os.Create(xunitReport)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		encoder := xml.NewEncoder(file)
+		encoder.Indent("", "  ")
+		testsuitesContainer := TestSuites{Testsuites: testsuites}
+		if err := encoder.Encode(testsuitesContainer); err != nil {
+			panic(err)
+		}
+	}
+
+	if jsonFile != "" {
+		file, err := os.Create(jsonFile)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		encoder := json.NewEncoder(file)
+		encoder.SetIndent("", "  ")
+		testsuitesContainer := TestSuites{Testsuites: testsuites, Rules: rules}
+		if err := encoder.Encode(testsuitesContainer); err != nil {
+			panic(err)
+		}
+	}
+
+	for _, ts := range testsuites {
+		if ts.Failures > 0 {
+			log.Warningf("Rule %s: %d failures", ts.Name, ts.Failures)
+			for _, tc := range ts.Testcases {
+				if tc.Failure != nil {
+					log.Warningf("  Document %s: %s", tc.Name, tc.Failure.Message)
+				}
+			}
+		}
+	}
+
+	// Return the results
+	testsuitesContainer := TestSuites{Testsuites: testsuites, Rules: rules}
+
+	if failuresCount > 0 {
+		return testsuitesContainer, fmt.Errorf("%d failures", failuresCount)
+	} else {
+		log.Infof("Lint summary: All rules passed successfully!")
+		log.Infof("Total rules evaluated: %d", len(rules))
+		log.Infof("Total files checked: %d", countTotalTestcases(testsuites))
+	}
+	return testsuitesContainer, nil
+}
+
 func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
 	testsuites := make([]Testsuite, 0)
 	rules, err := ReadRulesMetadata(rulesPath)
@@ -86,11 +159,29 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 	}
 
 	if failuresCount > 0 {
+		log.Errorf("Lint summary: Found %d failures:", failuresCount)
+		log.Errorf("Failures by rule:")
+		for _, ts := range testsuites {
+			if ts.Failures > 0 {
+				log.Errorf("- %s: %d failures", ts.Name, ts.Failures)
+			}
+		}
 		return fmt.Errorf("%d failures", failuresCount)
 	} else {
-		log.Infof("All good my friend")
+		log.Infof("Lint summary: All rules passed successfully!")
+		log.Infof("Total rules evaluated: %d", len(rules))
+		log.Infof("Total files checked: %d", countTotalTestcases(testsuites))
 	}
 	return nil
+}
+
+// countTotalTestcases returns the total number of testcases across all testsuites
+func countTotalTestcases(testsuites []Testsuite) int {
+	count := 0
+	for _, ts := range testsuites {
+		count += len(ts.Testcases)
+	}
+	return count
 }
 
 func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {

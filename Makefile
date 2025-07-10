@@ -6,7 +6,7 @@ BINARY_NAME=mxlint
 # Go related variables
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
-GOPKG=$(GOBASE)/cmd/$(BINARY_NAME)
+GOPKG=$(GOBASE)
 
 # Go commands
 GOBUILD=go build
