@@ -20,7 +20,7 @@ jobs:
         go-version: 1.22
 
     - name: Build
-      run: go build -o bin/mxlint "./cmd/mxlint"
+      run: go build -o bin/mxlint "./"
 
     - name: Test
       run: go test -v ./...
