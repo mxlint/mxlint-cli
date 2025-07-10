@@ -25,6 +25,8 @@ func readMxUnitsV1(inputDirectory string) ([]MxUnit, error) {
 
 func getMprPath(inputDirectory string) (string, error) {
 	var mprPath string
+	found := false
+
 	err := filepath.Walk(inputDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -35,12 +37,21 @@ func getMprPath(inputDirectory string) (string, error) {
 		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
 			mprPath = path
-			return nil
+			found = true
+			return filepath.SkipDir // Stop walking once we find an MPR file
 		}
 		return nil
 	})
 
-	return mprPath, err
+	if err != nil {
+		return "", err
+	}
+
+	if !found {
+		return "", fmt.Errorf("no .mpr file found in directory: %s", inputDirectory)
+	}
+
+	return mprPath, nil
 }
 
 func getMxUnitsV1(MPRFilePath string) ([]MxUnit, error) {

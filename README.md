@@ -140,6 +140,33 @@ WARN[0000]   Document modelsource/Security$ProjectSecurity.yaml: [HIGH, Security
 WARN[0000] Lint failed: 1 failures 
 ```
 
+## serve
+
+Run a server that exports model and lints whenever the input MPR file changes. This is especially useful for integration with the Mendix Studio Pro extension.
+
+```
+./bin/mxlint-cli-darwin-arm64 serve -i . -o modelsource -r rules -p 8084
+INFO[0000] Starting server on port 8084
+INFO[0000] Watching for changes in /Users/xcheng/project
+INFO[0000] Output directory: modelsource
+INFO[0000] Rules directory: rules
+INFO[0000] Mode: basic
+INFO[0000] Debounce time: 500 ms
+INFO[0000] HTTP server listening on 127.0.0.1:8084
+INFO[0000] Dashboard available at http://localhost:8084
+INFO[0000] Initial export and lint
+INFO[0000] Running export-model and lint
+INFO[0000] Exporting /Users/xcheng/project/App.mpr to modelsource
+INFO[0000] Found 361 documents
+INFO[0000] Completed /Users/xcheng/project/App.mpr
+```
+
+The serve command provides:
+- A web dashboard at http://localhost:8084
+- An API endpoint at http://localhost:8084/api/results for JSON results
+- Automatic re-linting when files change
+- Debouncing to prevent excessive processing on rapid changes
+
 ## test-rules
 
 Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
@@ -159,7 +186,10 @@ INFO[0000] PASS  no_allow_2
 
 - Export Mendix model to Yaml
 - Lint Mendix Yaml files for common mistakes and enforces best practices
-- Incremental changes
+- Watch for changes and automatically re-lint
+- Serve lint results via HTTP for integration with other tools
+- Microflow transformation to more readable format (advanced mode)
+- Support for both Rego and JavaScript rules
 - Human readable output
 
 ## TODO
@@ -169,11 +199,14 @@ INFO[0000] PASS  no_allow_2
 - [x] Linting for Mendix Yaml files
 - [x] Create policies for linting
 - [x] Output linting results in xUnit format
+- [x] Support watching for changes (watch command)
+- [x] Serve lint results via HTTP (serve command)
+- [x] Basic microflow transformation to more readable format
 - [ ] Expand test coverage
-- [ ] Support incremental changes
+- [ ] Support incremental changes for better performance
 - [ ] Improve performance for large models
 - [ ] Improve error handling
-- [ ] Transform flows (activities, decisions, etc.) to pseudo code
+- [ ] Enhance microflow transformation with pseudo code generation
 
 ## Contribute
 

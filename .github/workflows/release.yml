@@ -22,7 +22,7 @@ jobs:
           github_token: ${{ secrets.PAT }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          project_path: "./cmd/mxlint"
+          project_path: "./"
           binary_name: "mxlint"
           ldflags: "-s -w"
           compress_assets: OFF
