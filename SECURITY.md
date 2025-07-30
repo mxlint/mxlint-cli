@@ -6,4 +6,4 @@ Only the latest version is supported. Currently we do not have LTS support. Ther
 
 ## Reporting a Vulnerability
 
-All vulnerabilities must be reported to security@cinaq.com 
+All vulnerabilities must be reported to security@cinaq.com or via the "Report a vulnerability" button above (https://github.com/mxlint/mxlint-cli/security)
