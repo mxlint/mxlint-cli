@@ -88,61 +88,9 @@ Lint Mendix Yaml files. This tool checks for common mistakes and enforces best p
 
 A specific document can be marked as "Skipped" if you have a line in the `documentation` field that starts with either `#noqa` or `# noqa` followed by an optional message (Case in-sensitive). This message will be included as "Skipped" reason in linting results.
 
-## watch
-
-Watch for changes in the model and lint the changes.
-
-```
-./bin/mxlint-darwin-arm64 watch --input resources/app-mpr-v1 --rules resources/rules
-FILE "triggered event" CREATE [-]
-INFO[0000] Watching for changes in /Users/xcheng/private/git/mxlint-cli/resources/app 
-INFO[0000] Output directory: modelsource                
-INFO[0000] Rules directory: resources/rules             
-INFO[0000] Mode: basic                                  
-INFO[0000] Exporting resources/app/App.mpr to modelsource 
-INFO[0000] Transforming microflow UpdateUserHelper      
-INFO[0000] Transforming microflow AssertTrue            
-INFO[0000] Transforming microflow CreateUserIfNotExists 
-INFO[0000] Transforming microflow AssertTrue_2          
-INFO[0000] Transforming microflow ChangeMyPassword      
-INFO[0000] Transforming microflow ShowMyPasswordForm    
-INFO[0000] Transforming microflow ManageMyAccount       
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Transforming microflow NewAccount            
-INFO[0000] Transforming microflow ChangePassword        
-INFO[0000] Transforming microflow NewWebServiceAccount  
-INFO[0000] Transforming microflow ShowPasswordForm      
-INFO[0000] Transforming microflow SaveNewAccount        
-INFO[0000] Transforming microflow MicroflowSplit        
-INFO[0000] Transforming microflow MicroflowSimple       
-INFO[0000] Transforming microflow MicroflowComplexSplit 
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Transforming microflow MicroflowLoopNested   
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Transforming microflow MicroflowSplitThenMerge 
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Transforming microflow MicroflowLoop         
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Loop detected; not traversing                
-INFO[0000] Transforming microflow MyFirstLogic          
-INFO[0000] Transforming microflow MicroflowForLoop      
-INFO[0000] Transforming microflow VA_Age                
-INFO[0000] Found 361 documents                          
-INFO[0000] Completed resources/app/App.mpr              
-## resources/rules/001_0003_security_checks.rego
-FAIL (0.00171s) modelsource/Security$ProjectSecurity.yaml
-
-WARN[0000] Rule resources/rules/001_0003_security_checks.rego: 1 failures 
-WARN[0000]   Document modelsource/Security$ProjectSecurity.yaml: [HIGH, Security, 4099] Security check is not enabled in Project Security 
-WARN[0000] Lint failed: 1 failures 
-```
-
 ## serve
 
-Run a server that exports model and lints whenever the input MPR file changes. This is especially useful for integration with the Mendix Studio Pro extension.
+Run a server that exports model and lints whenever the input MPR file changes. This is works in standalone way and via integration with the Mendix Studio Pro extension.
 
 ```
 ./bin/mxlint-cli-darwin-arm64 serve -i . -o modelsource -r rules -p 8084

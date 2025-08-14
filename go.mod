@@ -7,9 +7,9 @@ toolchain go1.23.10
 require (
 	github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
+	github.com/fsnotify/fsnotify v1.9.0
 	github.com/glebarez/go-sqlite v1.22.0
 	github.com/open-policy-agent/opa v1.7.1
-	github.com/radovskyb/watcher v1.0.7
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 	go.mongodb.org/mongo-driver v1.17.4

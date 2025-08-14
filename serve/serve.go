@@ -7,12 +7,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
-	"github.com/radovskyb/watcher"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -54,10 +55,13 @@ func runServe(cmd *cobra.Command, args []string) {
 	verbose, _ := cmd.Flags().GetBool("verbose")
 	debounceTime, _ := cmd.Flags().GetInt("debounce")
 
-	w := watcher.New()
-	w.IgnoreHiddenFiles(true)
-
 	log := logrus.New()
+
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatalf("Failed to create file watcher: %v", err)
+	}
+	defer watcher.Close()
 	if verbose {
 		log.SetLevel(logrus.DebugLevel)
 	} else {
@@ -232,7 +236,10 @@ func runServe(cmd *cobra.Command, args []string) {
 
 		for {
 			select {
-			case event := <-w.Event:
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
 				if verbose {
 					log.Debugf("Change detected: %s", event)
 				}
@@ -255,23 +262,21 @@ func runServe(cmd *cobra.Command, args []string) {
 				})
 				timerMutex.Unlock()
 
-			case err := <-w.Error:
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
 				log.Errorf("Watcher error: %v", err)
 				// Don't fatal here, just log the error
-			case <-w.Closed:
-				return
 			}
 		}
 	}()
 
 	// Add directories to watch with error handling
-	if err := w.AddRecursive(inputDirectory); err != nil {
+	if err := addDirsRecursive(watcher, inputDirectory, outputDirectory, log); err != nil {
 		log.Errorf("Error adding directory to watch: %v", err)
 		// Continue execution, don't fatal
 	}
-
-	// Ignore output directory
-	w.Ignore(outputDirectory)
 
 	// first run
 	go func() {
@@ -288,20 +293,54 @@ func runServe(cmd *cobra.Command, args []string) {
 			}
 		}()
 
-		w.Wait()
 		log.Info("Initial export and lint")
 		runExportAndLint()
 	}()
 
-	// Start the watcher with error handling
-	if err := w.Start(time.Millisecond * 100); err != nil {
-		log.Errorf("Error starting watcher: %v", err)
-		// Instead of fatal, set an error in the cached result
-		resultMutex.Lock()
-		cachedResult = LintResult{
-			Timestamp: time.Now(),
-			Error:     fmt.Sprintf("Failed to start file watcher: %v", err),
-		}
-		resultMutex.Unlock()
+	// Keep the process running
+	select {}
+}
+
+// addDirsRecursive adds all directories recursively to the watcher except the output directory
+func addDirsRecursive(watcher *fsnotify.Watcher, root string, excludeDir string, log *logrus.Logger) error {
+	excludePath, err := filepath.Abs(excludeDir)
+	if err != nil {
+		return err
 	}
+
+	return filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Skip the exclude directory
+		absPath, err := filepath.Abs(path)
+		if err != nil {
+			return err
+		}
+
+		if absPath == excludePath || strings.HasPrefix(absPath, excludePath+string(os.PathSeparator)) {
+			if info.IsDir() {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+
+		// Skip hidden files and directories
+		if strings.HasPrefix(filepath.Base(path), ".") {
+			if info.IsDir() {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+
+		// Only add directories to the watcher
+		if info.IsDir() {
+			if err := watcher.Add(path); err != nil {
+				log.Warnf("Error watching path %s: %v", path, err)
+			}
+		}
+
+		return nil
+	})
 }

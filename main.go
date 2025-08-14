@@ -3,13 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
-	"time"
 
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
 	"github.com/mxlint/mxlint-cli/serve"
-	"github.com/radovskyb/watcher"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -84,76 +81,6 @@ func main() {
 	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdLint)
 
-	var cmdWatch = &cobra.Command{
-		Use:   "watch",
-		Short: "Watch for changes in the model, export-model and lint continuously",
-		Long:  "Continuous linting of the model. This is useful when you are developing your application and want to be notified of any changes that might break the rules.",
-		Run: func(cmd *cobra.Command, args []string) {
-			inputDirectory, _ := cmd.Flags().GetString("input")
-			outputDirectory, _ := cmd.Flags().GetString("output")
-			mode, _ := cmd.Flags().GetString("mode")
-			rulesDirectory, _ := cmd.Flags().GetString("rules")
-
-			w := watcher.New()
-			w.IgnoreHiddenFiles(true)
-
-			log := logrus.New()
-			log.SetLevel(logrus.InfoLevel)
-
-			mpr.SetLogger(log)
-			lint.SetLogger(log)
-
-			expandedPath, err := filepath.Abs(inputDirectory)
-			if err != nil {
-				log.Fatalln(err)
-			}
-
-			go func() {
-				for {
-					select {
-					case event := <-w.Event:
-						fmt.Println(event)
-
-						log.Infof("Watching for changes in %s", expandedPath)
-						log.Infof("Output directory: %s", outputDirectory)
-						log.Infof("Rules directory: %s", rulesDirectory)
-						log.Infof("Mode: %s", mode)
-						mpr.ExportModel(inputDirectory, outputDirectory, false, mode, false)
-						err := lint.EvalAll(rulesDirectory, outputDirectory, "", "")
-						if err != nil {
-							log.Warningf("Lint failed: %s", err)
-						}
-					case err := <-w.Error:
-						log.Fatalln(err)
-					case <-w.Closed:
-						return
-					}
-				}
-			}()
-
-			if err := w.AddRecursive(inputDirectory); err != nil {
-				log.Fatalln(err)
-			}
-			w.Ignore(outputDirectory)
-
-			// first run
-			go func() {
-				w.Wait()
-				w.TriggerEvent(watcher.Create, nil)
-			}()
-
-			if err := w.Start(time.Millisecond * 100); err != nil {
-				log.Fatalln(err)
-			}
-		},
-	}
-
-	cmdWatch.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
-	cmdWatch.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
-	cmdWatch.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
-	cmdWatch.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
-	rootCmd.AddCommand(cmdWatch)
-
 	// Add the serve command
 	serveCmd := serve.NewServeCommand()
 	rootCmd.AddCommand(serveCmd)
@@ -190,5 +117,4 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
 }
