@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ghodss/yaml"
 	_ "github.com/glebarez/go-sqlite"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 )
 
 func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
@@ -31,8 +31,10 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 	}
 
 	mprContentsDirectory := filepath.Join(inputDirectory, "mprcontents")
+	log.Debugf("Walking directory: %s", mprContentsDirectory)
 	err = filepath.Walk(mprContentsDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
+			log.Errorf("Error walking path %s: %v", path, err)
 			return fmt.Errorf("error walking path %s: %v", path, err)
 		}
 
@@ -65,9 +67,66 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 				return fmt.Errorf("error unmarshaling YAML: %v", err)
 			}
 
-			unitID, ok := data["$ID"].(map[string]interface{})["Data"].(string)
+			// Debug the structure
+			log.Debugf("YAML data structure for %s: %#v", path, data)
+
+			idData, ok := data["$ID"]
 			if !ok {
-				return fmt.Errorf("invalid or missing unit ID in %s", path)
+				return fmt.Errorf("missing $ID field in %s", path)
+			}
+
+			log.Debugf("ID data: %#v, type: %T", idData, idData)
+
+			// Handle different possible structures
+			var unitID string
+			switch id := idData.(type) {
+			case map[string]interface{}:
+				// Try uppercase "Data" first (original format)
+				if dataStr, ok := id["Data"].(string); ok {
+					unitID = dataStr
+				} else if dataVal, ok := id["data"]; ok {
+					log.Debugf("Data field found: %#v, type: %T", dataVal, dataVal)
+
+					// Try to handle different types of binary data representation
+					switch dataBytes := dataVal.(type) {
+					case []interface{}:
+						var bytes []byte
+						for _, b := range dataBytes {
+							if num, ok := b.(float64); ok {
+								bytes = append(bytes, byte(num))
+							} else if num, ok := b.(int); ok {
+								bytes = append(bytes, byte(num))
+							} else {
+								log.Debugf("Unknown byte type: %T value: %#v", b, b)
+							}
+						}
+						if len(bytes) >= 16 {
+							// Use base64 encoding to match the format in getMxUnitsV2
+							unitID = base64.StdEncoding.EncodeToString(bytes)
+							log.Debugf("Generated base64 ID: %s", unitID)
+						}
+					case []byte:
+						if len(dataBytes) >= 16 {
+							// Use base64 encoding to match the format in getMxUnitsV2
+							unitID = base64.StdEncoding.EncodeToString(dataBytes)
+							log.Debugf("Generated base64 ID from []byte: %s", unitID)
+						}
+					default:
+						log.Debugf("Unknown data type: %T", dataBytes)
+					}
+				} else {
+					log.Debugf("ID structure: %+v", id)
+					return fmt.Errorf("invalid ID Data field in %s: %+v", path, id)
+				}
+			case string:
+				// Direct string (possible with some YAML parsers)
+				unitID = id
+			default:
+				return fmt.Errorf("unexpected ID type in %s: %T", path, idData)
+			}
+
+			if unitID == "" {
+				return fmt.Errorf("empty unit ID in %s", path)
 			}
 
 			idx, exists := unitsMap[unitID]

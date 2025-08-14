@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/Varjelus/dirsync"
-	"github.com/ghodss/yaml"
+	"gopkg.in/yaml.v3"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -284,9 +284,11 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 }
 
 func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string) error {
+	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
+		log.Errorf("Error getting units: %v", err)
 		return fmt.Errorf("error getting units: %v", err)
 	}
 	folders, err := getMxFolders(units)
@@ -339,13 +341,16 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 func getMxUnits(inputDirectory string) ([]MxUnit, error) {
 	mprPath, err := getMprPath(inputDirectory)
 	if err != nil {
+		log.Errorf("Error getting MPR path: %v", err)
 		return nil, err
 	}
 	mprVersion, err := getMprVersion(mprPath)
 	if err != nil {
+		log.Errorf("Error getting MPR version: %v", err)
 		return nil, err
 	}
 
+	log.Debugf("MPR version: %d", mprVersion)
 	if mprVersion == 2 {
 		return readMxUnitsV2(inputDirectory)
 	} else {

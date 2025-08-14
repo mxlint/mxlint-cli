@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/ghodss/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, error) {
@@ -22,9 +22,15 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, 
 
 	// parse the input file as YAML
 	var data map[string]interface{}
-	err = yaml.Unmarshal(documentContent, &data)
+	var node yaml.Node
+	err = yaml.Unmarshal(documentContent, &node)
 	if err != nil {
 		log.Errorf("Error parsing YAML file: %s\n", err)
+		return nil, err
+	}
+	err = node.Decode(&data)
+	if err != nil {
+		log.Errorf("Error decoding YAML file: %s\n", err)
 		return nil, err
 	}
 
