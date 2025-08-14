@@ -5,7 +5,6 @@ go 1.23.8
 toolchain go1.23.10
 
 require (
-	github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/glebarez/go-sqlite v1.22.0
@@ -17,7 +16,6 @@ require (
 )
 
 require (
-	github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a // indirect
 	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

@@ -1,9 +1,5 @@
 github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
 github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
-github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb h1:uDEw72N0Bu4jz4Zanq7+zMplGNd26mGYehgaAKNxdNI=
-github.com/Varjelus/dirsync v0.0.0-20161105165804-51d44bc3b5fb/go.mod h1:s2r4vPgOSlp+g+SpTNclqYDxKqfaExmkBR6YxRLuoo4=
-github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a h1:ChPWtF2nL9L0+tgUa31T3ZguZHdPBe6Sd7NDS1E9Hbg=
-github.com/Varjelus/kopsa v0.0.0-20151003065653-33789fe1970a/go.mod h1:7r++ofdTSM2ahUuJUErQNYLbfqfircMx/qDQQulZJ40=
 github.com/agnivade/levenshtein v1.2.1 h1:EHBY3UOn1gwdy/VbFwgo4cxecRznFk7fKWN1KOX7eoM=
 github.com/agnivade/levenshtein v1.2.1/go.mod h1:QVVI16kDrtSuwcpd0p1+xMC6Z/VfhtCyDIjcwga4/DU=
 github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883 h1:bvNMNQO63//z+xNgfBlViaCIJKLlCJ6/fmUseuG0wVQ=
