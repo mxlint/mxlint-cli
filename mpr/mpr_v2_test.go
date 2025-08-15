@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // TestAdd tests the Add function to ensure it returns correct results.
@@ -22,8 +22,12 @@ func TestMPRV2Metadata(t *testing.T) {
 		}
 		// read metadata file
 		var metadataObj MxMetadata
-		if err := yaml.Unmarshal(metadataFile, &metadataObj); err != nil {
-			t.Errorf("Failed to unmarshal metadata file")
+		var node yaml.Node
+		if err := yaml.Unmarshal(metadataFile, &node); err != nil {
+			t.Errorf("Failed to unmarshal metadata file: %v", err)
+		}
+		if err := node.Decode(&metadataObj); err != nil {
+			t.Errorf("Failed to decode metadata file: %v", err)
 		}
 		// check metadata
 		expectedProductVersion := "10.18.3.58900"

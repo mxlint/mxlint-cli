@@ -2,7 +2,7 @@ $Type: Projects$ModuleSettings
 BasedOnVersion: ""
 ExportLevel: Source
 ExtensionName: ""
-JarDependencies: null
+JarDependencies: []
 ProtectedModuleType: AddOn
 SolutionIdentifier: ""
 Version: 1.0.0

@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ghodss/yaml"
 	"github.com/open-policy-agent/opa/rego"
+	"gopkg.in/yaml.v3"
 )
 
 func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string) (*Testcase, error) {
@@ -22,9 +22,15 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	}
 
 	var data map[string]interface{}
-	err = yaml.Unmarshal(yamlFile, &data)
+	var node yaml.Node
+	err = yaml.Unmarshal(yamlFile, &node)
 	if err != nil {
 		log.Errorf("Error parsing YAML file: %s\n", err)
+		return nil, err
+	}
+	err = node.Decode(&data)
+	if err != nil {
+		log.Errorf("Error decoding YAML file: %s\n", err)
 		return nil, err
 	}
 

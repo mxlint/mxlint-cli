@@ -17,7 +17,7 @@ func SetLogger(logger *logrus.Logger) {
 	log = logger
 }
 
-var ignoredAttributes = []string{"$ID", "Flows", "OriginPointer", "Type", "LineType", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
+var ignoredAttributes = []string{"ID", "$ID", "Flows", "OriginPointer", "Type", "LineType", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}
 
 func Contains(slice []string, str string) bool {
 	for _, item := range slice {

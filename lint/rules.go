@@ -8,7 +8,7 @@ import (
 
 	"github.com/dop251/goja"
 	"github.com/open-policy-agent/opa/rego"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 func TestAll(rulesPath string) error {
@@ -57,9 +57,30 @@ func runJavaScriptTestCases(rule Rule) error {
 	}
 
 	for _, testCase := range testCases {
-		testCaseMap := testCase.(map[interface{}]interface{})
-		input := convertToStringKeyMap(testCaseMap["input"].(map[interface{}]interface{}))
-		allow := testCaseMap["allow"].(bool)
+		var input map[string]interface{}
+		var allow bool
+
+		// Handle different map types based on YAML parser
+		switch tcMap := testCase.(type) {
+		case map[interface{}]interface{}:
+			// For yaml.v2
+			input = convertToStringKeyMap(tcMap["input"].(map[interface{}]interface{}))
+			allow = tcMap["allow"].(bool)
+		case map[string]interface{}:
+			// For yaml.v3
+			inputVal := tcMap["input"]
+			switch inputMap := inputVal.(type) {
+			case map[interface{}]interface{}:
+				input = convertToStringKeyMap(inputMap)
+			case map[string]interface{}:
+				input = inputMap
+			default:
+				return fmt.Errorf("unexpected input type: %T", inputVal)
+			}
+			allow = tcMap["allow"].(bool)
+		default:
+			return fmt.Errorf("unexpected testCase type: %T", testCase)
+		}
 
 		vm := goja.New()
 		_, err = vm.RunString(string(ruleContent))
@@ -82,13 +103,30 @@ func runJavaScriptTestCases(rule Rule) error {
 		result := rs["allow"].(bool)
 		errors := rs["errors"].([]interface{})
 
+		// Get the test case name
+		var name string
+		switch tcMap := testCase.(type) {
+		case map[interface{}]interface{}:
+			if n, ok := tcMap["name"].(string); ok {
+				name = n
+			} else {
+				name = "unnamed test"
+			}
+		case map[string]interface{}:
+			if n, ok := tcMap["name"].(string); ok {
+				name = n
+			} else {
+				name = "unnamed test"
+			}
+		}
+
 		if result != allow {
 			for _, error := range errors {
 				log.Errorf("Error: %s", error)
 			}
-			return fmt.Errorf("FAIL %s: Expected %v, got: %v", testCaseMap["name"], allow, result)
+			return fmt.Errorf("FAIL %s: Expected %v, got: %v", name, allow, result)
 		} else {
-			log.Infof("PASS  %s ", testCaseMap["name"])
+			log.Infof("PASS  %s ", name)
 		}
 	}
 
@@ -107,9 +145,30 @@ func runRegoTestCases(rule Rule) error {
 	}
 
 	for _, testCase := range testCases {
-		testCaseMap := testCase.(map[interface{}]interface{})
-		input := convertToStringKeyMap(testCaseMap["input"].(map[interface{}]interface{}))
-		allow := testCaseMap["allow"].(bool)
+		var input map[string]interface{}
+		var allow bool
+
+		// Handle different map types based on YAML parser
+		switch tcMap := testCase.(type) {
+		case map[interface{}]interface{}:
+			// For yaml.v2
+			input = convertToStringKeyMap(tcMap["input"].(map[interface{}]interface{}))
+			allow = tcMap["allow"].(bool)
+		case map[string]interface{}:
+			// For yaml.v3
+			inputVal := tcMap["input"]
+			switch inputMap := inputVal.(type) {
+			case map[interface{}]interface{}:
+				input = convertToStringKeyMap(inputMap)
+			case map[string]interface{}:
+				input = inputMap
+			default:
+				return fmt.Errorf("unexpected input type: %T", inputVal)
+			}
+			allow = tcMap["allow"].(bool)
+		default:
+			return fmt.Errorf("unexpected testCase type: %T", testCase)
+		}
 
 		ctx := context.Background()
 
@@ -129,14 +188,32 @@ func runRegoTestCases(rule Rule) error {
 		log.Debugf("Result: %v", rs)
 
 		result := rs[0].Expressions[0].Value.(bool)
+
+		// Get the test case name
+		var name string
+		switch tcMap := testCase.(type) {
+		case map[interface{}]interface{}:
+			if n, ok := tcMap["name"].(string); ok {
+				name = n
+			} else {
+				name = "unnamed test"
+			}
+		case map[string]interface{}:
+			if n, ok := tcMap["name"].(string); ok {
+				name = n
+			} else {
+				name = "unnamed test"
+			}
+		}
+
 		if result != allow {
-			log.Errorf("FAIL %s: Expected: %v, got: %v", testCaseMap["name"], allow, result)
+			log.Errorf("FAIL %s: Expected: %v, got: %v", name, allow, result)
 			errors := rs[0].Expressions[1].Value.([]interface{})
 			for _, error := range errors {
 				log.Errorf("Error: %s", error)
 			}
 		} else {
-			log.Infof("PASS  %s", testCaseMap["name"])
+			log.Infof("PASS  %s", name)
 		}
 	}
 
@@ -199,9 +276,15 @@ func readTestCases(testFilePath string) ([]interface{}, error) {
 	}
 
 	var data map[string]interface{}
-	err = yaml.Unmarshal(testFileContent, &data)
+	var node yaml.Node
+	err = yaml.Unmarshal(testFileContent, &node)
 	if err != nil {
 		log.Errorf("Failed to parse test file %s: %v", testFilePath, err)
+		return nil, err
+	}
+	err = node.Decode(&data)
+	if err != nil {
+		log.Errorf("Failed to decode test file %s: %v", testFilePath, err)
 		return nil, err
 	}
 	testCases := data["TestCases"].([]interface{})

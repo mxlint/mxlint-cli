@@ -3,12 +3,12 @@ package mpr
 import (
 	"database/sql"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/Varjelus/dirsync"
-	"github.com/ghodss/yaml"
+	"gopkg.in/yaml.v3"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -67,7 +67,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	}
 
 	// copy tmp directory to output directory
-	err = dirsync.Sync(tmpDir, outputDirectory)
+	err = syncDirectories(tmpDir, outputDirectory)
 	if err != nil {
 		return fmt.Errorf("error moving tmp directory to output directory: %v", err)
 	}
@@ -284,9 +284,11 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 }
 
 func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string) error {
+	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
+		log.Errorf("Error getting units: %v", err)
 		return fmt.Errorf("error getting units: %v", err)
 	}
 	folders, err := getMxFolders(units)
@@ -339,13 +341,16 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 func getMxUnits(inputDirectory string) ([]MxUnit, error) {
 	mprPath, err := getMprPath(inputDirectory)
 	if err != nil {
+		log.Errorf("Error getting MPR path: %v", err)
 		return nil, err
 	}
 	mprVersion, err := getMprVersion(mprPath)
 	if err != nil {
+		log.Errorf("Error getting MPR version: %v", err)
 		return nil, err
 	}
 
+	log.Debugf("MPR version: %d", mprVersion)
 	if mprVersion == 2 {
 		return readMxUnitsV2(inputDirectory)
 	} else {
@@ -384,4 +389,65 @@ func isAppstoreModule(module MxModule) bool {
 	}
 
 	return false
+}
+
+// syncDirectories synchronizes the contents of src to dst
+func syncDirectories(src, dst string) error {
+	// Create destination directory if it doesn't exist
+	if err := os.MkdirAll(dst, 0755); err != nil {
+		return fmt.Errorf("failed to create destination directory: %v", err)
+	}
+
+	// Walk through the source directory
+	return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Calculate the relative path from the source root
+		relPath, err := filepath.Rel(src, path)
+		if err != nil {
+			return fmt.Errorf("failed to get relative path: %v", err)
+		}
+
+		// Skip the root directory
+		if relPath == "." {
+			return nil
+		}
+
+		// Calculate the destination path
+		dstPath := filepath.Join(dst, relPath)
+
+		// If it's a directory, create it in the destination
+		if info.IsDir() {
+			return os.MkdirAll(dstPath, info.Mode())
+		}
+
+		// Copy the file
+		return copyFile(path, dstPath, info.Mode())
+	})
+}
+
+// copyFile copies a single file from src to dst
+func copyFile(src, dst string, mode os.FileMode) error {
+	// Open the source file
+	srcFile, err := os.Open(src)
+	if err != nil {
+		return fmt.Errorf("failed to open source file: %v", err)
+	}
+	defer srcFile.Close()
+
+	// Create the destination file
+	dstFile, err := os.OpenFile(dst, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
+	if err != nil {
+		return fmt.Errorf("failed to create destination file: %v", err)
+	}
+	defer dstFile.Close()
+
+	// Copy the contents
+	if _, err := io.Copy(dstFile, srcFile); err != nil {
+		return fmt.Errorf("failed to copy file contents: %v", err)
+	}
+
+	return nil
 }

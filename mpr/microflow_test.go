@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // TestAdd tests the Add function to ensure it returns correct results.
@@ -23,8 +23,12 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 		// parse file
 		var mfObj bson.M
-		if err := yaml.Unmarshal(mfFile, &mfObj); err != nil {
-			t.Errorf("Failed to unmarshal microflow file")
+		var node yaml.Node
+		if err := yaml.Unmarshal(mfFile, &node); err != nil {
+			t.Errorf("Failed to unmarshal microflow file: %v", err)
+		}
+		if err := node.Decode(&mfObj); err != nil {
+			t.Errorf("Failed to decode microflow file: %v", err)
 		}
 		// check metadata
 		if mfObj["Name"] != "MicroflowSimple" {
@@ -48,8 +52,12 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 		// parse file
 		var mfObj bson.M
-		if err := yaml.Unmarshal(mfFile, &mfObj); err != nil {
-			t.Errorf("Failed to unmarshal microflow file")
+		var node yaml.Node
+		if err := yaml.Unmarshal(mfFile, &node); err != nil {
+			t.Errorf("Failed to unmarshal microflow file: %v", err)
+		}
+		if err := node.Decode(&mfObj); err != nil {
+			t.Errorf("Failed to decode microflow file: %v", err)
 		}
 		// check metadata
 		if mfObj["Name"] != "MicroflowSplit" {
@@ -73,8 +81,12 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 		// parse file
 		var mfObj bson.M
-		if err := yaml.Unmarshal(mfFile, &mfObj); err != nil {
-			t.Errorf("Failed to unmarshal microflow file")
+		var node yaml.Node
+		if err := yaml.Unmarshal(mfFile, &node); err != nil {
+			t.Errorf("Failed to unmarshal microflow file: %v", err)
+		}
+		if err := node.Decode(&mfObj); err != nil {
+			t.Errorf("Failed to decode microflow file: %v", err)
 		}
 		// check metadata
 		if mfObj["Name"] != "MicroflowSplitThenMerge" {
@@ -88,17 +100,34 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 
 		split := sequence[4]
-		splits := split.(map[interface{}]interface{})["Splits"].([]interface{})
+		splitMap, ok := split.(bson.M)
+		if !ok {
+			t.Errorf("Expected split to be bson.M, got %T", split)
+			return
+		}
+		splits, ok := splitMap["Splits"].([]interface{})
+		if !ok {
+			t.Errorf("Expected Splits to be []interface{}, got %T", splitMap["Splits"])
+			return
+		}
 		if len(splits) != 2 {
 			t.Errorf("Unexpected instructions length. Got: %d", len(splits))
 		}
 
-		split1 := splits[0].([]interface{})
+		split1, ok := splits[0].([]interface{})
+		if !ok {
+			t.Errorf("Expected splits[0] to be []interface{}, got %T", splits[0])
+			return
+		}
 		if len(split1) != 4 {
 			t.Errorf("Unexpected instructions length. Got: %d", len(split1))
 		}
 
-		split2 := splits[1].([]interface{})
+		split2, ok := splits[1].([]interface{})
+		if !ok {
+			t.Errorf("Expected splits[1] to be []interface{}, got %T", splits[1])
+			return
+		}
 		if len(split2) != 4 {
 			t.Errorf("Unexpected instructions length. Got: %d", len(split2))
 		}
