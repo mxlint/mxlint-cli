@@ -4,56 +4,56 @@ AdminUserName: MxAdmin
 AdminUserRole: Administrator
 CheckSecurity: true
 DemoUsers:
-- $Type: Security$DemoUserImpl
-  Entity: Administration.Account
-  Password: L1QbVjZlgtcB
-  UserName: demo_administrator
-  UserRoles:
-  - Administrator
-- $Type: Security$DemoUserImpl
-  Entity: Administration.Account
-  Password: 6ahBURaTI5YA
-  UserName: demo_user
-  UserRoles:
-  - User
+    - $Type: Security$DemoUserImpl
+      Entity: Administration.Account
+      Password: L1QbVjZlgtcB
+      UserName: demo_administrator
+      UserRoles:
+        - Administrator
+    - $Type: Security$DemoUserImpl
+      Entity: Administration.Account
+      Password: 6ahBURaTI5YA
+      UserName: demo_user
+      UserRoles:
+        - User
 EnableDemoUsers: true
 EnableGuestAccess: false
 FileDocumentAccess:
-  $Type: Security$FileDocumentAccessRuleContainer
-  AccessRules: null
+    $Type: Security$FileDocumentAccessRuleContainer
+    AccessRules: []
 GuestUserRole: ""
 ImageAccess:
-  $Type: Security$ImageAccessRuleContainer
-  AccessRules: null
+    $Type: Security$ImageAccessRuleContainer
+    AccessRules: []
 PasswordPolicySettings:
-  $Type: Security$PasswordPolicySettings
-  MinimumLength: 12
-  RequireDigit: true
-  RequireMixedCase: true
-  RequireSymbol: false
+    $Type: Security$PasswordPolicySettings
+    MinimumLength: 12
+    RequireDigit: true
+    RequireMixedCase: true
+    RequireSymbol: false
 SecurityLevel: CheckNothing
 StrictMode: false
 StrictPageUrlCheck: true
 UserRoles:
-- $Type: Security$UserRole
-  CheckSecurity: true
-  Description: ""
-  ManageAllRoles: true
-  ManageUsersWithoutRoles: false
-  ManageableRoles: null
-  ModuleRoles:
-  - System.Administrator
-  - Administration.Administrator
-  - MyFirstModule.User
-  Name: Administrator
-- $Type: Security$UserRole
-  CheckSecurity: true
-  Description: ""
-  ManageAllRoles: false
-  ManageUsersWithoutRoles: false
-  ManageableRoles: null
-  ModuleRoles:
-  - System.User
-  - MyFirstModule.User
-  - Administration.User
-  Name: User
+    - $Type: Security$UserRole
+      CheckSecurity: true
+      Description: ""
+      ManageAllRoles: true
+      ManageUsersWithoutRoles: false
+      ManageableRoles: []
+      ModuleRoles:
+        - System.Administrator
+        - Administration.Administrator
+        - MyFirstModule.User
+      Name: Administrator
+    - $Type: Security$UserRole
+      CheckSecurity: true
+      Description: ""
+      ManageAllRoles: false
+      ManageUsersWithoutRoles: false
+      ManageableRoles: []
+      ModuleRoles:
+        - System.User
+        - MyFirstModule.User
+        - Administration.User
+      Name: User

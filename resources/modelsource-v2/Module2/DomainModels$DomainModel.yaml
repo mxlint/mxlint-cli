@@ -1,6 +1,6 @@
 $Type: DomainModels$DomainModel
-Annotations: null
-Associations: null
-CrossAssociations: null
+Annotations: []
+Associations: []
+CrossAssociations: []
 Documentation: ""
-Entities: null
+Entities: []
