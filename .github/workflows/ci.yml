@@ -11,6 +11,8 @@ on:
 jobs:
   unit_tests:
     name: "Unit tests"
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -54,8 +56,10 @@ jobs:
         coverage-artifact-name: "code-coverage"
         coverage-file-name: "coverage.txt" 
 
-  integration_tests :
-    name: "Integration tests"
+  build_cli:
+    name: "Build CLI"
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -68,18 +72,91 @@ jobs:
     - name: Build
       run: go build -o bin/mxlint "./"
 
+    - name: Archive mxlint binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: mxlint-cli
+        path: bin
+
+  test_export_model_v1:
+    name: "Test export-model mpr-v1"
+    permissions:
+      contents: read
+    needs: build_cli
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download mxlint binary
+      uses: actions/download-artifact@v4
+      with:
+        name: mxlint-cli
+        path: bin
+
     - name: Test subcommand export-model mpr-v1
       run: |
+        chmod +x ./bin/mxlint
         bin/mxlint export-model --mode basic -i resources/app-mpr-v1 -o resources/modelsource-v1
         git diff --exit-code resources/modelsource-v1 
 
+  test_export_model_v2:
+    name: "Test export-model mpr-v2"
+    permissions:
+      contents: read
+    needs: build_cli
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download mxlint binary
+      uses: actions/download-artifact@v4
+      with:
+        name: mxlint-cli
+        path: bin
+
     - name: Test subcommand export-model mpr-v2
       run: |
+        chmod +x ./bin/mxlint
         bin/mxlint export-model --mode basic -i resources/app-mpr-v2 -o resources/modelsource-v2
         git diff --exit-code resources/modelsource-v2
 
+  test_lint:
+    name: "Test lint"
+    permissions:
+      contents: read
+    needs: build_cli
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download mxlint binary
+      uses: actions/download-artifact@v4
+      with:
+        name: mxlint-cli
+        path: bin
+
     - name: Test subcommand lint
-      run: ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules -m resources/app-mpr-v1
+      run: |
+        chmod +x ./bin/mxlint
+        ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules -m resources/app-mpr-v1
+
+
+  test_rules:
+    name: "Test rules"
+    permissions:
+      contents: read
+    needs: build_cli
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download mxlint binary
+      uses: actions/download-artifact@v4
+      with:
+        name: mxlint-cli
+        path: bin
 
     - name: Test subcommand test-rules
-      run: ./bin/mxlint test-rules --rules ./resources/rules
+      run: |
+        chmod +x ./bin/mxlint
+        ./bin/mxlint test-rules --rules ./resources/rules
