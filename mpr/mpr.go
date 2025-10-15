@@ -197,7 +197,7 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 	var folders []MxFolder
 	for _, unit := range units {
 		if unit.ContainmentName == "Folders" || unit.ContainmentName == "Modules" {
-			log.Debugf("Unit: %v", unit)
+			log.Debugf("Unit: %v", unit.ContainmentName)
 			myFolder := MxFolder{
 				Name:       unit.Contents["Name"].(string),
 				ID:         unit.UnitID,
@@ -260,7 +260,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 
 	for _, unit := range units {
 		if Contains(documentTypes, unit.ContainmentName) {
-			log.Debugf("Unit: %v", unit)
+			log.Debugf("Unit: %v", unit.ContainmentName)
 			var name = ""
 			if unit.Contents["Name"] != nil {
 				name = unit.Contents["Name"].(string)
