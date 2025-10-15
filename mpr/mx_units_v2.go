@@ -10,7 +10,7 @@ import (
 
 	_ "github.com/glebarez/go-sqlite"
 	"go.mongodb.org/mongo-driver/bson"
-	"gopkg.in/yaml.v3"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
@@ -57,18 +57,14 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 				return err
 			}
 
-			yamlBytes, err := yaml.Marshal(result)
-			if err != nil {
-				return fmt.Errorf("error marshaling to YAML: %v", err)
-			}
+			// Use the BSON result directly instead of marshaling/unmarshaling through YAML
+			// This avoids unnecessary memory allocation
+			data := map[string]interface{}(result)
 
-			var data map[string]interface{}
-			if err := yaml.Unmarshal(yamlBytes, &data); err != nil {
-				return fmt.Errorf("error unmarshaling YAML: %v", err)
+			// Debug the structure only when MXLINT_TRACE is set
+			if os.Getenv("MXLINT_TRACE") == "true" {
+				log.Debugf("BSON data structure for %s: %#v", path, data)
 			}
-
-			// Debug the structure
-			log.Debugf("YAML data structure for %s: %#v", path, data)
 
 			idData, ok := data["$ID"]
 			if !ok {
@@ -80,6 +76,12 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 			// Handle different possible structures
 			var unitID string
 			switch id := idData.(type) {
+			case primitive.Binary:
+				// Native BSON binary type (when not going through YAML)
+				if len(id.Data) >= 16 {
+					unitID = base64.StdEncoding.EncodeToString(id.Data)
+					log.Debugf("Generated base64 ID from primitive.Binary: %s", unitID)
+				}
 			case map[string]interface{}:
 				// Try uppercase "Data" first (original format)
 				if dataStr, ok := id["Data"].(string); ok {
@@ -89,6 +91,12 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 
 					// Try to handle different types of binary data representation
 					switch dataBytes := dataVal.(type) {
+					case primitive.Binary:
+						// Handle primitive.Binary nested in map
+						if len(dataBytes.Data) >= 16 {
+							unitID = base64.StdEncoding.EncodeToString(dataBytes.Data)
+							log.Debugf("Generated base64 ID from nested primitive.Binary: %s", unitID)
+						}
 					case []interface{}:
 						var bytes []byte
 						for _, b := range dataBytes {
