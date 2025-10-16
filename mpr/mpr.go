@@ -225,7 +225,7 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 			folders = append(folders, myFolder)
 		} else if unit.ContainmentName == "" {
 			myFolder := MxFolder{
-				Name:       ".",
+				Name:       "",
 				ID:         unit.UnitID,
 				ParentID:   unit.ContainerID,
 				Attributes: unit.Contents,
@@ -256,9 +256,9 @@ func getMxDocumentPathRecursive(folder MxFolder, depth int) string {
 		return ""
 	}
 	if folder.Parent == nil {
-		return folder.Name
+		return sanitizePathComponent(folder.Name)
 	} else {
-		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), folder.Name)
+		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), sanitizePathComponent(folder.Name))
 	}
 }
 
@@ -280,7 +280,7 @@ func sanitizePathComponent(name string) string {
 
 	// Characters that are invalid in Windows: < > : " / \ | ? *
 	// Also handle control characters and other problematic characters
-	invalidChars := []string{"<", ">", ":", "\"", "/", "\\", "|", "?", "*"}
+	invalidChars := []string{"<", ">", ":", "\"", "/", "\\", "|", "?", "*", ".."}
 
 	sanitized := name
 	for _, char := range invalidChars {
@@ -305,11 +305,6 @@ func sanitizePathComponent(name string) string {
 	// If the name is now empty after trimming, use a default
 	if sanitized == "" {
 		sanitized = "unnamed"
-	}
-
-	// Check for special directory names (. and ..) - reserved on ALL platforms
-	if sanitized == "." || sanitized == ".." {
-		sanitized = "_" + sanitized
 	}
 
 	// Check for Windows reserved names (CON, PRN, AUX, NUL, COM1-9, LPT1-9)
