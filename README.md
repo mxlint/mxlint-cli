@@ -1,5 +1,10 @@
 # MxLint CLI
 
+[![CI](https://github.com/mxlint/mxlint-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/mxlint/mxlint-cli/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/mxlint/mxlint-cli)](https://github.com/mxlint/mxlint-cli/releases/latest)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mxlint/mxlint-cli)](https://goreportcard.com/report/github.com/mxlint/mxlint-cli)
+[![License](https://img.shields.io/github/license/mxlint/mxlint-cli)](LICENSE)
+
 A set of Command line interface tools for Mendix developers, CICD engineers and platform engineers.
 
 > This project is in early development stage. Please use with caution. We are looking for contributors to help us improve the tools. Please create a PR with your changes. We believe in open ecosystem and open source. We are looking forward to your contributions. These can be documentation improvements, bug fixes, new features, etc.

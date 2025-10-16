@@ -1,7 +1,9 @@
 package mpr
 
 import (
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
@@ -11,6 +13,21 @@ import (
 	"gopkg.in/yaml.v3"
 
 	_ "github.com/glebarez/go-sqlite"
+)
+
+const (
+	// Windows is most restrictive at 260 chars
+	MaxPathLength = 260
+
+	// Reserve space for base directory and separators
+	// This leaves room for output directory path
+	SafePathBuffer = 60
+
+	// Maximum safe path length for generated content
+	MaxSafePath = MaxPathLength - SafePathBuffer // 200 chars
+
+	// Per-component limit (255 is filesystem limit, but we use lower for safety)
+	MaxComponentLength = 100
 )
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool) error {
@@ -208,7 +225,7 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 			folders = append(folders, myFolder)
 		} else if unit.ContainmentName == "" {
 			myFolder := MxFolder{
-				Name:       ".",
+				Name:       "",
 				ID:         unit.UnitID,
 				ParentID:   unit.ContainerID,
 				Attributes: unit.Contents,
@@ -239,9 +256,9 @@ func getMxDocumentPathRecursive(folder MxFolder, depth int) string {
 		return ""
 	}
 	if folder.Parent == nil {
-		return folder.Name
+		return sanitizePathComponent(folder.Name)
 	} else {
-		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), folder.Name)
+		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), sanitizePathComponent(folder.Name))
 	}
 }
 
@@ -252,6 +269,158 @@ func getMxDocumentPath(containerID string, folders []MxFolder) string {
 		}
 	}
 	return ""
+}
+
+// sanitizePathComponent sanitizes a single path component (folder or file name) by replacing
+// characters that are invalid in file systems with underscores
+func sanitizePathComponent(name string) string {
+	if name == "" {
+		return name
+	}
+
+	// Characters that are invalid in Windows: < > : " / \ | ? *
+	// Also handle control characters and other problematic characters
+	invalidChars := []string{"<", ">", ":", "\"", "/", "\\", "|", "?", "*", ".."}
+
+	sanitized := name
+	for _, char := range invalidChars {
+		sanitized = strings.ReplaceAll(sanitized, char, "_")
+	}
+
+	// Replace control characters (ASCII 0-31) and DEL (127)
+	// Also replace newlines, carriage returns, tabs, and null bytes
+	result := strings.Builder{}
+	for _, r := range sanitized {
+		if r < 32 || r == 127 {
+			result.WriteRune('_')
+		} else {
+			result.WriteRune(r)
+		}
+	}
+	sanitized = result.String()
+
+	// Trim leading/trailing spaces and dots (problematic on Windows)
+	sanitized = strings.Trim(sanitized, " .")
+
+	// If the name is now empty after trimming, use a default
+	if sanitized == "" {
+		sanitized = "unnamed"
+	}
+
+	// Check for Windows reserved names (CON, PRN, AUX, NUL, COM1-9, LPT1-9)
+	// These are case-insensitive on Windows
+	upper := strings.ToUpper(sanitized)
+	reservedNames := []string{"CON", "PRN", "AUX", "NUL"}
+	for _, reserved := range reservedNames {
+		if upper == reserved {
+			sanitized = "_" + sanitized
+			break
+		}
+	}
+	// Check COM1-COM9 and LPT1-LPT9
+	if len(upper) == 4 {
+		prefix := upper[:3]
+		if (prefix == "COM" || prefix == "LPT") && upper[3] >= '1' && upper[3] <= '9' {
+			sanitized = "_" + sanitized
+		}
+	}
+
+	// Enforce maximum component length
+	if len(sanitized) > MaxComponentLength {
+		sanitized = truncatePathComponent(sanitized, MaxComponentLength)
+	}
+
+	return sanitized
+}
+
+// sanitizePath sanitizes a full path by sanitizing each component
+func sanitizePath(path string) string {
+	// Split the path into components
+	components := strings.Split(path, string(filepath.Separator))
+
+	// Sanitize each component
+	for i, component := range components {
+		components[i] = sanitizePathComponent(component)
+	}
+
+	// Rejoin the path
+	return filepath.Join(components...)
+}
+
+// truncatePathComponent truncates a path component to maxLen while maintaining uniqueness
+// If truncation is needed, it appends a hash to ensure uniqueness
+func truncatePathComponent(name string, maxLen int) string {
+	if len(name) <= maxLen {
+		return name
+	}
+
+	// Create a short hash of the full name for uniqueness
+	hash := sha256.Sum256([]byte(name))
+	hashStr := hex.EncodeToString(hash[:])[:8] // Use first 8 chars of hash
+
+	// Reserve space for hash and separator
+	maxTextLen := maxLen - len(hashStr) - 1 // -1 for underscore
+
+	if maxTextLen < 1 {
+		// If maxLen is too small, just use the hash
+		return hashStr[:maxLen]
+	}
+
+	// Truncate and append hash
+	return name[:maxTextLen] + "_" + hashStr
+}
+
+// max returns the maximum of two integers
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// validatePathLength checks if the full path would exceed limits and adjusts if needed
+func validatePathLength(basePath string, relativePath string, filename string) (string, string, error) {
+	fullPath := filepath.Join(basePath, relativePath, filename)
+
+	if len(fullPath) <= MaxSafePath {
+		return relativePath, filename, nil
+	}
+
+	// Path is too long, need to adjust
+	log.Warnf("Path exceeds safe length (%d chars): %s", len(fullPath), fullPath)
+
+	// Strategy: Truncate path components starting from the deepest
+	components := strings.Split(relativePath, string(filepath.Separator))
+
+	// Calculate how much we need to save
+	excess := len(fullPath) - MaxSafePath
+
+	// Try to shorten components from the end (deepest folders)
+	for i := len(components) - 1; i >= 0 && excess > 0; i-- {
+		oldLen := len(components[i])
+		targetLen := max(10, oldLen-excess) // Keep at least 10 chars if possible
+
+		if oldLen > targetLen {
+			components[i] = truncatePathComponent(components[i], targetLen)
+			excess -= (oldLen - len(components[i]))
+		}
+	}
+
+	// If still too long, truncate the filename
+	if excess > 0 {
+		maxFilenameLen := len(filename) - excess - 10 // Reserve 10 chars minimum
+		if maxFilenameLen < 10 {
+			maxFilenameLen = 10
+		}
+		filename = truncatePathComponent(filename, maxFilenameLen)
+	}
+
+	newRelativePath := filepath.Join(components...)
+	newFullPath := filepath.Join(basePath, newRelativePath, filename)
+
+	log.Warnf("Adjusted path from %d to %d chars", len(fullPath), len(newFullPath))
+
+	return newRelativePath, filename, nil
 }
 
 func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocument, error) {
@@ -302,19 +471,41 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 
 	for _, document := range documents {
 		// write document
-		directory := filepath.Join(outputDirectory, document.Path)
+		// Sanitize the document path to handle invalid characters
+		sanitizedPath := sanitizePath(document.Path)
+		if sanitizedPath != document.Path {
+			log.Warnf("Sanitized path: '%s' -> '%s'", document.Path, sanitizedPath)
+		}
+
+		// Sanitize the document name to handle invalid characters
+		sanitizedName := sanitizePathComponent(document.Name)
+		sanitizedType := sanitizePathComponent(document.Type)
+		if sanitizedName != document.Name || sanitizedType != document.Type {
+			log.Debugf("Sanitized name: '%s' -> '%s', type: '%s' -> '%s'", document.Name, sanitizedName, document.Type, sanitizedType)
+		}
+
+		fname := fmt.Sprintf("%s.%s.yaml", sanitizedName, sanitizedType)
+		if document.Name == "" {
+			fname = fmt.Sprintf("%s.yaml", sanitizedType)
+		}
+
+		// Validate and adjust path length to prevent exceeding OS limits
+		adjustedPath, adjustedFilename, err := validatePathLength(outputDirectory, sanitizedPath, fname)
+		if err != nil {
+			return fmt.Errorf("error adjusting path length: %v", err)
+		}
+
+		directory := filepath.Join(outputDirectory, adjustedPath)
+
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
 				return fmt.Errorf("error creating directory: %v", err)
 			}
 		}
-		fname := fmt.Sprintf("%s.%s.yaml", document.Name, document.Type)
-		if document.Name == "" {
-			fname = fmt.Sprintf("%s.yaml", document.Type)
-		}
+
 		attributes := cleanData(document.Attributes, raw)
-		err = writeFile(filepath.Join(directory, fname), attributes)
+		err = writeFile(filepath.Join(directory, adjustedFilename), attributes)
 		if err != nil {
 			log.Errorf("Error writing file: %v", err)
 			return err
@@ -364,7 +555,7 @@ func removeAppstoreModules(tmpDir string, modules []MxModule) error {
 		// Check if module is an appstore module by looking at its attributes
 		if isAppstoreModule(module) {
 			moduleDir := filepath.Join(tmpDir, module.Name)
-			log.Infof("Discarding appstore module: %s", moduleDir)
+			log.Warnf("Ignoring appstore module: %s", moduleDir)
 			if err := os.RemoveAll(moduleDir); err != nil {
 				return fmt.Errorf("error removing appstore module %s: %v", module.Name, err)
 			}

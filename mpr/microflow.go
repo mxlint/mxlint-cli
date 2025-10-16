@@ -5,9 +5,48 @@ func transformMicroflow(mf MxDocument) MxDocument {
 	log.Infof("Transforming microflow %s", mf.Name)
 
 	cleanedData := bsonToMap(mf.Attributes)
-	objsCollection := cleanedData["ObjectCollection"].(map[string]interface{})
-	objs := convertToMxMicroflowObjects(objsCollection["Objects"].([]interface{}))
-	flows := convertToMxMicroflowEdges(cleanedData["Flows"].([]interface{}))
+
+	// Check if ObjectCollection exists
+	objsCollectionRaw, ok := cleanedData["ObjectCollection"]
+	if !ok || objsCollectionRaw == nil {
+		log.Warnf("ObjectCollection not found for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	objsCollection, ok := objsCollectionRaw.(map[string]interface{})
+	if !ok {
+		log.Warnf("ObjectCollection is not a map for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	objectsRaw, ok := objsCollection["Objects"]
+	if !ok || objectsRaw == nil {
+		log.Warnf("Objects not found in ObjectCollection for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	objects, ok := objectsRaw.([]interface{})
+	if !ok {
+		log.Warnf("Objects is not a slice for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	objs := convertToMxMicroflowObjects(objects)
+
+	// Check if Flows exists
+	flowsRaw, ok := cleanedData["Flows"]
+	if !ok || flowsRaw == nil {
+		log.Warnf("Flows not found for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	flowsSlice, ok := flowsRaw.([]interface{})
+	if !ok {
+		log.Warnf("Flows is not a slice for microflow %s, skipping transformation", mf.Name)
+		return mf
+	}
+
+	flows := convertToMxMicroflowEdges(flowsSlice)
 
 	startEvent := getMxMicroflowObjectByType(objs, "Microflows$StartEvent")
 
