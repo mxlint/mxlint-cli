@@ -254,6 +254,82 @@ func getMxDocumentPath(containerID string, folders []MxFolder) string {
 	return ""
 }
 
+// sanitizePathComponent sanitizes a single path component (folder or file name) by replacing
+// characters that are invalid in file systems with underscores
+func sanitizePathComponent(name string) string {
+	if name == "" {
+		return name
+	}
+
+	// Characters that are invalid in Windows: < > : " / \ | ? *
+	// Also handle control characters and other problematic characters
+	invalidChars := []string{"<", ">", ":", "\"", "/", "\\", "|", "?", "*"}
+
+	sanitized := name
+	for _, char := range invalidChars {
+		sanitized = strings.ReplaceAll(sanitized, char, "_")
+	}
+
+	// Replace control characters (ASCII 0-31) and DEL (127)
+	// Also replace newlines, carriage returns, tabs, and null bytes
+	result := strings.Builder{}
+	for _, r := range sanitized {
+		if r < 32 || r == 127 {
+			result.WriteRune('_')
+		} else {
+			result.WriteRune(r)
+		}
+	}
+	sanitized = result.String()
+
+	// Trim leading/trailing spaces and dots (problematic on Windows)
+	sanitized = strings.Trim(sanitized, " .")
+
+	// If the name is now empty after trimming, use a default
+	if sanitized == "" {
+		sanitized = "unnamed"
+	}
+
+	// Check for special directory names (. and ..) - reserved on ALL platforms
+	if sanitized == "." || sanitized == ".." {
+		sanitized = "_" + sanitized
+	}
+
+	// Check for Windows reserved names (CON, PRN, AUX, NUL, COM1-9, LPT1-9)
+	// These are case-insensitive on Windows
+	upper := strings.ToUpper(sanitized)
+	reservedNames := []string{"CON", "PRN", "AUX", "NUL"}
+	for _, reserved := range reservedNames {
+		if upper == reserved {
+			sanitized = "_" + sanitized
+			break
+		}
+	}
+	// Check COM1-COM9 and LPT1-LPT9
+	if len(upper) == 4 {
+		prefix := upper[:3]
+		if (prefix == "COM" || prefix == "LPT") && upper[3] >= '1' && upper[3] <= '9' {
+			sanitized = "_" + sanitized
+		}
+	}
+
+	return sanitized
+}
+
+// sanitizePath sanitizes a full path by sanitizing each component
+func sanitizePath(path string) string {
+	// Split the path into components
+	components := strings.Split(path, string(filepath.Separator))
+
+	// Sanitize each component
+	for i, component := range components {
+		components[i] = sanitizePathComponent(component)
+	}
+
+	// Rejoin the path
+	return filepath.Join(components...)
+}
+
 func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocument, error) {
 	var documents []MxDocument
 	documentTypes := []string{"ProjectDocuments", "DomainModel", "ModuleSettings", "ModuleSecurity", "Documents"}
@@ -302,16 +378,27 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 
 	for _, document := range documents {
 		// write document
-		directory := filepath.Join(outputDirectory, document.Path)
+		// Sanitize the document path to handle invalid characters
+		sanitizedPath := sanitizePath(document.Path)
+		if sanitizedPath != document.Path {
+			log.Debugf("Sanitized path: '%s' -> '%s'", document.Path, sanitizedPath)
+		}
+		directory := filepath.Join(outputDirectory, sanitizedPath)
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
 				return fmt.Errorf("error creating directory: %v", err)
 			}
 		}
-		fname := fmt.Sprintf("%s.%s.yaml", document.Name, document.Type)
+		// Sanitize the document name to handle invalid characters
+		sanitizedName := sanitizePathComponent(document.Name)
+		sanitizedType := sanitizePathComponent(document.Type)
+		if sanitizedName != document.Name || sanitizedType != document.Type {
+			log.Debugf("Sanitized name: '%s' -> '%s', type: '%s' -> '%s'", document.Name, sanitizedName, document.Type, sanitizedType)
+		}
+		fname := fmt.Sprintf("%s.%s.yaml", sanitizedName, sanitizedType)
 		if document.Name == "" {
-			fname = fmt.Sprintf("%s.yaml", document.Type)
+			fname = fmt.Sprintf("%s.yaml", sanitizedType)
 		}
 		attributes := cleanData(document.Attributes, raw)
 		err = writeFile(filepath.Join(directory, fname), attributes)
