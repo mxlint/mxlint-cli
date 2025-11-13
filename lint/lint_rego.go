@@ -122,7 +122,7 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 	for _, line := range lines {
 		tokens := strings.Split(line, "package ")
 		if len(tokens) > 1 && packageName == "" {
-			packageName = tokens[1]
+			packageName = strings.TrimSpace(tokens[1])
 		}
 
 		// look for OPA metadata marker
@@ -138,7 +138,7 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 			} else if strings.HasPrefix(line, "#") && strings.TrimSpace(line) == "#" {
 				metadataLines = append(metadataLines, "")
 			} else {
-				break
+				inMetadata = false
 			}
 		}
 	}
