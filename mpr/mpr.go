@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -30,7 +31,7 @@ const (
 	MaxComponentLength = 100
 )
 
-func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool, filter string) error {
 
 	// create tmp directory in user tmp directory
 	tmpDir := filepath.Join(os.TempDir(), "mxlint")
@@ -63,8 +64,10 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
-	if err := exportUnits(inputDirectory, tmpDir, raw, mode); err != nil {
-		return fmt.Errorf("error exporting units: %v", err)
+	if filter != "^Metadata$" {
+		if err := exportUnits(inputDirectory, tmpDir, raw, mode, filter); err != nil {
+			return fmt.Errorf("error exporting units: %v", err)
+		}
 	}
 
 	// remove output directory if it exists
@@ -452,7 +455,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string) error {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) error {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
@@ -469,7 +472,25 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("error getting documents: %v", err)
 	}
 
+	// Compile the filter regex if provided
+	var filterRegex *regexp.Regexp
+	if filter != "" {
+		filterRegex, err = regexp.Compile(filter)
+		if err != nil {
+			return fmt.Errorf("invalid filter regex pattern: %v", err)
+		}
+		log.Infof("Applying filter: %s", filter)
+	}
+
+	exportedCount := 0
 	for _, document := range documents {
+		// Apply filter if provided
+		if filterRegex != nil {
+			if !filterRegex.MatchString(document.Name) {
+				log.Debugf("Skipping document '%s' (does not match filter)", document.Name)
+				continue
+			}
+		}
 		// write document
 		// Sanitize the document path to handle invalid characters
 		sanitizedPath := sanitizePath(document.Path)
@@ -510,6 +531,11 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 			log.Errorf("Error writing file: %v", err)
 			return err
 		}
+		exportedCount++
+	}
+
+	if filterRegex != nil {
+		log.Infof("Exported %d documents matching filter (out of %d total)", exportedCount, len(documents))
 	}
 
 	return nil

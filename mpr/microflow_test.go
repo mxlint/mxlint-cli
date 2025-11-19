@@ -13,7 +13,7 @@ import (
 
 func TestMPRMicroflow(t *testing.T) {
 	t.Run("microflow-simple", func(t *testing.T) {
-		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 
@@ -42,7 +42,7 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 	})
 	t.Run("microflow-with-split", func(t *testing.T) {
-		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 
@@ -71,7 +71,7 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 	})
 	t.Run("microflow-split-then-merge", func(t *testing.T) {
-		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 

@@ -42,7 +42,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
@@ -51,7 +51,7 @@ func TestMPRUnits(t *testing.T) {
 func TestIDAttributesExclusion(t *testing.T) {
 	t.Run("verify-id-attributes-excluded", func(t *testing.T) {
 		// Export units with ID attributes excluded
-		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file: %v", err)
 			return
 		}
@@ -95,6 +95,89 @@ func TestIDAttributesExclusion(t *testing.T) {
 			if strings.Contains(contentStr, fmt.Sprintf("\"%s\":", attr)) {
 				t.Errorf("Ignored attribute '%s' was not excluded from unit document: %s", attr, filePath)
 			}
+		}
+	})
+}
+
+func TestFilterMetadataOnly(t *testing.T) {
+	t.Run("filter-metadata-exact-match", func(t *testing.T) {
+		// Clean up test directory
+		testDir := "./../tmp-filter-metadata"
+		os.RemoveAll(testDir)
+		defer os.RemoveAll(testDir)
+
+		// Export with filter ^Metadata$
+		// According to the code, when filter is "^Metadata$", only metadata is exported, no units
+		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, "basic", false, "^Metadata$"); err != nil {
+			t.Errorf("Failed to export with Metadata filter: %v", err)
+			return
+		}
+
+		// Check that Metadata.yaml exists
+		metadataPath := filepath.Join(testDir, "Metadata.yaml")
+		if _, err := os.Stat(metadataPath); os.IsNotExist(err) {
+			t.Errorf("Metadata.yaml was not created")
+			return
+		}
+
+		// Check that no other files/directories were created (since filter is ^Metadata$ and units are skipped)
+		entries, err := os.ReadDir(testDir)
+		if err != nil {
+			t.Errorf("Failed to read test directory: %v", err)
+			return
+		}
+
+		// Should only have Metadata.yaml
+		if len(entries) != 1 {
+			t.Errorf("Expected only Metadata.yaml, but found %d entries", len(entries))
+			return
+		}
+
+		if entries[0].Name() != "Metadata.yaml" {
+			t.Errorf("Expected Metadata.yaml, but found %s", entries[0].Name())
+		}
+	})
+}
+
+func TestFilterConstantPattern(t *testing.T) {
+	t.Run("filter-constant-pattern", func(t *testing.T) {
+		// Clean up test directory
+		testDir := "./../tmp-filter-constant"
+		os.RemoveAll(testDir)
+		defer os.RemoveAll(testDir)
+
+		// Export with filter ^Constant.*
+		// This pattern won't match any documents in the test data, so we should get only metadata
+		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, "basic", false, "^Constant.*"); err != nil {
+			t.Errorf("Failed to export with Constant filter: %v", err)
+			return
+		}
+
+		// Check that Metadata.yaml exists (always exported)
+		metadataPath := filepath.Join(testDir, "Metadata.yaml")
+		if _, err := os.Stat(metadataPath); os.IsNotExist(err) {
+			t.Errorf("Metadata.yaml was not created")
+			return
+		}
+
+		// Check that no module directories were created (since no documents match the filter)
+		entries, err := os.ReadDir(testDir)
+		if err != nil {
+			t.Errorf("Failed to read test directory: %v", err)
+			return
+		}
+
+		// Should only have Metadata.yaml since no documents match ^Constant.*
+		if len(entries) != 1 {
+			t.Errorf("Expected only Metadata.yaml when no documents match filter, but found %d entries", len(entries))
+			for _, entry := range entries {
+				t.Logf("Found entry: %s", entry.Name())
+			}
+			return
+		}
+
+		if entries[0].Name() != "Metadata.yaml" {
+			t.Errorf("Expected Metadata.yaml, but found %s", entries[0].Name())
 		}
 	})
 }
