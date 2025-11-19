@@ -112,44 +112,68 @@ func parseRuleMetadata_Rego(rulePath string) (*Rule, error) {
 	var ruleNumber string = ""
 	var remediation string = ""
 	var ruleName string = ""
-	var key string = ""
-	var value string = ""
 
 	lines := strings.Split(string(ruleContent), "\n")
+
+	// extract package name and collect metadata block
+	var metadataLines []string
+	inMetadata := false
 
 	for _, line := range lines {
 		tokens := strings.Split(line, "package ")
 		if len(tokens) > 1 && packageName == "" {
-			packageName = tokens[1]
+			packageName = strings.TrimSpace(tokens[1])
 		}
-		// only read the comments as that is where the metadata is stored
-		if !strings.HasPrefix(line, "# ") {
+
+		// look for OPA metadata marker
+		if strings.TrimSpace(line) == "# METADATA" {
+			inMetadata = true
 			continue
 		}
-		// strip the comment prefix
-		line = strings.TrimPrefix(line, "# ")
-		tokens = strings.SplitN(line, ":", 2)
-		if len(tokens) == 2 {
-			key = strings.Trim(strings.TrimSpace(tokens[0]), "\"")
-			value = strings.Trim(strings.TrimSpace(tokens[1]), "\"")
+
+		// collect metadata comment lines
+		if inMetadata {
+			if strings.HasPrefix(line, "# ") {
+				metadataLines = append(metadataLines, strings.TrimPrefix(line, "# "))
+			} else if strings.HasPrefix(line, "#") && strings.TrimSpace(line) == "#" {
+				metadataLines = append(metadataLines, "")
+			} else {
+				inMetadata = false
+			}
 		}
-		switch key {
-		case "input":
-			pattern = value
-		case "title":
-			title = value
-		case "description":
-			description = value
-		case "category":
-			category = value
-		case "rulename":
-			ruleName = value
-		case "severity":
-			severity = value
-		case "rulenumber":
-			ruleNumber = value
-		case "remediation":
-			remediation = value
+	}
+
+	// parse metadata as YAML
+	if len(metadataLines) > 0 {
+		yamlContent := strings.Join(metadataLines, "\n")
+		log.Debugf("Parsing metadata YAML:\n%s", yamlContent)
+
+		var metadata struct {
+			Title       string `yaml:"title"`
+			Description string `yaml:"description"`
+			Custom      struct {
+				Category    string `yaml:"category"`
+				RuleName    string `yaml:"rulename"`
+				Severity    string `yaml:"severity"`
+				RuleNumber  string `yaml:"rulenumber"`
+				Remediation string `yaml:"remediation"`
+				Input       string `yaml:"input"`
+			} `yaml:"custom"`
+		}
+
+		err = yaml.Unmarshal([]byte(yamlContent), &metadata)
+		if err != nil {
+			log.Warnf("Error parsing metadata YAML: %s", err)
+			// continue with empty metadata on parse failure
+		} else {
+			title = metadata.Title
+			description = metadata.Description
+			category = metadata.Custom.Category
+			ruleName = metadata.Custom.RuleName
+			severity = metadata.Custom.Severity
+			ruleNumber = metadata.Custom.RuleNumber
+			remediation = metadata.Custom.Remediation
+			pattern = metadata.Custom.Input
 		}
 	}
 
