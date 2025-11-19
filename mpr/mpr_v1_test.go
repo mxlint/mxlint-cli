@@ -42,7 +42,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
@@ -51,7 +51,7 @@ func TestMPRUnits(t *testing.T) {
 func TestIDAttributesExclusion(t *testing.T) {
 	t.Run("verify-id-attributes-excluded", func(t *testing.T) {
 		// Export units with ID attributes excluded
-		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic"); err != nil {
+		if err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
 			t.Errorf("Failed to export units from MPR file: %v", err)
 			return
 		}

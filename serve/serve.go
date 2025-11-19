@@ -189,7 +189,7 @@ func runServe(cmd *cobra.Command, args []string) {
 		}()
 
 		log.Infof("Running export-model and lint")
-		err := mpr.ExportModel(inputDirectory, outputDirectory, false, mode, false)
+		err := mpr.ExportModel(inputDirectory, outputDirectory, false, mode, false, "")
 		if err != nil {
 			log.Warningf("Export failed: %s", err)
 			resultMutex.Lock()
