@@ -276,14 +276,36 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 
 	for _, inputFile := range inputFiles {
 
-		if rule.Language == LanguageRego {
-			testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
-		} else if rule.Language == LanguageJavascript {
-			testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
-		}
+		// Try to load from cache first
+		cacheKey, err := createCacheKey(rule.Path, inputFile)
 		if err != nil {
-			return nil, err
+			log.Debugf("Error creating cache key: %v", err)
+		} else {
+			cachedTestcase, found := loadCachedTestcase(*cacheKey)
+			if found {
+				testcase = cachedTestcase
+				log.Debugf("Using cached result for %s", inputFile)
+			} else {
+				// Cache miss - evaluate and save to cache
+				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey)
+				if err != nil {
+					return nil, err
+				}
+			}
 		}
+
+		// Fallback if cache key creation failed
+		if cacheKey == nil {
+			if rule.Language == LanguageRego {
+				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+			} else if rule.Language == LanguageJavascript {
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+			}
+			if err != nil {
+				return nil, err
+			}
+		}
+
 		if testcase.Failure != nil {
 			failuresCount++
 		}
@@ -307,6 +329,30 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 	}
 
 	return testsuite, nil
+}
+
+// evalTestcaseWithCaching evaluates a testcase and saves the result to cache
+func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey) (*Testcase, error) {
+	var testcase *Testcase
+	var err error
+
+	if rule.Language == LanguageRego {
+		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+	} else if rule.Language == LanguageJavascript {
+		testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Save to cache
+	if cacheErr := saveCachedTestcase(*cacheKey, testcase); cacheErr != nil {
+		log.Debugf("Error saving to cache: %v", cacheErr)
+		// Don't fail the evaluation if cache save fails
+	}
+
+	return testcase, nil
 }
 
 func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
