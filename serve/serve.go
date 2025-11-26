@@ -37,7 +37,7 @@ func NewServeCommand() *cobra.Command {
 	cmd.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
 	cmd.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
 	cmd.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
-	cmd.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
+	cmd.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
 	cmd.Flags().IntP("port", "p", 8082, "Port to run the server on")
 	cmd.Flags().Bool("verbose", false, "Turn on for debug logs")
 	cmd.Flags().IntP("debounce", "d", 500, "Debounce time in milliseconds for file change events")
@@ -73,9 +73,12 @@ func runServe(cmd *cobra.Command, args []string) {
 
 	// Check if rules directory exists, if not download it
 	if _, err := os.Stat(rulesDirectory); os.IsNotExist(err) {
+		log.Infof("Rules directory %s not found. Downloading latest mxlint-rules from GitHub...", rulesDirectory)
 		if err := DownloadRules(rulesDirectory, log); err != nil {
 			log.Fatalf("Failed to download rules: %v", err)
 		}
+	} else {
+		log.Infof("Rules directory %s found", rulesDirectory)
 	}
 
 	expandedPath, err := filepath.Abs(inputDirectory)
@@ -244,6 +247,14 @@ func runServe(cmd *cobra.Command, args []string) {
 					log.Debugf("Change detected: %s", event)
 				}
 
+				// skip if event is CHMOD
+				if event.Has(fsnotify.Chmod) {
+					if verbose {
+						log.Debugf("Skipping CHMOD event: %s", event)
+					}
+					continue
+				}
+
 				timerMutex.Lock()
 				// Cancel existing timer if it's running
 				if timer != nil {
@@ -313,32 +324,34 @@ func addDirsRecursive(watcher *fsnotify.Watcher, root string, excludeDir string,
 			return err
 		}
 
-		// Skip the exclude directory
+		// Only process directories
+		if !info.IsDir() {
+			return nil
+		}
+
+		// Get absolute path for comparison
 		absPath, err := filepath.Abs(path)
 		if err != nil {
 			return err
 		}
 
+		// Skip hidden directories (but not "." itself which represents current directory)
+		baseName := filepath.Base(path)
+		if strings.HasPrefix(baseName, ".") && baseName != "." {
+			log.Debugf("Skipping hidden directory: %s", path)
+			return filepath.SkipDir
+		}
+
+		// Skip the exclude directory and its subdirectories
 		if absPath == excludePath || strings.HasPrefix(absPath, excludePath+string(os.PathSeparator)) {
-			if info.IsDir() {
-				return filepath.SkipDir
-			}
-			return nil
+			log.Debugf("Skipping exclude directory: %s", path)
+			return filepath.SkipDir
 		}
 
-		// Skip hidden files and directories
-		if strings.HasPrefix(filepath.Base(path), ".") {
-			if info.IsDir() {
-				return filepath.SkipDir
-			}
-			return nil
-		}
-
-		// Only add directories to the watcher
-		if info.IsDir() {
-			if err := watcher.Add(path); err != nil {
-				log.Warnf("Error watching path %s: %v", path, err)
-			}
+		// Add directory to the watcher
+		log.Debugf("Adding directory to watch: %s", path)
+		if err := watcher.Add(path); err != nil {
+			log.Warnf("Error watching path %s: %v", path, err)
 		}
 
 		return nil
