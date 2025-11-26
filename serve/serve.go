@@ -73,9 +73,12 @@ func runServe(cmd *cobra.Command, args []string) {
 
 	// Check if rules directory exists, if not download it
 	if _, err := os.Stat(rulesDirectory); os.IsNotExist(err) {
+		log.Infof("Rules directory %s not found. Downloading latest mxlint-rules from GitHub...", rulesDirectory)
 		if err := DownloadRules(rulesDirectory, log); err != nil {
 			log.Fatalf("Failed to download rules: %v", err)
 		}
+	} else {
+		log.Infof("Rules directory %s found", rulesDirectory)
 	}
 
 	expandedPath, err := filepath.Abs(inputDirectory)
