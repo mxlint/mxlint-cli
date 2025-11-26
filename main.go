@@ -115,6 +115,69 @@ func main() {
 	cmdRules.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdRules)
 
+	var cmdCacheClear = &cobra.Command{
+		Use:   "cache-clear",
+		Short: "Clear the lint results cache",
+		Long:  "Removes all cached lint results. The cache is used to speed up repeated linting operations when rules and model files haven't changed.",
+		Run: func(cmd *cobra.Command, args []string) {
+			verbose, _ := cmd.Flags().GetBool("verbose")
+
+			log := logrus.New()
+			if verbose {
+				log.SetLevel(logrus.DebugLevel)
+			} else {
+				log.SetLevel(logrus.InfoLevel)
+			}
+
+			lint.SetLogger(log)
+			err := lint.ClearCache()
+			if err != nil {
+				log.Errorf("Failed to clear cache: %s", err)
+				os.Exit(1)
+			}
+		},
+	}
+
+	cmdCacheClear.Flags().Bool("verbose", false, "Turn on for debug logs")
+	rootCmd.AddCommand(cmdCacheClear)
+
+	var cmdCacheStats = &cobra.Command{
+		Use:   "cache-stats",
+		Short: "Show cache statistics",
+		Long:  "Displays information about the cached lint results, including number of entries and total size.",
+		Run: func(cmd *cobra.Command, args []string) {
+			verbose, _ := cmd.Flags().GetBool("verbose")
+
+			log := logrus.New()
+			if verbose {
+				log.SetLevel(logrus.DebugLevel)
+			} else {
+				log.SetLevel(logrus.InfoLevel)
+			}
+
+			lint.SetLogger(log)
+			count, size, err := lint.GetCacheStats()
+			if err != nil {
+				log.Errorf("Failed to get cache stats: %s", err)
+				os.Exit(1)
+			}
+
+			sizeInKB := float64(size) / 1024.0
+			sizeInMB := sizeInKB / 1024.0
+
+			log.Infof("Cache Statistics:")
+			log.Infof("  Entries: %d", count)
+			if sizeInMB >= 1.0 {
+				log.Infof("  Total Size: %.2f MB", sizeInMB)
+			} else {
+				log.Infof("  Total Size: %.2f KB", sizeInKB)
+			}
+		},
+	}
+
+	cmdCacheStats.Flags().Bool("verbose", false, "Turn on for debug logs")
+	rootCmd.AddCommand(cmdCacheStats)
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

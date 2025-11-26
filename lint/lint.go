@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 const NOQA = "# noqa"
@@ -30,20 +31,57 @@ func printTestsuite(ts Testsuite) {
 // EvalAllWithResults evaluates all rules and returns the results
 // This is similar to EvalAll but returns the results instead of just printing them
 func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) (interface{}, error) {
-	testsuites := make([]Testsuite, 0)
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return nil, err
 	}
+
+	// Create a slice to store results in order
+	testsuites := make([]Testsuite, len(rules))
+
+	// Use a WaitGroup to synchronize goroutines
+	var wg sync.WaitGroup
+
+	// Create a channel to collect errors
+	errChan := make(chan error, len(rules))
+
+	// Create a mutex to safely print testsuites
+	var printMutex sync.Mutex
+
+	// Launch goroutines to evaluate rules in parallel
+	for i, rule := range rules {
+		wg.Add(1)
+		go func(index int, r Rule) {
+			defer wg.Done()
+
+			testsuite, err := evalTestsuite(r, modelSourcePath)
+			if err != nil {
+				errChan <- err
+				return
+			}
+
+			// Print with mutex to avoid interleaved output
+			printMutex.Lock()
+			printTestsuite(*testsuite)
+			printMutex.Unlock()
+
+			testsuites[index] = *testsuite
+		}(i, rule)
+	}
+
+	// Wait for all goroutines to complete
+	wg.Wait()
+	close(errChan)
+
+	// Check if any errors occurred
+	if len(errChan) > 0 {
+		return nil, <-errChan
+	}
+
+	// Calculate total failures
 	failuresCount := 0
-	for _, rule := range rules {
-		testsuite, err := evalTestsuite(rule, modelSourcePath)
-		if err != nil {
-			return nil, err
-		}
-		printTestsuite(*testsuite)
-		failuresCount += testsuite.Failures
-		testsuites = append(testsuites, *testsuite)
+	for _, ts := range testsuites {
+		failuresCount += ts.Failures
 	}
 
 	if xunitReport != "" {
@@ -101,20 +139,57 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 }
 
 func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
-	testsuites := make([]Testsuite, 0)
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
 	}
+
+	// Create a slice to store results in order
+	testsuites := make([]Testsuite, len(rules))
+
+	// Use a WaitGroup to synchronize goroutines
+	var wg sync.WaitGroup
+
+	// Create a channel to collect errors
+	errChan := make(chan error, len(rules))
+
+	// Create a mutex to safely print testsuites
+	var printMutex sync.Mutex
+
+	// Launch goroutines to evaluate rules in parallel
+	for i, rule := range rules {
+		wg.Add(1)
+		go func(index int, r Rule) {
+			defer wg.Done()
+
+			testsuite, err := evalTestsuite(r, modelSourcePath)
+			if err != nil {
+				errChan <- err
+				return
+			}
+
+			// Print with mutex to avoid interleaved output
+			printMutex.Lock()
+			printTestsuite(*testsuite)
+			printMutex.Unlock()
+
+			testsuites[index] = *testsuite
+		}(i, rule)
+	}
+
+	// Wait for all goroutines to complete
+	wg.Wait()
+	close(errChan)
+
+	// Check if any errors occurred
+	if len(errChan) > 0 {
+		return <-errChan
+	}
+
+	// Calculate total failures
 	failuresCount := 0
-	for _, rule := range rules {
-		testsuite, err := evalTestsuite(rule, modelSourcePath)
-		if err != nil {
-			return err
-		}
-		printTestsuite(*testsuite)
-		failuresCount += testsuite.Failures
-		testsuites = append(testsuites, *testsuite)
+	for _, ts := range testsuites {
+		failuresCount += ts.Failures
 	}
 
 	if xunitReport != "" {
@@ -201,14 +276,36 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 
 	for _, inputFile := range inputFiles {
 
-		if rule.Language == LanguageRego {
-			testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
-		} else if rule.Language == LanguageJavascript {
-			testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
-		}
+		// Try to load from cache first
+		cacheKey, err := createCacheKey(rule.Path, inputFile)
 		if err != nil {
-			return nil, err
+			log.Debugf("Error creating cache key: %v", err)
+		} else {
+			cachedTestcase, found := loadCachedTestcase(*cacheKey)
+			if found {
+				testcase = cachedTestcase
+				log.Debugf("Using cached result for %s", inputFile)
+			} else {
+				// Cache miss - evaluate and save to cache
+				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey)
+				if err != nil {
+					return nil, err
+				}
+			}
 		}
+
+		// Fallback if cache key creation failed
+		if cacheKey == nil {
+			if rule.Language == LanguageRego {
+				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+			} else if rule.Language == LanguageJavascript {
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+			}
+			if err != nil {
+				return nil, err
+			}
+		}
+
 		if testcase.Failure != nil {
 			failuresCount++
 		}
@@ -232,6 +329,30 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 	}
 
 	return testsuite, nil
+}
+
+// evalTestcaseWithCaching evaluates a testcase and saves the result to cache
+func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey) (*Testcase, error) {
+	var testcase *Testcase
+	var err error
+
+	if rule.Language == LanguageRego {
+		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+	} else if rule.Language == LanguageJavascript {
+		testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Save to cache
+	if cacheErr := saveCachedTestcase(*cacheKey, testcase); cacheErr != nil {
+		log.Debugf("Error saving to cache: %v", cacheErr)
+		// Don't fail the evaluation if cache save fails
+	}
+
+	return testcase, nil
 }
 
 func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
