@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 const NOQA = "# noqa"
@@ -30,20 +31,57 @@ func printTestsuite(ts Testsuite) {
 // EvalAllWithResults evaluates all rules and returns the results
 // This is similar to EvalAll but returns the results instead of just printing them
 func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) (interface{}, error) {
-	testsuites := make([]Testsuite, 0)
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return nil, err
 	}
+
+	// Create a slice to store results in order
+	testsuites := make([]Testsuite, len(rules))
+
+	// Use a WaitGroup to synchronize goroutines
+	var wg sync.WaitGroup
+
+	// Create a channel to collect errors
+	errChan := make(chan error, len(rules))
+
+	// Create a mutex to safely print testsuites
+	var printMutex sync.Mutex
+
+	// Launch goroutines to evaluate rules in parallel
+	for i, rule := range rules {
+		wg.Add(1)
+		go func(index int, r Rule) {
+			defer wg.Done()
+
+			testsuite, err := evalTestsuite(r, modelSourcePath)
+			if err != nil {
+				errChan <- err
+				return
+			}
+
+			// Print with mutex to avoid interleaved output
+			printMutex.Lock()
+			printTestsuite(*testsuite)
+			printMutex.Unlock()
+
+			testsuites[index] = *testsuite
+		}(i, rule)
+	}
+
+	// Wait for all goroutines to complete
+	wg.Wait()
+	close(errChan)
+
+	// Check if any errors occurred
+	if len(errChan) > 0 {
+		return nil, <-errChan
+	}
+
+	// Calculate total failures
 	failuresCount := 0
-	for _, rule := range rules {
-		testsuite, err := evalTestsuite(rule, modelSourcePath)
-		if err != nil {
-			return nil, err
-		}
-		printTestsuite(*testsuite)
-		failuresCount += testsuite.Failures
-		testsuites = append(testsuites, *testsuite)
+	for _, ts := range testsuites {
+		failuresCount += ts.Failures
 	}
 
 	if xunitReport != "" {
@@ -101,20 +139,57 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 }
 
 func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string) error {
-	testsuites := make([]Testsuite, 0)
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
 	}
+
+	// Create a slice to store results in order
+	testsuites := make([]Testsuite, len(rules))
+
+	// Use a WaitGroup to synchronize goroutines
+	var wg sync.WaitGroup
+
+	// Create a channel to collect errors
+	errChan := make(chan error, len(rules))
+
+	// Create a mutex to safely print testsuites
+	var printMutex sync.Mutex
+
+	// Launch goroutines to evaluate rules in parallel
+	for i, rule := range rules {
+		wg.Add(1)
+		go func(index int, r Rule) {
+			defer wg.Done()
+
+			testsuite, err := evalTestsuite(r, modelSourcePath)
+			if err != nil {
+				errChan <- err
+				return
+			}
+
+			// Print with mutex to avoid interleaved output
+			printMutex.Lock()
+			printTestsuite(*testsuite)
+			printMutex.Unlock()
+
+			testsuites[index] = *testsuite
+		}(i, rule)
+	}
+
+	// Wait for all goroutines to complete
+	wg.Wait()
+	close(errChan)
+
+	// Check if any errors occurred
+	if len(errChan) > 0 {
+		return <-errChan
+	}
+
+	// Calculate total failures
 	failuresCount := 0
-	for _, rule := range rules {
-		testsuite, err := evalTestsuite(rule, modelSourcePath)
-		if err != nil {
-			return err
-		}
-		printTestsuite(*testsuite)
-		failuresCount += testsuite.Failures
-		testsuites = append(testsuites, *testsuite)
+	for _, ts := range testsuites {
+		failuresCount += ts.Failures
 	}
 
 	if xunitReport != "" {
