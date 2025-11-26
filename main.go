@@ -76,7 +76,7 @@ func main() {
 		},
 	}
 
-	cmdLint.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
+	cmdLint.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
 	cmdLint.Flags().StringP("modelsource", "m", "modelsource", "Path to directory with exported model")
 	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
 	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")
@@ -111,7 +111,7 @@ func main() {
 		},
 	}
 
-	cmdRules.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
+	cmdRules.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
 	cmdRules.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdRules)
 

@@ -37,7 +37,7 @@ func NewServeCommand() *cobra.Command {
 	cmd.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
 	cmd.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
 	cmd.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
-	cmd.Flags().StringP("rules", "r", "rules", "Path to directory with rules")
+	cmd.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
 	cmd.Flags().IntP("port", "p", 8082, "Port to run the server on")
 	cmd.Flags().Bool("verbose", false, "Turn on for debug logs")
 	cmd.Flags().IntP("debounce", "d", 500, "Debounce time in milliseconds for file change events")
