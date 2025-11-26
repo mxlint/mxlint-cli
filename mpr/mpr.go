@@ -64,8 +64,11 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
+	exportedCount := 0
 	if filter != "^Metadata$" {
-		if err := exportUnits(inputDirectory, tmpDir, raw, mode, filter); err != nil {
+		var err error
+		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, mode, filter)
+		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
 	}
@@ -95,6 +98,13 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	if !appstore {
 		// remove appstore modules
 		removeAppstoreModules(outputDirectory, modules)
+	}
+
+	// Generate app.yaml with file structure only if documents were exported
+	if exportedCount > 0 {
+		if err := generateAppYaml(outputDirectory); err != nil {
+			return fmt.Errorf("error generating app.yaml: %v", err)
+		}
 	}
 
 	log.Infof("Completed model export")
@@ -455,21 +465,21 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) error {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) (int, error) {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
 		log.Errorf("Error getting units: %v", err)
-		return fmt.Errorf("error getting units: %v", err)
+		return 0, fmt.Errorf("error getting units: %v", err)
 	}
 	folders, err := getMxFolders(units)
 	if err != nil {
-		return fmt.Errorf("error getting folders: %v", err)
+		return 0, fmt.Errorf("error getting folders: %v", err)
 	}
 	documents, err := getMxDocuments(units, folders, mode)
 	if err != nil {
-		return fmt.Errorf("error getting documents: %v", err)
+		return 0, fmt.Errorf("error getting documents: %v", err)
 	}
 
 	// Compile the filter regex if provided
@@ -477,7 +487,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 	if filter != "" {
 		filterRegex, err = regexp.Compile(filter)
 		if err != nil {
-			return fmt.Errorf("invalid filter regex pattern: %v", err)
+			return 0, fmt.Errorf("invalid filter regex pattern: %v", err)
 		}
 		log.Infof("Applying filter: %s", filter)
 	}
@@ -513,7 +523,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		// Validate and adjust path length to prevent exceeding OS limits
 		adjustedPath, adjustedFilename, err := validatePathLength(outputDirectory, sanitizedPath, fname)
 		if err != nil {
-			return fmt.Errorf("error adjusting path length: %v", err)
+			return 0, fmt.Errorf("error adjusting path length: %v", err)
 		}
 
 		directory := filepath.Join(outputDirectory, adjustedPath)
@@ -521,7 +531,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
-				return fmt.Errorf("error creating directory: %v", err)
+				return 0, fmt.Errorf("error creating directory: %v", err)
 			}
 		}
 
@@ -529,7 +539,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		err = writeFile(filepath.Join(directory, adjustedFilename), attributes)
 		if err != nil {
 			log.Errorf("Error writing file: %v", err)
-			return err
+			return 0, err
 		}
 		exportedCount++
 	}
@@ -538,7 +548,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		log.Infof("Exported %d documents matching filter (out of %d total)", exportedCount, len(documents))
 	}
 
-	return nil
+	return exportedCount, nil
 
 }
 
@@ -666,5 +676,95 @@ func copyFile(src, dst string, mode os.FileMode) error {
 		return fmt.Errorf("failed to copy file contents: %v", err)
 	}
 
+	return nil
+}
+
+// FileNode represents a file or directory in the file structure
+type FileNode struct {
+	Name    string     `yaml:"name"`
+	Type    string     `yaml:"type"` // "file" or "directory"
+	Path    string     `yaml:"path,omitempty"`
+	Content []FileNode `yaml:"content,omitempty"`
+}
+
+// AppStructure represents the entire file structure for app.yaml
+type AppStructure struct {
+	Content []FileNode `yaml:"content"`
+}
+
+// buildFileStructure recursively builds the file structure for a directory
+func buildFileStructure(basePath string, currentPath string) (*FileNode, error) {
+	fullPath := filepath.Join(basePath, currentPath)
+	info, err := os.Stat(fullPath)
+	if err != nil {
+		return nil, fmt.Errorf("error reading path %s: %v", fullPath, err)
+	}
+
+	relPath := currentPath
+	if relPath == "" {
+		relPath = "."
+	}
+
+	node := &FileNode{
+		Name: filepath.Base(fullPath),
+		Path: relPath,
+	}
+
+	if info.IsDir() {
+		node.Type = "directory"
+
+		entries, err := os.ReadDir(fullPath)
+		if err != nil {
+			return nil, fmt.Errorf("error reading directory %s: %v", fullPath, err)
+		}
+
+		for _, entry := range entries {
+			// Skip app.yaml to avoid self-reference
+			if entry.Name() == "app.yaml" {
+				continue
+			}
+			childRelPath := filepath.Join(currentPath, entry.Name())
+			childNode, err := buildFileStructure(basePath, childRelPath)
+			if err != nil {
+				log.Warnf("Error processing %s: %v", childRelPath, err)
+				continue
+			}
+			node.Content = append(node.Content, *childNode)
+		}
+	} else {
+		node.Type = "file"
+	}
+
+	return node, nil
+}
+
+// generateAppYaml generates an app.yaml file with the file structure of outputDirectory
+func generateAppYaml(outputDirectory string) error {
+	log.Infof("Generating app.yaml with file structure")
+
+	// Build the file structure
+	rootNode, err := buildFileStructure(outputDirectory, "")
+	if err != nil {
+		return fmt.Errorf("error building file structure: %v", err)
+	}
+
+	// Use the content of the root as the project structure
+	appStructure := AppStructure{
+		Content: rootNode.Content,
+	}
+
+	// Marshal to YAML
+	yamlData, err := yaml.Marshal(appStructure)
+	if err != nil {
+		return fmt.Errorf("error marshaling app structure to YAML: %v", err)
+	}
+
+	// Write to app.yaml
+	appYamlPath := filepath.Join(outputDirectory, "app.yaml")
+	if err := os.WriteFile(appYamlPath, yamlData, 0644); err != nil {
+		return fmt.Errorf("error writing app.yaml: %v", err)
+	}
+
+	log.Infof("Generated app.yaml at %s", appYamlPath)
 	return nil
 }
