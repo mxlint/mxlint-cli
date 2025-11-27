@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dop251/goja"
+	"github.com/grafana/sobek"
 	"gopkg.in/yaml.v3"
 )
 
@@ -52,18 +52,18 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, 
 
 	startTime := time.Now()
 
-	vm := goja.New()
+	vm := sobek.New()
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
 		panic(err)
 	}
 
-	ruleFunction, ok := goja.AssertFunction(vm.Get("rule"))
+	ruleFunction, ok := sobek.AssertFunction(vm.Get("rule"))
 	if !ok {
 		panic("rule(...) function not found")
 	}
 
-	res, err := ruleFunction(goja.Undefined(), vm.ToValue(data))
+	res, err := ruleFunction(sobek.Undefined(), vm.ToValue(data))
 	if err != nil {
 		panic(err)
 	}
@@ -107,8 +107,8 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 		return nil, err
 	}
 
-	// use goja to extract the metadata from the rule
-	vm := goja.New()
+	// use sobek to extract the metadata from the rule
+	vm := sobek.New()
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
 		panic(err)

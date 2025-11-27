@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dop251/goja"
+	"github.com/grafana/sobek"
 	"github.com/open-policy-agent/opa/rego"
 	"gopkg.in/yaml.v3"
 )
@@ -82,18 +82,18 @@ func runJavaScriptTestCases(rule Rule) error {
 			return fmt.Errorf("unexpected testCase type: %T", testCase)
 		}
 
-		vm := goja.New()
+		vm := sobek.New()
 		_, err = vm.RunString(string(ruleContent))
 		if err != nil {
 			panic(err)
 		}
 
-		ruleFunction, ok := goja.AssertFunction(vm.Get("rule"))
+		ruleFunction, ok := sobek.AssertFunction(vm.Get("rule"))
 		if !ok {
 			panic("rule(...) function not found")
 		}
 
-		res, err := ruleFunction(goja.Undefined(), vm.ToValue(input))
+		res, err := ruleFunction(sobek.Undefined(), vm.ToValue(input))
 		if err != nil {
 			panic(err)
 		}

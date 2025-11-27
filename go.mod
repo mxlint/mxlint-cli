@@ -3,9 +3,9 @@ module github.com/mxlint/mxlint-cli
 go 1.24.6
 
 require (
-	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/glebarez/go-sqlite v1.22.0
+	github.com/grafana/sobek v0.0.0-20251124090928-9a028a30ff58
 	github.com/open-policy-agent/opa v1.10.1
 	github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af
 	github.com/spf13/cobra v1.10.1
@@ -20,12 +20,12 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect
-	github.com/dlclark/regexp2 v1.11.4 // indirect
+	github.com/dlclark/regexp2 v1.11.5 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
+	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
