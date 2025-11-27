@@ -27,8 +27,8 @@ const (
 	// Maximum safe path length for generated content
 	MaxSafePath = MaxPathLength - SafePathBuffer // 200 chars
 
-	// Per-component limit (255 is filesystem limit, but we use lower for safety)
-	MaxComponentLength = 100
+	// Per-component limit - filename or foldername can be at most 50 characters long
+	MaxComponentLength = 50
 )
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool, filter string) error {
@@ -371,26 +371,46 @@ func sanitizePath(path string) string {
 }
 
 // truncatePathComponent truncates a path component to maxLen while maintaining uniqueness
-// If truncation is needed, it appends a hash to ensure uniqueness
+// If truncation is needed, uses format: first 20 chars + "_TRUNCATED_" + 5 char hash + "_" + last 13 chars
 func truncatePathComponent(name string, maxLen int) string {
 	if len(name) <= maxLen {
 		return name
 	}
 
-	// Create a short hash of the full name for uniqueness
+	// Create a 5 character hash of the full name for uniqueness
 	hash := sha256.Sum256([]byte(name))
-	hashStr := hex.EncodeToString(hash[:])[:8] // Use first 8 chars of hash
+	hashStr := hex.EncodeToString(hash[:])[:5] // Use first 5 chars of hash
 
-	// Reserve space for hash and separator
-	maxTextLen := maxLen - len(hashStr) - 1 // -1 for underscore
+	// Format: first 20 chars + "_TRUNCATED_" + 5 char hash + "_" + last 13 chars
+	// Total length: 20 + 11 + 5 + 1 + 13 = 50 characters
+	const prefixLen = 20
+	const suffixLen = 13
+	const truncateMarker = "_TRUNCATED_"
 
-	if maxTextLen < 1 {
-		// If maxLen is too small, just use the hash
-		return hashStr[:maxLen]
+	// If name is too short to extract meaningful prefix/suffix, adjust accordingly
+	if len(name) < prefixLen+suffixLen {
+		// For very short names that still exceed maxLen (edge case)
+		if len(name) <= maxLen {
+			return name
+		}
+		// Use what we have - take as much prefix as possible
+		availablePrefix := min(prefixLen, len(name))
+		return name[:availablePrefix] + truncateMarker + hashStr
 	}
 
-	// Truncate and append hash
-	return name[:maxTextLen] + "_" + hashStr
+	// Standard truncation: first 20 + marker + hash + _ + last 13
+	prefix := name[:prefixLen]
+	suffix := name[len(name)-suffixLen:]
+
+	return prefix + truncateMarker + hashStr + "_" + suffix
+}
+
+// min returns the minimum of two integers
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 // max returns the maximum of two integers
@@ -421,21 +441,21 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	// Try to shorten components from the end (deepest folders)
 	for i := len(components) - 1; i >= 0 && excess > 0; i-- {
 		oldLen := len(components[i])
-		targetLen := max(10, oldLen-excess) // Keep at least 10 chars if possible
 
-		if oldLen > targetLen {
-			components[i] = truncatePathComponent(components[i], targetLen)
+		// Only truncate if component is longer than MaxComponentLength
+		if oldLen > MaxComponentLength {
+			components[i] = truncatePathComponent(components[i], MaxComponentLength)
 			excess -= (oldLen - len(components[i]))
 		}
 	}
 
 	// If still too long, truncate the filename
 	if excess > 0 {
-		maxFilenameLen := len(filename) - excess - 10 // Reserve 10 chars minimum
-		if maxFilenameLen < 10 {
-			maxFilenameLen = 10
+		oldFilenameLen := len(filename)
+		if oldFilenameLen > MaxComponentLength {
+			filename = truncatePathComponent(filename, MaxComponentLength)
+			excess -= (oldFilenameLen - len(filename))
 		}
-		filename = truncatePathComponent(filename, maxFilenameLen)
 	}
 
 	newRelativePath := filepath.Join(components...)

@@ -3,6 +3,7 @@ package mpr
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"gopkg.in/yaml.v3"
@@ -276,28 +277,44 @@ func TestSanitizePath(t *testing.T) {
 
 func TestTruncatePathComponent(t *testing.T) {
 	tests := []struct {
-		name      string
-		input     string
-		maxLen    int
-		expectLen int
+		name            string
+		input           string
+		maxLen          int
+		expectLen       int
+		shouldContain   []string
+		shouldNotExceed int
 	}{
 		{
-			name:      "short name no truncation",
-			input:     "ShortName",
-			maxLen:    50,
-			expectLen: 9,
+			name:            "short name no truncation",
+			input:           "ShortName",
+			maxLen:          50,
+			expectLen:       9,
+			shouldContain:   []string{"ShortName"},
+			shouldNotExceed: 50,
 		},
 		{
-			name:      "long name truncation",
-			input:     "VeryLongFolderNameThatExceedsTheMaximumLengthAllowed",
-			maxLen:    20,
-			expectLen: 20,
+			name:            "long name truncation",
+			input:           "VeryLongFolderNameThatExceedsTheMaximumLengthAllowed",
+			maxLen:          50,
+			expectLen:       50,
+			shouldContain:   []string{"VeryLongFolderNameTh", "_TRUNCATED_", "_LengthAllowed"}, // first 20 + _TRUNCATED_ + hash + _ + last 13
+			shouldNotExceed: 50,
 		},
 		{
-			name:      "exact length",
-			input:     "ExactLength",
-			maxLen:    11,
-			expectLen: 11,
+			name:            "exact length",
+			input:           "ExactLength",
+			maxLen:          11,
+			expectLen:       11,
+			shouldContain:   []string{"ExactLength"},
+			shouldNotExceed: 11,
+		},
+		{
+			name:            "very long name",
+			input:           "ThisIsAVeryVeryVeryVeryVeryLongFileNameThatDefinitelyExceedsTheLimit",
+			maxLen:          50,
+			expectLen:       50,
+			shouldContain:   []string{"ThisIsAVeryVeryVeryV", "_TRUNCATED_", "_ceedsTheLimit"}, // first 20 + _TRUNCATED_ + hash + _ + last 13
+			shouldNotExceed: 50,
 		},
 	}
 
@@ -305,12 +322,14 @@ func TestTruncatePathComponent(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			result := truncatePathComponent(tt.input, tt.maxLen)
 			if len(result) != tt.expectLen {
-				t.Errorf("truncatePathComponent() length = %v, want %v", len(result), tt.expectLen)
+				t.Errorf("truncatePathComponent() length = %v, want %v, result = %v", len(result), tt.expectLen, result)
 			}
-			if len(tt.input) > tt.maxLen {
-				// Should contain hash for uniqueness
-				if len(result) < tt.maxLen-8 {
-					t.Errorf("truncatePathComponent() should contain hash for uniqueness")
+			if len(result) > tt.shouldNotExceed {
+				t.Errorf("truncatePathComponent() length %v exceeds max %v", len(result), tt.shouldNotExceed)
+			}
+			for _, substring := range tt.shouldContain {
+				if !strings.Contains(result, substring) {
+					t.Errorf("truncatePathComponent() result %v should contain %v", result, substring)
 				}
 			}
 		})
@@ -833,9 +852,9 @@ func TestSanitizePathComponent(t *testing.T) {
 			expected: "Folder_test",
 		},
 		{
-			name:     "long folder name with slash",
+			name:     "long folder name with slash - should be truncated",
 			input:    "Folder/testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong",
-			expected: "Folder_testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong",
+			expected: "Folder_testverylongl_TRUNCATED_80d74_glonglonglong", // Truncated to 50 chars
 		},
 		{
 			name:     "multiple slashes",
