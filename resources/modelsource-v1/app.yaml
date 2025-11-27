@@ -1,0 +1,88 @@
+content:
+    - name: Metadata.yaml
+      type: file
+      path: Metadata.yaml
+    - name: MyFirstModule
+      type: directory
+      path: MyFirstModule
+      content:
+        - name: BadPage.Forms$Page.yaml
+          type: file
+          path: MyFirstModule/BadPage.Forms$Page.yaml
+        - name: DomainModels$DomainModel.yaml
+          type: file
+          path: MyFirstModule/DomainModels$DomainModel.yaml
+        - name: Folder
+          type: directory
+          path: MyFirstModule/Folder
+          content:
+            - name: EnumerationStatus.Enumerations$Enumeration.yaml
+              type: file
+              path: MyFirstModule/Folder/EnumerationStatus.Enumerations$Enumeration.yaml
+            - name: Folder2
+              type: directory
+              path: MyFirstModule/Folder/Folder2
+              content:
+                - name: Page_2.Forms$Page.yaml
+                  type: file
+                  path: MyFirstModule/Folder/Folder2/Page_2.Forms$Page.yaml
+                - name: Snippet2.Forms$Snippet.yaml
+                  type: file
+                  path: MyFirstModule/Folder/Folder2/Snippet2.Forms$Snippet.yaml
+            - name: MicroflowComplexSplit.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowComplexSplit.Microflows$Microflow.yaml
+            - name: MicroflowForLoop.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowForLoop.Microflows$Microflow.yaml
+            - name: MicroflowLoop.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowLoop.Microflows$Microflow.yaml
+            - name: MicroflowLoopNested.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowLoopNested.Microflows$Microflow.yaml
+            - name: MicroflowSimple.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowSimple.Microflows$Microflow.yaml
+            - name: MicroflowSplit.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowSplit.Microflows$Microflow.yaml
+            - name: MicroflowSplitThenMerge.Microflows$Microflow.yaml
+              type: file
+              path: MyFirstModule/Folder/MicroflowSplitThenMerge.Microflows$Microflow.yaml
+            - name: Page.Forms$Page.yaml
+              type: file
+              path: MyFirstModule/Folder/Page.Forms$Page.yaml
+        - name: Home_Web.Forms$Page.yaml
+          type: file
+          path: MyFirstModule/Home_Web.Forms$Page.yaml
+        - name: Images.Images$ImageCollection.yaml
+          type: file
+          path: MyFirstModule/Images.Images$ImageCollection.yaml
+        - name: MyFirstLogic.Microflows$Microflow.yaml
+          type: file
+          path: MyFirstModule/MyFirstLogic.Microflows$Microflow.yaml
+        - name: Projects$ModuleSettings.yaml
+          type: file
+          path: MyFirstModule/Projects$ModuleSettings.yaml
+        - name: Security$ModuleSecurity.yaml
+          type: file
+          path: MyFirstModule/Security$ModuleSecurity.yaml
+        - name: VA_Age.Microflows$Microflow.yaml
+          type: file
+          path: MyFirstModule/VA_Age.Microflows$Microflow.yaml
+        - name: headings.Forms$Page.yaml
+          type: file
+          path: MyFirstModule/headings.Forms$Page.yaml
+    - name: Navigation$NavigationDocument.yaml
+      type: file
+      path: Navigation$NavigationDocument.yaml
+    - name: Security$ProjectSecurity.yaml
+      type: file
+      path: Security$ProjectSecurity.yaml
+    - name: Settings$ProjectSettings.yaml
+      type: file
+      path: Settings$ProjectSettings.yaml
+    - name: Texts$SystemTextCollection.yaml
+      type: file
+      path: Texts$SystemTextCollection.yaml

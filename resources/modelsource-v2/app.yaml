@@ -1,0 +1,83 @@
+content:
+    - name: Metadata.yaml
+      type: file
+      path: Metadata.yaml
+    - name: Module2
+      type: directory
+      path: Module2
+      content:
+        - name: DomainModels$DomainModel.yaml
+          type: file
+          path: Module2/DomainModels$DomainModel.yaml
+        - name: Folder_
+          type: directory
+          path: Module2/Folder_
+          content:
+            - name: Constant.Constants$Constant.yaml
+              type: file
+              path: Module2/Folder_/Constant.Constants$Constant.yaml
+        - name: Folder_test3
+          type: directory
+          path: Module2/Folder_test3
+          content:
+            - name: Constant_4.Constants$Constant.yaml
+              type: file
+              path: Module2/Folder_test3/Constant_4.Constants$Constant.yaml
+        - name: Folder_testverylongl_TRUNCATED_70781_longlong name
+          type: directory
+          path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name
+          content:
+            - name: Folder testverylongl_TRUNCATED_82413_glonglonglong
+              type: directory
+              path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong
+              content:
+                - name: Constant_3.Constants$Constant.yaml
+                  type: file
+                  path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong/Constant_3.Constants$Constant.yaml
+        - name: Projects$ModuleSettings.yaml
+          type: file
+          path: Module2/Projects$ModuleSettings.yaml
+        - name: Security$ModuleSecurity.yaml
+          type: file
+          path: Module2/Security$ModuleSecurity.yaml
+        - name: _
+          type: directory
+          path: Module2/_
+          content:
+            - name: Constant_2.Constants$Constant.yaml
+              type: file
+              path: Module2/_/Constant_2.Constants$Constant.yaml
+    - name: MyFirstModule
+      type: directory
+      path: MyFirstModule
+      content:
+        - name: DomainModels$DomainModel.yaml
+          type: file
+          path: MyFirstModule/DomainModels$DomainModel.yaml
+        - name: Home_Web.Forms$Page.yaml
+          type: file
+          path: MyFirstModule/Home_Web.Forms$Page.yaml
+        - name: Images.Images$ImageCollection.yaml
+          type: file
+          path: MyFirstModule/Images.Images$ImageCollection.yaml
+        - name: MyFirstLogic.Microflows$Microflow.yaml
+          type: file
+          path: MyFirstModule/MyFirstLogic.Microflows$Microflow.yaml
+        - name: Projects$ModuleSettings.yaml
+          type: file
+          path: MyFirstModule/Projects$ModuleSettings.yaml
+        - name: Security$ModuleSecurity.yaml
+          type: file
+          path: MyFirstModule/Security$ModuleSecurity.yaml
+    - name: Navigation$NavigationDocument.yaml
+      type: file
+      path: Navigation$NavigationDocument.yaml
+    - name: Security$ProjectSecurity.yaml
+      type: file
+      path: Security$ProjectSecurity.yaml
+    - name: Settings$ProjectSettings.yaml
+      type: file
+      path: Settings$ProjectSettings.yaml
+    - name: Texts$SystemTextCollection.yaml
+      type: file
+      path: Texts$SystemTextCollection.yaml

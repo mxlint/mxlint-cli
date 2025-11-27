@@ -27,8 +27,8 @@ const (
 	// Maximum safe path length for generated content
 	MaxSafePath = MaxPathLength - SafePathBuffer // 200 chars
 
-	// Per-component limit (255 is filesystem limit, but we use lower for safety)
-	MaxComponentLength = 100
+	// Per-component limit - filename or foldername can be at most 50 characters long
+	MaxComponentLength = 50
 )
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool, filter string) error {
@@ -64,8 +64,11 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
+	exportedCount := 0
 	if filter != "^Metadata$" {
-		if err := exportUnits(inputDirectory, tmpDir, raw, mode, filter); err != nil {
+		var err error
+		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, mode, filter)
+		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
 	}
@@ -86,6 +89,16 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("destination directory does not exist: %v", err)
 	}
 
+	// Remove output directory to ensure clean state
+	if err := os.RemoveAll(outputDirectory); err != nil {
+		return fmt.Errorf("error removing output directory: %v", err)
+	}
+
+	// Recreate output directory
+	if err := os.MkdirAll(outputDirectory, 0755); err != nil {
+		return fmt.Errorf("error creating output directory: %v", err)
+	}
+
 	// copy tmp directory to output directory
 	err = syncDirectories(tmpDir, outputDirectory)
 	if err != nil {
@@ -95,6 +108,13 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	if !appstore {
 		// remove appstore modules
 		removeAppstoreModules(outputDirectory, modules)
+	}
+
+	// Generate app.yaml with file structure only if documents were exported
+	if exportedCount > 0 {
+		if err := generateAppYaml(outputDirectory); err != nil {
+			return fmt.Errorf("error generating app.yaml: %v", err)
+		}
 	}
 
 	log.Infof("Completed model export")
@@ -351,26 +371,46 @@ func sanitizePath(path string) string {
 }
 
 // truncatePathComponent truncates a path component to maxLen while maintaining uniqueness
-// If truncation is needed, it appends a hash to ensure uniqueness
+// If truncation is needed, uses format: first 20 chars + "_TRUNCATED_" + 5 char hash + "_" + last 13 chars
 func truncatePathComponent(name string, maxLen int) string {
 	if len(name) <= maxLen {
 		return name
 	}
 
-	// Create a short hash of the full name for uniqueness
+	// Create a 5 character hash of the full name for uniqueness
 	hash := sha256.Sum256([]byte(name))
-	hashStr := hex.EncodeToString(hash[:])[:8] // Use first 8 chars of hash
+	hashStr := hex.EncodeToString(hash[:])[:5] // Use first 5 chars of hash
 
-	// Reserve space for hash and separator
-	maxTextLen := maxLen - len(hashStr) - 1 // -1 for underscore
+	// Format: first 20 chars + "_TRUNCATED_" + 5 char hash + "_" + last 13 chars
+	// Total length: 20 + 11 + 5 + 1 + 13 = 50 characters
+	const prefixLen = 20
+	const suffixLen = 13
+	const truncateMarker = "_TRUNCATED_"
 
-	if maxTextLen < 1 {
-		// If maxLen is too small, just use the hash
-		return hashStr[:maxLen]
+	// If name is too short to extract meaningful prefix/suffix, adjust accordingly
+	if len(name) < prefixLen+suffixLen {
+		// For very short names that still exceed maxLen (edge case)
+		if len(name) <= maxLen {
+			return name
+		}
+		// Use what we have - take as much prefix as possible
+		availablePrefix := min(prefixLen, len(name))
+		return name[:availablePrefix] + truncateMarker + hashStr
 	}
 
-	// Truncate and append hash
-	return name[:maxTextLen] + "_" + hashStr
+	// Standard truncation: first 20 + marker + hash + _ + last 13
+	prefix := name[:prefixLen]
+	suffix := name[len(name)-suffixLen:]
+
+	return prefix + truncateMarker + hashStr + "_" + suffix
+}
+
+// min returns the minimum of two integers
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 // max returns the maximum of two integers
@@ -401,21 +441,21 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	// Try to shorten components from the end (deepest folders)
 	for i := len(components) - 1; i >= 0 && excess > 0; i-- {
 		oldLen := len(components[i])
-		targetLen := max(10, oldLen-excess) // Keep at least 10 chars if possible
 
-		if oldLen > targetLen {
-			components[i] = truncatePathComponent(components[i], targetLen)
+		// Only truncate if component is longer than MaxComponentLength
+		if oldLen > MaxComponentLength {
+			components[i] = truncatePathComponent(components[i], MaxComponentLength)
 			excess -= (oldLen - len(components[i]))
 		}
 	}
 
 	// If still too long, truncate the filename
 	if excess > 0 {
-		maxFilenameLen := len(filename) - excess - 10 // Reserve 10 chars minimum
-		if maxFilenameLen < 10 {
-			maxFilenameLen = 10
+		oldFilenameLen := len(filename)
+		if oldFilenameLen > MaxComponentLength {
+			filename = truncatePathComponent(filename, MaxComponentLength)
+			excess -= (oldFilenameLen - len(filename))
 		}
-		filename = truncatePathComponent(filename, maxFilenameLen)
 	}
 
 	newRelativePath := filepath.Join(components...)
@@ -455,21 +495,21 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) error {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) (int, error) {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
 		log.Errorf("Error getting units: %v", err)
-		return fmt.Errorf("error getting units: %v", err)
+		return 0, fmt.Errorf("error getting units: %v", err)
 	}
 	folders, err := getMxFolders(units)
 	if err != nil {
-		return fmt.Errorf("error getting folders: %v", err)
+		return 0, fmt.Errorf("error getting folders: %v", err)
 	}
 	documents, err := getMxDocuments(units, folders, mode)
 	if err != nil {
-		return fmt.Errorf("error getting documents: %v", err)
+		return 0, fmt.Errorf("error getting documents: %v", err)
 	}
 
 	// Compile the filter regex if provided
@@ -477,7 +517,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 	if filter != "" {
 		filterRegex, err = regexp.Compile(filter)
 		if err != nil {
-			return fmt.Errorf("invalid filter regex pattern: %v", err)
+			return 0, fmt.Errorf("invalid filter regex pattern: %v", err)
 		}
 		log.Infof("Applying filter: %s", filter)
 	}
@@ -513,7 +553,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		// Validate and adjust path length to prevent exceeding OS limits
 		adjustedPath, adjustedFilename, err := validatePathLength(outputDirectory, sanitizedPath, fname)
 		if err != nil {
-			return fmt.Errorf("error adjusting path length: %v", err)
+			return 0, fmt.Errorf("error adjusting path length: %v", err)
 		}
 
 		directory := filepath.Join(outputDirectory, adjustedPath)
@@ -521,7 +561,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
-				return fmt.Errorf("error creating directory: %v", err)
+				return 0, fmt.Errorf("error creating directory: %v", err)
 			}
 		}
 
@@ -529,7 +569,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		err = writeFile(filepath.Join(directory, adjustedFilename), attributes)
 		if err != nil {
 			log.Errorf("Error writing file: %v", err)
-			return err
+			return 0, err
 		}
 		exportedCount++
 	}
@@ -538,7 +578,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 		log.Infof("Exported %d documents matching filter (out of %d total)", exportedCount, len(documents))
 	}
 
-	return nil
+	return exportedCount, nil
 
 }
 
@@ -666,5 +706,95 @@ func copyFile(src, dst string, mode os.FileMode) error {
 		return fmt.Errorf("failed to copy file contents: %v", err)
 	}
 
+	return nil
+}
+
+// FileNode represents a file or directory in the file structure
+type FileNode struct {
+	Name    string     `yaml:"name"`
+	Type    string     `yaml:"type"` // "file" or "directory"
+	Path    string     `yaml:"path,omitempty"`
+	Content []FileNode `yaml:"content,omitempty"`
+}
+
+// AppStructure represents the entire file structure for app.yaml
+type AppStructure struct {
+	Content []FileNode `yaml:"content"`
+}
+
+// buildFileStructure recursively builds the file structure for a directory
+func buildFileStructure(basePath string, currentPath string) (*FileNode, error) {
+	fullPath := filepath.Join(basePath, currentPath)
+	info, err := os.Stat(fullPath)
+	if err != nil {
+		return nil, fmt.Errorf("error reading path %s: %v", fullPath, err)
+	}
+
+	relPath := currentPath
+	if relPath == "" {
+		relPath = "."
+	}
+
+	node := &FileNode{
+		Name: filepath.Base(fullPath),
+		Path: relPath,
+	}
+
+	if info.IsDir() {
+		node.Type = "directory"
+
+		entries, err := os.ReadDir(fullPath)
+		if err != nil {
+			return nil, fmt.Errorf("error reading directory %s: %v", fullPath, err)
+		}
+
+		for _, entry := range entries {
+			// Skip app.yaml to avoid self-reference
+			if entry.Name() == "app.yaml" {
+				continue
+			}
+			childRelPath := filepath.Join(currentPath, entry.Name())
+			childNode, err := buildFileStructure(basePath, childRelPath)
+			if err != nil {
+				log.Warnf("Error processing %s: %v", childRelPath, err)
+				continue
+			}
+			node.Content = append(node.Content, *childNode)
+		}
+	} else {
+		node.Type = "file"
+	}
+
+	return node, nil
+}
+
+// generateAppYaml generates an app.yaml file with the file structure of outputDirectory
+func generateAppYaml(outputDirectory string) error {
+	log.Infof("Generating app.yaml with file structure")
+
+	// Build the file structure
+	rootNode, err := buildFileStructure(outputDirectory, "")
+	if err != nil {
+		return fmt.Errorf("error building file structure: %v", err)
+	}
+
+	// Use the content of the root as the project structure
+	appStructure := AppStructure{
+		Content: rootNode.Content,
+	}
+
+	// Marshal to YAML
+	yamlData, err := yaml.Marshal(appStructure)
+	if err != nil {
+		return fmt.Errorf("error marshaling app structure to YAML: %v", err)
+	}
+
+	// Write to app.yaml
+	appYamlPath := filepath.Join(outputDirectory, "app.yaml")
+	if err := os.WriteFile(appYamlPath, yamlData, 0644); err != nil {
+		return fmt.Errorf("error writing app.yaml: %v", err)
+	}
+
+	log.Infof("Generated app.yaml at %s", appYamlPath)
 	return nil
 }
