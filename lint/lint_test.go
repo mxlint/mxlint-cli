@@ -19,7 +19,7 @@ func TestLintSingle(t *testing.T) {
 	// })
 	t.Run("single Rego rule passes", func(t *testing.T) {
 		rule, _ := parseRuleMetadata_Rego("./../resources/rules/001_0003_security_checks.rego")
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1")
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false)
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")
@@ -31,7 +31,7 @@ func TestLintSingle(t *testing.T) {
 	})
 	t.Run("single JS rule passes", func(t *testing.T) {
 		rule, _ := parseRuleMetadata_Javascript("./../resources/rules/001_0002_demo_users_disabled.js")
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1")
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false)
 
 		if err != nil {
 			t.Errorf("Failed to evaluate")
@@ -45,7 +45,7 @@ func TestLintSingle(t *testing.T) {
 
 func TestLintBundle(t *testing.T) {
 	t.Run("all-rules", func(t *testing.T) {
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "")
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "", false)
 
 		if err != nil {
 			t.Errorf("No failures expected: %v", err)

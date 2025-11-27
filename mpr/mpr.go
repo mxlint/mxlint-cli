@@ -89,16 +89,6 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 		return fmt.Errorf("destination directory does not exist: %v", err)
 	}
 
-	// Remove output directory to ensure clean state
-	if err := os.RemoveAll(outputDirectory); err != nil {
-		return fmt.Errorf("error removing output directory: %v", err)
-	}
-
-	// Recreate output directory
-	if err := os.MkdirAll(outputDirectory, 0755); err != nil {
-		return fmt.Errorf("error creating output directory: %v", err)
-	}
-
 	// copy tmp directory to output directory
 	err = syncDirectories(tmpDir, outputDirectory)
 	if err != nil {

@@ -59,6 +59,7 @@ func main() {
 			xunitReport, _ := cmd.Flags().GetString("xunit-report")
 			JsonFile, _ := cmd.Flags().GetString("json-file")
 			verbose, _ := cmd.Flags().GetBool("verbose")
+			ignoreNoqa, _ := cmd.Flags().GetBool("ignore-noqa")
 
 			log := logrus.New()
 			if verbose {
@@ -68,7 +69,7 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile)
+			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)
@@ -81,6 +82,7 @@ func main() {
 	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
 	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")
 	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
+	cmdLint.Flags().Bool("ignore-noqa", false, "Ignore noqa directives in documents")
 	rootCmd.AddCommand(cmdLint)
 
 	// Add the serve command

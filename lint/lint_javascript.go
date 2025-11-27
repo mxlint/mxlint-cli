@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, error) {
+func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
 	ruleContent, _ := os.ReadFile(rulePath)
 	log.Debugf("js file: \n%s", ruleContent)
 
@@ -34,19 +34,15 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string) (*Testcase, 
 		return nil, err
 	}
 
-	// if data["Documentation"] contains #noqa, skip the testcase; Documentation attribute might not exist
+	// Check if this rule should be skipped based on noqa directives
 	if doc, ok := data["Documentation"].(string); ok {
-		lines := strings.Split(doc, "\n")
-		for _, line := range lines {
-			line = strings.TrimSpace(line)
-			lineLower := strings.ToLower(line)
-			if strings.HasPrefix(lineLower, NOQA) || strings.HasPrefix(lineLower, NOQA_ALIAS) {
-				return &Testcase{
-					Name:    inputFilePath,
-					Time:    0,
-					Skipped: &Skipped{Message: line},
-				}, nil
-			}
+		shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa)
+		if shouldSkip {
+			return &Testcase{
+				Name:    inputFilePath,
+				Time:    0,
+				Skipped: &Skipped{Message: reason},
+			}, nil
 		}
 	}
 
