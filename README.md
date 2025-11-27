@@ -89,9 +89,41 @@ PASS (0.00158s) modelsource/MyFirstModule/DomainModels$DomainModel.yaml
 ![Mendix Lint report](./resources/lint-xunit-report.png)
 Lint Mendix Yaml files. This tool checks for common mistakes and enforces best practices. It uses OPA as policy engine. Therefore policies must be written in the powerful Rego language. Please refer to [Rego language reference](https://www.openpolicyagent.org/docs/latest/policy-reference/) for more information on the syntax and semantics.
 
-### NOQA (Ignore document)
+### NOQA (Ignore document or specific rules)
 
-A specific document can be marked as "Skipped" if you have a line in the `documentation` field that starts with either `#noqa` or `# noqa` followed by an optional message (Case in-sensitive). This message will be included as "Skipped" reason in linting results.
+Documents can be marked with noqa directives in the `documentation` field to skip linting. There are two supported formats:
+
+#### Skip all rules (document-level noqa)
+
+A specific document can be marked as "Skipped" for all rules if you have a line in the `documentation` field that starts with either `#noqa` or `# noqa` followed by an optional message (Case in-sensitive). This message will be included as "Skipped" reason in linting results.
+
+Example:
+```yaml
+Documentation: |
+  #noqa This document is excluded from all linting rules
+```
+
+#### Skip specific rules (rule-level noqa)
+
+You can skip specific rules by providing a comma-separated list of rule numbers after a colon. This allows fine-grained control over which rules to ignore.
+
+Example:
+```yaml
+Documentation: |
+  #noqa:001_0002,001_0003 Temporarily skipping these rules due to legacy code
+```
+
+In this example, only rules `001_0002` and `001_0003` will be skipped for this document, while all other rules will still be evaluated.
+
+**Syntax:**
+- `#noqa` or `# noqa` - Skip all rules
+- `#noqa:rule1,rule2,...` or `# noqa:rule1,rule2,...` - Skip specific rules
+- Optional reason can be added after the rule list, separated by a space
+
+**Notes:**
+- The noqa directive is case-insensitive
+- Multiple rule numbers should be separated by commas (no spaces)
+- The entire line after the noqa directive will be recorded as the skip reason
 
 ## serve
 

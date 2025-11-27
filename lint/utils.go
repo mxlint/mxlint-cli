@@ -16,6 +16,89 @@ func SetLogger(logger *logrus.Logger) {
 	log = logger
 }
 
+// parseNoqaDirective parses a noqa directive and returns the list of rules to skip
+// and the reason (if provided).
+// Supports two formats:
+// - "#noqa" or "# noqa" - skips all rules
+// - "#noqa:rule1,rule2" or "# noqa:rule1,rule2 reason" - skips specific rules
+// Returns: (skipAllRules bool, skipRules []string, reason string)
+func parseNoqaDirective(line string) (bool, []string, string) {
+	line = strings.TrimSpace(line)
+	lineLower := strings.ToLower(line)
+	
+	// Check if line starts with #noqa or # noqa
+	if !strings.HasPrefix(lineLower, NOQA) && !strings.HasPrefix(lineLower, NOQA_ALIAS) {
+		return false, nil, ""
+	}
+	
+	// Remove the prefix to get the rest
+	var rest string
+	if strings.HasPrefix(lineLower, NOQA) {
+		rest = strings.TrimSpace(line[len(NOQA):])
+	} else {
+		rest = strings.TrimSpace(line[len(NOQA_ALIAS):])
+	}
+	
+	// If nothing follows, skip all rules
+	if rest == "" {
+		return true, nil, line
+	}
+	
+	// Check if it starts with colon (rule-specific noqa)
+	if strings.HasPrefix(rest, ":") {
+		rest = strings.TrimPrefix(rest, ":")
+		
+		// Split by space to separate rules from reason
+		parts := strings.SplitN(rest, " ", 2)
+		rulesStr := strings.TrimSpace(parts[0])
+		reason := line // Use full line as reason
+		
+		// Split rules by comma
+		rules := strings.Split(rulesStr, ",")
+		skipRules := make([]string, 0, len(rules))
+		for _, rule := range rules {
+			rule = strings.TrimSpace(rule)
+			if rule != "" {
+				skipRules = append(skipRules, rule)
+			}
+		}
+		
+		if len(skipRules) > 0 {
+			return false, skipRules, reason
+		}
+	}
+	
+	// Default: skip all rules with the line as reason
+	return true, nil, line
+}
+
+// shouldSkipRule checks if a specific rule should be skipped based on noqa directives
+// in the documentation field
+func shouldSkipRule(documentation string, ruleNumber string) (bool, string) {
+	if documentation == "" {
+		return false, ""
+	}
+	
+	lines := strings.Split(documentation, "\n")
+	for _, line := range lines {
+		skipAll, skipRules, reason := parseNoqaDirective(line)
+		
+		// If skipAll is true, skip this rule
+		if skipAll {
+			return true, reason
+		}
+		
+		// Check if this specific rule is in the skip list
+		for _, skipRule := range skipRules {
+			if skipRule == ruleNumber {
+				return true, reason
+			}
+		}
+	}
+	
+	return false, ""
+}
+
 func expandPaths(pattern string, workingDirectory string) ([]string, error) {
 	// backwards compatible with old filepath.glob(...)
 	if !strings.HasPrefix(pattern, ".*") {

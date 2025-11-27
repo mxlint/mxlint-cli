@@ -297,9 +297,9 @@ func evalTestsuite(rule Rule, modelSourcePath string) (*Testsuite, error) {
 		// Fallback if cache key creation failed
 		if cacheKey == nil {
 			if rule.Language == LanguageRego {
-				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber)
 			} else if rule.Language == LanguageJavascript {
-				testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber)
 			}
 			if err != nil {
 				return nil, err
@@ -337,9 +337,9 @@ func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, ca
 	var err error
 
 	if rule.Language == LanguageRego {
-		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile)
+		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber)
 	} else if rule.Language == LanguageJavascript {
-		testcase, err = evalTestcase_Javascript(rule.Path, inputFile)
+		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber)
 	}
 
 	if err != nil {
