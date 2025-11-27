@@ -23,17 +23,17 @@ content:
             - name: Constant_4.Constants$Constant.yaml
               type: file
               path: Module2/Folder_test3/Constant_4.Constants$Constant.yaml
-        - name: Folder_testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo_7078103c
+        - name: Folder_testverylongl_TRUNCATED_70781_longlong name
           type: directory
-          path: Module2/Folder_testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo_7078103c
+          path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name
           content:
-            - name: F_b79b72e3
+            - name: Folder testverylongl_TRUNCATED_82413_glonglonglong
               type: directory
-              path: Module2/Folder_testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo_7078103c/F_b79b72e3
+              path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong
               content:
                 - name: Constant_3.Constants$Constant.yaml
                   type: file
-                  path: Module2/Folder_testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo_7078103c/F_b79b72e3/Constant_3.Constants$Constant.yaml
+                  path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong/Constant_3.Constants$Constant.yaml
         - name: Projects$ModuleSettings.yaml
           type: file
           path: Module2/Projects$ModuleSettings.yaml
