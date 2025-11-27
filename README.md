@@ -125,6 +125,27 @@ In this example, only rules `001_0002` and `001_0003` will be skipped for this d
 - Multiple rule numbers should be separated by commas (no spaces)
 - The entire line after the noqa directive will be recorded as the skip reason
 
+#### Ignore NOQA directives (--ignore-noqa flag)
+
+In some scenarios, you may want to run linting on all documents, including those marked with noqa directives. The `--ignore-noqa` flag allows you to temporarily disable the noqa functionality.
+
+**Usage:**
+```bash
+./mxlint-cli lint --ignore-noqa
+```
+
+When this flag is set:
+- All noqa directives (both document-level and rule-level) are ignored
+- Documents that would normally be skipped are evaluated against all rules
+- The default behavior is `false` (noqa directives are respected)
+
+**Example scenarios:**
+- **Audit mode**: Run a complete check to see all violations, even in documents marked with noqa
+- **CI/CD validation**: Enforce that certain branches (e.g., production) don't rely on noqa suppressions
+- **Cleanup**: Identify which noqa markers can be removed after fixing underlying issues
+
+**Note:** When using `--ignore-noqa`, results are not cached to ensure consistency with normal linting behavior.
+
 ## serve
 
 Run a server that exports model and lints whenever the input MPR file changes. This is works in standalone way and via integration with the Mendix Studio Pro extension.

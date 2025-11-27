@@ -142,7 +142,7 @@ func TestShouldSkipRule(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			skip, reason := shouldSkipRule(tt.documentation, tt.ruleNumber)
+			skip, reason := shouldSkipRule(tt.documentation, tt.ruleNumber, false)
 
 			if skip != tt.expectedSkip {
 				t.Errorf("Expected skip=%v, got %v", tt.expectedSkip, skip)
@@ -150,6 +150,44 @@ func TestShouldSkipRule(t *testing.T) {
 
 			if reason != tt.expectedReason {
 				t.Errorf("Expected reason=%s, got %s", tt.expectedReason, reason)
+			}
+		})
+	}
+}
+
+func TestShouldSkipRuleWithIgnoreNoqa(t *testing.T) {
+	tests := []struct {
+		name          string
+		documentation string
+		ruleNumber    string
+	}{
+		{
+			name:          "Skip all rules ignored",
+			documentation: "#noqa",
+			ruleNumber:    "001_0002",
+		},
+		{
+			name:          "Skip specific rule ignored",
+			documentation: "#noqa:001_0002,001_0003",
+			ruleNumber:    "001_0002",
+		},
+		{
+			name:          "Multiple lines with noqa ignored",
+			documentation: "Some text\n#noqa:001_0002 reason\nMore text",
+			ruleNumber:    "001_0002",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			skip, reason := shouldSkipRule(tt.documentation, tt.ruleNumber, true)
+
+			if skip {
+				t.Errorf("Expected skip=false when ignoreNoqa=true, got %v", skip)
+			}
+
+			if reason != "" {
+				t.Errorf("Expected empty reason when ignoreNoqa=true, got %s", reason)
 			}
 		})
 	}

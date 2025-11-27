@@ -74,7 +74,12 @@ func parseNoqaDirective(line string) (bool, []string, string) {
 
 // shouldSkipRule checks if a specific rule should be skipped based on noqa directives
 // in the documentation field
-func shouldSkipRule(documentation string, ruleNumber string) (bool, string) {
+func shouldSkipRule(documentation string, ruleNumber string, ignoreNoqa bool) (bool, string) {
+	// If ignoreNoqa is true, never skip rules based on noqa directives
+	if ignoreNoqa {
+		return false, ""
+	}
+	
 	if documentation == "" {
 		return false, ""
 	}

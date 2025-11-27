@@ -219,7 +219,7 @@ func runServe(cmd *cobra.Command, args []string) {
 					lintErr = fmt.Errorf("lint operation panicked: %v", r)
 				}
 			}()
-			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "")
+			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "", false)
 		}()
 
 		if lintErr != nil {
