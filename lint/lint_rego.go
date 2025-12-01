@@ -11,7 +11,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string) (*Testcase, error) {
+func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
 	regoFile, _ := os.ReadFile(rulePath)
 	log.Debugf("rego file: \n%s", regoFile)
 
@@ -34,19 +34,15 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 		return nil, err
 	}
 
-	// if data["Documentation"] contains #noqa, skip the testcase; Documentation attribute might not exist
+	// Check if this rule should be skipped based on noqa directives
 	if doc, ok := data["Documentation"].(string); ok {
-		lines := strings.Split(doc, "\n")
-		for _, line := range lines {
-			line = strings.TrimSpace(line)
-			lineLower := strings.ToLower(line)
-			if strings.HasPrefix(lineLower, NOQA) || strings.HasPrefix(lineLower, NOQA_ALIAS) {
-				return &Testcase{
-					Name:    inputFilePath,
-					Time:    0,
-					Skipped: &Skipped{Message: line},
-				}, nil
-			}
+		shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa)
+		if shouldSkip {
+			return &Testcase{
+				Name:    inputFilePath,
+				Time:    0,
+				Skipped: &Skipped{Message: reason},
+			}, nil
 		}
 	}
 
