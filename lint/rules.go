@@ -19,6 +19,30 @@ func TestAll(rulesPath string) error {
 		return err
 	}
 
+	// Check for duplicate rule numbers
+	ruleNumberMap := make(map[string][]string)
+	for _, rule := range allRules {
+		if rule.RuleNumber != "" {
+			ruleNumberMap[rule.RuleNumber] = append(ruleNumberMap[rule.RuleNumber], rule.Path)
+		}
+	}
+
+	// Report duplicates
+	hasDuplicates := false
+	for ruleNumber, paths := range ruleNumberMap {
+		if len(paths) > 1 {
+			hasDuplicates = true
+			log.Errorf("Duplicate rule number '%s' found in the following rules:", ruleNumber)
+			for _, path := range paths {
+				log.Errorf("  - %s", path)
+			}
+		}
+	}
+
+	if hasDuplicates {
+		return fmt.Errorf("found duplicate rule numbers")
+	}
+
 	for _, rule := range allRules {
 		runTestCases(rule)
 	}
