@@ -3,12 +3,135 @@ package lint
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/grafana/sobek"
 	"gopkg.in/yaml.v3"
 )
+
+// resolvePath resolves the given path relative to the working directory and validates
+// that it stays within the working directory. Returns the absolute path or an error.
+func resolvePath(pathArg string, workingDirectory string) (string, error) {
+	// Resolve the path relative to working directory
+	var fullPath string
+	if filepath.IsAbs(pathArg) {
+		fullPath = pathArg
+	} else {
+		fullPath = filepath.Join(workingDirectory, pathArg)
+	}
+
+	// Convert both paths to absolute and clean them to resolve any ".." or "." components
+	absFullPath, err := filepath.Abs(fullPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to resolve path: %w", err)
+	}
+	absFullPath = filepath.Clean(absFullPath)
+
+	absWorkingDir, err := filepath.Abs(workingDirectory)
+	if err != nil {
+		return "", fmt.Errorf("failed to resolve working directory: %w", err)
+	}
+	absWorkingDir = filepath.Clean(absWorkingDir)
+
+	// Check that the resolved path is within the working directory
+	if !strings.HasPrefix(absFullPath, absWorkingDir+string(filepath.Separator)) && absFullPath != absWorkingDir {
+		return "", fmt.Errorf("path %q is outside working directory %q", pathArg, workingDirectory)
+	}
+
+	return absFullPath, nil
+}
+
+// setupJavascriptVM creates a new sobek VM with the mxlint object exposed.
+// The mxlint object provides utility functions for JavaScript rules:
+//   - mxlint.io.readfile(path): Reads a file and returns its contents as a string.
+//     The path is resolved relative to the workingDirectory.
+//   - mxlint.io.listdir(path): Lists the contents of a directory and returns an array of filenames.
+//     The path is resolved relative to the workingDirectory.
+//   - mxlint.io.isdir(path): Returns true if the path is a directory, false otherwise.
+//     The path is resolved relative to the workingDirectory.
+func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
+	vm := sobek.New()
+
+	// Create the mxlint object
+	mxlint := vm.NewObject()
+	vm.Set("mxlint", mxlint)
+
+	// Create the io sub-object
+	io := vm.NewObject()
+	mxlint.Set("io", io)
+
+	// Set the readfile function
+	io.Set("readfile", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readfile requires a file path argument")))
+		}
+		filepathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(filepathArg, workingDirectory)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readfile: %w", err)))
+		}
+
+		content, err := os.ReadFile(absPath)
+		if err != nil {
+			panic(vm.NewGoError(err))
+		}
+		return vm.ToValue(string(content))
+	})
+
+	// Set the listdir function
+	io.Set("listdir", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.listdir requires a directory path argument")))
+		}
+		dirpathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(dirpathArg, workingDirectory)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.listdir: %w", err)))
+		}
+
+		entries, err := os.ReadDir(absPath)
+		if err != nil {
+			panic(vm.NewGoError(err))
+		}
+
+		// Convert directory entries to a slice of names
+		names := make([]string, len(entries))
+		for i, entry := range entries {
+			names[i] = entry.Name()
+		}
+
+		return vm.ToValue(names)
+	})
+
+	// Set the isdir function
+	io.Set("isdir", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.isdir requires a path argument")))
+		}
+		pathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(pathArg, workingDirectory)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.isdir: %w", err)))
+		}
+
+		info, err := os.Stat(absPath)
+		if err != nil {
+			if os.IsNotExist(err) {
+				return vm.ToValue(false)
+			}
+			panic(vm.NewGoError(err))
+		}
+
+		return vm.ToValue(info.IsDir())
+	})
+
+	return vm
+}
 
 func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
 	ruleContent, _ := os.ReadFile(rulePath)
@@ -48,7 +171,9 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 
 	startTime := time.Now()
 
-	vm := sobek.New()
+	// Use the directory containing the input file as the working directory
+	workingDirectory := filepath.Dir(inputFilePath)
+	vm := setupJavascriptVM(workingDirectory)
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
 		panic(err)
@@ -56,7 +181,7 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 
 	ruleFunction, ok := sobek.AssertFunction(vm.Get("rule"))
 	if !ok {
-		panic("rule(...) function not found")
+		panic("rule(...) function not found in rule file: " + rulePath)
 	}
 
 	res, err := ruleFunction(sobek.Undefined(), vm.ToValue(data))
