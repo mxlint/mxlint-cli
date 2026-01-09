@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/grafana/sobek"
@@ -106,7 +107,9 @@ func runJavaScriptTestCases(rule Rule) error {
 			return fmt.Errorf("unexpected testCase type: %T", testCase)
 		}
 
-		vm := sobek.New()
+		// Use the directory containing the rule file as the working directory
+		workingDirectory := filepath.Dir(rule.Path)
+		vm := setupJavascriptVM(workingDirectory)
 		_, err = vm.RunString(string(ruleContent))
 		if err != nil {
 			panic(err)

@@ -3,12 +3,49 @@ package lint
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/grafana/sobek"
 	"gopkg.in/yaml.v3"
 )
+
+// setupJavascriptVM creates a new sobek VM with the mxlint object exposed.
+// The mxlint object provides utility functions for JavaScript rules:
+//   - mxlint.readfile(path): Reads a file and returns its contents as a string.
+//     The path is resolved relative to the workingDirectory.
+func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
+	vm := sobek.New()
+
+	// Create the mxlint object
+	mxlint := vm.NewObject()
+	vm.Set("mxlint", mxlint)
+
+	// Set the readfile function
+	mxlint.Set("readfile", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.readfile requires a file path argument")))
+		}
+		filename := call.Argument(0).String()
+
+		// Resolve the path relative to working directory
+		var fullPath string
+		if filepath.IsAbs(filename) {
+			fullPath = filename
+		} else {
+			fullPath = filepath.Join(workingDirectory, filename)
+		}
+
+		content, err := os.ReadFile(fullPath)
+		if err != nil {
+			panic(vm.NewGoError(err))
+		}
+		return vm.ToValue(string(content))
+	})
+
+	return vm
+}
 
 func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
 	ruleContent, _ := os.ReadFile(rulePath)
@@ -48,7 +85,9 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 
 	startTime := time.Now()
 
-	vm := sobek.New()
+	// Use the directory containing the input file as the working directory
+	workingDirectory := filepath.Dir(inputFilePath)
+	vm := setupJavascriptVM(workingDirectory)
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
 		panic(err)
