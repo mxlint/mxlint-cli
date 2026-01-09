@@ -45,11 +45,11 @@ func resolvePath(pathArg string, workingDirectory string) (string, error) {
 
 // setupJavascriptVM creates a new sobek VM with the mxlint object exposed.
 // The mxlint object provides utility functions for JavaScript rules:
-//   - mxlint.readfile(path): Reads a file and returns its contents as a string.
+//   - mxlint.io.readfile(path): Reads a file and returns its contents as a string.
 //     The path is resolved relative to the workingDirectory.
-//   - mxlint.listdir(path): Lists the contents of a directory and returns an array of filenames.
+//   - mxlint.io.listdir(path): Lists the contents of a directory and returns an array of filenames.
 //     The path is resolved relative to the workingDirectory.
-//   - mxlint.isdir(path): Returns true if the path is a directory, false otherwise.
+//   - mxlint.io.isdir(path): Returns true if the path is a directory, false otherwise.
 //     The path is resolved relative to the workingDirectory.
 func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	vm := sobek.New()
@@ -58,16 +58,20 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	mxlint := vm.NewObject()
 	vm.Set("mxlint", mxlint)
 
+	// Create the io sub-object
+	io := vm.NewObject()
+	mxlint.Set("io", io)
+
 	// Set the readfile function
-	mxlint.Set("readfile", func(call sobek.FunctionCall) sobek.Value {
+	io.Set("readfile", func(call sobek.FunctionCall) sobek.Value {
 		if len(call.Arguments) == 0 {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.readfile requires a file path argument")))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readfile requires a file path argument")))
 		}
 		filepathArg := call.Argument(0).String()
 
 		absPath, err := resolvePath(filepathArg, workingDirectory)
 		if err != nil {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.readfile: %w", err)))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readfile: %w", err)))
 		}
 
 		content, err := os.ReadFile(absPath)
@@ -78,15 +82,15 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	})
 
 	// Set the listdir function
-	mxlint.Set("listdir", func(call sobek.FunctionCall) sobek.Value {
+	io.Set("listdir", func(call sobek.FunctionCall) sobek.Value {
 		if len(call.Arguments) == 0 {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.listdir requires a directory path argument")))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.listdir requires a directory path argument")))
 		}
 		dirpathArg := call.Argument(0).String()
 
 		absPath, err := resolvePath(dirpathArg, workingDirectory)
 		if err != nil {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.listdir: %w", err)))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.listdir: %w", err)))
 		}
 
 		entries, err := os.ReadDir(absPath)
@@ -104,15 +108,15 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	})
 
 	// Set the isdir function
-	mxlint.Set("isdir", func(call sobek.FunctionCall) sobek.Value {
+	io.Set("isdir", func(call sobek.FunctionCall) sobek.Value {
 		if len(call.Arguments) == 0 {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.isdir requires a path argument")))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.isdir requires a path argument")))
 		}
 		pathArg := call.Argument(0).String()
 
 		absPath, err := resolvePath(pathArg, workingDirectory)
 		if err != nil {
-			panic(vm.NewGoError(fmt.Errorf("mxlint.isdir: %w", err)))
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.isdir: %w", err)))
 		}
 
 		info, err := os.Stat(absPath)
