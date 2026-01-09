@@ -354,6 +354,175 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 }
 
+func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
+	// Create a temporary directory for test files
+	tempDir := t.TempDir()
+
+	// Create some test files and directories
+	err := os.WriteFile(filepath.Join(tempDir, "file.txt"), []byte("content"), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create test file: %v", err)
+	}
+	err = os.Mkdir(filepath.Join(tempDir, "subdir"), 0755)
+	if err != nil {
+		t.Fatalf("Failed to create subdirectory: %v", err)
+	}
+
+	t.Run("isdir returns true for directory with relative path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir("subdir")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != true {
+			t.Errorf("Expected true for directory, got %v", result.ToBoolean())
+		}
+	})
+
+	t.Run("isdir returns true for directory with absolute path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir("` + filepath.Join(tempDir, "subdir") + `")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != true {
+			t.Errorf("Expected true for directory, got %v", result.ToBoolean())
+		}
+	})
+
+	t.Run("isdir returns false for file", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir("file.txt")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != false {
+			t.Errorf("Expected false for file, got %v", result.ToBoolean())
+		}
+	})
+
+	t.Run("isdir returns false for nonexistent path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir("nonexistent")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != false {
+			t.Errorf("Expected false for nonexistent path, got %v", result.ToBoolean())
+		}
+	})
+
+	t.Run("isdir returns true for current directory", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir(".")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != true {
+			t.Errorf("Expected true for current directory, got %v", result.ToBoolean())
+		}
+	})
+
+	t.Run("path traversal with .. is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.isdir("../../../etc");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected path traversal to be blocked, got: %s", result.String())
+		}
+	})
+
+	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.isdir("/etc");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected absolute path outside working dir to be blocked, got: %s", result.String())
+		}
+	})
+
+	t.Run("isdir without argument throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.isdir();
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() == "no error" {
+			t.Error("Expected an error when calling isdir without argument")
+		}
+	})
+
+	t.Run("isdir with nested directory path", func(t *testing.T) {
+		// Create a nested directory
+		nestedDir := filepath.Join(tempDir, "subdir", "nested")
+		err := os.Mkdir(nestedDir, 0755)
+		if err != nil {
+			t.Fatalf("Failed to create nested directory: %v", err)
+		}
+
+		vm := setupJavascriptVM(tempDir)
+
+		script := `mxlint.isdir("subdir/nested")`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.ToBoolean() != true {
+			t.Errorf("Expected true for nested directory, got %v", result.ToBoolean())
+		}
+	})
+}
+
 func TestMxlintObjectAvailable(t *testing.T) {
 	vm := setupJavascriptVM(".")
 
@@ -388,5 +557,16 @@ func TestMxlintObjectAvailable(t *testing.T) {
 
 	if result.String() != "function" {
 		t.Errorf("Expected mxlint.listdir to be a function, got %q", result.String())
+	}
+
+	// Check that mxlint.isdir is a function
+	script = `typeof mxlint.isdir`
+	result, err = vm.RunString(script)
+	if err != nil {
+		t.Fatalf("Failed to run script: %v", err)
+	}
+
+	if result.String() != "function" {
+		t.Errorf("Expected mxlint.isdir to be a function, got %q", result.String())
 	}
 }

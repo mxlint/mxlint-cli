@@ -49,6 +49,8 @@ func resolvePath(pathArg string, workingDirectory string) (string, error) {
 //     The path is resolved relative to the workingDirectory.
 //   - mxlint.listdir(path): Lists the contents of a directory and returns an array of filenames.
 //     The path is resolved relative to the workingDirectory.
+//   - mxlint.isdir(path): Returns true if the path is a directory, false otherwise.
+//     The path is resolved relative to the workingDirectory.
 func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	vm := sobek.New()
 
@@ -99,6 +101,29 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 		}
 
 		return vm.ToValue(names)
+	})
+
+	// Set the isdir function
+	mxlint.Set("isdir", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.isdir requires a path argument")))
+		}
+		pathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(pathArg, workingDirectory)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.isdir: %w", err)))
+		}
+
+		info, err := os.Stat(absPath)
+		if err != nil {
+			if os.IsNotExist(err) {
+				return vm.ToValue(false)
+			}
+			panic(vm.NewGoError(err))
+		}
+
+		return vm.ToValue(info.IsDir())
 	})
 
 	return vm
