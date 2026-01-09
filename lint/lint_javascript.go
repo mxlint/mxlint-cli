@@ -27,15 +27,36 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 		if len(call.Arguments) == 0 {
 			panic(vm.NewGoError(fmt.Errorf("mxlint.readfile requires a file path argument")))
 		}
-		filename := call.Argument(0).String()
+		filepathArg := call.Argument(0).String()
 
 		// Resolve the path relative to working directory
 		var fullPath string
-		if filepath.IsAbs(filename) {
-			fullPath = filename
+		if filepath.IsAbs(filepathArg) {
+			fullPath = filepathArg
 		} else {
-			fullPath = filepath.Join(workingDirectory, filename)
+			fullPath = filepath.Join(workingDirectory, filepathArg)
 		}
+
+		// Convert both paths to absolute and clean them to resolve any ".." or "." components
+		absFullPath, err := filepath.Abs(fullPath)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("failed to resolve file path: %w", err)))
+		}
+		absFullPath = filepath.Clean(absFullPath)
+
+		absWorkingDir, err := filepath.Abs(workingDirectory)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("failed to resolve working directory: %w", err)))
+		}
+		absWorkingDir = filepath.Clean(absWorkingDir)
+
+		// Check that the resolved path is within the working directory
+		if !strings.HasPrefix(absFullPath, absWorkingDir+string(filepath.Separator)) && absFullPath != absWorkingDir {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.readfile: path %q is outside working directory %q", filepathArg, workingDirectory)))
+		}
+
+		// Use the absolute path for reading
+		fullPath = absFullPath
 
 		content, err := os.ReadFile(fullPath)
 		if err != nil {

@@ -67,6 +67,48 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 		}
 	})
 
+	t.Run("path traversal with .. is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.readfile("../../../etc/passwd");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected path traversal to be blocked, got: %s", result.String())
+		}
+	})
+
+	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.readfile("/etc/passwd");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected absolute path outside working dir to be blocked, got: %s", result.String())
+		}
+	})
+
 	t.Run("readfile without argument throws error", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir)
 
