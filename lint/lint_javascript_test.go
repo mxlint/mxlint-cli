@@ -159,6 +159,201 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 }
 
+func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
+	// Create a temporary directory for test files
+	tempDir := t.TempDir()
+
+	// Create some test files and directories
+	err := os.WriteFile(filepath.Join(tempDir, "file1.txt"), []byte("content1"), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create test file: %v", err)
+	}
+	err = os.WriteFile(filepath.Join(tempDir, "file2.txt"), []byte("content2"), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create test file: %v", err)
+	}
+	err = os.Mkdir(filepath.Join(tempDir, "subdir"), 0755)
+	if err != nil {
+		t.Fatalf("Failed to create subdirectory: %v", err)
+	}
+	err = os.WriteFile(filepath.Join(tempDir, "subdir", "nested.txt"), []byte("nested"), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create nested file: %v", err)
+	}
+
+	t.Run("list directory with relative path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `JSON.stringify(mxlint.listdir(".").sort())`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		expected := `["file1.txt","file2.txt","subdir"]`
+		if result.String() != expected {
+			t.Errorf("Expected %q, got %q", expected, result.String())
+		}
+	})
+
+	t.Run("list directory with absolute path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `JSON.stringify(mxlint.listdir("` + tempDir + `").sort())`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		expected := `["file1.txt","file2.txt","subdir"]`
+		if result.String() != expected {
+			t.Errorf("Expected %q, got %q", expected, result.String())
+		}
+	})
+
+	t.Run("list subdirectory", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `JSON.stringify(mxlint.listdir("subdir"))`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		expected := `["nested.txt"]`
+		if result.String() != expected {
+			t.Errorf("Expected %q, got %q", expected, result.String())
+		}
+	})
+
+	t.Run("list nonexistent directory throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.listdir("nonexistent");
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() == "no error" {
+			t.Error("Expected an error when listing nonexistent directory")
+		}
+	})
+
+	t.Run("path traversal with .. is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.listdir("../../../etc");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected path traversal to be blocked, got: %s", result.String())
+		}
+	})
+
+	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.listdir("/etc");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() != "blocked" {
+			t.Errorf("Expected absolute path outside working dir to be blocked, got: %s", result.String())
+		}
+	})
+
+	t.Run("listdir without argument throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.listdir();
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() == "no error" {
+			t.Error("Expected an error when calling listdir without argument")
+		}
+	})
+
+	t.Run("list empty directory", func(t *testing.T) {
+		// Create an empty subdirectory
+		emptyDir := filepath.Join(tempDir, "empty")
+		err := os.Mkdir(emptyDir, 0755)
+		if err != nil {
+			t.Fatalf("Failed to create empty directory: %v", err)
+		}
+
+		vm := setupJavascriptVM(tempDir)
+
+		script := `JSON.stringify(mxlint.listdir("empty"))`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		expected := `[]`
+		if result.String() != expected {
+			t.Errorf("Expected %q, got %q", expected, result.String())
+		}
+	})
+
+	t.Run("listdir on file throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir)
+
+		script := `
+		try {
+			mxlint.listdir("file1.txt");
+			"no error";
+		} catch (e) {
+			e.message.includes("not a directory") ? "not a directory" : "error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+
+		if result.String() == "no error" {
+			t.Error("Expected an error when calling listdir on a file")
+		}
+	})
+}
+
 func TestMxlintObjectAvailable(t *testing.T) {
 	vm := setupJavascriptVM(".")
 
@@ -182,5 +377,16 @@ func TestMxlintObjectAvailable(t *testing.T) {
 
 	if result.String() != "function" {
 		t.Errorf("Expected mxlint.readfile to be a function, got %q", result.String())
+	}
+
+	// Check that mxlint.listdir is a function
+	script = `typeof mxlint.listdir`
+	result, err = vm.RunString(script)
+	if err != nil {
+		t.Fatalf("Failed to run script: %v", err)
+	}
+
+	if result.String() != "function" {
+		t.Errorf("Expected mxlint.listdir to be a function, got %q", result.String())
 	}
 }
