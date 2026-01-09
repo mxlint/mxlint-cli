@@ -116,7 +116,7 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 
 	ruleFunction, ok := sobek.AssertFunction(vm.Get("rule"))
 	if !ok {
-		panic("rule(...) function not found")
+		panic("rule(...) function not found in rule file: " + rulePath)
 	}
 
 	res, err := ruleFunction(sobek.Undefined(), vm.ToValue(data))
