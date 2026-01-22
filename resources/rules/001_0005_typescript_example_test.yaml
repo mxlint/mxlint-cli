@@ -1,10 +1,10 @@
 TestCases:
-- name: allow when Name is Allowed
+- name: allow when Name is set
   allow: true
   input:
     Name: Allowed
 
-- name: deny when Name is different
+- name: deny when Name is not set
   allow: false
   input:
-    Name: Denied
+    Name: ""
