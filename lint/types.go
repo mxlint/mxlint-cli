@@ -39,6 +39,7 @@ type Skipped struct {
 const (
 	LanguageRego       = "rego"
 	LanguageJavascript = "javascript"
+	LanguageTypescript = "typescript"
 )
 
 type Rule struct {

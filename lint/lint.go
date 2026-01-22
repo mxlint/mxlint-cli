@@ -306,6 +306,8 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 			} else if rule.Language == LanguageJavascript {
 				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+			} else if rule.Language == LanguageTypescript {
+				testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
 			}
 			if err != nil {
 				return nil, err
@@ -346,6 +348,8 @@ func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, ca
 		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 	} else if rule.Language == LanguageJavascript {
 		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+	} else if rule.Language == LanguageTypescript {
+		testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
 	}
 
 	if err != nil {
@@ -379,6 +383,13 @@ func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
 		}
 		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.js") && strings.HasSuffix(info.Name(), ".js") {
 			rule, err := parseRuleMetadata_Javascript(path)
+			if err != nil {
+				return err
+			}
+			rules = append(rules, *rule)
+		}
+		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.ts") && strings.HasSuffix(info.Name(), ".ts") {
+			rule, err := parseRuleMetadata_Typescript(path)
 			if err != nil {
 				return err
 			}

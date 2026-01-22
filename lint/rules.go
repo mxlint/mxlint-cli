@@ -57,6 +57,11 @@ func runTestCases(rule Rule) error {
 		if err != nil {
 			log.Errorf("Failed: %v", err)
 		}
+	} else if rule.Language == LanguageTypescript {
+		err := runTypescriptTestCases(rule)
+		if err != nil {
+			log.Errorf("Failed: %v", err)
+		}
 	} else if rule.Language == LanguageRego {
 		err := runRegoTestCases(rule)
 		if err != nil {
