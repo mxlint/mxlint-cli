@@ -44,8 +44,18 @@ func TestAll(rulesPath string) error {
 		return fmt.Errorf("found duplicate rule numbers")
 	}
 
+	var failed int
+	var firstErr error
 	for _, rule := range allRules {
-		runTestCases(rule)
+		if err := runTestCases(rule); err != nil {
+			failed++
+			if firstErr == nil {
+				firstErr = err
+			}
+		}
+	}
+	if failed > 0 {
+		return fmt.Errorf("%d rule test(s) failed: %w", failed, firstErr)
 	}
 	return nil
 }
@@ -53,18 +63,28 @@ func TestAll(rulesPath string) error {
 func runTestCases(rule Rule) error {
 	log.Infof(">> %s", rule.Path)
 	if rule.Language == LanguageJavascript {
-		err := runJavaScriptTestCases(rule)
-		if err != nil {
+		if err := runJavaScriptTestCases(rule); err != nil {
 			log.Errorf("Failed: %v", err)
+			return err
 		}
-	} else if rule.Language == LanguageRego {
-		err := runRegoTestCases(rule)
-		if err != nil {
-			log.Errorf("Failed: %v", err)
-		}
-	} else {
-		log.Warnf("Skipped unsupported rule %s.", rule.Path)
+		return nil
 	}
+	if rule.Language == LanguageTypescript {
+		if err := runTypescriptTestCases(rule); err != nil {
+			log.Errorf("Failed: %v", err)
+			return err
+		}
+		return nil
+	}
+	if rule.Language == LanguageRego {
+		if err := runRegoTestCases(rule); err != nil {
+			log.Errorf("Failed: %v", err)
+			return err
+		}
+		return nil
+	}
+
+	log.Warnf("Skipped unsupported rule %s.", rule.Path)
 	return nil
 }
 
@@ -248,9 +268,10 @@ func runRegoTestCases(rule Rule) error {
 			for _, error := range errors {
 				log.Errorf("Error: %s", error)
 			}
-		} else {
-			log.Infof("PASS  %s", name)
+			return fmt.Errorf("FAIL %s: Expected: %v, got: %v", name, allow, result)
 		}
+
+		log.Infof("PASS  %s", name)
 	}
 
 	return nil
