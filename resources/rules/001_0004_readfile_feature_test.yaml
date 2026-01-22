@@ -1,0 +1,6 @@
+TestCases:
+- name: validates_project_settings_exist
+  input:
+    EnableDemoUsers: false
+  allow: true
+
