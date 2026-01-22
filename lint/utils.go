@@ -104,6 +104,27 @@ func shouldSkipRule(documentation string, ruleNumber string, ignoreNoqa bool) (b
 	return false, ""
 }
 
+// quoteRegoMetadataRulenumber pre-processes rego content to ensure the rulenumber
+// value in YAML metadata is quoted as a string. This prevents YAML 1.1 parsers
+// (like OPA's metadata parser) from interpreting values like "002_0002" as octal numbers.
+func quoteRegoMetadataRulenumber(content string) string {
+	// Pattern matches "rulenumber: <value>" in metadata comments
+	// and ensures the value is quoted if it isn't already
+	re := regexp.MustCompile(`(#\s*rulenumber:\s*)([^"'\s][^\n]*)`)
+	return re.ReplaceAllStringFunc(content, func(match string) string {
+		parts := re.FindStringSubmatch(match)
+		if len(parts) == 3 {
+			prefix := parts[1]
+			value := strings.TrimSpace(parts[2])
+			// Only quote if not already quoted
+			if !strings.HasPrefix(value, `"`) && !strings.HasPrefix(value, `'`) {
+				return prefix + `"` + value + `"`
+			}
+		}
+		return match
+	})
+}
+
 func expandPaths(pattern string, workingDirectory string) ([]string, error) {
 	// backwards compatible with old filepath.glob(...)
 	if !strings.HasPrefix(pattern, ".*") {

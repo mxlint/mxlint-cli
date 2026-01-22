@@ -1,0 +1,6 @@
+TestCases:
+- name: can_read_sibling_file
+  input:
+    EnableDemoUsers: false
+  allow: true
+
