@@ -6,67 +6,67 @@ import (
 
 func TestParseNoqaDirective(t *testing.T) {
 	tests := []struct {
-		name           string
-		line           string
+		name            string
+		line            string
 		expectedSkipAll bool
-		expectedRules  []string
-		expectedReason string
+		expectedRules   []string
+		expectedReason  string
 	}{
 		{
-			name:           "Skip all rules with #noqa",
-			line:           "#noqa",
+			name:            "Skip all rules with #noqa",
+			line:            "#noqa",
 			expectedSkipAll: true,
-			expectedRules:  nil,
-			expectedReason: "#noqa",
+			expectedRules:   nil,
+			expectedReason:  "#noqa",
 		},
 		{
-			name:           "Skip all rules with # noqa",
-			line:           "# noqa",
+			name:            "Skip all rules with # noqa",
+			line:            "# noqa",
 			expectedSkipAll: true,
-			expectedRules:  nil,
-			expectedReason: "# noqa",
+			expectedRules:   nil,
+			expectedReason:  "# noqa",
 		},
 		{
-			name:           "Skip all rules with message",
-			line:           "#noqa This is a reason",
+			name:            "Skip all rules with message",
+			line:            "#noqa This is a reason",
 			expectedSkipAll: true,
-			expectedRules:  nil,
-			expectedReason: "#noqa This is a reason",
+			expectedRules:   nil,
+			expectedReason:  "#noqa This is a reason",
 		},
 		{
-			name:           "Skip specific rule",
-			line:           "#noqa:001_0002",
+			name:            "Skip specific rule",
+			line:            "#noqa:001_0002",
 			expectedSkipAll: false,
-			expectedRules:  []string{"001_0002"},
-			expectedReason: "#noqa:001_0002",
+			expectedRules:   []string{"001_0002"},
+			expectedReason:  "#noqa:001_0002",
 		},
 		{
-			name:           "Skip multiple rules",
-			line:           "#noqa:001_0002,001_0003",
+			name:            "Skip multiple rules",
+			line:            "#noqa:001_0002,001_0003",
 			expectedSkipAll: false,
-			expectedRules:  []string{"001_0002", "001_0003"},
-			expectedReason: "#noqa:001_0002,001_0003",
+			expectedRules:   []string{"001_0002", "001_0003"},
+			expectedReason:  "#noqa:001_0002,001_0003",
 		},
 		{
-			name:           "Skip multiple rules with reason",
-			line:           "#noqa:001_0002,001_0003 some reason here",
+			name:            "Skip multiple rules with reason",
+			line:            "#noqa:001_0002,001_0003 some reason here",
 			expectedSkipAll: false,
-			expectedRules:  []string{"001_0002", "001_0003"},
-			expectedReason: "#noqa:001_0002,001_0003 some reason here",
+			expectedRules:   []string{"001_0002", "001_0003"},
+			expectedReason:  "#noqa:001_0002,001_0003 some reason here",
 		},
 		{
-			name:           "Case insensitive",
-			line:           "#NOQA:001_0002",
+			name:            "Case insensitive",
+			line:            "#NOQA:001_0002",
 			expectedSkipAll: false,
-			expectedRules:  []string{"001_0002"},
-			expectedReason: "#NOQA:001_0002",
+			expectedRules:   []string{"001_0002"},
+			expectedReason:  "#NOQA:001_0002",
 		},
 		{
-			name:           "Not a noqa directive",
-			line:           "This is not a noqa",
+			name:            "Not a noqa directive",
+			line:            "This is not a noqa",
 			expectedSkipAll: false,
-			expectedRules:  nil,
-			expectedReason: "",
+			expectedRules:   nil,
+			expectedReason:  "",
 		},
 	}
 
@@ -193,3 +193,68 @@ func TestShouldSkipRuleWithIgnoreNoqa(t *testing.T) {
 	}
 }
 
+func TestQuoteRegoMetadataRulenumber(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "Quote unquoted rulenumber with leading zeros",
+			input:    "#  rulenumber: 002_0002",
+			expected: `#  rulenumber: "002_0002"`,
+		},
+		{
+			name:     "Quote unquoted rulenumber without leading zeros",
+			input:    "#  rulenumber: 001_0001",
+			expected: `#  rulenumber: "001_0001"`,
+		},
+		{
+			name:     "Preserve already double-quoted rulenumber",
+			input:    `#  rulenumber: "002_0002"`,
+			expected: `#  rulenumber: "002_0002"`,
+		},
+		{
+			name:     "Preserve already single-quoted rulenumber",
+			input:    `#  rulenumber: '002_0002'`,
+			expected: `#  rulenumber: '002_0002'`,
+		},
+		{
+			name: "Full metadata block with rulenumber",
+			input: `# METADATA
+# scope: package
+# title: Test Rule
+# custom:
+#  category: Maintainability
+#  rulename: TestRule
+#  severity: MEDIUM
+#  rulenumber: 002_0002
+#  remediation: Fix it
+package test`,
+			expected: `# METADATA
+# scope: package
+# title: Test Rule
+# custom:
+#  category: Maintainability
+#  rulename: TestRule
+#  severity: MEDIUM
+#  rulenumber: "002_0002"
+#  remediation: Fix it
+package test`,
+		},
+		{
+			name:     "No rulenumber in content",
+			input:    "# METADATA\npackage test",
+			expected: "# METADATA\npackage test",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := quoteRegoMetadataRulenumber(tt.input)
+			if result != tt.expected {
+				t.Errorf("Expected:\n%s\n\nGot:\n%s", tt.expected, result)
+			}
+		})
+	}
+}

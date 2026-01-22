@@ -171,6 +171,15 @@ func runRegoTestCases(rule Rule) error {
 		return err
 	}
 
+	// Read and pre-process rego content once for all test cases
+	regoFile, err := os.ReadFile(rule.Path)
+	if err != nil {
+		return err
+	}
+	// Pre-process rego content to quote rulenumber in metadata
+	// This prevents YAML 1.1 octal interpretation of values like "002_0002"
+	regoContent := quoteRegoMetadataRulenumber(string(regoFile))
+
 	for _, testCase := range testCases {
 		var input map[string]interface{}
 		var allow bool
@@ -201,7 +210,7 @@ func runRegoTestCases(rule Rule) error {
 
 		r := rego.New(
 			rego.Query(queryString),
-			rego.Load([]string{rule.Path}, nil),
+			rego.Module(rule.Path, regoContent),
 			rego.Input(input),
 			rego.Trace(true),
 		)

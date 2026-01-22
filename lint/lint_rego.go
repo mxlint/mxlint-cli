@@ -15,6 +15,10 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	regoFile, _ := os.ReadFile(rulePath)
 	log.Debugf("rego file: \n%s", regoFile)
 
+	// Pre-process rego content to quote rulenumber in metadata
+	// This prevents YAML 1.1 octal interpretation of values like "002_0002"
+	regoContent := quoteRegoMetadataRulenumber(string(regoFile))
+
 	yamlFile, err := os.ReadFile(inputFilePath)
 	if err != nil {
 		log.Errorf("Error reading YAML file: %s\n", err)
@@ -51,7 +55,7 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	startTime := time.Now()
 	r := rego.New(
 		rego.Query(queryString),
-		rego.Load([]string{rulePath}, nil),
+		rego.Module(rulePath, regoContent),
 		rego.Input(data),
 		rego.Trace(true),
 	)
