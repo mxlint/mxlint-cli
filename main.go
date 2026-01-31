@@ -60,6 +60,7 @@ func main() {
 			JsonFile, _ := cmd.Flags().GetString("json-file")
 			verbose, _ := cmd.Flags().GetBool("verbose")
 			ignoreNoqa, _ := cmd.Flags().GetBool("ignore-noqa")
+			useCache, _ := cmd.Flags().GetBool("cache")
 
 			log := logrus.New()
 			if verbose {
@@ -69,7 +70,7 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa)
+			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa, useCache)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)
@@ -83,6 +84,7 @@ func main() {
 	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")
 	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
 	cmdLint.Flags().Bool("ignore-noqa", false, "Ignore noqa directives in documents")
+	cmdLint.Flags().Bool("cache", false, "Enable caching of lint results. When enabled, results are cached and reused if rules and model files haven't changed")
 	rootCmd.AddCommand(cmdLint)
 
 	// Add the serve command

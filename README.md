@@ -84,6 +84,7 @@ mxlint-cli lint [flags]
 | `--xunit-report` | `-x` | | Path to output file for xunit report. If not provided, no xunit report will be generated |
 | `--json-file` | `-j` | | Path to output file for JSON report. If not provided, no JSON file will be generated |
 | `--ignore-noqa` | | `false` | Ignore noqa directives in documents |
+| `--cache` | | `false` | Enable caching of lint results. When enabled, results are cached and reused if rules and model files haven't changed |
 | `--verbose` | | `false` | Turn on for debug logs |
 
 ---
