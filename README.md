@@ -43,6 +43,122 @@ You will see a summary of the policy evaluations in the terminal and a report in
 
 Do you want to create your own policies? Please refer to our guide [Create new policy](./docs/create-new-policy.md)
 
+## Subcommands Reference
+
+### export-model
+
+Export Mendix model to yaml files. The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.
+
+**Usage:**
+```bash
+mxlint-cli export-model [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
+| `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
+| `--mode` | `-m` | `basic` | Export mode. Valid options: `basic`, `advanced` |
+| `--filter` | `-f` | | Regex pattern to filter units by name. Only units with names matching the pattern will be exported |
+| `--raw` | | `false` | If set, the output yaml will include all attributes as they are in the model |
+| `--appstore` | | `false` | If set, appstore modules will be included in the output |
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### lint
+
+Evaluate Mendix model against rules. Requires the model to be exported first. The model is evaluated against a set of rules defined in OPA Rego files or JavaScript. The output is a list of checked rules and their outcome.
+
+**Usage:**
+```bash
+mxlint-cli lint [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
+| `--modelsource` | `-m` | `modelsource` | Path to directory with exported model |
+| `--xunit-report` | `-x` | | Path to output file for xunit report. If not provided, no xunit report will be generated |
+| `--json-file` | `-j` | | Path to output file for JSON report. If not provided, no JSON file will be generated |
+| `--ignore-noqa` | | `false` | Ignore noqa directives in documents |
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### serve
+
+Run a server that exports model and lints whenever the input MPR file changes. Works in standalone mode and via integration with the Mendix Studio Pro extension.
+
+**Usage:**
+```bash
+mxlint-cli serve [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
+| `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
+| `--mode` | `-m` | `basic` | Export mode. Valid options: `basic`, `advanced` |
+| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
+| `--port` | `-p` | `8082` | Port to run the server on |
+| `--debounce` | `-d` | `500` | Debounce time in milliseconds for file change events |
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### test-rules
+
+Ensure rules are working as expected against predefined test cases. When you are developing a new rule, you can use this command to ensure it works as expected.
+
+**Usage:**
+```bash
+mxlint-cli test-rules [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### cache-clear
+
+Clear the lint results cache. Removes all cached lint results. The cache is used to speed up repeated linting operations when rules and model files haven't changed.
+
+**Usage:**
+```bash
+mxlint-cli cache-clear [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### cache-stats
+
+Show cache statistics. Displays information about the cached lint results, including number of entries and total size.
+
+**Usage:**
+```bash
+mxlint-cli cache-stats [flags]
+```
+
+**Flags:**
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
 ## export-model
 
 Mendix models are stored in a binary file with `.mpr` extension. This project exports Mendix model to a human readable format, such as Yaml. This enables developers to use traditional code analysis tools on Mendix models. Think of quality checks like linting, code formatting, etc.
