@@ -76,7 +76,7 @@ func transpileTypescriptRule(rulePath string) (string, error) {
 	return code, nil
 }
 
-func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
+func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool, modelSourcePath string) (*Testcase, error) {
 	ruleContent, err := transpileTypescriptRule(rulePath)
 	if err != nil {
 		return nil, err
@@ -117,9 +117,13 @@ func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber s
 
 	startTime := time.Now()
 
-	// Use the directory containing the input file as the working directory
-	workingDirectory := filepath.Dir(inputFilePath)
-	vm := setupJavascriptVM(workingDirectory)
+	// Use the modelsource path as the working directory, falling back to input file's directory
+	workingDirectory := modelSourcePath
+	if workingDirectory == "" {
+		workingDirectory = filepath.Dir(inputFilePath)
+	}
+	allowedRoot := resolveAllowedRoot(modelSourcePath)
+	vm := setupJavascriptVM(workingDirectory, allowedRoot)
 	_, err = vm.RunString(ruleContent)
 	if err != nil {
 		panic(err)
@@ -251,7 +255,7 @@ func runTypescriptTestCases(rule Rule) error {
 
 		// Use the directory containing the rule file as the working directory
 		workingDirectory := filepath.Dir(rule.Path)
-		vm := setupJavascriptVM(workingDirectory)
+		vm := setupJavascriptVM(workingDirectory, workingDirectory)
 		_, err = vm.RunString(ruleContent)
 		if err != nil {
 			panic(err)

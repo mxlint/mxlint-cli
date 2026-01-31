@@ -19,7 +19,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	}
 
 	t.Run("read file with relative path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.readfile("test.txt")`
 		result, err := vm.RunString(script)
@@ -33,7 +33,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 
 	t.Run("read file with absolute path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.readfile("` + testFilePath + `")`
 		result, err := vm.RunString(script)
@@ -47,7 +47,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 
 	t.Run("read nonexistent file throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -68,14 +68,14 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 
 	t.Run("path traversal with .. is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.readfile("../../../etc/passwd");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -89,14 +89,14 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.readfile("/etc/passwd");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -110,7 +110,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 
 	t.Run("readfile without argument throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -145,7 +145,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 			t.Fatalf("Failed to create subfile: %v", err)
 		}
 
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.readfile("subdir/subfile.txt")`
 		result, err := vm.RunString(script)
@@ -182,7 +182,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	}
 
 	t.Run("list directory with relative path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `JSON.stringify(mxlint.io.listdir(".").sort())`
 		result, err := vm.RunString(script)
@@ -197,7 +197,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("list directory with absolute path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `JSON.stringify(mxlint.io.listdir("` + tempDir + `").sort())`
 		result, err := vm.RunString(script)
@@ -212,7 +212,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("list subdirectory", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `JSON.stringify(mxlint.io.listdir("subdir"))`
 		result, err := vm.RunString(script)
@@ -227,7 +227,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("list nonexistent directory throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -248,14 +248,14 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("path traversal with .. is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.listdir("../../../etc");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -269,14 +269,14 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.listdir("/etc");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -290,7 +290,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("listdir without argument throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -318,7 +318,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 			t.Fatalf("Failed to create empty directory: %v", err)
 		}
 
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `JSON.stringify(mxlint.io.listdir("empty"))`
 		result, err := vm.RunString(script)
@@ -333,7 +333,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	})
 
 	t.Run("listdir on file throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -369,7 +369,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	}
 
 	t.Run("isdir returns true for directory with relative path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir("subdir")`
 		result, err := vm.RunString(script)
@@ -383,7 +383,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("isdir returns true for directory with absolute path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir("` + filepath.Join(tempDir, "subdir") + `")`
 		result, err := vm.RunString(script)
@@ -397,7 +397,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("isdir returns false for file", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir("file.txt")`
 		result, err := vm.RunString(script)
@@ -411,7 +411,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("isdir returns false for nonexistent path", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir("nonexistent")`
 		result, err := vm.RunString(script)
@@ -425,7 +425,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("isdir returns true for current directory", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir(".")`
 		result, err := vm.RunString(script)
@@ -439,14 +439,14 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("path traversal with .. is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.isdir("../../../etc");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -460,14 +460,14 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
 			mxlint.io.isdir("/etc");
 			"no error";
 		} catch (e) {
-			e.message.includes("outside working directory") ? "blocked" : "other error: " + e.message;
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
 		}
 		`
 		result, err := vm.RunString(script)
@@ -481,7 +481,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	})
 
 	t.Run("isdir without argument throws error", func(t *testing.T) {
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `
 		try {
@@ -509,7 +509,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 			t.Fatalf("Failed to create nested directory: %v", err)
 		}
 
-		vm := setupJavascriptVM(tempDir)
+		vm := setupJavascriptVM(tempDir, tempDir)
 
 		script := `mxlint.io.isdir("subdir/nested")`
 		result, err := vm.RunString(script)
@@ -524,7 +524,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 }
 
 func TestMxlintObjectAvailable(t *testing.T) {
-	vm := setupJavascriptVM(".")
+		vm := setupJavascriptVM(".", ".")
 
 	// Check that mxlint object is available
 	script := `typeof mxlint`

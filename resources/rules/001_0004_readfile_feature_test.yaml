@@ -1,6 +1,7 @@
 TestCases:
-- name: validates_project_settings_exist
+- name: validates_yaml_files_contain_type_field
   input:
-    EnableDemoUsers: false
+    $Type: "Core.Microflow"
+    Name: "TestMicroflow"
   allow: true
 

@@ -30,7 +30,7 @@ func printTestsuite(ts Testsuite) {
 
 // EvalAllWithResults evaluates all rules and returns the results
 // This is similar to EvalAll but returns the results instead of just printing them
-func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool) (interface{}, error) {
+func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) (interface{}, error) {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 		go func(index int, r Rule) {
 			defer wg.Done()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
 			if err != nil {
 				errChan <- err
 				return
@@ -138,7 +138,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	return testsuitesContainer, nil
 }
 
-func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool) error {
+func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) error {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
@@ -162,7 +162,7 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 		go func(index int, r Rule) {
 			defer wg.Done()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
 			if err != nil {
 				errChan <- err
 				return
@@ -259,7 +259,7 @@ func countTotalTestcases(testsuites []Testsuite) int {
 	return count
 }
 
-func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsuite, error) {
+func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool) (*Testsuite, error) {
 
 	log.Debugf("evaluating rule %s", rule.Path)
 
@@ -276,25 +276,25 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 
 	for _, inputFile := range inputFiles {
 
-		// Try to load from cache first (but skip cache if ignoreNoqa is true)
+		// Try to load from cache first (but skip cache if ignoreNoqa is true or useCache is false)
 		cacheKey, err := createCacheKey(rule.Path, inputFile)
 		if err != nil {
 			log.Debugf("Error creating cache key: %v", err)
-		} else if !ignoreNoqa {
+		} else if useCache && !ignoreNoqa {
 			cachedTestcase, found := loadCachedTestcase(*cacheKey)
 			if found {
 				testcase = cachedTestcase
 				log.Debugf("Using cached result for %s", inputFile)
 			} else {
 				// Cache miss - evaluate and save to cache
-				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa)
+				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa, modelSourcePath, useCache)
 				if err != nil {
 					return nil, err
 				}
 			}
 		} else {
-			// ignoreNoqa is true, skip cache and evaluate directly
-			testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa)
+			// useCache is false or ignoreNoqa is true, skip cache and evaluate directly
+			testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa, modelSourcePath, useCache)
 			if err != nil {
 				return nil, err
 			}
@@ -305,9 +305,9 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 			if rule.Language == LanguageRego {
 				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 			} else if rule.Language == LanguageJavascript {
-				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 			} else if rule.Language == LanguageTypescript {
-				testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+				testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 			}
 			if err != nil {
 				return nil, err
@@ -340,25 +340,25 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 }
 
 // evalTestcaseWithCaching evaluates a testcase and saves the result to cache
-func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey, ignoreNoqa bool) (*Testcase, error) {
+func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey, ignoreNoqa bool, modelSourcePath string, useCache bool) (*Testcase, error) {
 	var testcase *Testcase
 	var err error
 
 	if rule.Language == LanguageRego {
 		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 	} else if rule.Language == LanguageJavascript {
-		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 	} else if rule.Language == LanguageTypescript {
-		testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+		testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 	}
 
 	if err != nil {
 		return nil, err
 	}
 
-	// Only save to cache when ignoreNoqa is false
+	// Only save to cache when useCache is true and ignoreNoqa is false
 	// When ignoreNoqa is true, the result might differ from the normal behavior
-	if !ignoreNoqa {
+	if useCache && !ignoreNoqa {
 		if cacheErr := saveCachedTestcase(*cacheKey, testcase); cacheErr != nil {
 			log.Debugf("Error saving to cache: %v", cacheErr)
 			// Don't fail the evaluation if cache save fails

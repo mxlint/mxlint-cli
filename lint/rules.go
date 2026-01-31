@@ -129,7 +129,7 @@ func runJavaScriptTestCases(rule Rule) error {
 
 		// Use the directory containing the rule file as the working directory
 		workingDirectory := filepath.Dir(rule.Path)
-		vm := setupJavascriptVM(workingDirectory)
+		vm := setupJavascriptVM(workingDirectory, workingDirectory)
 		_, err = vm.RunString(string(ruleContent))
 		if err != nil {
 			panic(err)

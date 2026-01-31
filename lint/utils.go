@@ -16,6 +16,22 @@ func SetLogger(logger *logrus.Logger) {
 	log = logger
 }
 
+// resolveAllowedRoot returns a directory path that rules are allowed to access.
+// If modelSourcePath is a file path, its directory is used instead.
+func resolveAllowedRoot(modelSourcePath string) string {
+	if modelSourcePath == "" {
+		return ""
+	}
+	info, err := os.Stat(modelSourcePath)
+	if err != nil {
+		return modelSourcePath
+	}
+	if info.IsDir() {
+		return modelSourcePath
+	}
+	return filepath.Dir(modelSourcePath)
+}
+
 // parseNoqaDirective parses a noqa directive and returns the list of rules to skip
 // and the reason (if provided).
 // Supports two formats:
