@@ -287,14 +287,14 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 				log.Debugf("Using cached result for %s", inputFile)
 			} else {
 				// Cache miss - evaluate and save to cache
-				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa)
+				testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa, modelSourcePath)
 				if err != nil {
 					return nil, err
 				}
 			}
 		} else {
 			// ignoreNoqa is true, skip cache and evaluate directly
-			testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa)
+			testcase, err = evalTestcaseWithCaching(rule, queryString, inputFile, cacheKey, ignoreNoqa, modelSourcePath)
 			if err != nil {
 				return nil, err
 			}
@@ -305,9 +305,9 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 			if rule.Language == LanguageRego {
 				testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 			} else if rule.Language == LanguageJavascript {
-				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+				testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 			} else if rule.Language == LanguageTypescript {
-				testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+				testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 			}
 			if err != nil {
 				return nil, err
@@ -340,16 +340,16 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool) (*Testsui
 }
 
 // evalTestcaseWithCaching evaluates a testcase and saves the result to cache
-func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey, ignoreNoqa bool) (*Testcase, error) {
+func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, cacheKey *CacheKey, ignoreNoqa bool, modelSourcePath string) (*Testcase, error) {
 	var testcase *Testcase
 	var err error
 
 	if rule.Language == LanguageRego {
 		testcase, err = evalTestcase_Rego(rule.Path, queryString, inputFile, rule.RuleNumber, ignoreNoqa)
 	} else if rule.Language == LanguageJavascript {
-		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+		testcase, err = evalTestcase_Javascript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 	} else if rule.Language == LanguageTypescript {
-		testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa)
+		testcase, err = evalTestcase_Typescript(rule.Path, inputFile, rule.RuleNumber, ignoreNoqa, modelSourcePath)
 	}
 
 	if err != nil {

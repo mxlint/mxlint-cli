@@ -1,15 +1,15 @@
 const metadata = {
     scope: "package",
-    title: "Project settings must have valid configuration",
-    description: "Validates project settings by reading related configuration files",
+    title: "Files in directory must not be empty",
+    description: "Validates that all files in the current directory contain content and are not empty",
     authors: ["Test <test@example.com>"],
     custom: {
-        category: "Configuration",
-        rulename: "ProjectSettingsValidation",
+        category: "Integrity",
+        rulename: "NoEmptyFiles",
         severity: "LOW",
         rulenumber: "001_0004",
-        remediation: "Ensure Settings$ProjectSettings.yaml exists and contains valid configuration",
-        input: ".*Security\\$ProjectSecurity\\.yaml"
+        remediation: "Ensure all files in the directory have content. Remove or populate empty files.",
+        input: ".*Microflows\\$Microflow\\.yaml"
     }
 };
 
@@ -17,22 +17,24 @@ const metadata = {
 function rule(input = {}) {
     const errors = [];
 
-    // Use mxlint.readfile to read the Settings$ProjectSettings.yaml file
-    // which should be in the same directory as the Security$ProjectSecurity.yaml input file
+    // Use mxlint.io.listdir and mxlint.io.readfile to read file in another directory
     try {
-        const settingsContent = mxlint.io.readfile("Settings$ProjectSettings.yaml");
 
-        // Check if the settings file contains expected content
-        if (!settingsContent.includes("$Type:")) {
-            errors.push("Settings file does not contain expected $Type field");
+        const items = mxlint.io.listdir(".");
+        if (items.length === 0) {
+            errors.push("No items found in the current directory");
         }
-
-        // Verify we can read the content correctly
-        if (!settingsContent.includes("Settings$ProjectSettings")) {
-            errors.push("Settings file does not contain Settings$ProjectSettings type");
+        for (const item of items) {
+            const itemPath = item;
+            if (!mxlint.io.isdir(itemPath)) {
+                const content = mxlint.io.readfile(itemPath);
+                if (content === "") {
+                    errors.push("item " + itemPath + " is empty");
+                }
+            }
         }
     } catch (e) {
-        errors.push("Failed to read Settings$ProjectSettings.yaml: " + e.message);
+        errors.push("Failed to read items in the current directory: " + e.message);
     }
 
     // Determine final authorization decision

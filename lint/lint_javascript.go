@@ -12,8 +12,11 @@ import (
 )
 
 // resolvePath resolves the given path relative to the working directory and validates
-// that it stays within the working directory. Returns the absolute path or an error.
-func resolvePath(pathArg string, workingDirectory string) (string, error) {
+// that it stays within the allowed root. Returns the absolute path or an error.
+func resolvePath(pathArg string, workingDirectory string, allowedRoot string) (string, error) {
+	if allowedRoot == "" {
+		allowedRoot = workingDirectory
+	}
 	// Resolve the path relative to working directory
 	var fullPath string
 	if filepath.IsAbs(pathArg) {
@@ -29,15 +32,19 @@ func resolvePath(pathArg string, workingDirectory string) (string, error) {
 	}
 	absFullPath = filepath.Clean(absFullPath)
 
-	absWorkingDir, err := filepath.Abs(workingDirectory)
+	absAllowedRoot, err := filepath.Abs(allowedRoot)
 	if err != nil {
 		return "", fmt.Errorf("failed to resolve working directory: %w", err)
 	}
-	absWorkingDir = filepath.Clean(absWorkingDir)
+	absAllowedRoot = filepath.Clean(absAllowedRoot)
 
-	// Check that the resolved path is within the working directory
-	if !strings.HasPrefix(absFullPath, absWorkingDir+string(filepath.Separator)) && absFullPath != absWorkingDir {
-		return "", fmt.Errorf("path %q is outside working directory %q", pathArg, workingDirectory)
+	// Check that the resolved path is within the allowed root
+	relPath, err := filepath.Rel(absAllowedRoot, absFullPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to resolve path: %w", err)
+	}
+	if relPath == ".." || strings.HasPrefix(relPath, ".."+string(filepath.Separator)) {
+		return "", fmt.Errorf("path %q is outside modelsource root %q", absFullPath, absAllowedRoot)
 	}
 
 	return absFullPath, nil
@@ -51,7 +58,7 @@ func resolvePath(pathArg string, workingDirectory string) (string, error) {
 //     The path is resolved relative to the workingDirectory.
 //   - mxlint.io.isdir(path): Returns true if the path is a directory, false otherwise.
 //     The path is resolved relative to the workingDirectory.
-func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
+func setupJavascriptVM(workingDirectory string, allowedRoot string) *sobek.Runtime {
 	vm := sobek.New()
 
 	// Create the mxlint object
@@ -69,7 +76,7 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 		}
 		filepathArg := call.Argument(0).String()
 
-		absPath, err := resolvePath(filepathArg, workingDirectory)
+		absPath, err := resolvePath(filepathArg, workingDirectory, allowedRoot)
 		if err != nil {
 			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readfile: %w", err)))
 		}
@@ -88,7 +95,7 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 		}
 		dirpathArg := call.Argument(0).String()
 
-		absPath, err := resolvePath(dirpathArg, workingDirectory)
+		absPath, err := resolvePath(dirpathArg, workingDirectory, allowedRoot)
 		if err != nil {
 			panic(vm.NewGoError(fmt.Errorf("mxlint.io.listdir: %w", err)))
 		}
@@ -114,7 +121,7 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 		}
 		pathArg := call.Argument(0).String()
 
-		absPath, err := resolvePath(pathArg, workingDirectory)
+		absPath, err := resolvePath(pathArg, workingDirectory, allowedRoot)
 		if err != nil {
 			panic(vm.NewGoError(fmt.Errorf("mxlint.io.isdir: %w", err)))
 		}
@@ -133,7 +140,7 @@ func setupJavascriptVM(workingDirectory string) *sobek.Runtime {
 	return vm
 }
 
-func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
+func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber string, ignoreNoqa bool, modelSourcePath string) (*Testcase, error) {
 	ruleContent, _ := os.ReadFile(rulePath)
 	log.Debugf("js file: \n%s", ruleContent)
 
@@ -171,9 +178,13 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 
 	startTime := time.Now()
 
-	// Use the directory containing the input file as the working directory
-	workingDirectory := filepath.Dir(inputFilePath)
-	vm := setupJavascriptVM(workingDirectory)
+	// Use the modelsource path as the working directory, falling back to input file's directory
+	workingDirectory := modelSourcePath
+	if workingDirectory == "" {
+		workingDirectory = filepath.Dir(inputFilePath)
+	}
+	allowedRoot := resolveAllowedRoot(modelSourcePath)
+	vm := setupJavascriptVM(workingDirectory, allowedRoot)
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
 		panic(err)
