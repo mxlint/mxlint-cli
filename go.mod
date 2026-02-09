@@ -3,7 +3,7 @@ module github.com/mxlint/mxlint-cli
 go 1.24.6
 
 require (
-	github.com/evanw/esbuild v0.27.2
+	github.com/evanw/esbuild v0.27.3
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/glebarez/go-sqlite v1.22.0
 	github.com/grafana/sobek v0.0.0-20251124090928-9a028a30ff58
