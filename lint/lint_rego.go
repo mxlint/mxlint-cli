@@ -72,7 +72,12 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	log.Debugf("Result: %v", rs)
 	rsmap := rs[0].Expressions[0].Value.(map[string]interface{})
 	result := rsmap["allow"].(bool)
-	errors := rsmap["errors"].([]interface{})
+	errors, ok := rsmap["errors"].([]interface{})
+	
+	if !ok || errors == nil {
+    	errors = []interface{}{}
+	}
+	
 	if !result {
 		myErrors := make([]string, 0)
 		for _, err := range errors {
