@@ -85,7 +85,7 @@ func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber s
 
 	documentContent, err := os.ReadFile(inputFilePath)
 	if err != nil {
-		log.Errorf("Error reading YAML file: %s\n", err)
+		log.Errorf("Error reading YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
 		return nil, err
 	}
 
@@ -94,12 +94,12 @@ func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber s
 	var node yaml.Node
 	err = yaml.Unmarshal(documentContent, &node)
 	if err != nil {
-		log.Errorf("Error parsing YAML file: %s\n", err)
+		log.Errorf("Error parsing YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
 		return nil, err
 	}
 	err = node.Decode(&data)
 	if err != nil {
-		log.Errorf("Error decoding YAML file: %s\n", err)
+		log.Errorf("Error decoding YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
 		return nil, err
 	}
 
