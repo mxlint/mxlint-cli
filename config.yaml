@@ -1,0 +1,11 @@
+rules:
+  path: .mendix-cache/rules
+  rulesets:
+    - https://github.com/mxlint/mxlint-rules/releases/download/v3.3.0/rules-v3.3.0.zip
+lint:
+  skip: {}
+export:
+  output: modelsource
+  input: .
+  mode: basic
+  filter: "*"

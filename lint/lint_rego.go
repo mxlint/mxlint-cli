@@ -11,7 +11,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string, ruleNumber string, ignoreNoqa bool) (*Testcase, error) {
+func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string, ruleNumber string, ignoreNoqa bool, modelSourcePath string) (*Testcase, error) {
 	regoFile, _ := os.ReadFile(rulePath)
 	log.Debugf("rego file: \n%s", regoFile)
 
@@ -38,16 +38,14 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 		return nil, err
 	}
 
-	// Check if this rule should be skipped based on noqa directives
-	if doc, ok := data["Documentation"].(string); ok {
-		shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa)
-		if shouldSkip {
-			return &Testcase{
-				Name:    inputFilePath,
-				Time:    0,
-				Skipped: &Skipped{Message: reason},
-			}, nil
-		}
+	doc, _ := data["Documentation"].(string)
+	shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa, inputFilePath, modelSourcePath)
+	if shouldSkip {
+		return &Testcase{
+			Name:    inputFilePath,
+			Time:    0,
+			Skipped: &Skipped{Message: reason},
+		}, nil
 	}
 
 	ctx := context.Background()
@@ -73,11 +71,11 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	rsmap := rs[0].Expressions[0].Value.(map[string]interface{})
 	result := rsmap["allow"].(bool)
 	errors, ok := rsmap["errors"].([]interface{})
-	
+
 	if !ok || errors == nil {
-    	errors = []interface{}{}
+		errors = []interface{}{}
 	}
-	
+
 	if !result {
 		myErrors := make([]string, 0)
 		for _, err := range errors {

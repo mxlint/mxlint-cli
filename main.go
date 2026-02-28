@@ -1,8 +1,10 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
@@ -11,7 +13,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//go:embed config.yaml
+var bakedDefaultConfigYAML []byte
+
 func main() {
+	lint.SetDefaultConfigYAML(bakedDefaultConfigYAML)
 
 	var rootCmd = &cobra.Command{Use: "mxlint-cli"}
 
@@ -36,6 +42,31 @@ func main() {
 			}
 
 			mpr.SetLogger(log)
+			projectDir, err := os.Getwd()
+			if err != nil {
+				log.Errorf("failed to resolve current working directory: %s", err)
+				os.Exit(1)
+			}
+
+			config, err := lint.LoadMergedConfig(projectDir)
+			if err != nil {
+				log.Errorf("failed to load configuration: %s", err)
+				os.Exit(1)
+			}
+
+			if !cmd.Flags().Changed("input") && config != nil && config.Export.Input != "" {
+				inputDirectory = config.Export.Input
+			}
+			if !cmd.Flags().Changed("output") && config != nil && config.Export.Output != "" {
+				outputDirectory = config.Export.Output
+			}
+			if !cmd.Flags().Changed("mode") && config != nil && config.Export.Mode != "" {
+				mode = config.Export.Mode
+			}
+			if !cmd.Flags().Changed("filter") && config != nil {
+				filter = config.Export.Filter
+			}
+
 			mpr.ExportModel(inputDirectory, outputDirectory, raw, mode, appstore, filter)
 		},
 	}
@@ -70,7 +101,39 @@ func main() {
 			}
 
 			lint.SetLogger(log)
-			err := lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa, !noCache)
+			projectDir, err := os.Getwd()
+			if err != nil {
+				log.Errorf("failed to resolve current working directory: %s", err)
+				os.Exit(1)
+			}
+
+			config, err := lint.LoadMergedConfig(projectDir)
+			if err != nil {
+				log.Errorf("failed to load configuration: %s", err)
+				os.Exit(1)
+			}
+			lint.SetConfig(config)
+
+			if !cmd.Flags().Changed("rules") && config != nil && config.Rules.Path != "" {
+				rulesDirectory = config.Rules.Path
+			}
+			if !cmd.Flags().Changed("modelsource") && config != nil && config.Export.Output != "" {
+				modelDirectory = config.Export.Output
+			}
+
+			if !filepath.IsAbs(rulesDirectory) {
+				rulesDirectory = filepath.Join(projectDir, rulesDirectory)
+			}
+
+			if config != nil && len(config.Rules.Rulesets) > 0 {
+				log.Infof("Syncing %d rulesets to %s", len(config.Rules.Rulesets), rulesDirectory)
+				if err := lint.SyncRulesets(config.Rules.Rulesets, rulesDirectory, projectDir); err != nil {
+					log.Errorf("failed to sync rulesets: %s", err)
+					os.Exit(1)
+				}
+			}
+
+			err = lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa, !noCache)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)

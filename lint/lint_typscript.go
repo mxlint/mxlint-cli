@@ -104,15 +104,14 @@ func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber s
 	}
 
 	// Check if this rule should be skipped based on noqa directives
-	if doc, ok := data["Documentation"].(string); ok {
-		shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa)
-		if shouldSkip {
-			return &Testcase{
-				Name:    inputFilePath,
-				Time:    0,
-				Skipped: &Skipped{Message: reason},
-			}, nil
-		}
+	doc, _ := data["Documentation"].(string)
+	shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa, inputFilePath, modelSourcePath)
+	if shouldSkip {
+		return &Testcase{
+			Name:    inputFilePath,
+			Time:    0,
+			Skipped: &Skipped{Message: reason},
+		}, nil
 	}
 
 	startTime := time.Now()

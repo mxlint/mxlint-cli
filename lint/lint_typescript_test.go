@@ -309,7 +309,7 @@ function rule(input) {
 		}
 	})
 
-	t.Run("evaluate skipped rule with noqa", func(t *testing.T) {
+	t.Run("documentation noqa is ignored", func(t *testing.T) {
 		tsContent := `
 const metadata = {
     title: "Test Rule",
@@ -341,15 +341,15 @@ Name: "Test"
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
 
-		if testcase.Skipped == nil {
-			t.Error("Expected testcase to be skipped")
+		if testcase.Skipped != nil {
+			t.Error("Expected testcase not to be skipped")
 		}
-		if testcase.Failure != nil {
-			t.Error("Expected no failure when skipped")
+		if testcase.Failure == nil {
+			t.Error("Expected failure when documentation noqa is ignored")
 		}
 	})
 
-	t.Run("noqa ignored when ignoreNoqa is true", func(t *testing.T) {
+	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
 		tsContent := `
 const metadata = {
     title: "Test Rule",
@@ -382,10 +382,10 @@ Name: "Test"
 		}
 
 		if testcase.Skipped != nil {
-			t.Error("Expected testcase not to be skipped when ignoreNoqa is true")
+			t.Error("Expected testcase not to be skipped")
 		}
 		if testcase.Failure == nil {
-			t.Error("Expected failure when ignoreNoqa is true")
+			t.Error("Expected failure")
 		}
 	})
 

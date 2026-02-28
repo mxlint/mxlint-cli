@@ -65,6 +65,47 @@ mxlint-cli export-model [flags]
 | `--appstore` | | `false` | If set, appstore modules will be included in the output |
 | `--verbose` | | `false` | Turn on for debug logs |
 
+#### Configuration file (`mxlint.yaml`)
+
+The `lint` command supports configuration files loaded in this order:
+
+1. Default config: `config.yaml` baked into the executable at compile time
+2. System config:
+   - Windows: `%USERPROFILE%/mxlint.yaml`
+   - Unix/Linux/macOS: `~/.config/mxlint.yaml`
+   - Optional override: `MXLINT_SYSTEM_CONFIG`
+3. `$PROJECT/mxlint.yaml` (current working directory)
+
+Project config has higher precedence than system config.
+
+Example:
+
+```yaml
+rules:
+  path: .mendix-cache/rules
+  rulesets:
+    - file://rules
+    - https://example.com/rules.zip
+    - git://github.com/mxlint/mxlint-rules
+lint:
+  skip:
+    example/doc:
+      - rule: 001_002
+        reason: some reason
+        date: 2026-02-27 11:00:00Z
+export:
+  output: modelsource
+  input: .
+  mode: basic
+  filter: "*"
+```
+
+Notes:
+- `rules.path` is used as the default rules directory when `--rules` is not provided.
+- If `rules.rulesets` are configured, they are synchronized into `rules.path` before linting.
+- `lint.skip` supports skipping by document path (relative to `modelsource`) and rule number.
+- `export.*` is used as defaults for `export-model`, and `export.output` is used as the default `lint --modelsource`.
+
 ---
 
 ### lint

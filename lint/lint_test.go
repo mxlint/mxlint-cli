@@ -201,21 +201,21 @@ Name: "Test"
 		Language:    LanguageJavascript,
 	}
 
-	t.Run("noqa skips the rule", func(t *testing.T) {
+	t.Run("documentation noqa is ignored", func(t *testing.T) {
 		result, err := evalTestsuite(rule, tempDir, false, false)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
 
-		if result.Skipped != 1 {
-			t.Errorf("Expected 1 skipped, got %d", result.Skipped)
+		if result.Skipped != 0 {
+			t.Errorf("Expected 0 skipped, got %d", result.Skipped)
 		}
-		if result.Failures != 0 {
-			t.Errorf("Expected 0 failures when skipped, got %d", result.Failures)
+		if result.Failures != 1 {
+			t.Errorf("Expected 1 failure when documentation noqa is ignored, got %d", result.Failures)
 		}
 	})
 
-	t.Run("ignoreNoqa runs the rule anyway", func(t *testing.T) {
+	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
 		result, err := evalTestsuite(rule, tempDir, true, false)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
