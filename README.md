@@ -45,6 +45,16 @@ Do you want to create your own policies? Please refer to our guide [Create new p
 
 ## Subcommands Reference
 
+> Configuration-driven commands: subcommand-specific options are read from merged config (`default.yaml` + system `mxlint.yaml` + project `mxlint.yaml`). You can also pass `--config <path>` to apply a specific config file with the highest precedence. Use global `--verbose` on the root command to enable debug logging for any subcommand.
+
+Global verbose examples:
+
+```bash
+mxlint-cli --verbose lint
+mxlint-cli -v export-model
+mxlint-cli -v serve
+```
+
 ### export-model
 
 Export Mendix model to yaml files. The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.
@@ -69,14 +79,15 @@ mxlint-cli export-model [flags]
 
 The `lint` command supports configuration files loaded in this order:
 
-1. Default config: `config.yaml` baked into the executable at compile time
+1. Default config: `default.yaml` baked into the executable at compile time
 2. System config:
    - Windows: `%USERPROFILE%/mxlint.yaml`
    - Unix/Linux/macOS: `~/.config/mxlint.yaml`
    - Optional override: `MXLINT_SYSTEM_CONFIG`
 3. `$PROJECT/mxlint.yaml` (current working directory)
+4. Optional explicit config via `--config <path>` (highest precedence, file must exist)
 
-Project config has higher precedence than system config.
+Project config has higher precedence than system config, and `--config` has the highest precedence.
 
 Example:
 
@@ -127,6 +138,17 @@ mxlint-cli lint [flags]
 | `--ignore-noqa` | | `false` | Ignore noqa directives in documents |
 | `--no-cache` | | `false` | Disable caching of lint results. By default, results are cached and reused if rules and model files haven't changed |
 | `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### config
+
+Show the active merged configuration and where config sources were found/used.
+
+**Usage:**
+```bash
+mxlint-cli config
+```
 
 ---
 

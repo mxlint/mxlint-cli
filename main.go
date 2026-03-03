@@ -5,79 +5,67 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"text/tabwriter"
 
 	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/mxlint/mxlint-cli/mpr"
 	"github.com/mxlint/mxlint-cli/serve"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
-//go:embed config.yaml
+//go:embed default.yaml
 var bakedDefaultConfigYAML []byte
 
 func main() {
 	lint.SetDefaultConfigYAML(bakedDefaultConfigYAML)
 
 	var rootCmd = &cobra.Command{Use: "mxlint-cli"}
+	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Turn on debug logs for all commands")
+	rootCmd.PersistentFlags().String("config", "", "Path to config file (highest precedence)")
 
 	var cmdExportModel = &cobra.Command{
 		Use:   "export-model",
 		Short: "Export Mendix model to yaml files",
 		Long:  "The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.",
 		Run: func(cmd *cobra.Command, args []string) {
-			inputDirectory, _ := cmd.Flags().GetString("input")
-			outputDirectory, _ := cmd.Flags().GetString("output")
-			raw, _ := cmd.Flags().GetBool("raw")
-			mode, _ := cmd.Flags().GetString("mode")
-			verbose, _ := cmd.Flags().GetBool("verbose")
-			appstore, _ := cmd.Flags().GetBool("appstore")
-			filter, _ := cmd.Flags().GetString("filter")
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
 
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
 			log := logrus.New()
-			if verbose {
+			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
 			} else {
 				log.SetLevel(logrus.InfoLevel)
 			}
-
 			mpr.SetLogger(log)
-			projectDir, err := os.Getwd()
+
+			inputDirectory := config.ProjectDirectory
+			outputDirectory := config.Modelsource
+
+			err = mpr.ExportModel(
+				inputDirectory,
+				outputDirectory,
+				boolValue(config.Export.Raw, false),
+				config.Export.Mode,
+				boolValue(config.Export.Appstore, false),
+				config.Export.Filter,
+			)
 			if err != nil {
-				log.Errorf("failed to resolve current working directory: %s", err)
+				log.Errorf("export-model failed: %s", err)
 				os.Exit(1)
 			}
-
-			config, err := lint.LoadMergedConfig(projectDir)
-			if err != nil {
-				log.Errorf("failed to load configuration: %s", err)
-				os.Exit(1)
-			}
-
-			if !cmd.Flags().Changed("input") && config != nil && config.Export.Input != "" {
-				inputDirectory = config.Export.Input
-			}
-			if !cmd.Flags().Changed("output") && config != nil && config.Export.Output != "" {
-				outputDirectory = config.Export.Output
-			}
-			if !cmd.Flags().Changed("mode") && config != nil && config.Export.Mode != "" {
-				mode = config.Export.Mode
-			}
-			if !cmd.Flags().Changed("filter") && config != nil {
-				filter = config.Export.Filter
-			}
-
-			mpr.ExportModel(inputDirectory, outputDirectory, raw, mode, appstore, filter)
 		},
 	}
-
-	cmdExportModel.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
-	cmdExportModel.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
-	cmdExportModel.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
-	cmdExportModel.Flags().StringP("filter", "f", "", "Regex pattern to filter units by name. Only units with names matching the pattern will be exported")
-	cmdExportModel.Flags().Bool("raw", false, "If set, the output yaml will include all attributes as they are in the model. Otherwise, only the relevant attributes are included. You should never need this. Only useful when you are developing new functionalities for this tool.")
-	cmdExportModel.Flags().Bool("appstore", false, "If set, appstore modules will be included in the output")
-	cmdExportModel.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdExportModel)
 
 	var cmdLint = &cobra.Command{
@@ -85,41 +73,28 @@ func main() {
 		Short: "Evaluate Mendix model against rules. Requires the model to be exported first",
 		Long:  "The model is evaluated against a set of rules. The rules are defined in OPA rego files. The output is a list of checked rules and their outcome.",
 		Run: func(cmd *cobra.Command, args []string) {
-			rulesDirectory, _ := cmd.Flags().GetString("rules")
-			modelDirectory, _ := cmd.Flags().GetString("modelsource")
-			xunitReport, _ := cmd.Flags().GetString("xunit-report")
-			JsonFile, _ := cmd.Flags().GetString("json-file")
-			verbose, _ := cmd.Flags().GetBool("verbose")
-			ignoreNoqa, _ := cmd.Flags().GetBool("ignore-noqa")
-			noCache, _ := cmd.Flags().GetBool("no-cache")
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
 
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
 			log := logrus.New()
-			if verbose {
+			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
 			} else {
 				log.SetLevel(logrus.InfoLevel)
 			}
-
 			lint.SetLogger(log)
-			projectDir, err := os.Getwd()
-			if err != nil {
-				log.Errorf("failed to resolve current working directory: %s", err)
-				os.Exit(1)
-			}
-
-			config, err := lint.LoadMergedConfig(projectDir)
-			if err != nil {
-				log.Errorf("failed to load configuration: %s", err)
-				os.Exit(1)
-			}
 			lint.SetConfig(config)
 
-			if !cmd.Flags().Changed("rules") && config != nil && config.Rules.Path != "" {
-				rulesDirectory = config.Rules.Path
-			}
-			if !cmd.Flags().Changed("modelsource") && config != nil && config.Export.Output != "" {
-				modelDirectory = config.Export.Output
-			}
+			rulesDirectory := config.Rules.Path
+			modelDirectory := config.Modelsource
 
 			if !filepath.IsAbs(rulesDirectory) {
 				rulesDirectory = filepath.Join(projectDir, rulesDirectory)
@@ -133,22 +108,59 @@ func main() {
 				}
 			}
 
-			err = lint.EvalAll(rulesDirectory, modelDirectory, xunitReport, JsonFile, ignoreNoqa, !noCache)
+			err = lint.EvalAll(
+				rulesDirectory,
+				modelDirectory,
+				config.Lint.XunitReport,
+				config.Lint.JSONFile,
+				boolValue(config.Lint.IgnoreNoqa, false),
+				!boolValue(config.Lint.NoCache, false),
+			)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
 				os.Exit(1)
 			}
 		},
 	}
-
-	cmdLint.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
-	cmdLint.Flags().StringP("modelsource", "m", "modelsource", "Path to directory with exported model")
-	cmdLint.Flags().StringP("xunit-report", "x", "", "Path to output file for xunit report. If not provided, no xunit report will be generated")
-	cmdLint.Flags().StringP("json-file", "j", "", "Path to output file for JSON report. If not provided, no JSON file will be generated")
-	cmdLint.Flags().Bool("verbose", false, "Turn on for debug logs")
-	cmdLint.Flags().Bool("ignore-noqa", false, "Ignore noqa directives in documents")
-	cmdLint.Flags().Bool("no-cache", false, "Disable caching of lint results. By default, results are cached and reused if rules and model files haven't changed")
 	rootCmd.AddCommand(cmdLint)
+
+	var cmdConfig = &cobra.Command{
+		Use:   "config",
+		Short: "Show merged active configuration",
+		Long:  "Shows the merged active configuration and which config sources were found and used.",
+		Run: func(cmd *cobra.Command, args []string) {
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+
+			config, report, err := lint.LoadMergedConfigWithReportFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
+
+			fmt.Println("Config Sources")
+			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+			fmt.Fprintln(w, "SOURCE\tFOUND\tUSED\tPATH")
+			fmt.Fprintf(w, "%s\t%t\t%t\t%s\n", report.Default.Name, report.Default.Found, report.Default.Used, report.Default.Path)
+			fmt.Fprintf(w, "%s\t%t\t%t\t%s\n", report.System.Name, report.System.Found, report.System.Used, report.System.Path)
+			fmt.Fprintf(w, "%s\t%t\t%t\t%s\n", report.Project.Name, report.Project.Found, report.Project.Used, report.Project.Path)
+			fmt.Fprintf(w, "%s\t%t\t%t\t%s\n", report.Explicit.Name, report.Explicit.Found, report.Explicit.Used, report.Explicit.Path)
+			_ = w.Flush()
+
+			yamlBytes, err := yaml.Marshal(config)
+			if err != nil {
+				fmt.Printf("failed to marshal merged configuration: %s\n", err)
+				os.Exit(1)
+			}
+
+			fmt.Println("\nMerged Active Configuration")
+			fmt.Print(string(yamlBytes))
+		},
+	}
+	rootCmd.AddCommand(cmdConfig)
 
 	// Add the serve command
 	serveCmd := serve.NewServeCommand()
@@ -159,27 +171,30 @@ func main() {
 		Short: "Ensure rules are working as expected against predefined test cases",
 		Long:  "When you are developing a new rule, you can use this command to ensure it works as expected against predefined test cases.",
 		Run: func(cmd *cobra.Command, args []string) {
-			rulesDirectory, _ := cmd.Flags().GetString("rules")
-			verbose, _ := cmd.Flags().GetBool("verbose")
-
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
 			log := logrus.New()
-			if verbose {
+			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
 			} else {
 				log.SetLevel(logrus.InfoLevel)
 			}
-
 			lint.SetLogger(log)
-			err := lint.TestAll(rulesDirectory)
+			err = lint.TestAll(config.Rules.Path)
 			if err != nil {
 				log.Errorf("Test rules failed: %s", err)
 				os.Exit(1)
 			}
 		},
 	}
-
-	cmdRules.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
-	cmdRules.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdRules)
 
 	var cmdCacheClear = &cobra.Command{
@@ -187,15 +202,12 @@ func main() {
 		Short: "Clear the lint results cache",
 		Long:  "Removes all cached lint results. The cache is used to speed up repeated linting operations when rules and model files haven't changed.",
 		Run: func(cmd *cobra.Command, args []string) {
-			verbose, _ := cmd.Flags().GetBool("verbose")
-
 			log := logrus.New()
-			if verbose {
+			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
 			} else {
 				log.SetLevel(logrus.InfoLevel)
 			}
-
 			lint.SetLogger(log)
 			err := lint.ClearCache()
 			if err != nil {
@@ -204,8 +216,6 @@ func main() {
 			}
 		},
 	}
-
-	cmdCacheClear.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdCacheClear)
 
 	var cmdCacheStats = &cobra.Command{
@@ -213,15 +223,12 @@ func main() {
 		Short: "Show cache statistics",
 		Long:  "Displays information about the cached lint results, including number of entries and total size.",
 		Run: func(cmd *cobra.Command, args []string) {
-			verbose, _ := cmd.Flags().GetBool("verbose")
-
 			log := logrus.New()
-			if verbose {
+			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
 			} else {
 				log.SetLevel(logrus.InfoLevel)
 			}
-
 			lint.SetLogger(log)
 			count, size, err := lint.GetCacheStats()
 			if err != nil {
@@ -241,12 +248,33 @@ func main() {
 			}
 		},
 	}
-
-	cmdCacheStats.Flags().Bool("verbose", false, "Turn on for debug logs")
 	rootCmd.AddCommand(cmdCacheStats)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+}
+
+func boolValue(value *bool, fallback bool) bool {
+	if value == nil {
+		return fallback
+	}
+	return *value
+}
+
+func isVerbose(cmd *cobra.Command) bool {
+	verbose, err := cmd.Flags().GetBool("verbose")
+	if err != nil {
+		return false
+	}
+	return verbose
+}
+
+func configPathForCommand(cmd *cobra.Command) string {
+	configPath, err := cmd.Flags().GetString("config")
+	if err != nil {
+		return ""
+	}
+	return configPath
 }

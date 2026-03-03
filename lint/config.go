@@ -14,9 +14,12 @@ import (
 const configFileName = "mxlint.yaml"
 
 type Config struct {
-	Rules  ConfigRulesSpec  `yaml:"rules"`
-	Lint   ConfigLintSpec   `yaml:"lint"`
-	Export ConfigExportSpec `yaml:"export"`
+	Rules            ConfigRulesSpec  `yaml:"rules"`
+	Lint             ConfigLintSpec   `yaml:"lint"`
+	Export           ConfigExportSpec `yaml:"export"`
+	Serve            ConfigServeSpec  `yaml:"serve"`
+	Modelsource      string           `yaml:"modelsource"`
+	ProjectDirectory string           `yaml:"projectDirectory"`
 }
 
 type ConfigRulesSpec struct {
@@ -25,20 +28,43 @@ type ConfigRulesSpec struct {
 }
 
 type ConfigExportSpec struct {
-	Output string `yaml:"output"`
-	Input  string `yaml:"input"`
-	Mode   string `yaml:"mode"`
-	Filter string `yaml:"filter"`
+	Mode     string `yaml:"mode"`
+	Filter   string `yaml:"filter"`
+	Raw      *bool  `yaml:"raw"`
+	Appstore *bool  `yaml:"appstore"`
 }
 
 type ConfigLintSpec struct {
-	Skip map[string][]ConfigSkipRule `yaml:"skip"`
+	XunitReport string                      `yaml:"xunitReport"`
+	JSONFile    string                      `yaml:"jsonFile"`
+	IgnoreNoqa  *bool                       `yaml:"ignoreNoqa"`
+	NoCache     *bool                       `yaml:"noCache"`
+	Skip        map[string][]ConfigSkipRule `yaml:"skip"`
+}
+
+type ConfigServeSpec struct {
+	Port     *int `yaml:"port"`
+	Debounce *int `yaml:"debounce"`
 }
 
 type ConfigSkipRule struct {
 	Rule   string `yaml:"rule"`
 	Reason string `yaml:"reason"`
 	Date   string `yaml:"date"`
+}
+
+type ConfigSourceStatus struct {
+	Name  string
+	Path  string
+	Found bool
+	Used  bool
+}
+
+type ConfigLoadReport struct {
+	Default  ConfigSourceStatus
+	System   ConfigSourceStatus
+	Project  ConfigSourceStatus
+	Explicit ConfigSourceStatus
 }
 
 var activeConfig = struct {
@@ -92,33 +118,73 @@ func getConfig() *Config {
 }
 
 func LoadMergedConfig(projectDir string) (*Config, error) {
+	cfg, _, err := LoadMergedConfigWithReport(projectDir)
+	return cfg, err
+}
+
+func LoadMergedConfigFromPath(projectDir string, explicitConfigPath string) (*Config, error) {
+	cfg, _, err := LoadMergedConfigWithReportFromPath(projectDir, explicitConfigPath)
+	return cfg, err
+}
+
+func LoadMergedConfigWithReport(projectDir string) (*Config, ConfigLoadReport, error) {
+	return LoadMergedConfigWithReportFromPath(projectDir, "")
+}
+
+func LoadMergedConfigWithReportFromPath(projectDir string, explicitConfigPath string) (*Config, ConfigLoadReport, error) {
 	cfg := &Config{}
+	report := ConfigLoadReport{
+		Default:  ConfigSourceStatus{Name: "embedded-default", Path: "embedded:default.yaml"},
+		System:   ConfigSourceStatus{Name: "system", Path: ""},
+		Project:  ConfigSourceStatus{Name: "project", Path: filepath.Join(projectDir, configFileName)},
+		Explicit: ConfigSourceStatus{Name: "explicit", Path: strings.TrimSpace(explicitConfigPath)},
+	}
 
 	systemConfigPath, err := resolveSystemConfigPath()
 	if err != nil {
-		return nil, err
+		return nil, report, err
 	}
+	report.System.Path = systemConfigPath
 	projectConfigPath := filepath.Join(projectDir, configFileName)
-
-	defaultCfg, err := loadConfigYAML(getDefaultConfigYAML(), "embedded default config")
-	if err != nil {
-		return nil, err
+	resolvedExplicitPath := strings.TrimSpace(explicitConfigPath)
+	if resolvedExplicitPath != "" && !filepath.IsAbs(resolvedExplicitPath) {
+		resolvedExplicitPath = filepath.Join(projectDir, resolvedExplicitPath)
 	}
+	report.Explicit.Path = resolvedExplicitPath
+
+	defaultCfg, defaultFound, err := loadConfigYAML(getDefaultConfigYAML(), "embedded default config")
+	if err != nil {
+		return nil, report, err
+	}
+	report.Default.Found = defaultFound
+	report.Default.Used = defaultCfg != nil
 	mergeConfig(cfg, defaultCfg)
 
-	systemCfg, err := loadConfigFile(systemConfigPath)
+	systemCfg, systemFound, err := loadConfigFile(systemConfigPath)
 	if err != nil {
-		return nil, err
+		return nil, report, err
 	}
+	report.System.Found = systemFound
+	report.System.Used = systemCfg != nil
 	mergeConfig(cfg, systemCfg)
 
-	projectCfg, err := loadConfigFile(projectConfigPath)
+	projectCfg, projectFound, err := loadConfigFile(projectConfigPath)
 	if err != nil {
-		return nil, err
+		return nil, report, err
 	}
+	report.Project.Found = projectFound
+	report.Project.Used = projectCfg != nil
 	mergeConfig(cfg, projectCfg)
 
-	return cfg, nil
+	explicitCfg, explicitFound, err := loadConfigFileRequired(resolvedExplicitPath)
+	if err != nil {
+		return nil, report, err
+	}
+	report.Explicit.Found = explicitFound
+	report.Explicit.Used = explicitCfg != nil
+	mergeConfig(cfg, explicitCfg)
+
+	return cfg, report, nil
 }
 
 func resolveSystemConfigPath() (string, error) {
@@ -140,29 +206,51 @@ func resolveSystemConfigPath() (string, error) {
 	return filepath.Join(homeDir, ".config", configFileName), nil
 }
 
-func loadConfigFile(configPath string) (*Config, error) {
+func loadConfigFile(configPath string) (*Config, bool, error) {
 	if configPath == "" {
-		return nil, nil
+		return nil, false, nil
 	}
 	content, err := os.ReadFile(configPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil, nil
+			return nil, false, nil
 		}
-		return nil, fmt.Errorf("failed to read config %s: %w", configPath, err)
+		return nil, false, fmt.Errorf("failed to read config %s: %w", configPath, err)
 	}
-	return loadConfigYAML(content, configPath)
+	cfg, _, err := loadConfigYAML(content, configPath)
+	if err != nil {
+		return nil, true, err
+	}
+	return cfg, true, nil
 }
 
-func loadConfigYAML(content []byte, source string) (*Config, error) {
+func loadConfigFileRequired(configPath string) (*Config, bool, error) {
+	if configPath == "" {
+		return nil, false, nil
+	}
+	content, err := os.ReadFile(configPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, false, fmt.Errorf("failed to read config %s: file does not exist", configPath)
+		}
+		return nil, false, fmt.Errorf("failed to read config %s: %w", configPath, err)
+	}
+	cfg, _, err := loadConfigYAML(content, configPath)
+	if err != nil {
+		return nil, true, err
+	}
+	return cfg, true, nil
+}
+
+func loadConfigYAML(content []byte, source string) (*Config, bool, error) {
 	if len(content) == 0 {
-		return nil, nil
+		return nil, false, nil
 	}
 	cfg := &Config{}
 	if err := yaml.Unmarshal(content, cfg); err != nil {
-		return nil, fmt.Errorf("failed to parse config %s: %w", source, err)
+		return nil, true, fmt.Errorf("failed to parse config %s: %w", source, err)
 	}
-	return cfg, nil
+	return cfg, true, nil
 }
 
 func mergeConfig(base *Config, overlay *Config) {
@@ -176,17 +264,43 @@ func mergeConfig(base *Config, overlay *Config) {
 		base.Rules.Rulesets = append([]string{}, overlay.Rules.Rulesets...)
 	}
 
-	if strings.TrimSpace(overlay.Export.Output) != "" {
-		base.Export.Output = strings.TrimSpace(overlay.Export.Output)
-	}
-	if strings.TrimSpace(overlay.Export.Input) != "" {
-		base.Export.Input = strings.TrimSpace(overlay.Export.Input)
-	}
 	if strings.TrimSpace(overlay.Export.Mode) != "" {
 		base.Export.Mode = strings.TrimSpace(overlay.Export.Mode)
 	}
 	if overlay.Export.Filter != "" {
 		base.Export.Filter = strings.TrimSpace(overlay.Export.Filter)
+	}
+	if overlay.Export.Raw != nil {
+		base.Export.Raw = overlay.Export.Raw
+	}
+	if overlay.Export.Appstore != nil {
+		base.Export.Appstore = overlay.Export.Appstore
+	}
+
+	if strings.TrimSpace(overlay.Modelsource) != "" {
+		base.Modelsource = strings.TrimSpace(overlay.Modelsource)
+	}
+	if strings.TrimSpace(overlay.ProjectDirectory) != "" {
+		base.ProjectDirectory = strings.TrimSpace(overlay.ProjectDirectory)
+	}
+	if overlay.Lint.XunitReport != "" {
+		base.Lint.XunitReport = strings.TrimSpace(overlay.Lint.XunitReport)
+	}
+	if overlay.Lint.JSONFile != "" {
+		base.Lint.JSONFile = strings.TrimSpace(overlay.Lint.JSONFile)
+	}
+	if overlay.Lint.IgnoreNoqa != nil {
+		base.Lint.IgnoreNoqa = overlay.Lint.IgnoreNoqa
+	}
+	if overlay.Lint.NoCache != nil {
+		base.Lint.NoCache = overlay.Lint.NoCache
+	}
+
+	if overlay.Serve.Port != nil {
+		base.Serve.Port = overlay.Serve.Port
+	}
+	if overlay.Serve.Debounce != nil {
+		base.Serve.Debounce = overlay.Serve.Debounce
 	}
 
 	if len(overlay.Lint.Skip) == 0 {

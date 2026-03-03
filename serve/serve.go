@@ -34,26 +34,31 @@ func NewServeCommand() *cobra.Command {
 		Run:   runServe,
 	}
 
-	cmd.Flags().StringP("input", "i", ".", "Path to directory or mpr file to export. If it's a directory, all mpr files will be exported")
-	cmd.Flags().StringP("output", "o", "modelsource", "Path to directory to write the yaml files. If it doesn't exist, it will be created")
-	cmd.Flags().StringP("mode", "m", "basic", "Export mode. Valid options: basic, advanced")
-	cmd.Flags().StringP("rules", "r", ".mendix-cache/rules", "Path to directory with rules")
-	cmd.Flags().IntP("port", "p", 8082, "Port to run the server on")
-	cmd.Flags().Bool("verbose", false, "Turn on for debug logs")
-	cmd.Flags().IntP("debounce", "d", 500, "Debounce time in milliseconds for file change events")
-
 	return cmd
 }
 
 // runServe implements the serve command functionality
 func runServe(cmd *cobra.Command, args []string) {
-	inputDirectory, _ := cmd.Flags().GetString("input")
-	outputDirectory, _ := cmd.Flags().GetString("output")
-	mode, _ := cmd.Flags().GetString("mode")
-	rulesDirectory, _ := cmd.Flags().GetString("rules")
-	port, _ := cmd.Flags().GetInt("port")
+	projectDir, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("failed to resolve current working directory: %s\n", err)
+		os.Exit(1)
+	}
+	configPath, _ := cmd.Flags().GetString("config")
+	config, err := lint.LoadMergedConfigFromPath(projectDir, configPath)
+	if err != nil {
+		fmt.Printf("failed to load configuration: %s\n", err)
+		os.Exit(1)
+	}
+	lint.SetConfig(config)
+
+	inputDirectory := config.ProjectDirectory
+	outputDirectory := config.Modelsource
+	mode := config.Export.Mode
+	rulesDirectory := config.Rules.Path
+	port := intValue(config.Serve.Port, 8082)
 	verbose, _ := cmd.Flags().GetBool("verbose")
-	debounceTime, _ := cmd.Flags().GetInt("debounce")
+	debounceTime := intValue(config.Serve.Debounce, 500)
 
 	log := logrus.New()
 
@@ -310,6 +315,13 @@ func runServe(cmd *cobra.Command, args []string) {
 
 	// Keep the process running
 	select {}
+}
+
+func intValue(value *int, fallback int) int {
+	if value == nil {
+		return fallback
+	}
+	return *value
 }
 
 // addDirsRecursive adds all directories recursively to the watcher except the output directory

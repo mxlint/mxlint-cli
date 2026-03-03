@@ -24,9 +24,9 @@ func TestLoadMergedConfig_ProjectOverridesSystem(t *testing.T) {
   path: .mendix-cache/system-rules
   rulesets:
     - file://system-rules
+modelsource: modelsource-system
+projectDirectory: ./system
 export:
-  output: modelsource-system
-  input: ./system
   mode: advanced
   filter: system/*
 lint:
@@ -39,9 +39,9 @@ lint:
   path: .mendix-cache/project-rules
   rulesets:
     - file://project-rules
+modelsource: modelsource
+projectDirectory: .
 export:
-  output: modelsource
-  input: .
   mode: basic
   filter: "*"
 lint:
@@ -78,8 +78,8 @@ lint:
 	if len(cfg.Rules.Rulesets) != 1 || cfg.Rules.Rulesets[0] != "file://project-rules" {
 		t.Fatalf("expected project rules.rulesets override, got %#v", cfg.Rules.Rulesets)
 	}
-	if cfg.Export.Output != "modelsource" || cfg.Export.Input != "." || cfg.Export.Mode != "basic" || cfg.Export.Filter != "*" {
-		t.Fatalf("expected project export override, got %#v", cfg.Export)
+	if cfg.Modelsource != "modelsource" || cfg.ProjectDirectory != "." || cfg.Export.Mode != "basic" || cfg.Export.Filter != "*" {
+		t.Fatalf("expected project config override, got modelsource=%s projectDirectory=%s export=%#v", cfg.Modelsource, cfg.ProjectDirectory, cfg.Export)
 	}
 
 	entry := cfg.Lint.Skip["example/doc"][0]
@@ -123,9 +123,9 @@ func TestLoadMergedConfig_DefaultConfigBase(t *testing.T) {
 	projectDir := t.TempDir()
 	defaultConfig := `rules:
   path: .mendix-cache/default-rules
+modelsource: default-modelsource
+projectDirectory: ./default-input
 export:
-  output: default-modelsource
-  input: ./default-input
   mode: advanced
   filter: default/*
 `
@@ -139,8 +139,8 @@ export:
 	if cfg.Rules.Path != ".mendix-cache/default-rules" {
 		t.Fatalf("expected default rules path, got %s", cfg.Rules.Path)
 	}
-	if cfg.Export.Output != "default-modelsource" || cfg.Export.Input != "./default-input" || cfg.Export.Mode != "advanced" || cfg.Export.Filter != "default/*" {
-		t.Fatalf("expected default export values, got %#v", cfg.Export)
+	if cfg.Modelsource != "default-modelsource" || cfg.ProjectDirectory != "./default-input" || cfg.Export.Mode != "advanced" || cfg.Export.Filter != "default/*" {
+		t.Fatalf("expected default values, got modelsource=%s projectDirectory=%s export=%#v", cfg.Modelsource, cfg.ProjectDirectory, cfg.Export)
 	}
 }
 
@@ -172,5 +172,77 @@ func TestLoadMergedConfig_UnquotedRuleNumber(t *testing.T) {
 	}
 	if reason != "unquoted rule" {
 		t.Fatalf("expected configured reason, got %s", reason)
+	}
+}
+
+func TestLoadMergedConfigWithReport_Sources(t *testing.T) {
+	projectDir := t.TempDir()
+	systemDir := t.TempDir()
+	systemConfigPath := filepath.Join(systemDir, "mxlint.yaml")
+
+	setDefaultConfigForTest(t, "rules:\n  path: embedded-rules\n")
+	if err := os.WriteFile(systemConfigPath, []byte("rules:\n  path: system-rules\n"), 0644); err != nil {
+		t.Fatalf("failed to write system config: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte("rules:\n  path: project-rules\n"), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+	t.Setenv("MXLINT_SYSTEM_CONFIG", systemConfigPath)
+
+	cfg, report, err := LoadMergedConfigWithReport(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfigWithReport returned error: %v", err)
+	}
+
+	if !report.Default.Found || !report.Default.Used {
+		t.Fatalf("expected embedded default source found+used, got %#v", report.Default)
+	}
+	if !report.System.Found || !report.System.Used {
+		t.Fatalf("expected system source found+used, got %#v", report.System)
+	}
+	if !report.Project.Found || !report.Project.Used {
+		t.Fatalf("expected project source found+used, got %#v", report.Project)
+	}
+	if report.Explicit.Found || report.Explicit.Used {
+		t.Fatalf("expected explicit source not found+not used by default, got %#v", report.Explicit)
+	}
+	if cfg.Rules.Path != "project-rules" {
+		t.Fatalf("expected merged project value to win, got %s", cfg.Rules.Path)
+	}
+}
+
+func TestLoadMergedConfigFromPath_ExplicitOverridesProject(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+
+	projectConfig := "rules:\n  path: project-rules\n"
+	explicitConfig := "rules:\n  path: explicit-rules\n"
+	explicitPath := filepath.Join(projectDir, "custom.yaml")
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+	if err := os.WriteFile(explicitPath, []byte(explicitConfig), 0644); err != nil {
+		t.Fatalf("failed to write explicit config: %v", err)
+	}
+
+	cfg, report, err := LoadMergedConfigWithReportFromPath(projectDir, "custom.yaml")
+	if err != nil {
+		t.Fatalf("LoadMergedConfigWithReportFromPath returned error: %v", err)
+	}
+	if cfg.Rules.Path != "explicit-rules" {
+		t.Fatalf("expected explicit config to win, got %s", cfg.Rules.Path)
+	}
+	if !report.Explicit.Found || !report.Explicit.Used {
+		t.Fatalf("expected explicit source found+used, got %#v", report.Explicit)
+	}
+}
+
+func TestLoadMergedConfigFromPath_MissingExplicitReturnsError(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+
+	_, err := LoadMergedConfigFromPath(projectDir, "missing.yaml")
+	if err == nil {
+		t.Fatal("expected error when explicit config file is missing")
 	}
 }
