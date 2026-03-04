@@ -104,15 +104,14 @@ func evalTestcase_Typescript(rulePath string, inputFilePath string, ruleNumber s
 	}
 
 	// Check if this rule should be skipped based on noqa directives
-	if doc, ok := data["Documentation"].(string); ok {
-		shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa)
-		if shouldSkip {
-			return &Testcase{
-				Name:    inputFilePath,
-				Time:    0,
-				Skipped: &Skipped{Message: reason},
-			}, nil
-		}
+	doc, _ := data["Documentation"].(string)
+	shouldSkip, reason := shouldSkipRule(doc, ruleNumber, ignoreNoqa, inputFilePath, modelSourcePath)
+	if shouldSkip {
+		return &Testcase{
+			Name:    inputFilePath,
+			Time:    0,
+			Skipped: &Skipped{Message: reason},
+		}, nil
 	}
 
 	startTime := time.Now()
@@ -180,24 +179,50 @@ func parseRuleMetadata_Typescript(rulePath string) (*Rule, error) {
 	vm := sobek.New()
 	_, err = vm.RunString(ruleContent)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to evaluate typescript rule: %w", err)
 	}
-	// FIXME: handle the case where metadata is not defined correctly
+
 	metadata := vm.Get("metadata")
+	if metadata == nil || sobek.IsUndefined(metadata) || sobek.IsNull(metadata) {
+		return nil, fmt.Errorf("metadata object not defined")
+	}
 	metadataMap := metadata.ToObject(vm)
+	if metadataMap == nil {
+		return nil, fmt.Errorf("metadata must be an object")
+	}
+	getString := func(obj *sobek.Object, key string) string {
+		value := obj.Get(key)
+		if value == nil || sobek.IsUndefined(value) || sobek.IsNull(value) {
+			return ""
+		}
+		return value.String()
+	}
 
 	var packageName string = rulePath
-	var title string = metadataMap.Get("title").String()
-	var description string = metadataMap.Get("description").String()
+	var title string = getString(metadataMap, "title")
+	var description string = getString(metadataMap, "description")
+	if strings.TrimSpace(title) == "" || strings.TrimSpace(description) == "" {
+		return nil, fmt.Errorf("metadata.title and metadata.description are required")
+	}
 
 	// custom metadata
-	custom := metadataMap.Get("custom").ToObject(vm)
-	var category string = custom.Get("category").String()
-	var severity string = custom.Get("severity").String()
-	var ruleNumber string = custom.Get("rulenumber").String()
-	var remediation string = custom.Get("remediation").String()
-	var ruleName string = custom.Get("rulename").String()
-	var pattern string = custom.Get("input").String()
+	customValue := metadataMap.Get("custom")
+	if customValue == nil || sobek.IsUndefined(customValue) || sobek.IsNull(customValue) {
+		return nil, fmt.Errorf("metadata.custom object is required")
+	}
+	custom := customValue.ToObject(vm)
+	if custom == nil {
+		return nil, fmt.Errorf("metadata.custom must be an object")
+	}
+	var category string = getString(custom, "category")
+	var severity string = getString(custom, "severity")
+	var ruleNumber string = getString(custom, "rulenumber")
+	var remediation string = getString(custom, "remediation")
+	var ruleName string = getString(custom, "rulename")
+	var pattern string = getString(custom, "input")
+	if strings.TrimSpace(ruleNumber) == "" {
+		return nil, fmt.Errorf("metadata.custom.rulenumber is required")
+	}
 
 	rule := &Rule{
 		Title:       title,

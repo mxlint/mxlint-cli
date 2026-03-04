@@ -96,7 +96,17 @@ jobs:
     - name: Test subcommand export-model mpr-v1
       run: |
         chmod +x ./bin/mxlint
-        bin/mxlint export-model --mode basic -i resources/app-mpr-v1 -o resources/modelsource-v1
+        mkdir -p .ci
+        cat > .ci/export-v1.yaml << 'EOF'
+        projectDirectory: resources/app-mpr-v1
+        modelsource: resources/modelsource-v1
+        export:
+          mode: basic
+          filter: ".*"
+          raw: false
+          appstore: false
+        EOF
+        ./bin/mxlint --config .ci/export-v1.yaml export-model
         git diff --exit-code resources/modelsource-v1 
 
   test_export_model_v2:
@@ -117,7 +127,17 @@ jobs:
     - name: Test subcommand export-model mpr-v2
       run: |
         chmod +x ./bin/mxlint
-        bin/mxlint export-model --mode basic -i resources/app-mpr-v2 -o resources/modelsource-v2
+        mkdir -p .ci
+        cat > .ci/export-v2.yaml << 'EOF'
+        projectDirectory: resources/app-mpr-v2
+        modelsource: resources/modelsource-v2
+        export:
+          mode: basic
+          filter: ".*"
+          raw: false
+          appstore: false
+        EOF
+        ./bin/mxlint --config .ci/export-v2.yaml export-model
         git diff --exit-code resources/modelsource-v2
 
   test_lint:
@@ -138,7 +158,31 @@ jobs:
     - name: Test subcommand lint
       run: |
         chmod +x ./bin/mxlint
-        ./bin/mxlint lint --xunit-report report.xml --rules ./resources/rules -m resources/app-mpr-v1
+        mkdir -p .ci
+        cat > .ci/lint.yaml << 'EOF'
+        rules:
+          path: ./resources/rules
+        modelsource: resources/modelsource-v1
+        lint:
+          xunitReport: report.xml
+          skip:
+            MyFirstModule/DomainModels$DomainModel:
+              - rule: "002_0009"
+                reason: CI fixture intentionally keeps a default value for rule coverage
+            MyFirstModule/Home_Web.Forms$Page:
+              - rule: "004_0001"
+                reason: CI fixture intentionally uses inline style for rule coverage
+              - rule: "004_0004"
+                reason: CI fixture intentionally has heading order issue for rule coverage
+            MyFirstModule/BadPage.Forms$Page:
+              - rule: "004_0002"
+                reason: CI fixture intentionally omits image alt text for rule coverage
+              - rule: "004_0003"
+                reason: CI fixture intentionally uses multiple h1 tags for rule coverage
+              - rule: "004_0004"
+                reason: CI fixture intentionally has heading order issue for rule coverage
+        EOF
+        ./bin/mxlint --config .ci/lint.yaml lint
 
 
   test_rules:
@@ -159,4 +203,9 @@ jobs:
     - name: Test subcommand test-rules
       run: |
         chmod +x ./bin/mxlint
-        ./bin/mxlint test-rules --rules ./resources/rules
+        mkdir -p .ci
+        cat > .ci/test-rules.yaml << 'EOF'
+        rules:
+          path: ./resources/rules
+        EOF
+        ./bin/mxlint --config .ci/test-rules.yaml test-rules

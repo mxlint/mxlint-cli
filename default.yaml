@@ -1,0 +1,20 @@
+rules:
+  path: .mendix-cache/rules
+  rulesets:
+    - https://github.com/mxlint/mxlint-rules/releases/download/v3.3.0/rules-v3.3.0.zip
+lint:
+  xunitReport: ""
+  jsonFile: ""
+  ignoreNoqa: false
+  noCache: false
+  skip: {}
+modelsource: modelsource
+projectDirectory: .
+export:
+  mode: basic
+  filter: ".*"
+  raw: false
+  appstore: false
+serve:
+  port: 8082
+  debounce: 500

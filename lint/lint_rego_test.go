@@ -201,7 +201,7 @@ errors contains error if {
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.pass", yamlPath, "001_0001", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.pass", yamlPath, "001_0001", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
@@ -244,7 +244,7 @@ errors contains error if {
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.fail", yamlPath, "001_0002", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.fail", yamlPath, "001_0002", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
@@ -259,7 +259,7 @@ errors contains error if {
 		}
 	})
 
-	t.Run("evaluate skipped rule with noqa", func(t *testing.T) {
+	t.Run("documentation noqa is ignored", func(t *testing.T) {
 		regoContent := `# METADATA
 # title: Test Rule
 # custom:
@@ -289,20 +289,20 @@ Name: "Test"
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.noqa", yamlPath, "001_0003", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.noqa", yamlPath, "001_0003", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
 
-		if testcase.Skipped == nil {
-			t.Error("Expected testcase to be skipped")
+		if testcase.Skipped != nil {
+			t.Error("Expected testcase not to be skipped")
 		}
-		if testcase.Failure != nil {
-			t.Error("Expected no failure when skipped")
+		if testcase.Failure == nil {
+			t.Error("Expected failure when documentation noqa is ignored")
 		}
 	})
 
-	t.Run("noqa ignored when ignoreNoqa is true", func(t *testing.T) {
+	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
 		regoContent := `# METADATA
 # title: Test Rule
 # custom:
@@ -332,16 +332,16 @@ Name: "Test"
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.ignore_noqa", yamlPath, "001_0004", true)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.ignore_noqa", yamlPath, "001_0004", true, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
 
 		if testcase.Skipped != nil {
-			t.Error("Expected testcase not to be skipped when ignoreNoqa is true")
+			t.Error("Expected testcase not to be skipped")
 		}
 		if testcase.Failure == nil {
-			t.Error("Expected failure when ignoreNoqa is true")
+			t.Error("Expected failure")
 		}
 	})
 
@@ -363,7 +363,7 @@ errors contains error if {
 			t.Fatalf("Failed to write rego file: %v", err)
 		}
 
-		_, err = evalTestcase_Rego(regoPath, "data.test.error", filepath.Join(tempDir, "nonexistent.yaml"), "001_0005", false)
+		_, err = evalTestcase_Rego(regoPath, "data.test.error", filepath.Join(tempDir, "nonexistent.yaml"), "001_0005", false, tempDir)
 		if err == nil {
 			t.Error("Expected error for nonexistent input file")
 		}
@@ -404,7 +404,7 @@ errors contains error if {
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.multiple_errors", yamlPath, "001_0006", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.multiple_errors", yamlPath, "001_0006", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
@@ -459,7 +459,7 @@ Items:
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.complex", yamlPath, "001_0007", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.complex", yamlPath, "001_0007", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
@@ -494,7 +494,7 @@ errors contains error if {
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.time", yamlPath, "001_0008", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.time", yamlPath, "001_0008", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
@@ -540,7 +540,7 @@ errors contains error if {
 		}
 
 		// This should not fail due to YAML 1.1 octal interpretation
-		testcase, err := evalTestcase_Rego(regoPath, "data.test.leading_zero", yamlPath, "002_0001", false)
+		testcase, err := evalTestcase_Rego(regoPath, "data.test.leading_zero", yamlPath, "002_0001", false, tempDir)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testcase (possibly rulenumber quoting issue): %v", err)
 		}

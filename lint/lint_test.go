@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -201,21 +202,21 @@ Name: "Test"
 		Language:    LanguageJavascript,
 	}
 
-	t.Run("noqa skips the rule", func(t *testing.T) {
+	t.Run("documentation noqa is ignored", func(t *testing.T) {
 		result, err := evalTestsuite(rule, tempDir, false, false)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
 
-		if result.Skipped != 1 {
-			t.Errorf("Expected 1 skipped, got %d", result.Skipped)
+		if result.Skipped != 0 {
+			t.Errorf("Expected 0 skipped, got %d", result.Skipped)
 		}
-		if result.Failures != 0 {
-			t.Errorf("Expected 0 failures when skipped, got %d", result.Failures)
+		if result.Failures != 1 {
+			t.Errorf("Expected 1 failure when documentation noqa is ignored, got %d", result.Failures)
 		}
 	})
 
-	t.Run("ignoreNoqa runs the rule anyway", func(t *testing.T) {
+	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
 		result, err := evalTestsuite(rule, tempDir, true, false)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
@@ -426,6 +427,21 @@ function rule(input) {
 			t.Errorf("Expected 1 rule (test file should be ignored), got %d", len(rules))
 		}
 	})
+
+	t.Run("returns error for javascript rule missing metadata", func(t *testing.T) {
+		tempDir := t.TempDir()
+		if err := os.WriteFile(filepath.Join(tempDir, "broken.js"), []byte("function rule(input) { return { allow: true, errors: [] }; }"), 0644); err != nil {
+			t.Fatalf("Failed to write broken js file: %v", err)
+		}
+
+		_, err := ReadRulesMetadata(tempDir)
+		if err == nil {
+			t.Fatal("Expected ReadRulesMetadata to fail for javascript rule without metadata")
+		}
+		if !strings.Contains(err.Error(), "metadata object not defined") {
+			t.Fatalf("Expected metadata error, got: %v", err)
+		}
+	})
 }
 
 func TestEvalAll(t *testing.T) {
@@ -627,4 +643,63 @@ function rule(input) {
 			t.Errorf("Expected positive time for testcase %s", tc.Name)
 		}
 	}
+}
+
+func TestParseRuleMetadata_JavascriptValidation(t *testing.T) {
+	tempDir := t.TempDir()
+
+	t.Run("missing custom metadata returns error", func(t *testing.T) {
+		jsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description"
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		jsPath := filepath.Join(tempDir, "missing_custom.js")
+		if err := os.WriteFile(jsPath, []byte(jsContent), 0644); err != nil {
+			t.Fatalf("Failed to write js file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Javascript(jsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom object is required") {
+			t.Fatalf("Expected metadata.custom error, got: %v", err)
+		}
+	})
+
+	t.Run("missing rulenumber returns error", func(t *testing.T) {
+		jsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description",
+    custom: {
+        category: "Maintainability",
+        severity: "LOW",
+        input: ".*\\.yaml"
+    }
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		jsPath := filepath.Join(tempDir, "missing_rulenumber.js")
+		if err := os.WriteFile(jsPath, []byte(jsContent), 0644); err != nil {
+			t.Fatalf("Failed to write js file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Javascript(jsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom.rulenumber")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom.rulenumber is required") {
+			t.Fatalf("Expected missing rulenumber error, got: %v", err)
+		}
+	})
 }
