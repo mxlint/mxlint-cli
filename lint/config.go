@@ -28,7 +28,6 @@ type ConfigRulesSpec struct {
 }
 
 type ConfigExportSpec struct {
-	Mode     string `yaml:"mode"`
 	Filter   string `yaml:"filter"`
 	Raw      *bool  `yaml:"raw"`
 	Appstore *bool  `yaml:"appstore"`
@@ -264,9 +263,6 @@ func mergeConfig(base *Config, overlay *Config) {
 		base.Rules.Rulesets = append([]string{}, overlay.Rules.Rulesets...)
 	}
 
-	if strings.TrimSpace(overlay.Export.Mode) != "" {
-		base.Export.Mode = strings.TrimSpace(overlay.Export.Mode)
-	}
 	if overlay.Export.Filter != "" {
 		base.Export.Filter = strings.TrimSpace(overlay.Export.Filter)
 	}

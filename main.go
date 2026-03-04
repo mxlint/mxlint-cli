@@ -56,7 +56,6 @@ func main() {
 				inputDirectory,
 				outputDirectory,
 				boolValue(config.Export.Raw, false),
-				config.Export.Mode,
 				boolValue(config.Export.Appstore, false),
 				config.Export.Filter,
 			)

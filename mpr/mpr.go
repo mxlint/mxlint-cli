@@ -31,7 +31,7 @@ const (
 	MaxComponentLength = 50
 )
 
-func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool, filter string) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool, appstore bool, filter string) error {
 
 	// create tmp directory in user tmp directory
 	tmpDir := filepath.Join(os.TempDir(), "mxlint")
@@ -67,7 +67,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	exportedCount := 0
 	if filter != "^Metadata$" {
 		var err error
-		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, mode, filter)
+		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
@@ -456,7 +456,7 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	return newRelativePath, filename, nil
 }
 
-func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocument, error) {
+func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 	var documents []MxDocument
 	documentTypes := []string{"ProjectDocuments", "DomainModel", "ModuleSettings", "ModuleSecurity", "Documents"}
 
@@ -476,7 +476,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 			}
 
 			if unit.Contents["$Type"] == microflowDocumentType {
-				myDocument = enrichMicroflowDocument(myDocument, mode)
+				myDocument = enrichMicroflowDocument(myDocument)
 			}
 			documents = append(documents, myDocument)
 		}
@@ -485,7 +485,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) (int, error) {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter string) (int, error) {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
@@ -497,7 +497,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 	if err != nil {
 		return 0, fmt.Errorf("error getting folders: %v", err)
 	}
-	documents, err := getMxDocuments(units, folders, mode)
+	documents, err := getMxDocuments(units, folders)
 	if err != nil {
 		return 0, fmt.Errorf("error getting documents: %v", err)
 	}

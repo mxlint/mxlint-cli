@@ -2,11 +2,9 @@ package mpr
 
 const microflowDocumentType = "Microflows$Microflow"
 
-func enrichMicroflowDocument(mf MxDocument, mode string) MxDocument {
+func enrichMicroflowDocument(mf MxDocument) MxDocument {
 	mf = addMicroflowPseudocode(mf)
-	if mode == "advanced" {
-		mf = transformMicroflow(mf)
-	}
+	mf = transformMicroflow(mf)
 	return mf
 }
 

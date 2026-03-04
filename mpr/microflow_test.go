@@ -14,7 +14,7 @@ import (
 
 func TestMPRMicroflow(t *testing.T) {
 	t.Run("microflow-simple", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 
@@ -52,8 +52,8 @@ func TestMPRMicroflow(t *testing.T) {
 			}
 		}
 	})
-	t.Run("microflow-simple-basic-mode-has-pseudocode", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "basic", "MicroflowSimple"); err != nil {
+	t.Run("microflow-simple-has-pseudocode", func(t *testing.T) {
+		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "MicroflowSimple"); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 
@@ -73,11 +73,11 @@ func TestMPRMicroflow(t *testing.T) {
 
 		pseudocode, ok := mfObj["pseudocode"].(string)
 		if !ok || pseudocode == "" {
-			t.Errorf("Expected pseudocode to be present in basic mode export")
+			t.Errorf("Expected pseudocode to be present in export")
 		}
 	})
 	t.Run("microflow-with-split", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 
@@ -106,7 +106,7 @@ func TestMPRMicroflow(t *testing.T) {
 		}
 	})
 	t.Run("microflow-split-then-merge", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "advanced", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 

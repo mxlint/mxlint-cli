@@ -698,28 +698,19 @@ func TestGetMxDocuments(t *testing.T) {
 		name         string
 		units        []MxUnit
 		folders      []MxFolder
-		mode         string
 		expectedDocs int
 	}{
 		{
-			name:         "basic mode",
+			name:         "documents extracted",
 			units:        units,
 			folders:      folders,
-			mode:         "basic",
-			expectedDocs: 2,
-		},
-		{
-			name:         "advanced mode",
-			units:        units,
-			folders:      folders,
-			mode:         "advanced",
 			expectedDocs: 2,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			documents, err := getMxDocuments(tt.units, tt.folders, tt.mode)
+			documents, err := getMxDocuments(tt.units, tt.folders)
 			if err != nil {
 				t.Errorf("getMxDocuments() unexpected error: %v", err)
 			}

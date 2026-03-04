@@ -101,7 +101,6 @@ jobs:
         projectDirectory: resources/app-mpr-v1
         modelsource: resources/modelsource-v1
         export:
-          mode: basic
           filter: ".*"
           raw: false
           appstore: false
@@ -132,7 +131,6 @@ jobs:
         projectDirectory: resources/app-mpr-v2
         modelsource: resources/modelsource-v2
         export:
-          mode: basic
           filter: ".*"
           raw: false
           appstore: false

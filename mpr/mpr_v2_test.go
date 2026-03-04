@@ -30,7 +30,7 @@ func TestMPRV2Metadata(t *testing.T) {
 			t.Errorf("Failed to decode metadata file: %v", err)
 		}
 		// check metadata
-		expectedProductVersion := "10.18.3.58900"
+		expectedProductVersion := "10.24.9.81004"
 		if metadataObj.ProductVersion != expectedProductVersion {
 			t.Errorf("ProductVersion is incorrect. Expected: %s, Got: %s", expectedProductVersion, metadataObj.ProductVersion)
 		}
@@ -39,7 +39,7 @@ func TestMPRV2Metadata(t *testing.T) {
 
 func TestMPRV2Units(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v2", "./../tmp", false, "basic", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v2", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
