@@ -165,6 +165,22 @@ jobs:
         modelsource: resources/modelsource-v1
         lint:
           xunitReport: report.xml
+          skip:
+            MyFirstModule/DomainModels$DomainModel:
+              - rule: "002_0009"
+                reason: CI fixture intentionally keeps a default value for rule coverage
+            MyFirstModule/Home_Web.Forms$Page:
+              - rule: "004_0001"
+                reason: CI fixture intentionally uses inline style for rule coverage
+              - rule: "004_0004"
+                reason: CI fixture intentionally has heading order issue for rule coverage
+            MyFirstModule/BadPage.Forms$Page:
+              - rule: "004_0002"
+                reason: CI fixture intentionally omits image alt text for rule coverage
+              - rule: "004_0003"
+                reason: CI fixture intentionally uses multiple h1 tags for rule coverage
+              - rule: "004_0004"
+                reason: CI fixture intentionally has heading order issue for rule coverage
         EOF
         ./bin/mxlint --config .ci/lint.yaml lint
 

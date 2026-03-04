@@ -168,6 +168,18 @@ func selectRulesRoot(root string) string {
 }
 
 func copyRulesFromPath(sourcePath string, targetPath string) error {
+	absSourcePath, err := filepath.Abs(sourcePath)
+	if err != nil {
+		return fmt.Errorf("failed to resolve source path %s: %w", sourcePath, err)
+	}
+	absTargetPath, err := filepath.Abs(targetPath)
+	if err != nil {
+		return fmt.Errorf("failed to resolve target path %s: %w", targetPath, err)
+	}
+	if filepath.Clean(absSourcePath) == filepath.Clean(absTargetPath) {
+		return nil
+	}
+
 	info, err := os.Stat(sourcePath)
 	if err != nil {
 		return fmt.Errorf("ruleset path %s not found: %w", sourcePath, err)
@@ -196,6 +208,18 @@ func copyRulesFromPath(sourcePath string, targetPath string) error {
 }
 
 func copyFile(src string, dst string) error {
+	absSrc, err := filepath.Abs(src)
+	if err != nil {
+		return err
+	}
+	absDst, err := filepath.Abs(dst)
+	if err != nil {
+		return err
+	}
+	if filepath.Clean(absSrc) == filepath.Clean(absDst) {
+		return nil
+	}
+
 	srcFile, err := os.Open(src)
 	if err != nil {
 		return err

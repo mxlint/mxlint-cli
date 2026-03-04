@@ -242,24 +242,43 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 	vm := sobek.New()
 	_, err = vm.RunString(string(ruleContent))
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to evaluate javascript rule: %w", err)
 	}
-	// FIXME: handle the case where metadata is not defined correctly
+
 	metadata := vm.Get("metadata")
+	if metadata == nil || sobek.IsUndefined(metadata) || sobek.IsNull(metadata) {
+		return nil, fmt.Errorf("metadata object not defined")
+	}
 	metadataMap := metadata.ToObject(vm)
+	if metadataMap == nil {
+		return nil, fmt.Errorf("metadata must be an object")
+	}
 
 	var packageName string = rulePath
 	var title string = metadataMap.Get("title").String()
 	var description string = metadataMap.Get("description").String()
+	if strings.TrimSpace(title) == "" || strings.TrimSpace(description) == "" {
+		return nil, fmt.Errorf("metadata.title and metadata.description are required")
+	}
 
 	// custom metadata
-	custom := metadataMap.Get("custom").ToObject(vm)
+	customValue := metadataMap.Get("custom")
+	if customValue == nil || sobek.IsUndefined(customValue) || sobek.IsNull(customValue) {
+		return nil, fmt.Errorf("metadata.custom object is required")
+	}
+	custom := customValue.ToObject(vm)
+	if custom == nil {
+		return nil, fmt.Errorf("metadata.custom must be an object")
+	}
 	var category string = custom.Get("category").String()
 	var severity string = custom.Get("severity").String()
 	var ruleNumber string = custom.Get("rulenumber").String()
 	var remediation string = custom.Get("remediation").String()
 	var ruleName string = custom.Get("rulename").String()
 	var pattern string = custom.Get("input").String()
+	if strings.TrimSpace(ruleNumber) == "" {
+		return nil, fmt.Errorf("metadata.custom.rulenumber is required")
+	}
 
 	rule := &Rule{
 		Title:       title,

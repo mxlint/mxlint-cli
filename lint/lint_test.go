@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -424,6 +425,21 @@ function rule(input) {
 
 		if len(rules) != 1 {
 			t.Errorf("Expected 1 rule (test file should be ignored), got %d", len(rules))
+		}
+	})
+
+	t.Run("returns error for javascript rule missing metadata", func(t *testing.T) {
+		tempDir := t.TempDir()
+		if err := os.WriteFile(filepath.Join(tempDir, "broken.js"), []byte("function rule(input) { return { allow: true, errors: [] }; }"), 0644); err != nil {
+			t.Fatalf("Failed to write broken js file: %v", err)
+		}
+
+		_, err := ReadRulesMetadata(tempDir)
+		if err == nil {
+			t.Fatal("Expected ReadRulesMetadata to fail for javascript rule without metadata")
+		}
+		if !strings.Contains(err.Error(), "metadata object not defined") {
+			t.Fatalf("Expected metadata error, got: %v", err)
 		}
 	})
 }

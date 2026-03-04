@@ -370,32 +370,35 @@ func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, ca
 
 func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
 	rules := make([]Rule, 0)
-	filepath.Walk(rulesPath, func(path string, info os.FileInfo, err error) error {
+	walkErr := filepath.Walk(rulesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.rego") && strings.HasSuffix(info.Name(), ".rego") {
 			rule, err := parseRuleMetadata_Rego(path)
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to parse rego rule metadata for %s: %w", path, err)
 			}
 			rules = append(rules, *rule)
 		}
 		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.js") && strings.HasSuffix(info.Name(), ".js") {
 			rule, err := parseRuleMetadata_Javascript(path)
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to parse javascript rule metadata for %s: %w", path, err)
 			}
 			rules = append(rules, *rule)
 		}
 		if !info.IsDir() && !strings.HasSuffix(info.Name(), "_test.ts") && strings.HasSuffix(info.Name(), ".ts") {
 			rule, err := parseRuleMetadata_Typescript(path)
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to parse typescript rule metadata for %s: %w", path, err)
 			}
 			rules = append(rules, *rule)
 		}
 		return nil
 	})
+	if walkErr != nil {
+		return nil, walkErr
+	}
 	return rules, nil
 }
