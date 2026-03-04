@@ -3,6 +3,7 @@ package mpr
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -39,6 +40,40 @@ func TestMPRMicroflow(t *testing.T) {
 		sequence := mfObj["MainFunction"].([]interface{})
 		if len(sequence) != 5 {
 			t.Errorf("Unexpected instructions length. Got: %d", len(sequence))
+		}
+
+		pseudocode, ok := mfObj["pseudocode"].(string)
+		if !ok || pseudocode == "" {
+			t.Errorf("Expected pseudocode to be a non-empty string")
+		}
+		if ok && pseudocode != "" {
+			if !containsText(pseudocode, "BEGIN") || !containsText(pseudocode, "END") {
+				t.Errorf("Expected pseudocode to contain BEGIN/END structure")
+			}
+		}
+	})
+	t.Run("microflow-simple-basic-mode-has-pseudocode", func(t *testing.T) {
+		if _, err := exportUnits("./../resources/app-mpr-v1/App.mpr", "./../tmp", true, "basic", "MicroflowSimple"); err != nil {
+			t.Errorf("Failed to export units from MPR file")
+		}
+
+		mfFile, err := os.ReadFile("./../tmp/MyFirstModule/Folder/MicroflowSimple.Microflows$Microflow.yaml")
+		if err != nil {
+			t.Errorf("Failed to read file: %v", err)
+		}
+
+		var mfObj bson.M
+		var node yaml.Node
+		if err := yaml.Unmarshal(mfFile, &node); err != nil {
+			t.Errorf("Failed to unmarshal microflow file: %v", err)
+		}
+		if err := node.Decode(&mfObj); err != nil {
+			t.Errorf("Failed to decode microflow file: %v", err)
+		}
+
+		pseudocode, ok := mfObj["pseudocode"].(string)
+		if !ok || pseudocode == "" {
+			t.Errorf("Expected pseudocode to be present in basic mode export")
 		}
 	})
 	t.Run("microflow-with-split", func(t *testing.T) {
@@ -132,4 +167,8 @@ func TestMPRMicroflow(t *testing.T) {
 			t.Errorf("Unexpected instructions length. Got: %d", len(split2))
 		}
 	})
+}
+
+func containsText(s string, needle string) bool {
+	return strings.Contains(strings.ToUpper(s), strings.ToUpper(needle))
 }
