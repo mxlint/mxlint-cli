@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -221,6 +222,61 @@ function rule(input) {
 		}
 		if rule.Path != tsPath {
 			t.Errorf("Expected path %q, got %q", tsPath, rule.Path)
+		}
+	})
+
+	t.Run("missing custom metadata returns error", func(t *testing.T) {
+		tsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description"
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		tsPath := filepath.Join(tempDir, "missing_custom.ts")
+		if err := os.WriteFile(tsPath, []byte(tsContent), 0644); err != nil {
+			t.Fatalf("Failed to write test file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Typescript(tsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom object is required") {
+			t.Fatalf("Expected metadata.custom error, got: %v", err)
+		}
+	})
+
+	t.Run("missing rulenumber returns error", func(t *testing.T) {
+		tsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description",
+    custom: {
+        category: "Maintainability",
+        severity: "LOW",
+        input: ".*\\.yaml"
+    }
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		tsPath := filepath.Join(tempDir, "missing_rulenumber.ts")
+		if err := os.WriteFile(tsPath, []byte(tsContent), 0644); err != nil {
+			t.Fatalf("Failed to write test file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Typescript(tsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom.rulenumber")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom.rulenumber is required") {
+			t.Fatalf("Expected missing rulenumber error, got: %v", err)
 		}
 	})
 }

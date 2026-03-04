@@ -253,10 +253,17 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 	if metadataMap == nil {
 		return nil, fmt.Errorf("metadata must be an object")
 	}
+	getString := func(obj *sobek.Object, key string) string {
+		value := obj.Get(key)
+		if value == nil || sobek.IsUndefined(value) || sobek.IsNull(value) {
+			return ""
+		}
+		return value.String()
+	}
 
 	var packageName string = rulePath
-	var title string = metadataMap.Get("title").String()
-	var description string = metadataMap.Get("description").String()
+	var title string = getString(metadataMap, "title")
+	var description string = getString(metadataMap, "description")
 	if strings.TrimSpace(title) == "" || strings.TrimSpace(description) == "" {
 		return nil, fmt.Errorf("metadata.title and metadata.description are required")
 	}
@@ -270,12 +277,12 @@ func parseRuleMetadata_Javascript(rulePath string) (*Rule, error) {
 	if custom == nil {
 		return nil, fmt.Errorf("metadata.custom must be an object")
 	}
-	var category string = custom.Get("category").String()
-	var severity string = custom.Get("severity").String()
-	var ruleNumber string = custom.Get("rulenumber").String()
-	var remediation string = custom.Get("remediation").String()
-	var ruleName string = custom.Get("rulename").String()
-	var pattern string = custom.Get("input").String()
+	var category string = getString(custom, "category")
+	var severity string = getString(custom, "severity")
+	var ruleNumber string = getString(custom, "rulenumber")
+	var remediation string = getString(custom, "remediation")
+	var ruleName string = getString(custom, "rulename")
+	var pattern string = getString(custom, "input")
 	if strings.TrimSpace(ruleNumber) == "" {
 		return nil, fmt.Errorf("metadata.custom.rulenumber is required")
 	}

@@ -246,3 +246,86 @@ func TestLoadMergedConfigFromPath_MissingExplicitReturnsError(t *testing.T) {
 		t.Fatal("expected error when explicit config file is missing")
 	}
 }
+
+func TestShouldSkipRule_ConfigSkipPathVariants(t *testing.T) {
+	setDefaultConfigForTest(t, "")
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"example/doc": []ConfigSkipRule{
+					{
+						Rule:   "001_002",
+						Reason: "normalized path skip",
+					},
+				},
+			},
+		},
+	})
+
+	inputFile := "/tmp/modelsource/./example/doc.yaml"
+	skip, reason := shouldSkipRule("", "001_002", false, inputFile, "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected skip=true for normalized path candidate")
+	}
+	if reason != "normalized path skip" {
+		t.Fatalf("expected configured reason, got %s", reason)
+	}
+}
+
+func TestShouldSkipRule_ConfigSkipWildcardRuleWithDateReason(t *testing.T) {
+	setDefaultConfigForTest(t, "")
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"example/doc": []ConfigSkipRule{
+					{
+						Rule: "*",
+						Date: "2026-03-03",
+					},
+				},
+			},
+		},
+	})
+
+	skip, reason := shouldSkipRule("", "009_9999", false, "/tmp/modelsource/example/doc.yaml", "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected skip=true for wildcard rule entry")
+	}
+	if reason != "Skipped by lint.skip config (2026-03-03)" {
+		t.Fatalf("expected date-based skip reason, got %s", reason)
+	}
+}
+
+func TestLoadMergedConfig_NormalizesSkipMapKeys(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+	projectConfig := `lint:
+  skip:
+    ./example/doc:
+      - rule: "001_002"
+        reason: normalized
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+
+	if _, ok := cfg.Lint.Skip["example/doc"]; !ok {
+		t.Fatalf("expected normalized skip key example/doc, got %#v", cfg.Lint.Skip)
+	}
+	if _, ok := cfg.Lint.Skip["./example/doc"]; ok {
+		t.Fatalf("unexpected unnormalized skip key present: %#v", cfg.Lint.Skip)
+	}
+}

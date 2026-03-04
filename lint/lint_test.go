@@ -644,3 +644,62 @@ function rule(input) {
 		}
 	}
 }
+
+func TestParseRuleMetadata_JavascriptValidation(t *testing.T) {
+	tempDir := t.TempDir()
+
+	t.Run("missing custom metadata returns error", func(t *testing.T) {
+		jsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description"
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		jsPath := filepath.Join(tempDir, "missing_custom.js")
+		if err := os.WriteFile(jsPath, []byte(jsContent), 0644); err != nil {
+			t.Fatalf("Failed to write js file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Javascript(jsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom object is required") {
+			t.Fatalf("Expected metadata.custom error, got: %v", err)
+		}
+	})
+
+	t.Run("missing rulenumber returns error", func(t *testing.T) {
+		jsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description",
+    custom: {
+        category: "Maintainability",
+        severity: "LOW",
+        input: ".*\\.yaml"
+    }
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		jsPath := filepath.Join(tempDir, "missing_rulenumber.js")
+		if err := os.WriteFile(jsPath, []byte(jsContent), 0644); err != nil {
+			t.Fatalf("Failed to write js file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Javascript(jsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom.rulenumber")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom.rulenumber is required") {
+			t.Fatalf("Expected missing rulenumber error, got: %v", err)
+		}
+	})
+}
