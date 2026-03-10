@@ -51,6 +51,7 @@ func runServe(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 	lint.SetConfig(config)
+	configureCacheForServe(config, projectDir)
 
 	inputDirectory := config.ProjectDirectory
 	outputDirectory := config.Modelsource
@@ -222,7 +223,7 @@ func runServe(cmd *cobra.Command, args []string) {
 					lintErr = fmt.Errorf("lint operation panicked: %v", r)
 				}
 			}()
-			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "", false, true)
+			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "", false, boolValue(config.Cache.Enable, true))
 		}()
 
 		if lintErr != nil {
@@ -320,6 +321,30 @@ func intValue(value *int, fallback int) int {
 		return fallback
 	}
 	return *value
+}
+
+func boolValue(value *bool, fallback bool) bool {
+	if value == nil {
+		return fallback
+	}
+	return *value
+}
+
+func configureCacheForServe(config *lint.Config, projectDir string) {
+	if config == nil {
+		return
+	}
+	cacheBase := strings.TrimSpace(config.Cache.Directory)
+	if cacheBase == "" {
+		return
+	}
+	if !filepath.IsAbs(cacheBase) {
+		cacheBase = filepath.Join(projectDir, cacheBase)
+	}
+
+	lint.SetCacheDirectory(filepath.Join(cacheBase, "lint"))
+	mpr.SetPersistentYAMLCacheDirectory(filepath.Join(cacheBase, "mpr-v2-yaml"))
+	mpr.SetPersistentYAMLCacheEnabled(boolValue(config.Cache.Enable, true))
 }
 
 // addDirsRecursive adds all directories recursively to the watcher except the output directory

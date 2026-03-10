@@ -6,9 +6,28 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
+	"sync"
 )
 
 const cacheVersion = "v1"
+
+var cacheDirConfig = struct {
+	mu  sync.RWMutex
+	dir string
+}{}
+
+func SetCacheDirectory(path string) {
+	cacheDirConfig.mu.Lock()
+	defer cacheDirConfig.mu.Unlock()
+	cacheDirConfig.dir = strings.TrimSpace(path)
+}
+
+func getConfiguredCacheDirectory() string {
+	cacheDirConfig.mu.RLock()
+	defer cacheDirConfig.mu.RUnlock()
+	return cacheDirConfig.dir
+}
 
 // CacheKey represents the unique identifier for a cached result
 type CacheKey struct {
@@ -25,6 +44,10 @@ type CachedTestcase struct {
 
 // getCacheDir returns the cache directory path
 func getCacheDir() (string, error) {
+	if configured := getConfiguredCacheDirectory(); configured != "" {
+		return configured, nil
+	}
+
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
