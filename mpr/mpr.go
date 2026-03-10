@@ -574,7 +574,8 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 
 func writeFile(filepath string, contents map[string]interface{}) error {
 	log.Debugf("Writing file %s", filepath)
-	yamlstring, err := yaml.Marshal(contents)
+	normalizedContents := normalizeMultilineValues(contents)
+	yamlstring, err := yaml.Marshal(normalizedContents)
 	if err != nil {
 		return fmt.Errorf("error marshaling: %v", err)
 	}
@@ -583,6 +584,72 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 		return fmt.Errorf("error writing file: %v", err)
 	}
 	return nil
+}
+
+// normalizeMultilineValues normalizes indentation in multiline string values recursively
+// so the YAML encoder does not emit invalid block scalar indentation indicators.
+func normalizeMultilineValues(v interface{}) interface{} {
+	switch value := v.(type) {
+	case map[string]interface{}:
+		result := make(map[string]interface{}, len(value))
+		for k, item := range value {
+			result[k] = normalizeMultilineValues(item)
+		}
+		return result
+	case []interface{}:
+		result := make([]interface{}, len(value))
+		for i, item := range value {
+			result[i] = normalizeMultilineValues(item)
+		}
+		return result
+	case string:
+		return normalizeMultilineString(value)
+	default:
+		return v
+	}
+}
+
+func normalizeMultilineString(value string) string {
+	if !strings.Contains(value, "\n") {
+		return value
+	}
+
+	lines := strings.Split(value, "\n")
+	minIndent := -1
+	for _, line := range lines {
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+		indent := countLeadingWhitespace(line)
+		if minIndent == -1 || indent < minIndent {
+			minIndent = indent
+		}
+	}
+
+	if minIndent <= 0 {
+		return value
+	}
+
+	for i, line := range lines {
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+		lines[i] = line[minIndent:]
+	}
+
+	return strings.Join(lines, "\n")
+}
+
+func countLeadingWhitespace(line string) int {
+	count := 0
+	for _, r := range line {
+		if r == ' ' || r == '\t' {
+			count++
+			continue
+		}
+		break
+	}
+	return count
 }
 
 func getMxUnits(inputDirectory string) ([]MxUnit, error) {

@@ -506,6 +506,15 @@ func TestWriteFile(t *testing.T) {
 			},
 			expectError: true,
 		},
+		{
+			name:     "write multiline value with inconsistent indentation",
+			filepath: filepath.Join(tmpDir, "multiline.yaml"),
+			contents: map[string]interface{}{
+				"Name":  "TestDocument",
+				"Value": "     if $x = 1 then empty\nelse if $x = 2 then true\n   else false",
+			},
+			expectError: false,
+		},
 	}
 
 	for _, tt := range tests {
