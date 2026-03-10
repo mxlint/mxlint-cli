@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v3"
+	"go.mongodb.org/mongo-driver/bson"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -586,14 +587,64 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 	return nil
 }
 
+type doubleQuotedMultilineString string
+
+func (s doubleQuotedMultilineString) MarshalYAML() (interface{}, error) {
+	return &yaml.Node{
+		Kind:  yaml.ScalarNode,
+		Tag:   "!!str",
+		Value: string(s),
+		Style: yaml.DoubleQuotedStyle,
+	}, nil
+}
+
+type literalBlockMultilineString string
+
+func (s literalBlockMultilineString) MarshalYAML() (interface{}, error) {
+	return &yaml.Node{
+		Kind:  yaml.ScalarNode,
+		Tag:   "!!str",
+		Value: string(s),
+		Style: yaml.LiteralStyle,
+	}, nil
+}
+
 // normalizeMultilineValues normalizes indentation in multiline string values recursively
-// so the YAML encoder does not emit invalid block scalar indentation indicators.
+// and forces multiline strings to be encoded as double-quoted scalars.
 func normalizeMultilineValues(v interface{}) interface{} {
 	switch value := v.(type) {
+	case bson.M:
+		result := make(bson.M, len(value))
+		for k, item := range value {
+			result[k] = normalizeMultilineValues(item)
+		}
+		return result
 	case map[string]interface{}:
 		result := make(map[string]interface{}, len(value))
 		for k, item := range value {
 			result[k] = normalizeMultilineValues(item)
+		}
+		return result
+	case []bson.M:
+		result := make([]bson.M, len(value))
+		for i, item := range value {
+			normalized := normalizeMultilineValues(item)
+			if itemMap, ok := normalized.(bson.M); ok {
+				result[i] = itemMap
+			} else {
+				result[i] = item
+			}
+		}
+		return result
+	case []map[string]interface{}:
+		result := make([]map[string]interface{}, len(value))
+		for i, item := range value {
+			normalized := normalizeMultilineValues(item)
+			if itemMap, ok := normalized.(map[string]interface{}); ok {
+				result[i] = itemMap
+			} else {
+				result[i] = item
+			}
 		}
 		return result
 	case []interface{}:
@@ -603,10 +654,25 @@ func normalizeMultilineValues(v interface{}) interface{} {
 		}
 		return result
 	case string:
-		return normalizeMultilineString(value)
+		normalized := normalizeMultilineString(value)
+		if strings.Contains(normalized, "\n") {
+			if startsWithWhitespace(normalized) {
+				return doubleQuotedMultilineString(normalized)
+			}
+			return literalBlockMultilineString(normalized)
+		}
+		return normalized
 	default:
 		return v
 	}
+}
+
+func startsWithWhitespace(value string) bool {
+	if value == "" {
+		return false
+	}
+	first := value[0]
+	return first == ' ' || first == '\t'
 }
 
 func normalizeMultilineString(value string) string {

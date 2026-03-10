@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"gopkg.in/yaml.v3"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func TestGetMprVersion(t *testing.T) {
@@ -515,6 +516,26 @@ func TestWriteFile(t *testing.T) {
 			},
 			expectError: false,
 		},
+		{
+			name:     "write multiline value without leading whitespace",
+			filepath: filepath.Join(tmpDir, "multiline_literal.yaml"),
+			contents: map[string]interface{}{
+				"Name":  "TestDocument",
+				"Value": "if $x = 1 then true\nelse false",
+			},
+			expectError: false,
+		},
+		{
+			name:     "write nested bson multiline value with inconsistent indentation",
+			filepath: filepath.Join(tmpDir, "multiline_nested_bson.yaml"),
+			contents: map[string]interface{}{
+				"Name": "TestDocument",
+				"Nested": bson.M{
+					"Value": "     if $x = 1 then empty\nelse if $x = 2 then true\n   else false",
+				},
+			},
+			expectError: false,
+		},
 	}
 
 	for _, tt := range tests {
@@ -538,6 +559,12 @@ func TestWriteFile(t *testing.T) {
 					}
 					if data["Name"] != tt.contents["Name"] {
 						t.Errorf("Written file content mismatch")
+					}
+					if (tt.name == "write multiline value with inconsistent indentation" || tt.name == "write nested bson multiline value with inconsistent indentation") && strings.Contains(string(content), "|") {
+						t.Errorf("Expected multiline value to be double-quoted, but found block scalar style in: %s", string(content))
+					}
+					if tt.name == "write multiline value without leading whitespace" && !strings.Contains(string(content), "|\n") && !strings.Contains(string(content), "|-\n") {
+						t.Errorf("Expected multiline value to use literal block scalar style, got: %s", string(content))
 					}
 				}
 			}
