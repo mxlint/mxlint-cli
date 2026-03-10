@@ -38,7 +38,8 @@ func main() {
 	rootCmd.AddCommand(cmdVersion)
 
 	var cmdExportModel = &cobra.Command{
-		Use:   "export-model",
+		Use:     "export",
+		Aliases: []string{"export-model"},
 		Short: "Export Mendix model to yaml files",
 		Long:  "The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.",
 		Run: func(cmd *cobra.Command, args []string) {
