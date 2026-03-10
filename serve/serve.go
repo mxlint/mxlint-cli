@@ -30,7 +30,7 @@ func NewServeCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "serve",
 		Short: "Run a server that exports model and lints whenever the input MPR file changes",
-		Long:  "This command runs export-model followed by linting whenever the input MPR file changes. It's useful for continuous linting during development.",
+		Long:  "This command runs export followed by linting whenever the input MPR file changes. It's useful for continuous linting during development.",
 		Run:   runServe,
 	}
 
@@ -194,7 +194,7 @@ func runServe(cmd *cobra.Command, args []string) {
 			}
 		}()
 
-		log.Infof("Running export-model and lint")
+		log.Infof("Running export and lint")
 		err := mpr.ExportModel(inputDirectory, outputDirectory, false, false, "")
 		if err != nil {
 			log.Warningf("Export failed: %s", err)

@@ -73,7 +73,7 @@ func main() {
 				config.Export.Filter,
 			)
 			if err != nil {
-				log.Errorf("export-model failed: %s", err)
+				log.Errorf("export failed: %s", err)
 				os.Exit(1)
 			}
 		},
