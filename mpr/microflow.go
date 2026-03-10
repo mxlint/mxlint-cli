@@ -1,54 +1,26 @@
 package mpr
 
+const microflowDocumentType = "Microflows$Microflow"
+
+func enrichMicroflowDocument(mf MxDocument) MxDocument {
+	mf = addMicroflowPseudocode(mf)
+	mf = transformMicroflow(mf)
+	return mf
+}
+
 func transformMicroflow(mf MxDocument) MxDocument {
-	// Transform a microflow
 	log.Infof("Transforming microflow %s", mf.Name)
 
 	cleanedData := bsonToMap(mf.Attributes)
-
-	// Check if ObjectCollection exists
-	objsCollectionRaw, ok := cleanedData["ObjectCollection"]
-	if !ok || objsCollectionRaw == nil {
-		log.Warnf("ObjectCollection not found for microflow %s, skipping transformation", mf.Name)
-		return mf
-	}
-
-	objsCollection, ok := objsCollectionRaw.(map[string]interface{})
+	objs, flows, ok := extractMicroflowGraphData(mf.Name, cleanedData)
 	if !ok {
-		log.Warnf("ObjectCollection is not a map for microflow %s, skipping transformation", mf.Name)
 		return mf
 	}
-
-	objectsRaw, ok := objsCollection["Objects"]
-	if !ok || objectsRaw == nil {
-		log.Warnf("Objects not found in ObjectCollection for microflow %s, skipping transformation", mf.Name)
-		return mf
-	}
-
-	objects, ok := objectsRaw.([]interface{})
+	startEvent, ok := getMxMicroflowObjectByType(objs, "Microflows$StartEvent")
 	if !ok {
-		log.Warnf("Objects is not a slice for microflow %s, skipping transformation", mf.Name)
+		log.Warnf("StartEvent not found for microflow %s, skipping transformation", mf.Name)
 		return mf
 	}
-
-	objs := convertToMxMicroflowObjects(objects)
-
-	// Check if Flows exists
-	flowsRaw, ok := cleanedData["Flows"]
-	if !ok || flowsRaw == nil {
-		log.Warnf("Flows not found for microflow %s, skipping transformation", mf.Name)
-		return mf
-	}
-
-	flowsSlice, ok := flowsRaw.([]interface{})
-	if !ok {
-		log.Warnf("Flows is not a slice for microflow %s, skipping transformation", mf.Name)
-		return mf
-	}
-
-	flows := convertToMxMicroflowEdges(flowsSlice)
-
-	startEvent := getMxMicroflowObjectByType(objs, "Microflows$StartEvent")
 
 	root := MxMicroflowNode{
 		Type:       startEvent.Type,
@@ -63,6 +35,57 @@ func transformMicroflow(mf MxDocument) MxDocument {
 	// remove ObjectCollection
 	delete(mf.Attributes, "ObjectCollection")
 	return mf
+}
+
+func addMicroflowPseudocode(mf MxDocument) MxDocument {
+	cleanedData := bsonToMap(mf.Attributes)
+	pseudocode, err := generateMicroflowPseudocode(mf.Name, cleanedData)
+	if err != nil {
+		log.Warnf("Could not generate pseudocode for microflow %s: %v", mf.Name, err)
+		return mf
+	}
+	mf.Attributes["pseudocode"] = pseudocode
+	return mf
+}
+
+func extractMicroflowGraphData(name string, cleanedData map[string]interface{}) ([]MxMicroflowObject, []MxMicroflowEdge, bool) {
+	objsCollectionRaw, ok := cleanedData["ObjectCollection"]
+	if !ok || objsCollectionRaw == nil {
+		log.Warnf("ObjectCollection not found for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	objsCollection, ok := objsCollectionRaw.(map[string]interface{})
+	if !ok {
+		log.Warnf("ObjectCollection is not a map for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	objectsRaw, ok := objsCollection["Objects"]
+	if !ok || objectsRaw == nil {
+		log.Warnf("Objects not found in ObjectCollection for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	objects, ok := objectsRaw.([]interface{})
+	if !ok {
+		log.Warnf("Objects is not a slice for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	flowsRaw, ok := cleanedData["Flows"]
+	if !ok || flowsRaw == nil {
+		log.Warnf("Flows not found for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	flowsSlice, ok := flowsRaw.([]interface{})
+	if !ok {
+		log.Warnf("Flows is not a slice for microflow %s, skipping transformation", name)
+		return nil, nil, false
+	}
+
+	return convertToMxMicroflowObjects(objects), convertToMxMicroflowEdges(flowsSlice), true
 }
 
 func extractMainFlow(mainFlow *[]map[string]interface{}, current *MxMicroflowNode, labels *map[string]interface{}) {
@@ -138,7 +161,12 @@ func buildDAG(current *MxMicroflowNode, parent *MxMicroflowNode, flows []MxMicro
 			return
 		}
 	case "Microflows$SequenceFlow":
-		obj := getMxMicroflowObjectByID(objects, current.Attributes["DestinationPointer"].(string))
+		destination, _ := current.Attributes["DestinationPointer"].(string)
+		obj, ok := getMxMicroflowObjectByID(objects, destination)
+		if !ok {
+			log.Warnf("Destination object %s not found for sequence flow %s", destination, current.ID)
+			return
+		}
 		objectNode := MxMicroflowNode{
 			Type:       obj.Type,
 			ID:         obj.ID,
@@ -183,31 +211,39 @@ func getMxMicroflowEdgesByOrigin(edges []MxMicroflowEdge, originId string) []MxM
 	return result
 }
 
-func getMxMicroflowObjectByType(objs []MxMicroflowObject, objType string) MxMicroflowObject {
+func getMxMicroflowObjectByType(objs []MxMicroflowObject, objType string) (MxMicroflowObject, bool) {
 	for _, obj := range objs {
 		if obj.Type == objType {
-			return obj
+			return obj, true
 		}
 	}
-	panic("MPR file probably corrupted")
+	return MxMicroflowObject{}, false
 }
 
-func getMxMicroflowObjectByID(objs []MxMicroflowObject, objID string) MxMicroflowObject {
+func getMxMicroflowObjectByID(objs []MxMicroflowObject, objID string) (MxMicroflowObject, bool) {
 	for _, obj := range objs {
 		if obj.ID == objID {
-			return obj
+			return obj, true
 		}
 	}
-	panic("MPR file probably corrupted")
+	return MxMicroflowObject{}, false
 }
 
 func convertToMxMicroflowObjects(objs []interface{}) []MxMicroflowObject {
-	result := make([]MxMicroflowObject, len(objs))
+	result := make([]MxMicroflowObject, 0, len(objs))
 	for _, o := range objs {
-		castedObject := o.(map[string]interface{})
+		castedObject, ok := o.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		objType, _ := castedObject["$Type"].(string)
+		id := readMicroflowID(castedObject["$ID"])
+		if objType == "" || id == "" {
+			continue
+		}
 		result = append(result, MxMicroflowObject{
-			Type:       castedObject["$Type"].(string),
-			ID:         castedObject["$ID"].(string),
+			Type:       objType,
+			ID:         id,
 			Attributes: castedObject,
 		})
 	}
@@ -215,14 +251,24 @@ func convertToMxMicroflowObjects(objs []interface{}) []MxMicroflowObject {
 }
 
 func convertToMxMicroflowEdges(flows []interface{}) []MxMicroflowEdge {
-	result := make([]MxMicroflowEdge, len(flows))
+	result := make([]MxMicroflowEdge, 0, len(flows))
 	for _, f := range flows {
-		castedFlow := f.(map[string]interface{})
+		castedFlow, ok := f.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		flowType, _ := castedFlow["$Type"].(string)
+		id := readMicroflowID(castedFlow["$ID"])
+		origin := readMicroflowID(castedFlow["OriginPointer"])
+		destination := readMicroflowID(castedFlow["DestinationPointer"])
+		if flowType == "" || id == "" || origin == "" || destination == "" {
+			continue
+		}
 		result = append(result, MxMicroflowEdge{
-			Type:        castedFlow["$Type"].(string),
-			ID:          castedFlow["$ID"].(string),
-			Origin:      castedFlow["OriginPointer"].(string),
-			Destination: castedFlow["DestinationPointer"].(string),
+			Type:        flowType,
+			ID:          id,
+			Origin:      origin,
+			Destination: destination,
 			Attributes:  castedFlow,
 		})
 	}

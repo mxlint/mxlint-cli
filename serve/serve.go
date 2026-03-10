@@ -54,7 +54,6 @@ func runServe(cmd *cobra.Command, args []string) {
 
 	inputDirectory := config.ProjectDirectory
 	outputDirectory := config.Modelsource
-	mode := config.Export.Mode
 	rulesDirectory := config.Rules.Path
 	port := intValue(config.Serve.Port, 8082)
 	verbose, _ := cmd.Flags().GetBool("verbose")
@@ -95,7 +94,6 @@ func runServe(cmd *cobra.Command, args []string) {
 	log.Infof("Watching for changes in %s", expandedPath)
 	log.Infof("Output directory: %s", outputDirectory)
 	log.Infof("Rules directory: %s", rulesDirectory)
-	log.Infof("Mode: %s", mode)
 	log.Infof("Debounce time: %d ms", debounceTime)
 
 	// Create a mutex to protect the cached results
@@ -197,7 +195,7 @@ func runServe(cmd *cobra.Command, args []string) {
 		}()
 
 		log.Infof("Running export-model and lint")
-		err := mpr.ExportModel(inputDirectory, outputDirectory, false, mode, false, "")
+		err := mpr.ExportModel(inputDirectory, outputDirectory, false, false, "")
 		if err != nil {
 			log.Warningf("Export failed: %s", err)
 			resultMutex.Lock()

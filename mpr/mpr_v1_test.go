@@ -42,7 +42,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
@@ -51,7 +51,7 @@ func TestMPRUnits(t *testing.T) {
 func TestIDAttributesExclusion(t *testing.T) {
 	t.Run("verify-id-attributes-excluded", func(t *testing.T) {
 		// Export units with ID attributes excluded
-		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, "basic", ""); err != nil {
+		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file: %v", err)
 			return
 		}
@@ -108,7 +108,7 @@ func TestFilterMetadataOnly(t *testing.T) {
 
 		// Export with filter ^Metadata$
 		// According to the code, when filter is "^Metadata$", only metadata is exported, no units
-		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, "basic", false, "^Metadata$"); err != nil {
+		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, false, "^Metadata$"); err != nil {
 			t.Errorf("Failed to export with Metadata filter: %v", err)
 			return
 		}
@@ -148,7 +148,7 @@ func TestFilterConstantPattern(t *testing.T) {
 
 		// Export with filter ^Constant.*
 		// This pattern won't match any documents in the test data, so we should get only metadata
-		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, "basic", false, "^Constant.*"); err != nil {
+		if err := ExportModel("./../resources/app-mpr-v1", testDir, false, false, "^Constant.*"); err != nil {
 			t.Errorf("Failed to export with Constant filter: %v", err)
 			return
 		}

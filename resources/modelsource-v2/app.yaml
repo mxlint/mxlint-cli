@@ -34,12 +34,21 @@ content:
                 - name: Constant_3.Constants$Constant.yaml
                   type: file
                   path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong/Constant_3.Constants$Constant.yaml
+        - name: MicroflowLoopExample.Microflows$Microflow.yaml
+          type: file
+          path: Module2/MicroflowLoopExample.Microflows$Microflow.yaml
+        - name: MultiLineMicroflow.Microflows$Microflow.yaml
+          type: file
+          path: Module2/MultiLineMicroflow.Microflows$Microflow.yaml
         - name: Projects$ModuleSettings.yaml
           type: file
           path: Module2/Projects$ModuleSettings.yaml
         - name: Security$ModuleSecurity.yaml
           type: file
           path: Module2/Security$ModuleSecurity.yaml
+        - name: SubMicroflowExample.Microflows$Microflow.yaml
+          type: file
+          path: Module2/SubMicroflowExample.Microflows$Microflow.yaml
         - name: _
           type: directory
           path: Module2/_

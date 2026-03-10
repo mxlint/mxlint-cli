@@ -9,20 +9,22 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MicroflowComplexSplit
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: ByoAvHEnAECoob0TcBsoCQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 0;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$CreateVariableAction
             ErrorHandlingType: Rollback
             InitialValue: MyFirstModule.EnumerationStatus._New
@@ -30,43 +32,176 @@ ObjectCollection:
             VariableType:
                 $Type: DataTypes$EnumerationType
                 Enumeration: MyFirstModule.EnumerationStatus
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$ExclusiveSplit
-          Caption: Decision
-          Documentation: ""
-          ErrorHandlingType: Rollback
-          SplitCondition:
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: WRDtQdo6JUyYuOoGOduyKg==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ExclusiveSplit
+        Caption: Decision
+        Documentation: ""
+        ErrorHandlingType: Rollback
+        SplitCondition:
             $Type: Microflows$ExpressionSplitCondition
             Expression: $status
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ExclusiveMerge
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
-            $Type: Microflows$CreateChangeAction
-            Commit: "No"
-            Entity: MyFirstModule.Bike
-            ErrorHandlingType: Rollback
-            Items: []
-            RefreshInClient: false
-            VariableName: NewBike
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
+      Splits:
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: GtQF96dtV0G8gOv2X9ulQw==
+                      $Type: Microflows$EnumerationCase
+                      Value: Done
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: -15;0
+                    OriginControlVector: 15;0
+          - Attributes:
+                $Type: Microflows$ExclusiveMerge
+          - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: 4lsobhDlDEmu00iffEjksA==
+                      $Type: Microflows$NoCase
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: -15;0
+                    OriginControlVector: 15;0
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: mTqnRBztSU+tw1feVZstJw==
+                      $Type: Microflows$EnumerationCase
+                      Value: InProgress
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-15
+                    OriginControlVector: -2;14
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: ofqfAAZ6W0Oi4BaPJNdYfg==
+                      $Type: Microflows$EnumerationCase
+                      Value: (empty)
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-30
+                    OriginControlVector: 0;15
+          - Attributes:
+                $Type: Microflows$ActionActivity
+                Action:
+                    $Type: Microflows$CreateChangeAction
+                    Commit: "No"
+                    Entity: MyFirstModule.Bike
+                    ErrorHandlingType: Rollback
+                    Items: []
+                    RefreshInClient: false
+                    VariableName: NewBike
+                AutoGenerateCaption: true
+                BackgroundColor: Default
+                Caption: Activity
+                Disabled: false
+                Documentation: ""
+          - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: zcwSb1ri20aIsWKv+U6d9Q==
+                      $Type: Microflows$NoCase
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-15
+                    OriginControlVector: 0;30
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: eafhO9mN/ka+Uu6v154wUw==
+                      $Type: Microflows$EnumerationCase
+                      Value: Cancelled
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;15
+                    OriginControlVector: 0;15
+          - Attributes:
+                $Type: Microflows$ExclusiveMerge
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: nbqcFg2i+Eu2YAO95CVRwQ==
+                      $Type: Microflows$EnumerationCase
+                      Value: _New
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 15;0
+                    OriginControlVector: 0;15
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MicroflowComplexSplit
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: |-
+    MICROFLOW: MicroflowComplexSplit
+    RETURN TYPE: void
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+      status = MyFirstModule.EnumerationStatus._New
+
+      IF $status THEN
+        GOTO L001  // case: Done
+        // OR GOTO L002  // case: InProgress
+        // OR GOTO L003  // case: (empty)
+        // OR GOTO L001  // case: Cancelled
+        // OR GOTO L004  // case: _New
+      END IF
+
+      LABEL L001
+
+
+      LABEL L002
+
+      LABEL L003
+      // action: Microflows$CreateChangeAction
+
+
+      LABEL L004
+
+    END

@@ -8,6 +8,7 @@ Settings:
       UrlPrefix: p
       UseOptimizedClient: "No"
     - $Type: Settings$IntegrationProjectSettingsPart
+      ObsoleteEnableUrlEncoding: false
     - $Type: Settings$ConfigurationSettings
       Configurations:
         - $Type: Settings$ServerConfiguration
@@ -27,6 +28,7 @@ Settings:
           OpenAdminPort: true
           OpenHttpPort: false
           ServerPortNumber: 8090
+          Tracing: null
     - $Type: Settings$ModelSettings
       AfterStartupMicroflow: ""
       AllowUserMultipleSessions: true
@@ -40,11 +42,13 @@ Settings:
       JavaVersion: Java21
       RoundingMode: HalfUp
       ScheduledEventTimeZoneCode: Etc/UTC
+      SslCertificateAlgorithm: SunX509
       UseDatabaseForeignKeyConstraints: true
       UseOQLVersion2: false
       UseSystemContextForBackgroundTasks: false
     - $Type: Settings$ConventionSettings
       ActionActivityDefaultColors: []
+      DefaultAssociationStorage: Table
       DefaultSequenceFlowLineType: BezierCurve
       LowerCaseMicroflowVariables: false
     - $Type: Settings$LanguageSettings

@@ -27,7 +27,6 @@ func TestLoadMergedConfig_ProjectOverridesSystem(t *testing.T) {
 modelsource: modelsource-system
 projectDirectory: ./system
 export:
-  mode: advanced
   filter: system/*
 lint:
   skip:
@@ -42,7 +41,6 @@ lint:
 modelsource: modelsource
 projectDirectory: .
 export:
-  mode: basic
   filter: "*"
 lint:
   skip:
@@ -78,7 +76,7 @@ lint:
 	if len(cfg.Rules.Rulesets) != 1 || cfg.Rules.Rulesets[0] != "file://project-rules" {
 		t.Fatalf("expected project rules.rulesets override, got %#v", cfg.Rules.Rulesets)
 	}
-	if cfg.Modelsource != "modelsource" || cfg.ProjectDirectory != "." || cfg.Export.Mode != "basic" || cfg.Export.Filter != "*" {
+	if cfg.Modelsource != "modelsource" || cfg.ProjectDirectory != "." || cfg.Export.Filter != "*" {
 		t.Fatalf("expected project config override, got modelsource=%s projectDirectory=%s export=%#v", cfg.Modelsource, cfg.ProjectDirectory, cfg.Export)
 	}
 
@@ -126,7 +124,6 @@ func TestLoadMergedConfig_DefaultConfigBase(t *testing.T) {
 modelsource: default-modelsource
 projectDirectory: ./default-input
 export:
-  mode: advanced
   filter: default/*
 `
 	setDefaultConfigForTest(t, defaultConfig)
@@ -139,7 +136,7 @@ export:
 	if cfg.Rules.Path != ".mendix-cache/default-rules" {
 		t.Fatalf("expected default rules path, got %s", cfg.Rules.Path)
 	}
-	if cfg.Modelsource != "default-modelsource" || cfg.ProjectDirectory != "./default-input" || cfg.Export.Mode != "advanced" || cfg.Export.Filter != "default/*" {
+	if cfg.Modelsource != "default-modelsource" || cfg.ProjectDirectory != "./default-input" || cfg.Export.Filter != "default/*" {
 		t.Fatalf("expected default values, got modelsource=%s projectDirectory=%s export=%#v", cfg.Modelsource, cfg.ProjectDirectory, cfg.Export)
 	}
 }

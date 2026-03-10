@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v3"
+	"go.mongodb.org/mongo-driver/bson"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -31,7 +32,7 @@ const (
 	MaxComponentLength = 50
 )
 
-func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode string, appstore bool, filter string) error {
+func ExportModel(inputDirectory string, outputDirectory string, raw bool, appstore bool, filter string) error {
 
 	// create tmp directory in user tmp directory
 	tmpDir := filepath.Join(os.TempDir(), "mxlint")
@@ -67,7 +68,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, mode s
 	exportedCount := 0
 	if filter != "^Metadata$" {
 		var err error
-		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, mode, filter)
+		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
@@ -456,7 +457,7 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	return newRelativePath, filename, nil
 }
 
-func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocument, error) {
+func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 	var documents []MxDocument
 	documentTypes := []string{"ProjectDocuments", "DomainModel", "ModuleSettings", "ModuleSecurity", "Documents"}
 
@@ -475,8 +476,8 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 				Attributes: unit.Contents,
 			}
 
-			if mode == "advanced" && unit.Contents["$Type"] == "Microflows$Microflow" {
-				myDocument = transformMicroflow(myDocument)
+			if unit.Contents["$Type"] == microflowDocumentType {
+				myDocument = enrichMicroflowDocument(myDocument)
 			}
 			documents = append(documents, myDocument)
 		}
@@ -485,7 +486,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder, mode string) ([]MxDocume
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode string, filter string) (int, error) {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter string) (int, error) {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
@@ -497,7 +498,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 	if err != nil {
 		return 0, fmt.Errorf("error getting folders: %v", err)
 	}
-	documents, err := getMxDocuments(units, folders, mode)
+	documents, err := getMxDocuments(units, folders)
 	if err != nil {
 		return 0, fmt.Errorf("error getting documents: %v", err)
 	}
@@ -574,7 +575,8 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, mode s
 
 func writeFile(filepath string, contents map[string]interface{}) error {
 	log.Debugf("Writing file %s", filepath)
-	yamlstring, err := yaml.Marshal(contents)
+	normalizedContents := normalizeMultilineValues(contents)
+	yamlstring, err := yaml.Marshal(normalizedContents)
 	if err != nil {
 		return fmt.Errorf("error marshaling: %v", err)
 	}
@@ -583,6 +585,137 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 		return fmt.Errorf("error writing file: %v", err)
 	}
 	return nil
+}
+
+type doubleQuotedMultilineString string
+
+func (s doubleQuotedMultilineString) MarshalYAML() (interface{}, error) {
+	return &yaml.Node{
+		Kind:  yaml.ScalarNode,
+		Tag:   "!!str",
+		Value: string(s),
+		Style: yaml.DoubleQuotedStyle,
+	}, nil
+}
+
+type literalBlockMultilineString string
+
+func (s literalBlockMultilineString) MarshalYAML() (interface{}, error) {
+	return &yaml.Node{
+		Kind:  yaml.ScalarNode,
+		Tag:   "!!str",
+		Value: string(s),
+		Style: yaml.LiteralStyle,
+	}, nil
+}
+
+// normalizeMultilineValues normalizes indentation in multiline string values recursively
+// and forces multiline strings to be encoded as double-quoted scalars.
+func normalizeMultilineValues(v interface{}) interface{} {
+	switch value := v.(type) {
+	case bson.M:
+		result := make(bson.M, len(value))
+		for k, item := range value {
+			result[k] = normalizeMultilineValues(item)
+		}
+		return result
+	case map[string]interface{}:
+		result := make(map[string]interface{}, len(value))
+		for k, item := range value {
+			result[k] = normalizeMultilineValues(item)
+		}
+		return result
+	case []bson.M:
+		result := make([]bson.M, len(value))
+		for i, item := range value {
+			normalized := normalizeMultilineValues(item)
+			if itemMap, ok := normalized.(bson.M); ok {
+				result[i] = itemMap
+			} else {
+				result[i] = item
+			}
+		}
+		return result
+	case []map[string]interface{}:
+		result := make([]map[string]interface{}, len(value))
+		for i, item := range value {
+			normalized := normalizeMultilineValues(item)
+			if itemMap, ok := normalized.(map[string]interface{}); ok {
+				result[i] = itemMap
+			} else {
+				result[i] = item
+			}
+		}
+		return result
+	case []interface{}:
+		result := make([]interface{}, len(value))
+		for i, item := range value {
+			result[i] = normalizeMultilineValues(item)
+		}
+		return result
+	case string:
+		normalized := normalizeMultilineString(value)
+		if strings.Contains(normalized, "\n") {
+			if startsWithWhitespace(normalized) {
+				return doubleQuotedMultilineString(normalized)
+			}
+			return literalBlockMultilineString(normalized)
+		}
+		return normalized
+	default:
+		return v
+	}
+}
+
+func startsWithWhitespace(value string) bool {
+	if value == "" {
+		return false
+	}
+	first := value[0]
+	return first == ' ' || first == '\t'
+}
+
+func normalizeMultilineString(value string) string {
+	if !strings.Contains(value, "\n") {
+		return value
+	}
+
+	lines := strings.Split(value, "\n")
+	minIndent := -1
+	for _, line := range lines {
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+		indent := countLeadingWhitespace(line)
+		if minIndent == -1 || indent < minIndent {
+			minIndent = indent
+		}
+	}
+
+	if minIndent <= 0 {
+		return value
+	}
+
+	for i, line := range lines {
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+		lines[i] = line[minIndent:]
+	}
+
+	return strings.Join(lines, "\n")
+}
+
+func countLeadingWhitespace(line string) int {
+	count := 0
+	for _, r := range line {
+		if r == ' ' || r == '\t' {
+			count++
+			continue
+		}
+		break
+	}
+	return count
 }
 
 func getMxUnits(inputDirectory string) ([]MxUnit, error) {

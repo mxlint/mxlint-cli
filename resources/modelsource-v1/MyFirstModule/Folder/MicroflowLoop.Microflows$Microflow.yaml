@@ -9,55 +9,145 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MicroflowLoop
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: GiH0TK39nUWNx49qCaO+7Q==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 15;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$CreateVariableAction
             ErrorHandlingType: Rollback
             InitialValue: "10"
             VariableName: counter
             VariableType:
                 $Type: DataTypes$IntegerType
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$ExclusiveSplit
-          Caption: Enough?
-          Documentation: ""
-          ErrorHandlingType: Rollback
-          SplitCondition:
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: ssykl6pqyUqJCuOggJOUtQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ExclusiveMerge
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: NwmcF32mSUug4t2CDPQghQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 15;0
+    - Attributes:
+        $Type: Microflows$ExclusiveSplit
+        Caption: Enough?
+        Documentation: ""
+        ErrorHandlingType: Rollback
+        SplitCondition:
             $Type: Microflows$ExpressionSplitCondition
             Expression: $counter > 0
-        - $Type: Microflows$ActionActivity
-          Action:
-            $Type: Microflows$ChangeVariableAction
-            ChangeVariableName: counter
-            ErrorHandlingType: Rollback
-            Value: $counter-1
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$ExclusiveMerge
-        - $Type: Microflows$Annotation
-          Caption: 'label: label1'
-        - $Type: Microflows$Annotation
-          Caption: 'goto: label1'
+      Splits:
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: X8BX7EbNHEKxzAzXbV9PVw==
+                      $Type: Microflows$EnumerationCase
+                      Value: "true"
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: -15;0
+                    OriginControlVector: 15;0
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: ujmRZNU150qvnlAUoqPLJA==
+                      $Type: Microflows$EnumerationCase
+                      Value: "false"
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;30
+                    OriginControlVector: 0;-15
+          - Attributes:
+                $Type: Microflows$ActionActivity
+                Action:
+                    $Type: Microflows$ChangeVariableAction
+                    ChangeVariableName: counter
+                    ErrorHandlingType: Rollback
+                    Value: $counter-1
+                AutoGenerateCaption: true
+                BackgroundColor: Default
+                Caption: Activity
+                Disabled: false
+                Documentation: ""
+          - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: n6vcUe3E4EWUB7u+Zoe2/Q==
+                      $Type: Microflows$NoCase
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-15
+                    OriginControlVector: -30;0
+          - Attributes:
+                $Type: Microflows$ExclusiveMerge
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MicroflowLoop
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: |-
+    MICROFLOW: MicroflowLoop
+    RETURN TYPE: void
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+      counter = 10
+
+      LABEL L001
+
+      IF $counter > 0 THEN
+        GOTO L002
+      ELSE
+        GOTO L003
+      END IF
+
+      LABEL L002
+
+      LABEL L003
+      counter = $counter-1
+      GOTO L001
+
+    END

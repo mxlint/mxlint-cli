@@ -69,7 +69,6 @@ mxlint-cli export-model [flags]
 |------|-------|---------|-------------|
 | `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
 | `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
-| `--mode` | `-m` | `basic` | Export mode. Valid options: `basic`, `advanced` |
 | `--filter` | `-f` | | Regex pattern to filter units by name. Only units with names matching the pattern will be exported |
 | `--raw` | | `false` | If set, the output yaml will include all attributes as they are in the model |
 | `--appstore` | | `false` | If set, appstore modules will be included in the output |
@@ -107,7 +106,6 @@ lint:
 export:
   output: modelsource
   input: .
-  mode: basic
   filter: "*"
 ```
 
@@ -166,7 +164,6 @@ mxlint-cli serve [flags]
 |------|-------|---------|-------------|
 | `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
 | `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
-| `--mode` | `-m` | `basic` | Export mode. Valid options: `basic`, `advanced` |
 | `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
 | `--port` | `-p` | `8082` | Port to run the server on |
 | `--debounce` | `-d` | `500` | Debounce time in milliseconds for file change events |
@@ -336,7 +333,6 @@ INFO[0000] Starting server on port 8084
 INFO[0000] Watching for changes in /Users/xcheng/project
 INFO[0000] Output directory: modelsource
 INFO[0000] Rules directory: rules
-INFO[0000] Mode: basic
 INFO[0000] Debounce time: 500 ms
 INFO[0000] HTTP server listening on 127.0.0.1:8084
 INFO[0000] Dashboard available at http://localhost:8084
@@ -374,7 +370,7 @@ INFO[0000] PASS  no_allow_2
 - Lint Mendix Yaml files for common mistakes and enforces best practices
 - Watch for changes and automatically re-lint
 - Serve lint results via HTTP for integration with other tools
-- Microflow transformation to more readable format (advanced mode)
+- Microflow transformation to more readable format
 - Support for both Rego and JavaScript rules
 - Human readable output
 

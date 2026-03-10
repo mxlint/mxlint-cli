@@ -1090,17 +1090,6 @@ SystemTexts:
               LanguageCode: en_US
               Text: You can’t complete this user task, it is not assigned to you.
     - $Type: Texts$SystemText
-      InternalKey: mendix.platform.workflows.cant_complete_task_generic
-      Text:
-        $Type: Texts$Text
-        Items:
-            - $Type: Texts$Translation
-              LanguageCode: nl_NL
-              Text: Je kunt deze taak niet afronden, de taak is wellicht al afgerond, is niet langer geldig of the workflow is al verder gegaan.
-            - $Type: Texts$Translation
-              LanguageCode: en_US
-              Text: You can’t complete this user task, it may be already completed, invalid, or the workflow might have moved on.
-    - $Type: Texts$SystemText
       InternalKey: mendix.platform.workflows.cant_lock_workflow_definition_locked
       Text:
         $Type: Texts$Text
@@ -1178,17 +1167,6 @@ SystemTexts:
               LanguageCode: nl_NL
               Text: Jezelf verwijderen is niet mogelijk.
     - $Type: Texts$SystemText
-      InternalKey: mendix.platform.creating_object_failed_because_of_security
-      Text:
-        $Type: Texts$Text
-        Items:
-            - $Type: Texts$Translation
-              LanguageCode: en_US
-              Text: Creating object of type {1} failed for security reasons.
-            - $Type: Texts$Translation
-              LanguageCode: nl_NL
-              Text: Een object creëren met type {1} is gefaald om veiligheidsredenen.
-    - $Type: Texts$SystemText
       InternalKey: mendix.platform.deleting_object_failed_because_of_security
       Text:
         $Type: Texts$Text
@@ -1254,3 +1232,69 @@ SystemTexts:
             - $Type: Texts$Translation
               LanguageCode: nl_NL
               Text: Kan de Jump-To opties niet genereren voor deze workflow instantie, omdat de huidige state het niet toestaat.
+    - $Type: Texts$SystemText
+      InternalKey: mxui.sys.UI.page_not_found
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: The page you requested was not found. You are redirected to the home page.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Deze pagina kon niet gevonden worden. U word doorverwezen naar de home page
+    - $Type: Texts$SystemText
+      InternalKey: mendix.platform.workflows.cant_complete_task_outcome_already_set_by_you
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: You can't complete this user task because an outcome has already been set for this user.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Je kunt deze taak niet afronden, want er is al een uitkomst gezet voor deze gebruiker.
+    - $Type: Texts$SystemText
+      InternalKey: mendix.platform.workflows.cant_complete_task_already_completed
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: You can't complete this user task because it is already completed.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Je kunt deze taak niet afronden, want deze is al afgerond.
+    - $Type: Texts$SystemText
+      InternalKey: mendix.platform.workflows.cant_complete_task_not_in_progress
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: You can't complete this user task because it is not in progress.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Je kunt deze taak niet afronden, want deze is niet actief.
+    - $Type: Texts$SystemText
+      InternalKey: mendix.platform.workflows.cant_complete_task_workflow_not_in_progress
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: You can't complete this user task because the workflow instance containing it is not in progress.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Je kunt deze taak niet afronden, want de workflow waar deze onderdeel van is is niet actief.
+    - $Type: Texts$SystemText
+      InternalKey: mendix.platform.workflows.cant_complete_task_internal_error
+      Text:
+        $Type: Texts$Text
+        Items:
+            - $Type: Texts$Translation
+              LanguageCode: en_US
+              Text: You can’t complete this user task because there is an internal issue with it. Please contact your System Administrator.
+            - $Type: Texts$Translation
+              LanguageCode: nl_NL
+              Text: Je kunt deze taak niet afronden, want er is een interne fout opgetreden. Neem contact op met de applicatiebeheerder.

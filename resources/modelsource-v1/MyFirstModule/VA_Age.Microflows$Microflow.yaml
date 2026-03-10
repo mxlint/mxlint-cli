@@ -9,42 +9,46 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$IntegerType
-Name: VA_Age
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: $Variable - $Bike/Year
-        - $Type: Microflows$MicroflowParameter
-          DefaultValue: ""
-          Documentation: ""
-          HasVariableNameBeenChanged: false
-          IsRequired: true
-          Name: Bike
-          VariableType:
-            $Type: DataTypes$ObjectType
-            Entity: MyFirstModule.Bike
-        - $Type: Microflows$ActionActivity
-          Action:
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: Zd8wxeDn2UG3o0H3iJTjqg==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 0;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$CreateVariableAction
             ErrorHandlingType: Rollback
             InitialValue: "2024"
             VariableName: Variable
             VariableType:
                 $Type: DataTypes$IntegerType
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: wkvhJt34KU2JSNqkhjNmeQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$RetrieveAction
             ErrorHandlingType: Rollback
             ResultVariableName: PhotoList
@@ -58,12 +62,47 @@ ObjectCollection:
                     $Type: Microflows$ConstantRange
                     SingleObject: false
                 XpathConstraint: ""
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: eTq+WKyueUuvBhP3PGvxdQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: $Variable - $Bike/Year
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$IntegerType
+Name: VA_Age
 ReturnVariableName: Variable
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: |-
+    MICROFLOW: VA_Age
+    RETURN TYPE: integer
+    PARAMETERS:
+      - Bike: MyFirstModule.Bike (required)
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+      Variable = 2024
+
+      PhotoList = retrieve from database MyFirstModule.Photo
+
+
+    END

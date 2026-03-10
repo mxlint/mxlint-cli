@@ -9,58 +9,116 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MicroflowSplit
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: gus6TaZ+7EqtgIf2bAnl2g==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 0;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$CreateVariableAction
             ErrorHandlingType: Rollback
             InitialValue: '''test'' '
             VariableName: Variable
             VariableType:
                 $Type: DataTypes$StringType
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$ExclusiveSplit
-          Caption: empty?
-          Documentation: ""
-          ErrorHandlingType: Rollback
-          SplitCondition:
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: ZNXIj10BZUmfZB6SrZGZaA==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ExclusiveSplit
+        Caption: empty?
+        Documentation: ""
+        ErrorHandlingType: Rollback
+        SplitCondition:
             $Type: Microflows$ExpressionSplitCondition
             Expression: $Variable != empty and $Variable != ''
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
-            $Type: Microflows$LogMessageAction
-            ErrorHandlingType: Rollback
-            IncludeLatestStackTrace: false
-            Level: Info
-            MessageTemplate:
-                $Type: Microflows$StringTemplate
-                Parameters: []
-                Text: test
-            Node: '''XXX'''
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
+      Splits:
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: 5pQc0Ffffk6oRS0KWA0uWg==
+                      $Type: Microflows$EnumerationCase
+                      Value: "false"
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: -15;0
+                    OriginControlVector: 15;0
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+        - - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: fxaQkhvbpUq3X9IcxtTEow==
+                      $Type: Microflows$EnumerationCase
+                      Value: "true"
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-30
+                    OriginControlVector: 0;15
+          - Attributes:
+                $Type: Microflows$ActionActivity
+                Action:
+                    $Type: Microflows$LogMessageAction
+                    ErrorHandlingType: Rollback
+                    IncludeLatestStackTrace: false
+                    Level: Info
+                    MessageTemplate:
+                        $Type: Microflows$StringTemplate
+                        Parameters: []
+                        Text: test
+                    Node: '''XXX'''
+                AutoGenerateCaption: true
+                BackgroundColor: Default
+                Caption: Activity
+                Disabled: false
+                Documentation: ""
+          - Attributes:
+                $Type: Microflows$SequenceFlow
+                CaseValues:
+                    - $ID: dpl6eUL5SUaChpbo+ZkS1g==
+                      $Type: Microflows$NoCase
+                IsErrorHandler: false
+                Line:
+                    $Type: Microflows$BezierCurve
+                    DestinationControlVector: 0;-15
+                    OriginControlVector: 0;30
+          - Attributes:
+                $Type: Microflows$EndEvent
+                Documentation: ""
+                ReturnValue: ""
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MicroflowSplit
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: "MICROFLOW: MicroflowSplit\nRETURN TYPE: void\n\nPSEUDOCODE\n----------\nBEGIN\n\n  Variable = 'test' \n\n  IF $Variable != empty and $Variable != '' THEN\n    GOTO L002\n  ELSE\n    GOTO L001\n  END IF\n\n  LABEL L001\n\n  LABEL L002\n  log info: \"test\"\n\n\nEND"

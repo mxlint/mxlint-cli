@@ -195,15 +195,29 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 	}
 
 	res, err := ruleFunction(sobek.Undefined(), vm.ToValue(data))
+
+	duration := time.Since(startTime)
+	var failure *Failure = nil
+
 	if err != nil {
-		panic(err)
+		errorMessage := fmt.Sprintf("Error evaluating javascript rule %v for inputfile %v: %v", rulePath, inputFilePath, err)
+		log.Error(errorMessage)
+
+		failure = &Failure{
+			Message: errorMessage,
+			Type:    "RuntimeError",
+		}
+
+		testcase := &Testcase{
+			Name:    inputFilePath,
+			Time:    float64(duration.Nanoseconds()) / 1e9, // convert to seconds
+			Failure: failure,
+			Skipped: nil,
+		}
+		return testcase, nil
 	}
 
 	rs := res.Export().(map[string]interface{})
-
-	duration := time.Since(startTime)
-
-	var failure *Failure = nil
 
 	log.Debugf("Result: %v", rs)
 	result := rs["allow"].(bool)

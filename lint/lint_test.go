@@ -539,9 +539,26 @@ function rule(input) {
 			t.Fatalf("Failed to write yaml file: %v", err)
 		}
 
-		_, err = EvalAllWithResults(tempDir, tempDir, "", "", false, false)
-		if err == nil {
-			t.Error("Expected error due to failures")
+		rule := Rule{
+			Path:        jsPath,
+			Pattern:     ".*\\.yaml",
+			PackageName: jsPath,
+			RuleNumber:  "099_0099",
+			Language:    LanguageJavascript,
+		}
+
+		result, err := evalTestsuite(rule, tempDir, false, false)
+		if err != nil {
+			t.Fatalf("Expected testsuite evaluation to succeed, got: %v", err)
+		}
+		if result.Failures != 1 {
+			t.Fatalf("Expected 1 failure, got %d", result.Failures)
+		}
+		if len(result.Testcases) != 1 || result.Testcases[0].Failure == nil {
+			t.Fatalf("Expected one failing testcase, got %+v", result.Testcases)
+		}
+		if !strings.Contains(result.Testcases[0].Failure.Message, "Always fails") {
+			t.Fatalf("Expected failure message to contain rule error, got: %s", result.Testcases[0].Failure.Message)
 		}
 	})
 }
