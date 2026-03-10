@@ -14,23 +14,27 @@ MainFunction:
         $Type: Microflows$StartEvent
     - Attributes:
         $Type: Microflows$SequenceFlow
-        CaseValues:
-            - $ID: gus6TaZ+7EqtgIf2bAnl2g==
-              $Type: Microflows$NoCase
+        CaseValues: []
         IsErrorHandler: false
         Line:
             $Type: Microflows$BezierCurve
             DestinationControlVector: -30;0
-            OriginControlVector: 0;0
+            OriginControlVector: 15;0
     - Attributes:
         $Type: Microflows$ActionActivity
         Action:
-            $Type: Microflows$CreateVariableAction
+            $Type: Microflows$LogMessageAction
             ErrorHandlingType: Rollback
-            InitialValue: '''test'' '
-            VariableName: Variable
-            VariableType:
-                $Type: DataTypes$StringType
+            IncludeLatestStackTrace: false
+            Level: Info
+            MessageTemplate:
+                $Type: Microflows$StringTemplate
+                Parameters:
+                    - $ID: fzpeCz9EJ0euoHen2mxcIQ==
+                      $Type: Microflows$TemplateParameter
+                      Expression: $User/Name
+                Text: Hello {1}
+            Node: '''Example'''
         AutoGenerateCaption: true
         BackgroundColor: Default
         Caption: Activity
@@ -38,27 +42,57 @@ MainFunction:
         Documentation: ""
     - Attributes:
         $Type: Microflows$SequenceFlow
-        CaseValues:
-            - $ID: ZNXIj10BZUmfZB6SrZGZaA==
-              $Type: Microflows$NoCase
+        CaseValues: []
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
+            $Type: Microflows$CreateVariableAction
+            ErrorHandlingType: Rollback
+            InitialValue: "10"
+            VariableName: counter
+            VariableType:
+                $Type: DataTypes$IntegerType
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues: []
         IsErrorHandler: false
         Line:
             $Type: Microflows$BezierCurve
             DestinationControlVector: -15;0
             OriginControlVector: 30;0
     - Attributes:
+        $Type: Microflows$ExclusiveMerge
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues: []
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 15;0
+    - Attributes:
         $Type: Microflows$ExclusiveSplit
-        Caption: empty?
+        Caption: more than 0?
         Documentation: ""
         ErrorHandlingType: Rollback
         SplitCondition:
             $Type: Microflows$ExpressionSplitCondition
-            Expression: $Variable != empty and $Variable != ''
+            Expression: $counter > 0
       Splits:
         - - Attributes:
                 $Type: Microflows$SequenceFlow
                 CaseValues:
-                    - $ID: 5pQc0Ffffk6oRS0KWA0uWg==
+                    - $ID: ckJSVPWxw0CZrqKfFsuO5A==
                       $Type: Microflows$EnumerationCase
                       Value: "false"
                 IsErrorHandler: false
@@ -73,7 +107,7 @@ MainFunction:
         - - Attributes:
                 $Type: Microflows$SequenceFlow
                 CaseValues:
-                    - $ID: fxaQkhvbpUq3X9IcxtTEow==
+                    - $ID: JTA1JyHlTkOWjStmhI0qGg==
                       $Type: Microflows$EnumerationCase
                       Value: "true"
                 IsErrorHandler: false
@@ -84,15 +118,10 @@ MainFunction:
           - Attributes:
                 $Type: Microflows$ActionActivity
                 Action:
-                    $Type: Microflows$LogMessageAction
+                    $Type: Microflows$ChangeVariableAction
+                    ChangeVariableName: counter
                     ErrorHandlingType: Rollback
-                    IncludeLatestStackTrace: false
-                    Level: Info
-                    MessageTemplate:
-                        $Type: Microflows$StringTemplate
-                        Parameters: []
-                        Text: test
-                    Node: '''XXX'''
+                    Value: $counter - 1
                 AutoGenerateCaption: true
                 BackgroundColor: Default
                 Caption: Activity
@@ -100,25 +129,49 @@ MainFunction:
                 Documentation: ""
           - Attributes:
                 $Type: Microflows$SequenceFlow
-                CaseValues:
-                    - $ID: dpl6eUL5SUaChpbo+ZkS1g==
-                      $Type: Microflows$NoCase
+                CaseValues: []
                 IsErrorHandler: false
                 Line:
                     $Type: Microflows$BezierCurve
-                    DestinationControlVector: 0;-15
-                    OriginControlVector: 0;30
+                    DestinationControlVector: 0;15
+                    OriginControlVector: -30;0
           - Attributes:
-                $Type: Microflows$EndEvent
-                Documentation: ""
-                ReturnValue: ""
+                $Type: Microflows$ExclusiveMerge
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
     $Type: DataTypes$VoidType
-Name: MicroflowSplit
+Name: SubMicroflowExample
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
-pseudocode: "MICROFLOW: MicroflowSplit\nRETURN TYPE: void\n\nPSEUDOCODE\n----------\nBEGIN\n\n  Variable = 'test' \n\n  IF $Variable != empty and $Variable != '' THEN\n    GOTO L002\n  ELSE\n    GOTO L001\n  END IF\n\n  LABEL L001\n\n  LABEL L002\n  log info: \"test\"\n\n\nEND"
+pseudocode: |-
+    MICROFLOW: SubMicroflowExample
+    RETURN TYPE: void
+    PARAMETERS:
+      - User: System.User (required)
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+      log info: "Hello {1}"
+
+      counter = 10
+
+      LABEL L001
+
+      IF $counter > 0 THEN
+        GOTO L003
+      ELSE
+        GOTO L002
+      END IF
+
+      LABEL L002
+
+      LABEL L003
+      counter = $counter - 1
+      GOTO L001
+
+    END

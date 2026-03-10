@@ -9,21 +9,39 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: D3Po1QicOkyhuybPVJjvAQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 0;0
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
 MarkAsUsed: false
 MicroflowActionInfo: null
 MicroflowReturnType:
     $Type: DataTypes$VoidType
 Name: MyFirstLogic
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$Annotation
-          Caption: "Microflows are used to define server logic in your app.\r\n\r\n- For client logic you can use Nanoflows\r\n- For business process logic you can use Workflows\r\n\r\nDocumentation: https://docs.mendix.com/refguide/application-logic"
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: |-
+    MICROFLOW: MyFirstLogic
+    RETURN TYPE: void
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+
+    END

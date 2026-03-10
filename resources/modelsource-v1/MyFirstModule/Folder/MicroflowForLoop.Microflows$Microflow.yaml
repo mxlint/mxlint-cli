@@ -9,20 +9,22 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MicroflowForLoop
-ObjectCollection:
-    $Type: Microflows$MicroflowObjectCollection
-    Objects:
-        - $Type: Microflows$StartEvent
-        - $Type: Microflows$EndEvent
-          Documentation: ""
-          ReturnValue: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+MainFunction:
+    - Attributes:
+        $Type: Microflows$StartEvent
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: mNbOo7XmhE22WCcjlxz4Zw==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 0;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$RetrieveAction
             ErrorHandlingType: Rollback
             ResultVariableName: BikeList
@@ -36,31 +38,46 @@ ObjectCollection:
                     $Type: Microflows$ConstantRange
                     SingleObject: false
                 XpathConstraint: ""
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
-        - $Type: Microflows$LoopedActivity
-          Documentation: ""
-          ErrorHandlingType: Rollback
-          LoopSource:
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: oSElvrlmJkGpoeUrbtZjKw==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$LoopedActivity
+        Documentation: ""
+        ErrorHandlingType: Rollback
+        LoopSource:
             $Type: Microflows$IterableList
             ListVariableName: BikeList
             VariableName: IteratorBike
-          ObjectCollection:
+        ObjectCollection:
             $Type: Microflows$MicroflowObjectCollection
             Objects:
-                - $Type: Microflows$ActionActivity
+                - $ID: REoQzbooxUqlJfxtM61uuw==
+                  $Type: Microflows$ActionActivity
                   Action:
+                    $ID: ePBJZv2ockmxBjt1gRJInw==
                     $Type: Microflows$ChangeAction
                     ChangeVariableName: IteratorBike
                     Commit: "No"
                     ErrorHandlingType: Rollback
                     Items:
-                        - $Type: Microflows$ChangeActionItem
+                        - $ID: vlZ2qLGLHkaufP+Kexafqg==
+                          $Type: Microflows$ChangeActionItem
                           Association: ""
                           Attribute: MyFirstModule.Bike.Name
+                          Type: Set
                           Value: '''abc'''
                     RefreshInClient: false
                   AutoGenerateCaption: true
@@ -68,19 +85,69 @@ ObjectCollection:
                   Caption: Activity
                   Disabled: false
                   Documentation: ""
-        - $Type: Microflows$ActionActivity
-          Action:
+                  RelativeMiddlePoint: 184;120
+                  Size: 120;60
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: fn8Jgb25I0yZH/iZubEH3w==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -30;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$ActionActivity
+        Action:
             $Type: Microflows$CommitAction
             CommitVariableName: BikeList
             ErrorHandlingType: Rollback
             RefreshInClient: false
             WithEvents: true
-          AutoGenerateCaption: true
-          BackgroundColor: Default
-          Caption: Activity
-          Disabled: false
-          Documentation: ""
+        AutoGenerateCaption: true
+        BackgroundColor: Default
+        Caption: Activity
+        Disabled: false
+        Documentation: ""
+    - Attributes:
+        $Type: Microflows$SequenceFlow
+        CaseValues:
+            - $ID: 5k1lHmjvtUWTjcbw91JXYQ==
+              $Type: Microflows$NoCase
+        IsErrorHandler: false
+        Line:
+            $Type: Microflows$BezierCurve
+            DestinationControlVector: -15;0
+            OriginControlVector: 30;0
+    - Attributes:
+        $Type: Microflows$EndEvent
+        Documentation: ""
+        ReturnValue: ""
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MicroflowForLoop
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
+pseudocode: |-
+    MICROFLOW: MicroflowForLoop
+    RETURN TYPE: void
+
+    PSEUDOCODE
+    ----------
+    BEGIN
+
+      BikeList = retrieve from database MyFirstModule.Bike
+
+      FOR EACH IteratorBike IN BikeList
+        IteratorBike.Name = 'abc'
+      END FOR
+
+      // action: Microflows$CommitAction
+
+
+    END

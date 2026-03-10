@@ -1,5 +1,5 @@
-ProductVersion: 10.18.3.58900
-BuildVersion: 10.18.3.58900
+ProductVersion: 10.24.9.81004
+BuildVersion: 10.24.9.81004
 Modules:
     - Name: Atlas_Web_Content
       ID: GMyJGqJY0U2f8EzUDi71Dg==

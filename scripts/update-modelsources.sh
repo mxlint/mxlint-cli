@@ -1,5 +1,14 @@
 #!/bin/sh
 #
 #
-./bin/mxlint-darwin-arm64 export-model -i resources/app-mpr-v1 -o resources/modelsource-v1
-./bin/mxlint-darwin-arm64 export-model -i resources/app-mpr-v2 -o resources/modelsource-v2
+echo "
+modelsource: resources/modelsource-v1
+projectDirectory: resources/app-mpr-v1
+" > /tmp/mxlint-dev.yaml
+./bin/mxlint-darwin-arm64 export-model --config /tmp/mxlint-dev.yaml
+
+echo "
+modelsource: resources/modelsource-v2
+projectDirectory: resources/app-mpr-v2
+" > /tmp/mxlint-dev.yaml
+./bin/mxlint-darwin-arm64 export-model --config /tmp/mxlint-dev.yaml
