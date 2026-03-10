@@ -1,10 +1,12 @@
 package mpr
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
@@ -572,6 +574,57 @@ func TestWriteFile(t *testing.T) {
 	}
 }
 
+func TestWriteFileWithPersistentCache(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "mpr-cache-test-*")
+	if err != nil {
+		t.Fatalf("Failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	cacheDir := filepath.Join(tmpDir, "cache")
+	SetPersistentYAMLCacheDirectory(cacheDir)
+	SetPersistentYAMLCacheEnabled(true)
+	t.Cleanup(func() {
+		SetPersistentYAMLCacheDirectory("")
+		SetPersistentYAMLCacheEnabled(true)
+	})
+
+	contents := map[string]interface{}{
+		"Name":  "TestDocument",
+		"Value": "if $x = 1 then true\nelse false",
+	}
+	hash := "test-hash-123"
+
+	firstOutput := filepath.Join(tmpDir, "first.yaml")
+	if err := writeFileWithPersistentCache(firstOutput, contents, hash, false); err != nil {
+		t.Fatalf("writeFileWithPersistentCache() first write failed: %v", err)
+	}
+
+	cachePath := getPersistentYAMLCachePath(hash, false)
+	if _, err := os.Stat(cachePath); err != nil {
+		t.Fatalf("Expected cache file to exist, got error: %v", err)
+	}
+
+	// Overwrite cache file with sentinel content to verify second write reads cache.
+	sentinel := []byte("Cached: true\n")
+	if err := os.WriteFile(cachePath, sentinel, 0644); err != nil {
+		t.Fatalf("Failed to overwrite cache file: %v", err)
+	}
+
+	secondOutput := filepath.Join(tmpDir, "second.yaml")
+	if err := writeFileWithPersistentCache(secondOutput, contents, hash, false); err != nil {
+		t.Fatalf("writeFileWithPersistentCache() second write failed: %v", err)
+	}
+
+	written, err := os.ReadFile(secondOutput)
+	if err != nil {
+		t.Fatalf("Failed to read second output file: %v", err)
+	}
+	if !bytes.Equal(written, sentinel) {
+		t.Fatalf("Expected second write to use cached YAML content, got: %s", string(written))
+	}
+}
+
 func TestSyncDirectories(t *testing.T) {
 	// Create temporary directories for testing
 	srcDir, err := os.MkdirTemp("", "mpr-test-src-*")
@@ -688,6 +741,40 @@ func TestCopyFile(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("skip unchanged destination content", func(t *testing.T) {
+		src := filepath.Join(tmpDir, "unchanged-source.txt")
+		dst := filepath.Join(tmpDir, "unchanged-destination.txt")
+		content := []byte("same content")
+
+		if err := os.WriteFile(src, content, 0644); err != nil {
+			t.Fatalf("Failed to write source file: %v", err)
+		}
+		if err := os.WriteFile(dst, content, 0644); err != nil {
+			t.Fatalf("Failed to write destination file: %v", err)
+		}
+
+		beforeInfo, err := os.Stat(dst)
+		if err != nil {
+			t.Fatalf("Failed to stat destination file before copy: %v", err)
+		}
+
+		// Ensure modtime resolution difference is observable on most filesystems.
+		time.Sleep(20 * time.Millisecond)
+
+		if err := copyFile(src, dst, 0644); err != nil {
+			t.Fatalf("copyFile() unexpected error: %v", err)
+		}
+
+		afterInfo, err := os.Stat(dst)
+		if err != nil {
+			t.Fatalf("Failed to stat destination file after copy: %v", err)
+		}
+
+		if !afterInfo.ModTime().Equal(beforeInfo.ModTime()) {
+			t.Errorf("Expected unchanged file to be skipped, but modtime changed from %v to %v", beforeInfo.ModTime(), afterInfo.ModTime())
+		}
+	})
 }
 
 func TestGetMxDocuments(t *testing.T) {

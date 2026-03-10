@@ -6,8 +6,10 @@ lint:
   xunitReport: ""
   jsonFile: ""
   ignoreNoqa: false
-  noCache: false
   skip: {}
+cache:
+  directory: .mendix-cache/mxlint
+  enable: true
 modelsource: modelsource
 projectDirectory: .
 export:

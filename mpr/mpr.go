@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 
 	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
@@ -30,7 +31,36 @@ const (
 
 	// Per-component limit - filename or foldername can be at most 50 characters long
 	MaxComponentLength = 50
+
+	// Bump this when YAML rendering semantics change.
+	persistentYAMLCacheVersion = "v1"
 )
+
+var persistentYAMLCacheSettings = struct {
+	mu      sync.RWMutex
+	baseDir string
+	enabled bool
+}{
+	enabled: true,
+}
+
+func SetPersistentYAMLCacheDirectory(path string) {
+	persistentYAMLCacheSettings.mu.Lock()
+	defer persistentYAMLCacheSettings.mu.Unlock()
+	persistentYAMLCacheSettings.baseDir = strings.TrimSpace(path)
+}
+
+func SetPersistentYAMLCacheEnabled(enabled bool) {
+	persistentYAMLCacheSettings.mu.Lock()
+	defer persistentYAMLCacheSettings.mu.Unlock()
+	persistentYAMLCacheSettings.enabled = enabled
+}
+
+func getPersistentYAMLCacheSettings() (string, bool) {
+	persistentYAMLCacheSettings.mu.RLock()
+	defer persistentYAMLCacheSettings.mu.RUnlock()
+	return persistentYAMLCacheSettings.baseDir, persistentYAMLCacheSettings.enabled
+}
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, appstore bool, filter string) error {
 
@@ -470,10 +500,11 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 			}
 
 			myDocument := MxDocument{
-				Name:       name,
-				Type:       unit.Contents["$Type"].(string),
-				Path:       getMxDocumentPath(unit.ContainerID, folders),
-				Attributes: unit.Contents,
+				Name:         name,
+				Type:         unit.Contents["$Type"].(string),
+				Path:         getMxDocumentPath(unit.ContainerID, folders),
+				Attributes:   unit.Contents,
+				ContentsHash: unit.ContentsHash,
 			}
 
 			if unit.Contents["$Type"] == microflowDocumentType {
@@ -557,7 +588,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 		}
 
 		attributes := cleanData(document.Attributes, raw)
-		err = writeFile(filepath.Join(directory, adjustedFilename), attributes)
+		err = writeFileWithPersistentCache(filepath.Join(directory, adjustedFilename), attributes, document.ContentsHash, raw)
 		if err != nil {
 			log.Errorf("Error writing file: %v", err)
 			return 0, err
@@ -575,14 +606,103 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 
 func writeFile(filepath string, contents map[string]interface{}) error {
 	log.Debugf("Writing file %s", filepath)
-	normalizedContents := normalizeMultilineValues(contents)
-	yamlstring, err := yaml.Marshal(normalizedContents)
+	yamlstring, err := renderYAML(contents)
 	if err != nil {
-		return fmt.Errorf("error marshaling: %v", err)
+		return err
 	}
 
 	if err := os.WriteFile(filepath, yamlstring, 0644); err != nil {
 		return fmt.Errorf("error writing file: %v", err)
+	}
+	return nil
+}
+
+func renderYAML(contents map[string]interface{}) ([]byte, error) {
+	normalizedContents := normalizeMultilineValues(contents)
+	yamlstring, err := yaml.Marshal(normalizedContents)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling: %v", err)
+	}
+	return yamlstring, nil
+}
+
+func writeFileWithPersistentCache(filepath string, contents map[string]interface{}, contentsHash string, raw bool) error {
+	log.Debugf("Writing file %s", filepath)
+	_, cacheEnabled := getPersistentYAMLCacheSettings()
+	if !cacheEnabled {
+		return writeFile(filepath, contents)
+	}
+
+	// Fallback for content without a hash (e.g. MPR v1 path).
+	if strings.TrimSpace(contentsHash) == "" {
+		return writeFile(filepath, contents)
+	}
+
+	cachedYAML, found, err := readYAMLFromPersistentCache(contentsHash, raw)
+	if err != nil {
+		return err
+	}
+	if found {
+		if err := os.WriteFile(filepath, cachedYAML, 0644); err != nil {
+			return fmt.Errorf("error writing cached file: %v", err)
+		}
+		return nil
+	}
+
+	yamlstring, err := renderYAML(contents)
+	if err != nil {
+		return err
+	}
+
+	if err := os.WriteFile(filepath, yamlstring, 0644); err != nil {
+		return fmt.Errorf("error writing file: %v", err)
+	}
+
+	if err := writeYAMLToPersistentCache(contentsHash, raw, yamlstring); err != nil {
+		log.Debugf("Could not persist YAML cache for hash %s: %v", contentsHash, err)
+	}
+
+	return nil
+}
+
+func getPersistentYAMLCacheDir() string {
+	configured, _ := getPersistentYAMLCacheSettings()
+	return strings.TrimSpace(configured)
+}
+
+func getPersistentYAMLCachePath(contentsHash string, raw bool) string {
+	cacheKey := fmt.Sprintf("%s|raw=%t|%s", persistentYAMLCacheVersion, raw, contentsHash)
+	sum := sha256.Sum256([]byte(cacheKey))
+	return filepath.Join(getPersistentYAMLCacheDir(), hex.EncodeToString(sum[:])+".yaml")
+}
+
+func readYAMLFromPersistentCache(contentsHash string, raw bool) ([]byte, bool, error) {
+	cacheDir := getPersistentYAMLCacheDir()
+	if cacheDir == "" {
+		return nil, false, nil
+	}
+	cachePath := getPersistentYAMLCachePath(contentsHash, raw)
+	data, err := os.ReadFile(cachePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, false, nil
+		}
+		return nil, false, fmt.Errorf("error reading persistent YAML cache: %v", err)
+	}
+	return data, true, nil
+}
+
+func writeYAMLToPersistentCache(contentsHash string, raw bool, data []byte) error {
+	cacheDir := getPersistentYAMLCacheDir()
+	if cacheDir == "" {
+		return nil
+	}
+	if err := os.MkdirAll(cacheDir, 0755); err != nil {
+		return fmt.Errorf("error creating persistent YAML cache directory: %v", err)
+	}
+	cachePath := getPersistentYAMLCachePath(contentsHash, raw)
+	if err := os.WriteFile(cachePath, data, 0644); err != nil {
+		return fmt.Errorf("error writing persistent YAML cache file: %v", err)
 	}
 	return nil
 }
@@ -810,6 +930,15 @@ func syncDirectories(src, dst string) error {
 
 // copyFile copies a single file from src to dst
 func copyFile(src, dst string, mode os.FileMode) error {
+	// Skip rewriting unchanged files to speed up repeated exports.
+	same, err := filesHaveSameContent(src, dst)
+	if err != nil {
+		return fmt.Errorf("failed to compare files: %v", err)
+	}
+	if same {
+		return nil
+	}
+
 	// Open the source file
 	srcFile, err := os.Open(src)
 	if err != nil {
@@ -830,6 +959,49 @@ func copyFile(src, dst string, mode os.FileMode) error {
 	}
 
 	return nil
+}
+
+func filesHaveSameContent(src, dst string) (bool, error) {
+	srcInfo, err := os.Stat(src)
+	if err != nil {
+		return false, err
+	}
+	dstInfo, err := os.Stat(dst)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+
+	// Fast path: different size means definitely changed.
+	if srcInfo.Size() != dstInfo.Size() {
+		return false, nil
+	}
+
+	srcHash, err := hashFile(src)
+	if err != nil {
+		return false, err
+	}
+	dstHash, err := hashFile(dst)
+	if err != nil {
+		return false, err
+	}
+	return srcHash == dstHash, nil
+}
+
+func hashFile(path string) (string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	hasher := sha256.New()
+	if _, err := io.Copy(hasher, file); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(hasher.Sum(nil)), nil
 }
 
 // FileNode represents a file or directory in the file structure

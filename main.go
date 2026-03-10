@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/mxlint/mxlint-cli/lint"
@@ -48,6 +49,8 @@ func main() {
 				log.SetLevel(logrus.InfoLevel)
 			}
 			mpr.SetLogger(log)
+			lint.SetConfig(config)
+			configureCache(config, projectDir)
 
 			inputDirectory := config.ProjectDirectory
 			outputDirectory := config.Modelsource
@@ -91,6 +94,7 @@ func main() {
 			}
 			lint.SetLogger(log)
 			lint.SetConfig(config)
+			configureCache(config, projectDir)
 
 			rulesDirectory := config.Rules.Path
 			modelDirectory := config.Modelsource
@@ -113,7 +117,7 @@ func main() {
 				config.Lint.XunitReport,
 				config.Lint.JSONFile,
 				boolValue(config.Lint.IgnoreNoqa, false),
-				!boolValue(config.Lint.NoCache, false),
+				boolValue(config.Cache.Enable, true),
 			)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
@@ -201,6 +205,19 @@ func main() {
 		Short: "Clear the lint results cache",
 		Long:  "Removes all cached lint results. The cache is used to speed up repeated linting operations when rules and model files haven't changed.",
 		Run: func(cmd *cobra.Command, args []string) {
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
+			lint.SetConfig(config)
+			configureCache(config, projectDir)
+
 			log := logrus.New()
 			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
@@ -208,7 +225,7 @@ func main() {
 				log.SetLevel(logrus.InfoLevel)
 			}
 			lint.SetLogger(log)
-			err := lint.ClearCache()
+			err = lint.ClearCache()
 			if err != nil {
 				log.Errorf("Failed to clear cache: %s", err)
 				os.Exit(1)
@@ -222,6 +239,19 @@ func main() {
 		Short: "Show cache statistics",
 		Long:  "Displays information about the cached lint results, including number of entries and total size.",
 		Run: func(cmd *cobra.Command, args []string) {
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
+			lint.SetConfig(config)
+			configureCache(config, projectDir)
+
 			log := logrus.New()
 			if isVerbose(cmd) {
 				log.SetLevel(logrus.DebugLevel)
@@ -253,6 +283,24 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+}
+
+func configureCache(config *lint.Config, projectDir string) {
+	if config == nil {
+		return
+	}
+	cacheBase := strings.TrimSpace(config.Cache.Directory)
+	if cacheBase == "" {
+		return
+	}
+
+	if !filepath.IsAbs(cacheBase) {
+		cacheBase = filepath.Join(projectDir, cacheBase)
+	}
+
+	lint.SetCacheDirectory(filepath.Join(cacheBase, "lint"))
+	mpr.SetPersistentYAMLCacheDirectory(filepath.Join(cacheBase, "mpr-v2-yaml"))
+	mpr.SetPersistentYAMLCacheEnabled(boolValue(config.Cache.Enable, true))
 }
 
 func boolValue(value *bool, fallback bool) bool {
