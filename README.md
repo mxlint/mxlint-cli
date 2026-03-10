@@ -45,6 +45,16 @@ Do you want to create your own policies? Please refer to our guide [Create new p
 
 ## Subcommands Reference
 
+> Configuration-driven commands: subcommand-specific options are read from merged config (`default.yaml` + system `mxlint.yaml` + project `mxlint.yaml`). You can also pass `--config <path>` to apply a specific config file with the highest precedence. Use global `--verbose` on the root command to enable debug logging for any subcommand.
+
+Global verbose examples:
+
+```bash
+mxlint-cli --verbose lint
+mxlint-cli -v export-model
+mxlint-cli -v serve
+```
+
 ### export-model
 
 Export Mendix model to yaml files. The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.
@@ -64,6 +74,48 @@ mxlint-cli export-model [flags]
 | `--raw` | | `false` | If set, the output yaml will include all attributes as they are in the model |
 | `--appstore` | | `false` | If set, appstore modules will be included in the output |
 | `--verbose` | | `false` | Turn on for debug logs |
+
+#### Configuration file (`mxlint.yaml`)
+
+The `lint` command supports configuration files loaded in this order:
+
+1. Default config: `default.yaml` baked into the executable at compile time
+2. System config:
+   - Windows: `%USERPROFILE%/mxlint.yaml`
+   - Unix/Linux/macOS: `~/.config/mxlint.yaml`
+   - Optional override: `MXLINT_SYSTEM_CONFIG`
+3. `$PROJECT/mxlint.yaml` (current working directory)
+4. Optional explicit config via `--config <path>` (highest precedence, file must exist)
+
+Project config has higher precedence than system config, and `--config` has the highest precedence.
+
+Example:
+
+```yaml
+rules:
+  path: .mendix-cache/rules
+  rulesets:
+    - file://rules
+    - https://example.com/rules.zip
+    - git://github.com/mxlint/mxlint-rules
+lint:
+  skip:
+    example/doc:
+      - rule: 001_002
+        reason: some reason
+        date: 2026-02-27 11:00:00Z
+export:
+  output: modelsource
+  input: .
+  mode: basic
+  filter: "*"
+```
+
+Notes:
+- `rules.path` is used as the default rules directory when `--rules` is not provided.
+- If `rules.rulesets` are configured, they are synchronized into `rules.path` before linting.
+- `lint.skip` supports skipping by document path (relative to `modelsource`) and rule number.
+- `export.*` is used as defaults for `export-model`, and `export.output` is used as the default `lint --modelsource`.
 
 ---
 
@@ -86,6 +138,17 @@ mxlint-cli lint [flags]
 | `--ignore-noqa` | | `false` | Ignore noqa directives in documents |
 | `--no-cache` | | `false` | Disable caching of lint results. By default, results are cached and reused if rules and model files haven't changed |
 | `--verbose` | | `false` | Turn on for debug logs |
+
+---
+
+### config
+
+Show the active merged configuration and where config sources were found/used.
+
+**Usage:**
+```bash
+mxlint-cli config
+```
 
 ---
 

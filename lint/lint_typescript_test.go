@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -223,6 +224,61 @@ function rule(input) {
 			t.Errorf("Expected path %q, got %q", tsPath, rule.Path)
 		}
 	})
+
+	t.Run("missing custom metadata returns error", func(t *testing.T) {
+		tsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description"
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		tsPath := filepath.Join(tempDir, "missing_custom.ts")
+		if err := os.WriteFile(tsPath, []byte(tsContent), 0644); err != nil {
+			t.Fatalf("Failed to write test file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Typescript(tsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom object is required") {
+			t.Fatalf("Expected metadata.custom error, got: %v", err)
+		}
+	})
+
+	t.Run("missing rulenumber returns error", func(t *testing.T) {
+		tsContent := `
+const metadata = {
+    title: "Rule Title",
+    description: "Rule description",
+    custom: {
+        category: "Maintainability",
+        severity: "LOW",
+        input: ".*\\.yaml"
+    }
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+		tsPath := filepath.Join(tempDir, "missing_rulenumber.ts")
+		if err := os.WriteFile(tsPath, []byte(tsContent), 0644); err != nil {
+			t.Fatalf("Failed to write test file: %v", err)
+		}
+
+		_, err := parseRuleMetadata_Typescript(tsPath)
+		if err == nil {
+			t.Fatal("Expected parse error for missing metadata.custom.rulenumber")
+		}
+		if !strings.Contains(err.Error(), "metadata.custom.rulenumber is required") {
+			t.Fatalf("Expected missing rulenumber error, got: %v", err)
+		}
+	})
 }
 
 func TestEvalTestcase_Typescript(t *testing.T) {
@@ -309,7 +365,7 @@ function rule(input) {
 		}
 	})
 
-	t.Run("evaluate skipped rule with noqa", func(t *testing.T) {
+	t.Run("documentation noqa is ignored", func(t *testing.T) {
 		tsContent := `
 const metadata = {
     title: "Test Rule",
@@ -341,15 +397,15 @@ Name: "Test"
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
 
-		if testcase.Skipped == nil {
-			t.Error("Expected testcase to be skipped")
+		if testcase.Skipped != nil {
+			t.Error("Expected testcase not to be skipped")
 		}
-		if testcase.Failure != nil {
-			t.Error("Expected no failure when skipped")
+		if testcase.Failure == nil {
+			t.Error("Expected failure when documentation noqa is ignored")
 		}
 	})
 
-	t.Run("noqa ignored when ignoreNoqa is true", func(t *testing.T) {
+	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
 		tsContent := `
 const metadata = {
     title: "Test Rule",
@@ -382,10 +438,10 @@ Name: "Test"
 		}
 
 		if testcase.Skipped != nil {
-			t.Error("Expected testcase not to be skipped when ignoreNoqa is true")
+			t.Error("Expected testcase not to be skipped")
 		}
 		if testcase.Failure == nil {
-			t.Error("Expected failure when ignoreNoqa is true")
+			t.Error("Expected failure")
 		}
 	})
 
