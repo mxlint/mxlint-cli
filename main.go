@@ -18,12 +18,24 @@ import (
 //go:embed default.yaml
 var bakedDefaultConfigYAML []byte
 
+// version is set at build time via ldflags.
+var version = "dev"
+
 func main() {
 	lint.SetDefaultConfigYAML(bakedDefaultConfigYAML)
 
 	var rootCmd = &cobra.Command{Use: "mxlint-cli"}
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Turn on debug logs for all commands")
 	rootCmd.PersistentFlags().String("config", "", "Path to config file (highest precedence)")
+
+	var cmdVersion = &cobra.Command{
+		Use:   "version",
+		Short: "Show CLI version",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println(version)
+		},
+	}
+	rootCmd.AddCommand(cmdVersion)
 
 	var cmdExportModel = &cobra.Command{
 		Use:   "export-model",
