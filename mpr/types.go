@@ -11,6 +11,7 @@ type MxUnit struct {
 	ContainerID     string                 `yaml:"ContainerID"`
 	ContainmentName string                 `yaml:"ContainmentName"`
 	Contents        map[string]interface{} `yaml:"Contents"`
+	ContentsHash    string                 `yaml:"ContentsHash,omitempty"`
 }
 
 type MxDocument struct {
@@ -18,6 +19,7 @@ type MxDocument struct {
 	Type       string                 `yaml:"Type"`
 	Path       string                 `yaml:"Path"`
 	Attributes map[string]interface{} `yaml:"Attributes"`
+	ContentsHash string               `yaml:"ContentsHash,omitempty"`
 }
 
 type MxModule struct {

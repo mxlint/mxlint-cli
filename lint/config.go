@@ -16,6 +16,7 @@ const configFileName = "mxlint.yaml"
 type Config struct {
 	Rules            ConfigRulesSpec  `yaml:"rules"`
 	Lint             ConfigLintSpec   `yaml:"lint"`
+	Cache            ConfigCacheSpec  `yaml:"cache"`
 	Export           ConfigExportSpec `yaml:"export"`
 	Serve            ConfigServeSpec  `yaml:"serve"`
 	Modelsource      string           `yaml:"modelsource"`
@@ -37,8 +38,12 @@ type ConfigLintSpec struct {
 	XunitReport string                      `yaml:"xunitReport"`
 	JSONFile    string                      `yaml:"jsonFile"`
 	IgnoreNoqa  *bool                       `yaml:"ignoreNoqa"`
-	NoCache     *bool                       `yaml:"noCache"`
 	Skip        map[string][]ConfigSkipRule `yaml:"skip"`
+}
+
+type ConfigCacheSpec struct {
+	Directory string `yaml:"directory"`
+	Enable    *bool  `yaml:"enable"`
 }
 
 type ConfigServeSpec struct {
@@ -288,8 +293,11 @@ func mergeConfig(base *Config, overlay *Config) {
 	if overlay.Lint.IgnoreNoqa != nil {
 		base.Lint.IgnoreNoqa = overlay.Lint.IgnoreNoqa
 	}
-	if overlay.Lint.NoCache != nil {
-		base.Lint.NoCache = overlay.Lint.NoCache
+	if strings.TrimSpace(overlay.Cache.Directory) != "" {
+		base.Cache.Directory = strings.TrimSpace(overlay.Cache.Directory)
+	}
+	if overlay.Cache.Enable != nil {
+		base.Cache.Enable = overlay.Cache.Enable
 	}
 
 	if overlay.Serve.Port != nil {
