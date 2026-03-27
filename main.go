@@ -18,6 +18,9 @@ import (
 //go:embed default.yaml
 var bakedDefaultConfigYAML []byte
 
+// version is set at build time via ldflags.
+var version = "dev"
+
 func main() {
 	lint.SetDefaultConfigYAML(bakedDefaultConfigYAML)
 
@@ -25,8 +28,18 @@ func main() {
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Turn on debug logs for all commands")
 	rootCmd.PersistentFlags().String("config", "", "Path to config file (highest precedence)")
 
+	var cmdVersion = &cobra.Command{
+		Use:   "version",
+		Short: "Show CLI version",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println(version)
+		},
+	}
+	rootCmd.AddCommand(cmdVersion)
+
 	var cmdExportModel = &cobra.Command{
-		Use:   "export-model",
+		Use:     "export",
+		Aliases: []string{"export-model"},
 		Short: "Export Mendix model to yaml files",
 		Long:  "The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -60,7 +73,7 @@ func main() {
 				config.Export.Filter,
 			)
 			if err != nil {
-				log.Errorf("export-model failed: %s", err)
+				log.Errorf("export failed: %s", err)
 				os.Exit(1)
 			}
 		},

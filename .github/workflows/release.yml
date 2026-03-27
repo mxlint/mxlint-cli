@@ -19,6 +19,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests
         run: go test -v -p=1 -timeout=0 ./...
+      - name: Verify version subcommand for release tag
+        run: |
+          go build -ldflags="-s -w -X main.version=${{ github.event.release.tag_name }}" -o bin/mxlint ./.
+          test "$(./bin/mxlint version)" = "${{ github.event.release.tag_name }}"
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.PAT }}
@@ -26,6 +30,6 @@ jobs:
           goarch: ${{ matrix.goarch }}
           project_path: "./"
           binary_name: "mxlint"
-          ldflags: "-s -w"
+          ldflags: "-s -w -X main.version=${{ github.event.release.tag_name }}"
           compress_assets: OFF
 

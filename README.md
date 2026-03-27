@@ -28,7 +28,8 @@ mxlint-cli is a set of tools to help you with your Mendix projects. As such you 
 
 - copy `mxlint-cli` to your project directory
 - Open a terminal and navigate to your project directory; ideally use git-bash on Windows or Terminal on MacOS/Linux
-- run `./mxlint-cli export-model`
+- create `mxlint.yaml` (see example below)
+- run `./mxlint-cli export`
 
 You will see a new directory `modelsource` with the exported Mendix model in Yaml format
 
@@ -36,8 +37,8 @@ It's advisable to add the `mxlint-cli` file to your `.gitignore` file. This way 
 
 ### Lint Mendix Yaml files
 
-- copy `policies` directory to your project directory
-- run `./mxlint-cli lint --xunit-report=report.xml`
+- configure rules in `mxlint.yaml`
+- run `./mxlint-cli lint`
 
 You will see a summary of the policy evaluations in the terminal and a report in the `report.xml` file. The report is in xUnit format. You can use it in your CI/CD pipeline.
 
@@ -45,38 +46,19 @@ Do you want to create your own policies? Please refer to our guide [Create new p
 
 ## Subcommands Reference
 
-> Configuration-driven commands: subcommand-specific options are read from merged config (`default.yaml` + system `mxlint.yaml` + project `mxlint.yaml`). You can also pass `--config <path>` to apply a specific config file with the highest precedence. Use global `--verbose` on the root command to enable debug logging for any subcommand.
+> Configuration-driven commands: settings are read from merged config (`default.yaml` + system `mxlint.yaml` + project `mxlint.yaml`). You can pass `--config <path>` to apply an explicit config file with highest precedence. Use global `--verbose` on the root command to enable debug logging for any subcommand.
 
 Global verbose examples:
 
 ```bash
 mxlint-cli --verbose lint
-mxlint-cli -v export-model
+mxlint-cli -v export
 mxlint-cli -v serve
 ```
 
-### export-model
+### Configuration file (`mxlint.yaml`)
 
-Export Mendix model to yaml files. The output is a text representation of the model. It is a one-way conversion that aims to keep the semantics yet readable for humans and computers.
-
-**Usage:**
-```bash
-mxlint-cli export-model [flags]
-```
-
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
-| `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
-| `--filter` | `-f` | | Regex pattern to filter units by name. Only units with names matching the pattern will be exported |
-| `--raw` | | `false` | If set, the output yaml will include all attributes as they are in the model |
-| `--appstore` | | `false` | If set, appstore modules will be included in the output |
-| `--verbose` | | `false` | Turn on for debug logs |
-
-#### Configuration file (`mxlint.yaml`)
-
-The `lint` command supports configuration files loaded in this order:
+mxlint-cli loads config files in this order:
 
 1. Default config: `default.yaml` baked into the executable at compile time
 2. System config:
@@ -88,54 +70,58 @@ The `lint` command supports configuration files loaded in this order:
 
 Project config has higher precedence than system config, and `--config` has the highest precedence.
 
-Example:
+Example `mxlint.yaml`:
 
 ```yaml
 rules:
   path: .mendix-cache/rules
   rulesets:
-    - file://rules
-    - https://example.com/rules.zip
-    - git://github.com/mxlint/mxlint-rules
+    - https://github.com/mxlint/mxlint-rules/releases/download/v3.3.0/rules-v3.3.0.zip
 lint:
+  xunitReport: report.xml
+  jsonFile: ""
+  ignoreNoqa: false
+  noCache: false
   skip:
     example/doc:
-      - rule: 001_002
-        reason: some reason
-        date: 2026-02-27 11:00:00Z
+      - rule: "001_002"
+        reason: accepted risk
+modelsource: modelsource
+projectDirectory: .
 export:
-  output: modelsource
-  input: .
-  filter: "*"
+  filter: ".*"
+  raw: false
+  appstore: false
+serve:
+  port: 8082
+  debounce: 500
 ```
 
 Notes:
-- `rules.path` is used as the default rules directory when `--rules` is not provided.
-- If `rules.rulesets` are configured, they are synchronized into `rules.path` before linting.
+- `rules.path` is the local rules directory used by `lint`.
+- `rules.rulesets` are synchronized into `rules.path` before linting.
 - `lint.skip` supports skipping by document path (relative to `modelsource`) and rule number.
-- `export.*` is used as defaults for `export-model`, and `export.output` is used as the default `lint --modelsource`.
+- `lint.noCache` disables lint result cache when set to `true`.
 
 ---
 
-### lint
+### export
 
-Evaluate Mendix model against rules. Requires the model to be exported first. The model is evaluated against a set of rules defined in OPA Rego files or JavaScript. The output is a list of checked rules and their outcome.
+Export Mendix model to yaml files.
 
 **Usage:**
 ```bash
-mxlint-cli lint [flags]
+mxlint-cli export
 ```
 
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
-| `--modelsource` | `-m` | `modelsource` | Path to directory with exported model |
-| `--xunit-report` | `-x` | | Path to output file for xunit report. If not provided, no xunit report will be generated |
-| `--json-file` | `-j` | | Path to output file for JSON report. If not provided, no JSON file will be generated |
-| `--ignore-noqa` | | `false` | Ignore noqa directives in documents |
-| `--no-cache` | | `false` | Disable caching of lint results. By default, results are cached and reused if rules and model files haven't changed |
-| `--verbose` | | `false` | Turn on for debug logs |
+### lint
+
+Evaluate Mendix model against rules. Requires the model to be exported first.
+
+**Usage:**
+```bash
+mxlint-cli lint
+```
 
 ---
 
@@ -156,18 +142,8 @@ Run a server that exports model and lints whenever the input MPR file changes. W
 
 **Usage:**
 ```bash
-mxlint-cli serve [flags]
+mxlint-cli serve
 ```
-
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--input` | `-i` | `.` | Path to directory or mpr file to export. If it's a directory, all mpr files will be exported |
-| `--output` | `-o` | `modelsource` | Path to directory to write the yaml files. If it doesn't exist, it will be created |
-| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
-| `--port` | `-p` | `8082` | Port to run the server on |
-| `--debounce` | `-d` | `500` | Debounce time in milliseconds for file change events |
-| `--verbose` | | `false` | Turn on for debug logs |
 
 ---
 
@@ -177,14 +153,8 @@ Ensure rules are working as expected against predefined test cases. When you are
 
 **Usage:**
 ```bash
-mxlint-cli test-rules [flags]
+mxlint-cli test-rules
 ```
-
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--rules` | `-r` | `.mendix-cache/rules` | Path to directory with rules |
-| `--verbose` | | `false` | Turn on for debug logs |
 
 ---
 
@@ -194,13 +164,8 @@ Clear the lint results cache. Removes all cached lint results. The cache is used
 
 **Usage:**
 ```bash
-mxlint-cli cache-clear [flags]
+mxlint-cli cache-clear
 ```
-
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--verbose` | | `false` | Turn on for debug logs |
 
 ---
 
@@ -210,17 +175,23 @@ Show cache statistics. Displays information about the cached lint results, inclu
 
 **Usage:**
 ```bash
-mxlint-cli cache-stats [flags]
+mxlint-cli cache-stats
 ```
-
-**Flags:**
-| Flag | Short | Default | Description |
-|------|-------|---------|-------------|
-| `--verbose` | | `false` | Turn on for debug logs |
 
 ---
 
-## export-model
+### version
+
+Show CLI version.
+
+**Usage:**
+```bash
+mxlint-cli version
+```
+
+---
+
+## export
 
 Mendix models are stored in a binary file with `.mpr` extension. This project exports Mendix model to a human readable format, such as Yaml. This enables developers to use traditional code analysis tools on Mendix models. Think of quality checks like linting, code formatting, etc.
 
@@ -233,7 +204,7 @@ See each Mendix document/object as a separate file in the output directory. And 
 If you do not want to export the model to Yaml on your local machine, you can do it in your pipeline. Here's a high-level example:
 
 ```bash
-$ ./bin/mxlint-cli-darwin-arm64 export-model -i resources/app-mpr-v1/
+$ ./bin/mxlint-cli-darwin-arm64 --config .ci/export-v1.yaml export
 INFO[0000] Exporting resources/full-app-v1.mpr to modelsource
 INFO[0000] Completed resources/full-app-v1.mpr
 
@@ -302,13 +273,14 @@ In this example, only rules `001_0002` and `001_0003` will be skipped for this d
 - Multiple rule numbers should be separated by commas (no spaces)
 - The entire line after the noqa directive will be recorded as the skip reason
 
-#### Ignore NOQA directives (--ignore-noqa flag)
+#### Ignore NOQA directives (`lint.ignoreNoqa`)
 
-In some scenarios, you may want to run linting on all documents, including those marked with noqa directives. The `--ignore-noqa` flag allows you to temporarily disable the noqa functionality.
+In some scenarios, you may want to run linting on all documents, including those marked with noqa directives. Configure `lint.ignoreNoqa: true` to temporarily disable the noqa functionality.
 
-**Usage:**
+**Usage (`mxlint.yaml`):**
 ```bash
-./mxlint-cli lint --ignore-noqa
+lint:
+  ignoreNoqa: true
 ```
 
 When this flag is set:
@@ -321,14 +293,14 @@ When this flag is set:
 - **CI/CD validation**: Enforce that certain branches (e.g., production) don't rely on noqa suppressions
 - **Cleanup**: Identify which noqa markers can be removed after fixing underlying issues
 
-**Note:** When using `--ignore-noqa`, results are not cached to ensure consistency with normal linting behavior.
+**Note:** When `lint.ignoreNoqa` is enabled, results are not cached to ensure consistency with normal linting behavior.
 
 ## serve
 
 Run a server that exports model and lints whenever the input MPR file changes. This is works in standalone way and via integration with the Mendix Studio Pro extension.
 
 ```
-./bin/mxlint-cli-darwin-arm64 serve -i . -o modelsource -r rules -p 8084
+./bin/mxlint-cli-darwin-arm64 --config mxlint.yaml serve
 INFO[0000] Starting server on port 8084
 INFO[0000] Watching for changes in /Users/xcheng/project
 INFO[0000] Output directory: modelsource
@@ -337,7 +309,7 @@ INFO[0000] Debounce time: 500 ms
 INFO[0000] HTTP server listening on 127.0.0.1:8084
 INFO[0000] Dashboard available at http://localhost:8084
 INFO[0000] Initial export and lint
-INFO[0000] Running export-model and lint
+INFO[0000] Running export and lint
 INFO[0000] Exporting /Users/xcheng/project/App.mpr to modelsource
 INFO[0000] Found 361 documents
 INFO[0000] Completed /Users/xcheng/project/App.mpr
@@ -354,7 +326,7 @@ The serve command provides:
 Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
 
 ```
-$ ./bin/mxlint-darwin-arm64 test-rules -r resources/rules
+$ ./bin/mxlint-darwin-arm64 --config .ci/test-rules.yaml test-rules
 INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js 
 INFO[0000] PASS  allow
 INFO[0000] PASS  no_allow
