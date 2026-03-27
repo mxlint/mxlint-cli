@@ -1,8 +1,10 @@
 package mpr
 
 import (
+	"crypto/sha256"
 	"database/sql"
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -50,6 +52,8 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 			if err != nil {
 				return fmt.Errorf("error reading file %s: %v", path, err)
 			}
+			contentHash := sha256.Sum256(contents)
+			contentHashHex := hex.EncodeToString(contentHash[:])
 
 			var result bson.M
 			if err := bson.Unmarshal(contents, &result); err != nil {
@@ -144,6 +148,7 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 			}
 
 			units[idx].Contents = result
+			units[idx].ContentsHash = contentHashHex
 		}
 		return nil
 	})
