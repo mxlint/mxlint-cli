@@ -301,6 +301,8 @@ Run a server that exports model and lints whenever the input MPR file changes. T
 
 ```
 ./bin/mxlint-cli-darwin-arm64 --config mxlint.yaml serve
+INFO[0000] Rules directory .mendix-cache/rules found
+INFO[0000] Syncing 2 rulesets to .mendix-cache/rules
 INFO[0000] Starting server on port 8084
 INFO[0000] Watching for changes in /Users/xcheng/project
 INFO[0000] Output directory: modelsource
@@ -323,14 +325,14 @@ The serve command provides:
 
 ## test-rules
 
-Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
+Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format.
 
 ```
 $ ./bin/mxlint-darwin-arm64 --config .ci/test-rules.yaml test-rules
-INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js 
+INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js
 INFO[0000] PASS  allow
 INFO[0000] PASS  no_allow
-INFO[0000] >> resources/rules/001_0003_security_checks.rego 
+INFO[0000] >> resources/rules/001_0003_security_checks.rego
 INFO[0000] PASS  allow
 INFO[0000] PASS  no_allow_1
 INFO[0000] PASS  no_allow_2
