@@ -83,13 +83,16 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 		return fmt.Errorf("no MPR file found in directory: %s", inputDirectory)
 	}
 
-	units, err := getMxUnits(inputDirectory)
+	plan, err := buildExportPlan(inputDirectory)
 	if err != nil {
-		log.Errorf("Failed to parse MxUnits: %s", err)
-		return err
+		return fmt.Errorf("error building export plan: %v", err)
 	}
-
-	modules := getMxModules(units)
+	defer func() {
+		if closeErr := plan.Close(); closeErr != nil {
+			log.Warnf("Error closing export resources: %v", closeErr)
+		}
+	}()
+	modules := plan.Modules
 
 	if err := exportMetadata(inputDirectory, tmpDir, modules); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
@@ -97,8 +100,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 
 	exportedCount := 0
 	if filter != "^Metadata$" {
-		var err error
-		exportedCount, err = exportUnitsFromLoadedUnits(units, tmpDir, raw, filter)
+		exportedCount, err = exportDocumentsFromPlan(plan, tmpDir, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
