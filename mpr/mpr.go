@@ -12,8 +12,8 @@ import (
 	"strings"
 	"sync"
 
-	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -98,7 +98,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 	exportedCount := 0
 	if filter != "^Metadata$" {
 		var err error
-		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, filter)
+		exportedCount, err = exportUnitsFromLoadedUnits(units, tmpDir, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
@@ -525,6 +525,10 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 		log.Errorf("Error getting units: %v", err)
 		return 0, fmt.Errorf("error getting units: %v", err)
 	}
+	return exportUnitsFromLoadedUnits(units, outputDirectory, raw, filter)
+}
+
+func exportUnitsFromLoadedUnits(units []MxUnit, outputDirectory string, raw bool, filter string) (int, error) {
 	folders, err := getMxFolders(units)
 	if err != nil {
 		return 0, fmt.Errorf("error getting folders: %v", err)

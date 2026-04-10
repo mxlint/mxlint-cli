@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -71,12 +72,18 @@ func getCachePath(cacheKey CacheKey) (string, error) {
 
 // computeFileHash computes SHA256 hash of a file's contents
 func computeFileHash(filePath string) (string, error) {
-	content, err := os.ReadFile(filePath)
+	file, err := os.Open(filePath)
 	if err != nil {
 		return "", err
 	}
-	hash := sha256.Sum256(content)
-	return fmt.Sprintf("%x", hash), nil
+	defer file.Close()
+
+	hasher := sha256.New()
+	if _, err := io.Copy(hasher, file); err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%x", hasher.Sum(nil)), nil
 }
 
 // createCacheKey creates a cache key from rule and input file paths
@@ -226,4 +233,3 @@ func GetCacheStats() (int, int64, error) {
 
 	return fileCount, totalSize, err
 }
-

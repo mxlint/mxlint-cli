@@ -326,3 +326,27 @@ func TestLoadMergedConfig_NormalizesSkipMapKeys(t *testing.T) {
 		t.Fatalf("unexpected unnormalized skip key present: %#v", cfg.Lint.Skip)
 	}
 }
+
+func TestLoadMergedConfig_LintConcurrencyAndTrace(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+	projectConfig := `lint:
+  concurrency: 2
+  regoTrace: true
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+
+	if cfg.Lint.Concurrency == nil || *cfg.Lint.Concurrency != 2 {
+		t.Fatalf("expected lint.concurrency=2, got %#v", cfg.Lint.Concurrency)
+	}
+	if cfg.Lint.RegoTrace == nil || *cfg.Lint.RegoTrace != true {
+		t.Fatalf("expected lint.regoTrace=true, got %#v", cfg.Lint.RegoTrace)
+	}
+}

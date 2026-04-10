@@ -48,11 +48,16 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	maxConcurrency := effectiveLintConcurrency(len(rules))
+	sem := make(chan struct{}, maxConcurrency)
+
 	// Launch goroutines to evaluate rules in parallel
 	for i, rule := range rules {
+		sem <- struct{}{}
 		wg.Add(1)
 		go func(index int, r Rule) {
 			defer wg.Done()
+			defer func() { <-sem }()
 
 			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
 			if err != nil {
@@ -156,11 +161,16 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	maxConcurrency := effectiveLintConcurrency(len(rules))
+	sem := make(chan struct{}, maxConcurrency)
+
 	// Launch goroutines to evaluate rules in parallel
 	for i, rule := range rules {
+		sem <- struct{}{}
 		wg.Add(1)
 		go func(index int, r Rule) {
 			defer wg.Done()
+			defer func() { <-sem }()
 
 			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
 			if err != nil {

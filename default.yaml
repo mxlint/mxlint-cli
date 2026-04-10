@@ -6,6 +6,9 @@ lint:
   xunitReport: ""
   jsonFile: ""
   ignoreNoqa: false
+  noCache: false
+  concurrency: 4
+  regoTrace: false
   skip: {}
 cache:
   directory: .mendix-cache/mxlint
