@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 
@@ -214,10 +215,22 @@ func exportMetadata(inputDirectory string, outputDirectory string, modules []MxM
 	}
 
 	// create metadata object
+	sortedModules := append([]MxModule(nil), modules...)
+	sort.Slice(sortedModules, func(i, j int) bool {
+		left := strings.ToLower(sortedModules[i].Name)
+		right := strings.ToLower(sortedModules[j].Name)
+		if left == right {
+			if sortedModules[i].Name == sortedModules[j].Name {
+				return sortedModules[i].ID < sortedModules[j].ID
+			}
+			return sortedModules[i].Name < sortedModules[j].Name
+		}
+		return left < right
+	})
 	metadataObj := MxMetadata{
 		ProductVersion: productVersion,
 		BuildVersion:   buildVersion,
-		Modules:        modules,
+		Modules:        sortedModules,
 	}
 
 	// write metadata to file

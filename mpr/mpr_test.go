@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 )
 
 func TestGetMprVersion(t *testing.T) {
@@ -1451,5 +1451,50 @@ func TestGenerateAppYamlExcludesItself(t *testing.T) {
 	}
 	if !foundTestYaml {
 		t.Errorf("test.yaml should be included in app.yaml structure")
+	}
+}
+
+func TestExportMetadata_SortsModulesByName(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "mpr-test-metadata-sort-*")
+	if err != nil {
+		t.Fatalf("Failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	modules := []MxModule{
+		{Name: "zeta", ID: "2"},
+		{Name: "Alpha", ID: "3"},
+		{Name: "beta", ID: "1"},
+	}
+
+	if err := exportMetadata("./../resources/app-mpr-v1", tmpDir, modules); err != nil {
+		t.Fatalf("exportMetadata() unexpected error: %v", err)
+	}
+
+	metadataFile, err := os.ReadFile(filepath.Join(tmpDir, "Metadata.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to read metadata file: %v", err)
+	}
+
+	var metadataObj MxMetadata
+	var node yaml.Node
+	if err := yaml.Unmarshal(metadataFile, &node); err != nil {
+		t.Fatalf("Failed to unmarshal metadata file: %v", err)
+	}
+	if err := node.Decode(&metadataObj); err != nil {
+		t.Fatalf("Failed to decode metadata file: %v", err)
+	}
+
+	if len(metadataObj.Modules) != 3 {
+		t.Fatalf("Expected 3 modules, got %d", len(metadataObj.Modules))
+	}
+
+	if metadataObj.Modules[0].Name != "Alpha" || metadataObj.Modules[1].Name != "beta" || metadataObj.Modules[2].Name != "zeta" {
+		t.Fatalf(
+			"Expected module order [Alpha, beta, zeta], got [%s, %s, %s]",
+			metadataObj.Modules[0].Name,
+			metadataObj.Modules[1].Name,
+			metadataObj.Modules[2].Name,
+		)
 	}
 }
