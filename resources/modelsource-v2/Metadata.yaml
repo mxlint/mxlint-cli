@@ -1,99 +1,6 @@
 ProductVersion: 10.24.9.81004
 BuildVersion: 10.24.9.81004
 Modules:
-    - Name: Atlas_Web_Content
-      ID: GMyJGqJY0U2f8EzUDi71Dg==
-      Attributes:
-        $ID:
-            subtype: 0
-            data:
-                - 24
-                - 204
-                - 137
-                - 26
-                - 162
-                - 88
-                - 209
-                - 77
-                - 159
-                - 240
-                - 76
-                - 212
-                - 14
-                - 46
-                - 245
-                - 14
-        $Type: Projects$ModuleImpl
-        AppStoreGuid: 08060dc1-8f61-4969-8f90-707c74fc0cc1
-        AppStorePackageId: 117183
-        AppStoreVersion: 3.7.0
-        AppStoreVersionGuid: c78ddb3b-ecb1-4970-b3f7-e1aa18334abb
-        FromAppStore: true
-        IsThemeModule: true
-        Name: Atlas_Web_Content
-        NewSortIndex: 39
-    - Name: WebActions
-      ID: LrkbIDFi7UqJBl7WEXRFzg==
-      Attributes:
-        $ID:
-            subtype: 0
-            data:
-                - 46
-                - 185
-                - 27
-                - 32
-                - 49
-                - 98
-                - 237
-                - 74
-                - 137
-                - 6
-                - 94
-                - 214
-                - 17
-                - 116
-                - 69
-                - 206
-        $Type: Projects$ModuleImpl
-        AppStoreGuid: 87f3694f-b0d1-432e-a150-df1753dbd0e8
-        AppStorePackageId: 114337
-        AppStoreVersion: 2.10.0
-        AppStoreVersionGuid: 507824ec-9757-4b89-85b5-8d1f4fc4bc34
-        FromAppStore: true
-        IsThemeModule: false
-        Name: WebActions
-        NewSortIndex: 3
-    - Name: Module2
-      ID: NR8NSYo2t0qz/m3jTEL67A==
-      Attributes:
-        $ID:
-            subtype: 0
-            data:
-                - 53
-                - 31
-                - 13
-                - 73
-                - 138
-                - 54
-                - 183
-                - 74
-                - 179
-                - 254
-                - 109
-                - 227
-                - 76
-                - 66
-                - 250
-                - 236
-        $Type: Projects$ModuleImpl
-        AppStoreGuid: ""
-        AppStorePackageId: 0
-        AppStoreVersion: ""
-        AppStoreVersionGuid: ""
-        FromAppStore: false
-        IsThemeModule: false
-        Name: Module2
-        NewSortIndex: 3.86974074450023
     - Name: Administration
       ID: O5j0GrEKKkmyWj3j8dSfVQ==
       Attributes:
@@ -125,37 +32,6 @@ Modules:
         IsThemeModule: false
         Name: Administration
         NewSortIndex: -0.5
-    - Name: DataWidgets
-      ID: jwnoFbjX9UKZzhRqfaFXdw==
-      Attributes:
-        $ID:
-            subtype: 0
-            data:
-                - 143
-                - 9
-                - 232
-                - 21
-                - 184
-                - 215
-                - 245
-                - 66
-                - 153
-                - 206
-                - 20
-                - 106
-                - 125
-                - 161
-                - 87
-                - 119
-        $Type: Projects$ModuleImpl
-        AppStoreGuid: b0376c9a-37f9-4c96-bca9-491d20f3e975
-        AppStorePackageId: 116540
-        AppStoreVersion: 2.28.1
-        AppStoreVersionGuid: 3ab7ec2f-84cd-4973-bc66-3e0f4d992b90
-        FromAppStore: true
-        IsThemeModule: true
-        Name: DataWidgets
-        NewSortIndex: 2
     - Name: Atlas_Core
       ID: po8inIuZIUaXMNeU8eApPQ==
       Attributes:
@@ -187,6 +63,68 @@ Modules:
         IsThemeModule: true
         Name: Atlas_Core
         NewSortIndex: 38
+    - Name: Atlas_Web_Content
+      ID: GMyJGqJY0U2f8EzUDi71Dg==
+      Attributes:
+        $ID:
+            subtype: 0
+            data:
+                - 24
+                - 204
+                - 137
+                - 26
+                - 162
+                - 88
+                - 209
+                - 77
+                - 159
+                - 240
+                - 76
+                - 212
+                - 14
+                - 46
+                - 245
+                - 14
+        $Type: Projects$ModuleImpl
+        AppStoreGuid: 08060dc1-8f61-4969-8f90-707c74fc0cc1
+        AppStorePackageId: 117183
+        AppStoreVersion: 3.7.0
+        AppStoreVersionGuid: c78ddb3b-ecb1-4970-b3f7-e1aa18334abb
+        FromAppStore: true
+        IsThemeModule: true
+        Name: Atlas_Web_Content
+        NewSortIndex: 39
+    - Name: DataWidgets
+      ID: jwnoFbjX9UKZzhRqfaFXdw==
+      Attributes:
+        $ID:
+            subtype: 0
+            data:
+                - 143
+                - 9
+                - 232
+                - 21
+                - 184
+                - 215
+                - 245
+                - 66
+                - 153
+                - 206
+                - 20
+                - 106
+                - 125
+                - 161
+                - 87
+                - 119
+        $Type: Projects$ModuleImpl
+        AppStoreGuid: b0376c9a-37f9-4c96-bca9-491d20f3e975
+        AppStorePackageId: 116540
+        AppStoreVersion: 2.28.1
+        AppStoreVersionGuid: 3ab7ec2f-84cd-4973-bc66-3e0f4d992b90
+        FromAppStore: true
+        IsThemeModule: true
+        Name: DataWidgets
+        NewSortIndex: 2
     - Name: FeedbackModule
       ID: uiNyvoj+W0uB9ORByapJZw==
       Attributes:
@@ -218,6 +156,37 @@ Modules:
         IsThemeModule: true
         Name: FeedbackModule
         NewSortIndex: 4
+    - Name: Module2
+      ID: NR8NSYo2t0qz/m3jTEL67A==
+      Attributes:
+        $ID:
+            subtype: 0
+            data:
+                - 53
+                - 31
+                - 13
+                - 73
+                - 138
+                - 54
+                - 183
+                - 74
+                - 179
+                - 254
+                - 109
+                - 227
+                - 76
+                - 66
+                - 250
+                - 236
+        $Type: Projects$ModuleImpl
+        AppStoreGuid: ""
+        AppStorePackageId: 0
+        AppStoreVersion: ""
+        AppStoreVersionGuid: ""
+        FromAppStore: false
+        IsThemeModule: false
+        Name: Module2
+        NewSortIndex: 3.86974074450023
     - Name: MyFirstModule
       ID: xn10Fre2rkKqvyVdyirurw==
       Attributes:
@@ -280,3 +249,34 @@ Modules:
         IsThemeModule: false
         Name: NanoflowCommons
         NewSortIndex: 2.75
+    - Name: WebActions
+      ID: LrkbIDFi7UqJBl7WEXRFzg==
+      Attributes:
+        $ID:
+            subtype: 0
+            data:
+                - 46
+                - 185
+                - 27
+                - 32
+                - 49
+                - 98
+                - 237
+                - 74
+                - 137
+                - 6
+                - 94
+                - 214
+                - 17
+                - 116
+                - 69
+                - 206
+        $Type: Projects$ModuleImpl
+        AppStoreGuid: 87f3694f-b0d1-432e-a150-df1753dbd0e8
+        AppStorePackageId: 114337
+        AppStoreVersion: 2.10.0
+        AppStoreVersionGuid: 507824ec-9757-4b89-85b5-8d1f4fc4bc34
+        FromAppStore: true
+        IsThemeModule: false
+        Name: WebActions
+        NewSortIndex: 3

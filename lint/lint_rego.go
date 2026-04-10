@@ -51,12 +51,15 @@ func evalTestcase_Rego(rulePath string, queryString string, inputFilePath string
 	ctx := context.Background()
 
 	startTime := time.Now()
-	r := rego.New(
+	regoOptions := []func(*rego.Rego){
 		rego.Query(queryString),
 		rego.Module(rulePath, regoContent),
 		rego.Input(data),
-		rego.Trace(true),
-	)
+	}
+	if regoTraceEnabled() {
+		regoOptions = append(regoOptions, rego.Trace(true))
+	}
+	r := rego.New(regoOptions...)
 
 	rs, err := r.Eval(ctx)
 	if err != nil {

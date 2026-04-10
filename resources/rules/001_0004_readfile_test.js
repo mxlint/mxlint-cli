@@ -20,7 +20,7 @@ function rule(input = {}) {
     // Use mxlint.readfile to read the Settings$ProjectSettings.yaml file
     // which should be in the same directory as the input file
     try {
-        const settingsContent = mxlint.readfile("Settings$ProjectSettings.yaml");
+        const settingsContent = mxlint.io.readfile("Settings$ProjectSettings.yaml");
 
         // Check if the settings file contains expected content
         if (!settingsContent.includes("$Type:")) {

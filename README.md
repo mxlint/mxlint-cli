@@ -82,6 +82,8 @@ lint:
   jsonFile: ""
   ignoreNoqa: false
   noCache: false
+  concurrency: 4
+  regoTrace: false
   skip:
     example/doc:
       - rule: "001_002"
@@ -102,6 +104,8 @@ Notes:
 - `rules.rulesets` are synchronized into `rules.path` before linting.
 - `lint.skip` supports skipping by document path (relative to `modelsource`) and rule number.
 - `lint.noCache` disables lint result cache when set to `true`.
+- `lint.concurrency` limits how many rules are evaluated in parallel. Lower values reduce peak memory usage for large models.
+- `lint.regoTrace` enables OPA tracing for Rego rules. Keep it `false` for normal runs to reduce memory overhead.
 
 ---
 
