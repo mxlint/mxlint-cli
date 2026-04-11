@@ -86,6 +86,14 @@ func runServe(cmd *cobra.Command, args []string) {
 		log.Infof("Rules directory %s found", rulesDirectory)
 	}
 
+	// Sync rulesets from config if specified
+	if config != nil && len(config.Rules.Rulesets) > 0 {
+		log.Infof("Syncing %d rulesets to %s", len(config.Rules.Rulesets), rulesDirectory)
+		if err := lint.SyncRulesets(config.Rules.Rulesets, rulesDirectory, projectDir); err != nil {
+			log.Fatalf("Failed to sync rulesets: %v", err)
+		}
+	}
+
 	expandedPath, err := filepath.Abs(inputDirectory)
 	if err != nil {
 		log.Fatalln(err)

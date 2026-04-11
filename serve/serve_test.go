@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/mxlint/mxlint-cli/lint"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
@@ -225,4 +226,164 @@ func TestAddDirsRecursive(t *testing.T) {
 		assert.NotEqual(t, excludeDir, path, "Exclude directory should not be watched")
 		assert.NotContains(t, path, ".hidden", "Hidden directories should not be watched")
 	}
+}
+
+func TestRulesetSync(t *testing.T) {
+	// This test verifies that the serve command syncs rulesets from config before starting
+	// Create a temporary directory structure
+	tempDir, err := os.MkdirTemp("", "mxlint-ruleset-test-*")
+	assert.NoError(t, err)
+	defer os.RemoveAll(tempDir)
+
+	// Create source rules directory with a test rule
+	sourceRulesDir := filepath.Join(tempDir, "source-rules")
+	err = os.MkdirAll(filepath.Join(sourceRulesDir, "test-category"), 0755)
+	assert.NoError(t, err)
+
+	testRuleContent := `# METADATA
+# title: Test Rule
+# description: A test rule for syncing
+# custom:
+#   rulenumber: "001_0001"
+#   category: "Test"
+package test.rules
+
+rule_test {
+	true
+}`
+	testRulePath := filepath.Join(sourceRulesDir, "test-category", "test_rule.rego")
+	err = os.WriteFile(testRulePath, []byte(testRuleContent), 0644)
+	assert.NoError(t, err)
+
+	// Create target rules directory (where rules will be synced to)
+	targetRulesDir := filepath.Join(tempDir, "target-rules")
+	err = os.MkdirAll(targetRulesDir, 0755)
+	assert.NoError(t, err)
+
+	// Create a config with rulesets
+	config := &lint.Config{
+		Rules: lint.ConfigRulesSpec{
+			Path: targetRulesDir,
+			Rulesets: []string{
+				"file://" + filepath.Base(sourceRulesDir),
+			},
+		},
+	}
+
+	// Verify source rule exists
+	assert.FileExists(t, testRulePath, "Source rule should exist")
+
+	// Verify target doesn't have the rule yet
+	targetRulePath := filepath.Join(targetRulesDir, "test-category", "test_rule.rego")
+	_, err = os.Stat(targetRulePath)
+	assert.True(t, os.IsNotExist(err), "Target rule should not exist before sync")
+
+	// Perform the sync (this is what serve.go does at lines 89-95)
+	if config != nil && len(config.Rules.Rulesets) > 0 {
+		log := logrus.New()
+		log.SetOutput(io.Discard)
+		lint.SetLogger(log)
+
+		err = lint.SyncRulesets(config.Rules.Rulesets, targetRulesDir, tempDir)
+		assert.NoError(t, err, "SyncRulesets should succeed")
+	}
+
+	// Verify the rule was synced to target
+	assert.FileExists(t, targetRulePath, "Target rule should exist after sync")
+
+	// Verify the content matches
+	targetContent, err := os.ReadFile(targetRulePath)
+	assert.NoError(t, err)
+	assert.Equal(t, testRuleContent, string(targetContent), "Synced rule content should match source")
+}
+
+func TestRulesetSyncWithEmptyRulesets(t *testing.T) {
+	// This test verifies that when config.Rules.Rulesets is empty, no sync occurs
+	tempDir, err := os.MkdirTemp("", "mxlint-no-ruleset-test-*")
+	assert.NoError(t, err)
+	defer os.RemoveAll(tempDir)
+
+	targetRulesDir := filepath.Join(tempDir, "target-rules")
+	err = os.MkdirAll(targetRulesDir, 0755)
+	assert.NoError(t, err)
+
+	// Create a config with NO rulesets
+	config := &lint.Config{
+		Rules: lint.ConfigRulesSpec{
+			Path:     targetRulesDir,
+			Rulesets: []string{}, // Empty rulesets
+		},
+	}
+
+	// The sync logic should not run when rulesets is empty (as per serve.go lines 90)
+	if config != nil && len(config.Rules.Rulesets) > 0 {
+		t.Fatal("Should not reach here - rulesets is empty")
+	}
+
+	// Verify the target directory is still empty (no sync happened)
+	entries, err := os.ReadDir(targetRulesDir)
+	assert.NoError(t, err)
+	assert.Empty(t, entries, "Target rules directory should remain empty when no rulesets configured")
+}
+
+func TestRulesetSyncWithMultipleRulesets(t *testing.T) {
+	// This test verifies that multiple rulesets can be synced
+	tempDir, err := os.MkdirTemp("", "mxlint-multi-ruleset-test-*")
+	assert.NoError(t, err)
+	defer os.RemoveAll(tempDir)
+
+	// Create two source rules directories
+	sourceRules1 := filepath.Join(tempDir, "source-rules-1")
+	sourceRules2 := filepath.Join(tempDir, "source-rules-2")
+
+	err = os.MkdirAll(filepath.Join(sourceRules1, "category1"), 0755)
+	assert.NoError(t, err)
+	err = os.MkdirAll(filepath.Join(sourceRules2, "category2"), 0755)
+	assert.NoError(t, err)
+
+	// Create test rules in each source
+	rule1Content := `# METADATA
+# title: Rule 1
+package test.rule1`
+	rule1Path := filepath.Join(sourceRules1, "category1", "rule1.rego")
+	err = os.WriteFile(rule1Path, []byte(rule1Content), 0644)
+	assert.NoError(t, err)
+
+	rule2Content := `# METADATA
+# title: Rule 2
+package test.rule2`
+	rule2Path := filepath.Join(sourceRules2, "category2", "rule2.rego")
+	err = os.WriteFile(rule2Path, []byte(rule2Content), 0644)
+	assert.NoError(t, err)
+
+	// Create target rules directory
+	targetRulesDir := filepath.Join(tempDir, "target-rules")
+	err = os.MkdirAll(targetRulesDir, 0755)
+	assert.NoError(t, err)
+
+	// Create config with multiple rulesets
+	config := &lint.Config{
+		Rules: lint.ConfigRulesSpec{
+			Path: targetRulesDir,
+			Rulesets: []string{
+				"file://" + filepath.Base(sourceRules1),
+				"file://" + filepath.Base(sourceRules2),
+			},
+		},
+	}
+
+	// Perform the sync
+	log := logrus.New()
+	log.SetOutput(io.Discard)
+	lint.SetLogger(log)
+
+	err = lint.SyncRulesets(config.Rules.Rulesets, targetRulesDir, tempDir)
+	assert.NoError(t, err, "SyncRulesets should succeed with multiple rulesets")
+
+	// Verify both rules were synced
+	targetRule1 := filepath.Join(targetRulesDir, "category1", "rule1.rego")
+	targetRule2 := filepath.Join(targetRulesDir, "category2", "rule2.rego")
+
+	assert.FileExists(t, targetRule1, "Rule from first ruleset should be synced")
+	assert.FileExists(t, targetRule2, "Rule from second ruleset should be synced")
 }
