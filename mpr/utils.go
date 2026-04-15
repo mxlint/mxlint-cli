@@ -3,16 +3,14 @@ package mpr
 import (
 	"encoding/base64"
 	"fmt"
-	"reflect"
 
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var log = logrus.New() // Initialize with a default logger
+var log = logrus.New()
 
-// SetLogger allows the main application to set the logger, including its configuration.
 func SetLogger(logger *logrus.Logger) {
 	log = logger
 }
@@ -28,102 +26,81 @@ func Contains(slice []string, str string) bool {
 	return false
 }
 
-func ignoreAttributes(data bson.M, ignore []string) bson.M {
-	result := make(bson.M)
-
+// stripIgnoredAttributes removes ignored keys and normalises primitive.A
+// slices in-place, avoiding a full deep copy.
+func stripIgnoredAttributes(data map[string]interface{}, ignore []string) {
+	for _, key := range ignore {
+		delete(data, key)
+	}
 	for key, value := range data {
-		ignoreKey := false
-
-		for _, ignoreAttr := range ignore {
-			if key == ignoreAttr {
-				ignoreKey = true
-				break
-			}
-		}
-
-		if !ignoreKey {
-			if reflect.TypeOf(value) == reflect.TypeOf(primitive.A{}) {
-				castedData := value.(primitive.A)
-				var interfaceSlice []interface{} = castedData
-				if len(interfaceSlice) > 0 {
-					if reflect.TypeOf(interfaceSlice[0]) == reflect.TypeOf(int32(1)) {
-						value = interfaceSlice[1:]
-					} else {
-						value = interfaceSlice
-					}
-				} else {
-					value = interfaceSlice
+		switch v := value.(type) {
+		case primitive.A:
+			s := []interface{}(v)
+			if len(s) > 0 {
+				if _, ok := s[0].(int32); ok {
+					s = s[1:]
 				}
 			}
-
-			switch v := value.(type) {
-			case bson.M:
-				result[key] = ignoreAttributes(v, ignore)
-			case []interface{}:
-				var slice []interface{}
-				for _, item := range v {
-					switch item := item.(type) {
-					case []map[string]interface{}:
-						var slice2 []map[string]interface{}
-						for _, item2 := range item {
-							slice2 = append(slice2, ignoreAttributes(item2, ignore))
-						}
-						slice = append(slice, slice2)
-					case bson.M:
-						slice = append(slice, ignoreAttributes(item, ignore))
-					default:
-						slice = append(slice, item)
-					}
+			data[key] = s
+			stripSliceItems(s, ignore)
+		case []interface{}:
+			if len(v) > 0 {
+				if _, ok := v[0].(int32); ok {
+					v = v[1:]
+					data[key] = v
 				}
-				result[key] = slice
-			case []map[string]interface{}:
-				var slice []map[string]interface{}
-				for _, item := range v {
-					slice = append(slice, ignoreAttributes(item, ignore))
-				}
-				result[key] = slice
-			case map[string]interface{}:
-				result[key] = ignoreAttributes(v, ignore)
-			default:
-				result[key] = value
+			}
+			stripSliceItems(v, ignore)
+		case bson.M:
+			stripIgnoredAttributes(v, ignore)
+		case map[string]interface{}:
+			stripIgnoredAttributes(v, ignore)
+		case []bson.M:
+			for _, item := range v {
+				stripIgnoredAttributes(item, ignore)
+			}
+		case []map[string]interface{}:
+			for _, item := range v {
+				stripIgnoredAttributes(item, ignore)
 			}
 		}
 	}
+}
 
-	return result
+func stripSliceItems(s []interface{}, ignore []string) {
+	for _, item := range s {
+		switch m := item.(type) {
+		case bson.M:
+			stripIgnoredAttributes(m, ignore)
+		case map[string]interface{}:
+			stripIgnoredAttributes(m, ignore)
+		}
+	}
 }
 
 func cleanData(data bson.M, raw bool) bson.M {
-	var filteredData bson.M
-	if raw {
-		filteredData = data
-	} else {
-		filteredData = ignoreAttributes(data, ignoredAttributes)
+	if !raw {
+		stripIgnoredAttributes(data, ignoredAttributes)
 	}
-	return filteredData
+	return data
 }
 
 func bsonToMap(data bson.M) map[string]interface{} {
 	result := make(map[string]interface{})
 	for key, value := range data {
-		// log.Infof("Key: %s, Value: %v", key, value)
-		switch value.(type) {
+		switch v := value.(type) {
 		case string, int, bool, int64:
 			result[key] = value
 		case primitive.Binary:
-			data := value.(primitive.Binary).Data
-			encodedData := base64.StdEncoding.EncodeToString(data)
+			encodedData := base64.StdEncoding.EncodeToString(v.Data)
 			result[key] = encodedData
 		case bson.A:
-			// Handle bson.A (array) by converting to slice of interface{}
-			result[key] = convertBsonAToSliceInterface(value.(bson.A))
+			result[key] = convertBsonAToSliceInterface(v)
 		case bson.M:
-			// Handle nested bson.M by recursively converting to map[string]interface{}
-			result[key] = bsonToMap(value.(bson.M))
+			result[key] = bsonToMap(v)
 		case nil:
 			result[key] = nil
 		default:
-			// Handle unknown types (optional: log or return error)
 			fmt.Printf("Unknown type encountered while converting key '%s': %T\n", key, value)
 		}
 	}
@@ -133,22 +110,14 @@ func bsonToMap(data bson.M) map[string]interface{} {
 func convertBsonAToSliceInterface(data bson.A) []interface{} {
 	result := make([]interface{}, 0, len(data))
 	for _, element := range data {
-		switch element.(type) {
+		switch v := element.(type) {
 		case int32:
 			continue
 		case string:
-			result = append(result, element.(string))
+			result = append(result, v)
 		default:
 			result = append(result, bsonToMap(element.(bson.M)))
 		}
 	}
 	return result
-}
-
-func convertMxMicroflowNodeToMap(node *MxMicroflowNode) map[string]interface{} {
-	c := make(map[string]interface{})
-	c["Type"] = node.Type
-	c["ID"] = node.ID
-	c["Attributes"] = node.Attributes
-	return c
 }

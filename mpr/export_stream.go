@@ -213,10 +213,19 @@ func buildExportPlanV2(inputDirectory string, mprPath string) (*exportPlan, erro
 func appendUnitDescriptor(unit MxUnit, contents bson.M, modules *[]MxModule, folders *[]MxFolder, documents *[]exportDocumentDescriptor) {
 	if unit.ContainmentName == "Modules" {
 		name, _ := contents["Name"].(string)
+		fromAppStore, _ := contents["FromAppStore"].(bool)
+		appStoreVersion, _ := contents["AppStoreVersion"].(string)
+		appStoreGuid, _ := contents["AppStoreGuid"].(string)
+		appStoreVersionGuid, _ := contents["AppStoreVersionGuid"].(string)
+		appStorePackageId, _ := contents["AppStorePackageId"].(string)
 		*modules = append(*modules, MxModule{
-			Name:       name,
-			ID:         unit.UnitID,
-			Attributes: contents,
+			Name:                name,
+			ID:                  unit.UnitID,
+			FromAppStore:        fromAppStore,
+			AppStoreVersion:     appStoreVersion,
+			AppStoreGuid:        appStoreGuid,
+			AppStoreVersionGuid: appStoreVersionGuid,
+			AppStorePackageId:   appStorePackageId,
 		})
 	}
 
@@ -226,10 +235,9 @@ func appendUnitDescriptor(unit MxUnit, contents bson.M, modules *[]MxModule, fol
 			name, _ = contents["Name"].(string)
 		}
 		*folders = append(*folders, MxFolder{
-			Name:       name,
-			ID:         unit.UnitID,
-			ParentID:   unit.ContainerID,
-			Attributes: contents,
+			Name:     name,
+			ID:       unit.UnitID,
+			ParentID: unit.ContainerID,
 		})
 	}
 
@@ -281,13 +289,7 @@ func exportDocumentsFromPlan(plan *exportPlan, outputDirectory string, raw bool,
 		}
 
 		if docType, _ := attributes["$Type"].(string); docType == microflowDocumentType {
-			enriched := enrichMicroflowDocument(MxDocument{
-				Name:       document.Name,
-				Type:       document.Type,
-				Path:       document.Path,
-				Attributes: attributes,
-			})
-			attributes = enriched.Attributes
+			addMicroflowPseudocode(document.Name, attributes)
 		}
 
 		if err := writeDocumentToDisk(document, outputDirectory, cleanData(attributes, raw)); err != nil {
