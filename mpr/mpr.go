@@ -258,10 +258,19 @@ func getMxModules(units []MxUnit) []MxModule {
 	modules := make([]MxModule, 0)
 	for _, unit := range units {
 		if unit.ContainmentName == "Modules" {
+			fromAppStore, _ := unit.Contents["FromAppStore"].(bool)
+			appStoreVersion, _ := unit.Contents["AppStoreVersion"].(string)
+			appStoreGuid, _ := unit.Contents["AppStoreGuid"].(string)
+			appStoreVersionGuid, _ := unit.Contents["AppStoreVersionGuid"].(string)
+			appStorePackageId, _ := unit.Contents["AppStorePackageId"].(string)
 			myModule := MxModule{
-				Name:       unit.Contents["Name"].(string),
-				ID:         unit.UnitID,
-				Attributes: unit.Contents,
+				Name:                unit.Contents["Name"].(string),
+				ID:                  unit.UnitID,
+				FromAppStore:        fromAppStore,
+				AppStoreVersion:     appStoreVersion,
+				AppStoreGuid:        appStoreGuid,
+				AppStoreVersionGuid: appStoreVersionGuid,
+				AppStorePackageId:   appStorePackageId,
 			}
 			modules = append(modules, myModule)
 		}
@@ -275,32 +284,26 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 		if unit.ContainmentName == "Folders" || unit.ContainmentName == "Modules" {
 			log.Debugf("Unit: %v", unit.ContainmentName)
 			myFolder := MxFolder{
-				Name:       unit.Contents["Name"].(string),
-				ID:         unit.UnitID,
-				ParentID:   unit.ContainerID,
-				Attributes: unit.Contents,
-				Parent:     nil,
+				Name:     unit.Contents["Name"].(string),
+				ID:       unit.UnitID,
+				ParentID: unit.ContainerID,
 			}
 			folders = append(folders, myFolder)
 		} else if unit.ContainmentName == "" {
 			myFolder := MxFolder{
-				Name:       "",
-				ID:         unit.UnitID,
-				ParentID:   unit.ContainerID,
-				Attributes: unit.Contents,
-				Parent:     nil,
+				Name:     "",
+				ID:       unit.UnitID,
+				ParentID: unit.ContainerID,
 			}
 			folders = append(folders, myFolder)
 		}
 	}
 
-	// Temporary map to hold folder references for easy lookup.
 	folderMap := make(map[string]*MxFolder)
 	for i := range folders {
 		folderMap[folders[i].ID] = &folders[i]
 	}
 
-	// Set up the parent references.
 	for i, folder := range folders {
 		if parent, exists := folderMap[folder.ParentID]; exists && folder.ParentID != folder.ID {
 			folders[i].Parent = parent
@@ -523,7 +526,7 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 			}
 
 			if unit.Contents["$Type"] == microflowDocumentType {
-				myDocument = enrichMicroflowDocument(myDocument)
+				addMicroflowPseudocode(myDocument.Name, unit.Contents)
 			}
 			documents = append(documents, myDocument)
 		}
@@ -637,8 +640,8 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 }
 
 func renderYAML(contents map[string]interface{}) ([]byte, error) {
-	normalizedContents := normalizeMultilineValues(contents)
-	yamlstring, err := yaml.Marshal(normalizedContents)
+	normalizeMultilineValuesInPlace(contents)
+	yamlstring, err := yaml.Marshal(contents)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling: %v", err)
 	}
@@ -748,50 +751,47 @@ func (s literalBlockMultilineString) MarshalYAML() (interface{}, error) {
 	}, nil
 }
 
-// normalizeMultilineValues normalizes indentation in multiline string values recursively
-// and forces multiline strings to be encoded as double-quoted scalars.
-func normalizeMultilineValues(v interface{}) interface{} {
+// normalizeMultilineValuesInPlace normalizes indentation in multiline string
+// values recursively, modifying maps and slices in-place rather than
+// allocating copies.
+func normalizeMultilineValuesInPlace(v interface{}) {
 	switch value := v.(type) {
 	case bson.M:
-		result := make(bson.M, len(value))
 		for k, item := range value {
-			result[k] = normalizeMultilineValues(item)
+			value[k] = normalizeMultilineValue(item)
 		}
-		return result
 	case map[string]interface{}:
-		result := make(map[string]interface{}, len(value))
 		for k, item := range value {
-			result[k] = normalizeMultilineValues(item)
+			value[k] = normalizeMultilineValue(item)
 		}
-		return result
-	case []bson.M:
-		result := make([]bson.M, len(value))
-		for i, item := range value {
-			normalized := normalizeMultilineValues(item)
-			if itemMap, ok := normalized.(bson.M); ok {
-				result[i] = itemMap
-			} else {
-				result[i] = item
-			}
-		}
-		return result
-	case []map[string]interface{}:
-		result := make([]map[string]interface{}, len(value))
-		for i, item := range value {
-			normalized := normalizeMultilineValues(item)
-			if itemMap, ok := normalized.(map[string]interface{}); ok {
-				result[i] = itemMap
-			} else {
-				result[i] = item
-			}
-		}
-		return result
 	case []interface{}:
-		result := make([]interface{}, len(value))
 		for i, item := range value {
-			result[i] = normalizeMultilineValues(item)
+			value[i] = normalizeMultilineValue(item)
 		}
-		return result
+	}
+}
+
+func normalizeMultilineValue(v interface{}) interface{} {
+	switch value := v.(type) {
+	case bson.M:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case map[string]interface{}:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case []interface{}:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case []bson.M:
+		for _, item := range value {
+			normalizeMultilineValuesInPlace(item)
+		}
+		return value
+	case []map[string]interface{}:
+		for _, item := range value {
+			normalizeMultilineValuesInPlace(item)
+		}
+		return value
 	case string:
 		normalized := normalizeMultilineString(value)
 		if strings.Contains(normalized, "\n") {
@@ -892,22 +892,8 @@ func removeAppstoreModules(tmpDir string, modules []MxModule) error {
 	return nil
 }
 
-// isAppstoreModule checks if a module is an appstore module based on its attributes
 func isAppstoreModule(module MxModule) bool {
-	// Check for appstore module indicators
-	if module.Attributes == nil {
-		return false
-	}
-
-	// Check if module has appstore specific attributes
-	if _, ok := module.Attributes["FromAppStore"]; ok {
-		fromAppStore := module.Attributes["FromAppStore"].(bool)
-		if fromAppStore {
-			return true
-		}
-	}
-
-	return false
+	return module.FromAppStore
 }
 
 // syncDirectories synchronizes the contents of src to dst

@@ -429,40 +429,26 @@ func TestIsAppstoreModule(t *testing.T) {
 		{
 			name: "appstore module",
 			module: MxModule{
-				Name: "AppStoreModule",
-				ID:   "1",
-				Attributes: map[string]interface{}{
-					"FromAppStore": true,
-				},
+				Name:         "AppStoreModule",
+				ID:           "1",
+				FromAppStore: true,
 			},
 			expected: true,
 		},
 		{
 			name: "not appstore module",
 			module: MxModule{
+				Name:         "CustomModule",
+				ID:           "2",
+				FromAppStore: false,
+			},
+			expected: false,
+		},
+		{
+			name: "default zero value",
+			module: MxModule{
 				Name: "CustomModule",
-				ID:   "2",
-				Attributes: map[string]interface{}{
-					"FromAppStore": false,
-				},
-			},
-			expected: false,
-		},
-		{
-			name: "no appstore attribute",
-			module: MxModule{
-				Name:       "CustomModule",
-				ID:         "3",
-				Attributes: map[string]interface{}{},
-			},
-			expected: false,
-		},
-		{
-			name: "nil attributes",
-			module: MxModule{
-				Name:       "CustomModule",
-				ID:         "4",
-				Attributes: nil,
+				ID:   "3",
 			},
 			expected: false,
 		},
@@ -923,18 +909,14 @@ func TestRemoveAppstoreModules(t *testing.T) {
 
 	modules := []MxModule{
 		{
-			Name: "AppStoreModule",
-			ID:   "1",
-			Attributes: map[string]interface{}{
-				"FromAppStore": true,
-			},
+			Name:         "AppStoreModule",
+			ID:           "1",
+			FromAppStore: true,
 		},
 		{
-			Name: "CustomModule",
-			ID:   "2",
-			Attributes: map[string]interface{}{
-				"FromAppStore": false,
-			},
+			Name:         "CustomModule",
+			ID:           "2",
+			FromAppStore: false,
 		},
 	}
 

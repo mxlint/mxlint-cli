@@ -15,54 +15,28 @@ type MxUnit struct {
 }
 
 type MxDocument struct {
-	Name       string                 `yaml:"Name"`
-	Type       string                 `yaml:"Type"`
-	Path       string                 `yaml:"Path"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-	ContentsHash string               `yaml:"ContentsHash,omitempty"`
+	Name         string                 `yaml:"Name"`
+	Type         string                 `yaml:"Type"`
+	Path         string                 `yaml:"Path"`
+	Attributes   map[string]interface{} `yaml:"Attributes"`
+	ContentsHash string                 `yaml:"ContentsHash,omitempty"`
 }
 
 type MxModule struct {
-	Name       string                 `yaml:"Name"`
-	ID         string                 `yaml:"ID"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
+	Name                string `yaml:"Name"`
+	ID                  string `yaml:"ID"`
+	FromAppStore        bool   `yaml:"FromAppStore,omitempty"`
+	AppStoreVersion     string `yaml:"AppStoreVersion,omitempty"`
+	AppStoreGuid        string `yaml:"AppStoreGuid,omitempty"`
+	AppStoreVersionGuid string `yaml:"AppStoreVersionGuid,omitempty"`
+	AppStorePackageId   string `yaml:"AppStorePackageId,omitempty"`
 }
 
 type MxFolder struct {
-	Name       string                 `yaml:"Name"`
-	ID         string                 `yaml:"ID"`
-	ParentID   string                 `yaml:"ParentID"`
-	Parent     *MxFolder              `yaml:"Parent"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxMicroflow struct {
-	Name       string                 `yaml:"Name"`
-	ID         string                 `yaml:"ID"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxMicroflowEdge struct {
-	Type        string                 `yaml:"Type"`
-	ID          string                 `yaml:"ID"`
-	Origin      string                 `yaml:"Origin"`
-	Destination string                 `yaml:"Destination"`
-	Attributes  map[string]interface{} `yaml:"Attributes"`
-}
-type MxMicroflowObject struct {
-	Type        string                 `yaml:"Type"`
-	ID          string                 `yaml:"ID"`
-	Origin      string                 `yaml:"Origin"`
-	Destination string                 `yaml:"Destination"`
-	Attributes  map[string]interface{} `yaml:"Attributes"`
-}
-
-type MxMicroflowNode struct {
-	Type       string                 `yaml:"Type"`
-	ID         string                 `yaml:"ID"`
-	Attributes map[string]interface{} `yaml:"Attributes"`
-	Parent     *MxMicroflowNode
-	Children   *[]MxMicroflowNode
+	Name     string    `yaml:"Name"`
+	ID       string    `yaml:"ID"`
+	ParentID string    `yaml:"ParentID"`
+	Parent   *MxFolder `yaml:"Parent"`
 }
 
 type MxID struct {

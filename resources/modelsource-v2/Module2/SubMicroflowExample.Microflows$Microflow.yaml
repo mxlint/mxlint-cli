@@ -9,20 +9,29 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-    - Attributes:
-        $Type: Microflows$StartEvent
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -30;0
-            OriginControlVector: 15;0
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: SubMicroflowExample
+ObjectCollection:
+    $Type: Microflows$MicroflowObjectCollection
+    Objects:
+        - $Type: Microflows$StartEvent
+        - $Type: Microflows$EndEvent
+          Documentation: ""
+          ReturnValue: ""
+        - $Type: Microflows$MicroflowParameter
+          DefaultValue: ""
+          Documentation: ""
+          HasVariableNameBeenChanged: false
+          IsRequired: true
+          Name: User
+          VariableType:
+            $Type: DataTypes$ObjectType
+            Entity: System.User
+        - $Type: Microflows$ActionActivity
+          Action:
             $Type: Microflows$LogMessageAction
             ErrorHandlingType: Rollback
             IncludeLatestStackTrace: false
@@ -30,118 +39,47 @@ MainFunction:
             MessageTemplate:
                 $Type: Microflows$StringTemplate
                 Parameters:
-                    - $ID: fzpeCz9EJ0euoHen2mxcIQ==
-                      $Type: Microflows$TemplateParameter
+                    - $Type: Microflows$TemplateParameter
                       Expression: $User/Name
                 Text: Hello {1}
             Node: '''Example'''
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -30;0
-            OriginControlVector: 30;0
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
+          AutoGenerateCaption: true
+          BackgroundColor: Default
+          Caption: Activity
+          Disabled: false
+          Documentation: ""
+        - $Type: Microflows$ExclusiveSplit
+          Caption: more than 0?
+          Documentation: ""
+          ErrorHandlingType: Rollback
+          SplitCondition:
+            $Type: Microflows$ExpressionSplitCondition
+            Expression: $counter > 0
+        - $Type: Microflows$ActionActivity
+          Action:
             $Type: Microflows$CreateVariableAction
             ErrorHandlingType: Rollback
             InitialValue: "10"
             VariableName: counter
             VariableType:
                 $Type: DataTypes$IntegerType
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -15;0
-            OriginControlVector: 30;0
-    - Attributes:
-        $Type: Microflows$ExclusiveMerge
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -15;0
-            OriginControlVector: 15;0
-    - Attributes:
-        $Type: Microflows$ExclusiveSplit
-        Caption: more than 0?
-        Documentation: ""
-        ErrorHandlingType: Rollback
-        SplitCondition:
-            $Type: Microflows$ExpressionSplitCondition
-            Expression: $counter > 0
-      Splits:
-        - - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues:
-                    - $ID: ckJSVPWxw0CZrqKfFsuO5A==
-                      $Type: Microflows$EnumerationCase
-                      Value: "false"
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: -15;0
-                    OriginControlVector: 15;0
-          - Attributes:
-                $Type: Microflows$EndEvent
-                Documentation: ""
-                ReturnValue: ""
-        - - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues:
-                    - $ID: JTA1JyHlTkOWjStmhI0qGg==
-                      $Type: Microflows$EnumerationCase
-                      Value: "true"
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: 0;-30
-                    OriginControlVector: 0;15
-          - Attributes:
-                $Type: Microflows$ActionActivity
-                Action:
-                    $Type: Microflows$ChangeVariableAction
-                    ChangeVariableName: counter
-                    ErrorHandlingType: Rollback
-                    Value: $counter - 1
-                AutoGenerateCaption: true
-                BackgroundColor: Default
-                Caption: Activity
-                Disabled: false
-                Documentation: ""
-          - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues: []
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: 0;15
-                    OriginControlVector: -30;0
-          - Attributes:
-                $Type: Microflows$ExclusiveMerge
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: SubMicroflowExample
+          AutoGenerateCaption: true
+          BackgroundColor: Default
+          Caption: Activity
+          Disabled: false
+          Documentation: ""
+        - $Type: Microflows$ExclusiveMerge
+        - $Type: Microflows$ActionActivity
+          Action:
+            $Type: Microflows$ChangeVariableAction
+            ChangeVariableName: counter
+            ErrorHandlingType: Rollback
+            Value: $counter - 1
+          AutoGenerateCaption: true
+          BackgroundColor: Default
+          Caption: Activity
+          Disabled: false
+          Documentation: ""
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
