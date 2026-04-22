@@ -335,6 +335,43 @@ func TestCountTotalTestcases(t *testing.T) {
 	}
 }
 
+func TestFormatTestcaseName(t *testing.T) {
+	tests := []struct {
+		name            string
+		inputFilePath   string
+		modelSourcePath string
+		expected        string
+	}{
+		{
+			name:            "relative path strips modelsource prefix",
+			inputFilePath:   "modelsource-v2/Security$ProjectSecurity.yaml",
+			modelSourcePath: "modelsource-v2",
+			expected:        "Security$ProjectSecurity.yaml",
+		},
+		{
+			name:            "absolute path strips modelsource prefix",
+			inputFilePath:   "/tmp/project/modelsource-v2/Module2/DomainModels$DomainModel.yaml",
+			modelSourcePath: "/tmp/project/modelsource-v2",
+			expected:        "Module2/DomainModels$DomainModel.yaml",
+		},
+		{
+			name:            "outside modelsource falls back to basename",
+			inputFilePath:   "/tmp/project/other/path/file.yaml",
+			modelSourcePath: "/tmp/project/modelsource-v2",
+			expected:        "file.yaml",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actual := formatTestcaseName(tt.inputFilePath, tt.modelSourcePath)
+			if actual != tt.expected {
+				t.Fatalf("expected %q, got %q", tt.expected, actual)
+			}
+		})
+	}
+}
+
 func TestReadRulesMetadata(t *testing.T) {
 	t.Run("read rules from resources directory", func(t *testing.T) {
 		rules, err := ReadRulesMetadata("./../resources/rules")
