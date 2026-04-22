@@ -244,6 +244,34 @@ func TestLoadMergedConfigFromPath_MissingExplicitReturnsError(t *testing.T) {
 	}
 }
 
+func TestLoadMergedConfigFromPath_ExplicitCanClearRulesets(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+
+	projectConfig := `rules:
+  rulesets:
+    - file://project-rules
+`
+	explicitConfig := `rules:
+  rulesets: []
+`
+	explicitPath := filepath.Join(projectDir, "custom.yaml")
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+	if err := os.WriteFile(explicitPath, []byte(explicitConfig), 0644); err != nil {
+		t.Fatalf("failed to write explicit config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfigFromPath(projectDir, "custom.yaml")
+	if err != nil {
+		t.Fatalf("LoadMergedConfigFromPath returned error: %v", err)
+	}
+	if len(cfg.Rules.Rulesets) != 0 {
+		t.Fatalf("expected explicit rulesets to clear inherited rulesets, got %#v", cfg.Rules.Rulesets)
+	}
+}
+
 func TestShouldSkipRule_ConfigSkipPathVariants(t *testing.T) {
 	setDefaultConfigForTest(t, "")
 	t.Cleanup(func() {

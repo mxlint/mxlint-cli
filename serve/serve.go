@@ -204,7 +204,13 @@ func runServe(cmd *cobra.Command, args []string) {
 		}()
 
 		log.Infof("Running export and lint")
-		err := mpr.ExportModel(inputDirectory, outputDirectory, false, false, "")
+		err := mpr.ExportModel(
+			inputDirectory,
+			outputDirectory,
+			boolValue(config.Export.Raw, false),
+			boolValue(config.Export.Appstore, false),
+			config.Export.Filter,
+		)
 		if err != nil {
 			log.Warningf("Export failed: %s", err)
 			resultMutex.Lock()
@@ -231,7 +237,14 @@ func runServe(cmd *cobra.Command, args []string) {
 					lintErr = fmt.Errorf("lint operation panicked: %v", r)
 				}
 			}()
-			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "", false, boolValue(config.Cache.Enable, true))
+			results, lintErr = lint.EvalAllWithResults(
+				rulesDirectory,
+				outputDirectory,
+				"",
+				"",
+				boolValue(config.Lint.IgnoreNoqa, false),
+				effectiveLintUseCacheForServe(config),
+			)
 		}()
 
 		if lintErr != nil {
@@ -336,6 +349,16 @@ func boolValue(value *bool, fallback bool) bool {
 		return fallback
 	}
 	return *value
+}
+
+func effectiveLintUseCacheForServe(config *lint.Config) bool {
+	if config == nil {
+		return true
+	}
+	if boolValue(config.Lint.NoCache, false) {
+		return false
+	}
+	return boolValue(config.Cache.Enable, true)
 }
 
 func configureCacheForServe(config *lint.Config, projectDir string) {

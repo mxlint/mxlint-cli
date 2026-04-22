@@ -26,6 +26,34 @@ type Config struct {
 type ConfigRulesSpec struct {
 	Path     string   `yaml:"path"`
 	Rulesets []string `yaml:"rulesets"`
+	rulesetsSet bool
+}
+
+func (c *ConfigRulesSpec) UnmarshalYAML(value *yaml.Node) error {
+	type configRulesSpecAlias struct {
+		Path     string   `yaml:"path"`
+		Rulesets []string `yaml:"rulesets"`
+	}
+
+	var decoded configRulesSpecAlias
+	if err := value.Decode(&decoded); err != nil {
+		return err
+	}
+
+	c.Path = decoded.Path
+	c.Rulesets = append([]string{}, decoded.Rulesets...)
+	c.rulesetsSet = false
+
+	if value.Kind == yaml.MappingNode {
+		for i := 0; i+1 < len(value.Content); i += 2 {
+			if value.Content[i].Value == "rulesets" {
+				c.rulesetsSet = true
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 type ConfigExportSpec struct {
@@ -267,7 +295,7 @@ func mergeConfig(base *Config, overlay *Config) {
 	if strings.TrimSpace(overlay.Rules.Path) != "" {
 		base.Rules.Path = strings.TrimSpace(overlay.Rules.Path)
 	}
-	if len(overlay.Rules.Rulesets) > 0 {
+	if overlay.Rules.rulesetsSet {
 		base.Rules.Rulesets = append([]string{}, overlay.Rules.Rulesets...)
 	}
 

@@ -130,7 +130,7 @@ func main() {
 				config.Lint.XunitReport,
 				config.Lint.JSONFile,
 				boolValue(config.Lint.IgnoreNoqa, false),
-				boolValue(config.Cache.Enable, true),
+				effectiveLintUseCache(config),
 			)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
@@ -321,6 +321,16 @@ func boolValue(value *bool, fallback bool) bool {
 		return fallback
 	}
 	return *value
+}
+
+func effectiveLintUseCache(config *lint.Config) bool {
+	if config == nil {
+		return true
+	}
+	if boolValue(config.Lint.NoCache, false) {
+		return false
+	}
+	return boolValue(config.Cache.Enable, true)
 }
 
 func isVerbose(cmd *cobra.Command) bool {
