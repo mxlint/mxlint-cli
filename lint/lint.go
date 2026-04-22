@@ -324,6 +324,9 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 			}
 		}
 
+		// Normalize testcase name for output consistency regardless of cache source.
+		testcase.Name = formatTestcaseName(inputFile, modelSourcePath)
+
 		if testcase.Failure != nil {
 			failuresCount++
 		}
@@ -376,6 +379,24 @@ func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, ca
 	}
 
 	return testcase, nil
+}
+
+func formatTestcaseName(inputFilePath string, modelSourcePath string) string {
+	trimmedInput := strings.TrimSpace(inputFilePath)
+	if trimmedInput == "" {
+		return ""
+	}
+
+	if modelSourcePath != "" {
+		if relPath, err := filepath.Rel(modelSourcePath, inputFilePath); err == nil {
+			normalized := filepath.ToSlash(relPath)
+			if normalized != "." && !strings.HasPrefix(normalized, "../") {
+				return normalized
+			}
+		}
+	}
+
+	return filepath.ToSlash(filepath.Base(inputFilePath))
 }
 
 func ReadRulesMetadata(rulesPath string) ([]Rule, error) {
