@@ -7,11 +7,12 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"sync"
 )
 
-const cacheVersion = "v1"
+const cacheVersion = "v2"
 
 var cacheDirConfig = struct {
 	mu  sync.RWMutex
@@ -32,8 +33,9 @@ func getConfiguredCacheDirectory() string {
 
 // CacheKey represents the unique identifier for a cached result
 type CacheKey struct {
-	RuleHash  string `json:"rule_hash"`
-	InputHash string `json:"input_hash"`
+	RuleHash   string `json:"rule_hash"`
+	InputHash  string `json:"input_hash"`
+	ConfigHash string `json:"config_hash"`
 }
 
 // CachedTestcase represents a cached testcase result
@@ -98,10 +100,61 @@ func createCacheKey(rulePath string, inputFilePath string) (*CacheKey, error) {
 		return nil, err
 	}
 
+	configHash := computeCacheConfigHash()
+
 	return &CacheKey{
-		RuleHash:  ruleHash,
-		InputHash: inputHash,
+		RuleHash:   ruleHash,
+		InputHash:  inputHash,
+		ConfigHash: configHash,
 	}, nil
+}
+
+// computeCacheConfigHash returns a stable hash of config fields that can
+// influence lint outcomes while still allowing cache reuse when irrelevant
+// settings (e.g. verbosity) change.
+func computeCacheConfigHash() string {
+	cfg := getConfig()
+	if cfg == nil || len(cfg.Lint.Skip) == 0 {
+		sum := sha256.Sum256([]byte("skip:{}"))
+		return fmt.Sprintf("%x", sum[:])
+	}
+
+	normalizedSkip := map[string][]ConfigSkipRule{}
+	keys := make([]string, 0, len(cfg.Lint.Skip))
+	for path, entries := range cfg.Lint.Skip {
+		normalizedPath := normalizeSkipPath(path)
+		if normalizedPath == "" {
+			continue
+		}
+		if _, exists := normalizedSkip[normalizedPath]; !exists {
+			keys = append(keys, normalizedPath)
+		}
+		normalizedSkip[normalizedPath] = append([]ConfigSkipRule{}, entries...)
+	}
+	slices.Sort(keys)
+
+	var builder strings.Builder
+	builder.WriteString("skip:{")
+	for _, key := range keys {
+		builder.WriteString(key)
+		builder.WriteString("=[")
+		entries := normalizedSkip[key]
+		for idx, entry := range entries {
+			if idx > 0 {
+				builder.WriteString(",")
+			}
+			builder.WriteString(entry.Rule)
+			builder.WriteString("|")
+			builder.WriteString(entry.Reason)
+			builder.WriteString("|")
+			builder.WriteString(entry.Date)
+		}
+		builder.WriteString("];")
+	}
+	builder.WriteString("}")
+
+	sum := sha256.Sum256([]byte(builder.String()))
+	return fmt.Sprintf("%x", sum[:])
 }
 
 // loadCachedTestcase loads a testcase from cache if it exists
@@ -139,7 +192,9 @@ func loadCachedTestcase(cacheKey CacheKey) (*Testcase, bool) {
 	}
 
 	// Verify cache key matches
-	if cached.CacheKey.RuleHash != cacheKey.RuleHash || cached.CacheKey.InputHash != cacheKey.InputHash {
+	if cached.CacheKey.RuleHash != cacheKey.RuleHash ||
+		cached.CacheKey.InputHash != cacheKey.InputHash ||
+		cached.CacheKey.ConfigHash != cacheKey.ConfigHash {
 		log.Debugf("Cache key mismatch")
 		return nil, false
 	}
