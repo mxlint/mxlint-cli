@@ -795,6 +795,10 @@ func normalizeMultilineValue(v interface{}) interface{} {
 	case string:
 		normalized := normalizeMultilineString(value)
 		if strings.Contains(normalized, "\n") {
+			normalized = strings.TrimLeft(normalized, "\n")
+			if !strings.Contains(normalized, "\n") {
+				return normalized
+			}
 			if startsWithWhitespace(normalized) {
 				return doubleQuotedMultilineString(normalized)
 			}
