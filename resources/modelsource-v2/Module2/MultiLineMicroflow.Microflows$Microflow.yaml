@@ -63,40 +63,4 @@ ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
-pseudocode: |-
-    MICROFLOW: MultiLineMicroflow
-    RETURN TYPE: void
-
-    PSEUDOCODE
-    ----------
-    BEGIN
-
-      IF if $currentUser/Name = 'Hello' then
-    true
-    else if $currentUser/Active then
-    true
-    else if $currentUser/Blocked then
-    false
-        else if $currentUser/FailedLogins > 0 then
-    false
-
-    else
-    false THEN
-        GOTO L001
-      ELSE
-        GOTO L002
-      END IF
-
-      LABEL L001
-      currentUser.Name =     if $currentUser/Name = 'a' then
-    'b'
-    else if $currentUser/Name = 'b' then
-    'c'
-    else
-    $currentUser/Name
-
-
-
-      LABEL L002
-
-    END
+pseudocode: "MICROFLOW: MultiLineMicroflow\nRETURN TYPE: void\n\nPSEUDOCODE\n----------\nBEGIN\n\n  IF \n\nif $currentUser/Name = 'Hello' then\ntrue\nelse if $currentUser/Active then\ntrue\nelse if $currentUser/Blocked then\nfalse\n    else if $currentUser/FailedLogins > 0 then\nfalse\n\nelse\nfalse THEN\n    GOTO L001\n  ELSE\n    GOTO L002\n  END IF\n\n  LABEL L001\n  currentUser.Name =     if $currentUser/Name = 'a' then\n'b'\nelse if $currentUser/Name = 'b' then\n'c'\nelse\n$currentUser/Name\n\n\n\n  LABEL L002\n\nEND"
