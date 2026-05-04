@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/evanw/esbuild v0.28.0
-	github.com/fsnotify/fsnotify v1.9.0
+	github.com/fsnotify/fsnotify v1.10.1
 	github.com/glebarez/go-sqlite v1.22.0
 	github.com/grafana/sobek v0.0.0-20251124090928-9a028a30ff58
 	github.com/open-policy-agent/opa v1.15.2
