@@ -9,6 +9,8 @@ lint:
   noCache: false
   concurrency: 4
   regoTrace: false
+  # skip: maps document path (relative to model source, or absolute) to rules to skip.
+  # Use the map key "*" (quoted in YAML: "*") to apply the listed rules to every document, after path-specific entries.
   skip: {}
 cache:
   directory: .mendix-cache/mxlint

@@ -15,6 +15,7 @@ func TestNormalizeSkipPath(t *testing.T) {
 		{name: "leading slash", input: "/example/doc.yaml", expected: "example/doc.yaml"},
 		{name: "collapse separators", input: "example//nested/../doc", expected: "example/doc"},
 		{name: "dot path becomes empty", input: ".", expected: ""},
+		{name: "all-documents wildcard key", input: "*", expected: "*"},
 	}
 
 	for _, tt := range tests {
@@ -129,4 +130,53 @@ func TestShouldSkipByConfig(t *testing.T) {
 			t.Fatalf("expected empty reason, got %q", reason)
 		}
 	})
+}
+
+func TestShouldSkipByConfig_AllDocumentsWildcard(t *testing.T) {
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				skipPathAllDocuments: {
+					{Rule: "001_002", Reason: "skip everywhere"},
+				},
+			},
+		},
+	})
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	skip, reason := shouldSkipByConfig("/tmp/modelsource/example/other.yaml", "001_002", "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected skip=true for lint.skip document path *")
+	}
+	if reason != "skip everywhere" {
+		t.Fatalf("expected global skip reason, got %q", reason)
+	}
+}
+
+func TestShouldSkipByConfig_PathSpecificBeforeAllDocumentsWildcard(t *testing.T) {
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				skipPathAllDocuments: {
+					{Rule: "001_002", Reason: "from star"},
+				},
+				"example/doc": {
+					{Rule: "001_002", Reason: "from path"},
+				},
+			},
+		},
+	})
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	skip, reason := shouldSkipByConfig("/tmp/modelsource/example/doc.yaml", "001_002", "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected skip=true")
+	}
+	if reason != "from path" {
+		t.Fatalf("expected path-specific skip to win, got %q", reason)
+	}
 }
