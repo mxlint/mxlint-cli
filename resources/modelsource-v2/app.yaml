@@ -37,6 +37,9 @@ content:
         - name: MicroflowLoopExample.Microflows$Microflow.yaml
           type: file
           path: Module2/MicroflowLoopExample.Microflows$Microflow.yaml
+        - name: MicroflowNonPersist.Microflows$Microflow.yaml
+          type: file
+          path: Module2/MicroflowNonPersist.Microflows$Microflow.yaml
         - name: MultiLineMicroflow.Microflows$Microflow.yaml
           type: file
           path: Module2/MultiLineMicroflow.Microflows$Microflow.yaml
