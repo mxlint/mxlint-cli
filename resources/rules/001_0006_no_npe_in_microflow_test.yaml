@@ -1,0 +1,33 @@
+TestCases:
+- name: allow when Name is set
+  allow: true
+  input:
+    Name: MicroflowNonPersist
+    ObjectCollection:
+        $Type: Microflows$MicroflowObjectCollection
+        Objects:
+            - $Type: Microflows$StartEvent
+            - $Type: Microflows$EndEvent
+              Documentation: ""
+              ReturnValue: ""
+
+- name: deny when NonPersistentEntity is used
+  allow: false
+  input:
+    Name: MicroflowNonPersist
+    ObjectCollection:
+        $Type: Microflows$MicroflowObjectCollection
+        Objects:
+            - $Type: Microflows$StartEvent
+            - $Type: Microflows$EndEvent
+              Documentation: ""
+              ReturnValue: ""
+            - $Type: Microflows$ActionActivity
+              Action:
+                $Type: Microflows$CreateChangeAction
+                Commit: "No"
+                Entity: Module2.EntityNonPersist
+                ErrorHandlingType: Rollback
+                Items: []
+                RefreshInClient: false
+                VariableName: NewEntityNonPersist
