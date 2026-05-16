@@ -30,7 +30,7 @@ func TestMPRV2Metadata(t *testing.T) {
 			t.Errorf("Failed to decode metadata file: %v", err)
 		}
 		// check metadata
-		expectedProductVersion := "10.24.9.81004"
+		expectedProductVersion := "10.24.16.96987"
 		if metadataObj.ProductVersion != expectedProductVersion {
 			t.Errorf("ProductVersion is incorrect. Expected: %s, Got: %s", expectedProductVersion, metadataObj.ProductVersion)
 		}
