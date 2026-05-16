@@ -13,6 +13,9 @@ import (
 
 const configFileName = "mxlint.yaml"
 
+// skipPathAllDocuments is the lint.skip map key that applies listed rules to every document.
+const skipPathAllDocuments = "*"
+
 type Config struct {
 	Rules            ConfigRulesSpec  `yaml:"rules"`
 	Lint             ConfigLintSpec   `yaml:"lint"`
@@ -352,6 +355,15 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 }
 
+func matchConfigSkipRules(entries []ConfigSkipRule, ruleNumber string) (bool, string) {
+	for _, entry := range entries {
+		if entry.Rule == "" || entry.Rule == "*" || entry.Rule == ruleNumber {
+			return true, formatConfigSkipReason(entry)
+		}
+	}
+	return false, ""
+}
+
 func shouldSkipByConfig(inputFilePath string, ruleNumber string, modelSourcePath string) (bool, string) {
 	cfg := getConfig()
 	if cfg == nil || len(cfg.Lint.Skip) == 0 {
@@ -363,12 +375,13 @@ func shouldSkipByConfig(inputFilePath string, ruleNumber string, modelSourcePath
 		if !ok {
 			continue
 		}
-
-		for _, entry := range entries {
-			if entry.Rule == "" || entry.Rule == "*" || entry.Rule == ruleNumber {
-				return true, formatConfigSkipReason(entry)
-			}
+		if skip, reason := matchConfigSkipRules(entries, ruleNumber); skip {
+			return true, reason
 		}
+	}
+
+	if entries, ok := cfg.Lint.Skip[skipPathAllDocuments]; ok {
+		return matchConfigSkipRules(entries, ruleNumber)
 	}
 
 	return false, ""

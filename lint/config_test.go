@@ -355,6 +355,41 @@ func TestLoadMergedConfig_NormalizesSkipMapKeys(t *testing.T) {
 	}
 }
 
+func TestLoadMergedConfig_SkipAllDocumentsWildcardKey(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+	projectConfig := `lint:
+  skip:
+    "*":
+      - rule: "001_002"
+        reason: global doc skip
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+
+	if _, ok := cfg.Lint.Skip["*"]; !ok {
+		t.Fatalf("expected skip key *, got %#v", cfg.Lint.Skip)
+	}
+	SetConfig(cfg)
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	skip, reason := shouldSkipRule("", "001_002", true, "/tmp/modelsource/any/nested/file.yaml", "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected lint.skip * document path to match any file")
+	}
+	if reason != "global doc skip" {
+		t.Fatalf("expected configured reason, got %s", reason)
+	}
+}
+
 func TestLoadMergedConfig_LintConcurrencyAndTrace(t *testing.T) {
 	projectDir := t.TempDir()
 	setDefaultConfigForTest(t, "")

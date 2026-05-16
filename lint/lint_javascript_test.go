@@ -159,6 +159,223 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	})
 }
 
+func TestSetupJavascriptVM_MxlintReadYaml(t *testing.T) {
+	tempDir := t.TempDir()
+
+	yamlContent := `$Type: DomainModels$DomainModel
+Entities:
+    - Name: EntityNonPersist
+      MaybeGeneralization:
+        Persistable: false
+`
+	yamlPath := filepath.Join(tempDir, "model.yaml")
+	if err := os.WriteFile(yamlPath, []byte(yamlContent), 0644); err != nil {
+		t.Fatalf("Failed to create test yaml file: %v", err)
+	}
+
+	t.Run("read yaml with relative path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `const doc = mxlint.io.readYaml("model.yaml");
+doc.$Type === "DomainModels$DomainModel" && doc.Entities[0].Name === "EntityNonPersist"`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if !result.ToBoolean() {
+			t.Errorf("Expected parsed YAML object, got %v", result.Export())
+		}
+	})
+
+	t.Run("read nonexistent yaml throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readYaml("nonexistent.yaml");
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() == "no error" {
+			t.Error("Expected an error when reading nonexistent yaml file")
+		}
+	})
+
+	t.Run("readYaml without argument throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readYaml();
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() == "no error" {
+			t.Error("Expected an error when calling readYaml without argument")
+		}
+	})
+
+	t.Run("path traversal is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readYaml("../../../etc/passwd");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() != "blocked" {
+			t.Errorf("Expected path traversal to be blocked, got: %s", result.String())
+		}
+	})
+}
+
+func TestSetupJavascriptVM_MxlintReadJson(t *testing.T) {
+	tempDir := t.TempDir()
+
+	jsonContent := `{"$Type":"DomainModels$DomainModel","Entities":[{"Name":"EntityNonPersist"}]}`
+	jsonPath := filepath.Join(tempDir, "model.json")
+	if err := os.WriteFile(jsonPath, []byte(jsonContent), 0644); err != nil {
+		t.Fatalf("Failed to create test json file: %v", err)
+	}
+
+	t.Run("read json with relative path", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `const doc = mxlint.io.readJson("model.json");
+doc.$Type === "DomainModels$DomainModel" && doc.Entities[0].Name === "EntityNonPersist"`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if !result.ToBoolean() {
+			t.Errorf("Expected parsed JSON object, got %v", result.Export())
+		}
+	})
+
+	t.Run("read json array", func(t *testing.T) {
+		arrayPath := filepath.Join(tempDir, "array.json")
+		if err := os.WriteFile(arrayPath, []byte(`["a","b"]`), 0644); err != nil {
+			t.Fatalf("Failed to create array json file: %v", err)
+		}
+
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `const items = mxlint.io.readJson("array.json");
+items.length === 2 && items[0] === "a" && items[1] === "b"`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if !result.ToBoolean() {
+			t.Errorf("Expected parsed JSON array, got %v", result.Export())
+		}
+	})
+
+	t.Run("read nonexistent json throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readJson("nonexistent.json");
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() == "no error" {
+			t.Error("Expected an error when reading nonexistent json file")
+		}
+	})
+
+	t.Run("invalid json throws error", func(t *testing.T) {
+		invalidPath := filepath.Join(tempDir, "invalid.json")
+		if err := os.WriteFile(invalidPath, []byte(`{$Type: bad}`), 0644); err != nil {
+			t.Fatalf("Failed to create invalid json file: %v", err)
+		}
+
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readJson("invalid.json");
+			"no error";
+		} catch (e) {
+			"error";
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() == "no error" {
+			t.Error("Expected an error when reading invalid json file")
+		}
+	})
+
+	t.Run("readJson without argument throws error", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readJson();
+			"no error";
+		} catch (e) {
+			"error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() == "no error" {
+			t.Error("Expected an error when calling readJson without argument")
+		}
+	})
+
+	t.Run("path traversal is blocked", func(t *testing.T) {
+		vm := setupJavascriptVM(tempDir, tempDir)
+
+		script := `
+		try {
+			mxlint.io.readJson("../../../etc/passwd");
+			"no error";
+		} catch (e) {
+			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
+		}
+		`
+		result, err := vm.RunString(script)
+		if err != nil {
+			t.Fatalf("Failed to run script: %v", err)
+		}
+		if result.String() != "blocked" {
+			t.Errorf("Expected path traversal to be blocked, got: %s", result.String())
+		}
+	})
+}
+
 func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	// Create a temporary directory for test files
 	tempDir := t.TempDir()
@@ -557,6 +774,28 @@ func TestMxlintObjectAvailable(t *testing.T) {
 
 	if result.String() != "function" {
 		t.Errorf("Expected mxlint.io.readfile to be a function, got %q", result.String())
+	}
+
+	// Check that mxlint.io.readYaml is a function
+	script = `typeof mxlint.io.readYaml`
+	result, err = vm.RunString(script)
+	if err != nil {
+		t.Fatalf("Failed to run script: %v", err)
+	}
+
+	if result.String() != "function" {
+		t.Errorf("Expected mxlint.io.readYaml to be a function, got %q", result.String())
+	}
+
+	// Check that mxlint.io.readJson is a function
+	script = `typeof mxlint.io.readJson`
+	result, err = vm.RunString(script)
+	if err != nil {
+		t.Fatalf("Failed to run script: %v", err)
+	}
+
+	if result.String() != "function" {
+		t.Errorf("Expected mxlint.io.readJson to be a function, got %q", result.String())
 	}
 
 	// Check that mxlint.io.listdir is a function
