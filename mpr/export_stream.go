@@ -46,7 +46,7 @@ type exportPlan struct {
 	mxunitPaths  map[string]string
 	manifest     *exportManifest
 	manifestPath string
-	manifestMu   sync.Mutex
+	manifestMu   sync.RWMutex
 	Close        func() error
 }
 
@@ -434,8 +434,17 @@ func (p *exportPlan) recordManifestEntry(unitID string, entry exportManifestEntr
 	p.manifest.Entries[unitID] = entry
 }
 
+func (p *exportPlan) lookupManifestEntry(unitID, contentsHash string) (exportManifestEntry, bool) {
+	p.manifestMu.RLock()
+	defer p.manifestMu.RUnlock()
+	if p.manifest == nil {
+		return exportManifestEntry{}, false
+	}
+	return p.manifest.entryFor(unitID, contentsHash)
+}
+
 func (p *exportPlan) tryFastSkipExport(document exportDocumentDescriptor, outputDirectory string, raw bool) (bool, error) {
-	entry, ok := p.manifest.entryFor(document.UnitID, document.ContentsHash)
+	entry, ok := p.lookupManifestEntry(document.UnitID, document.ContentsHash)
 	if !ok || entry.RelativePath == "" {
 		return false, nil
 	}
@@ -458,7 +467,7 @@ func (p *exportPlan) tryFastSkipExport(document exportDocumentDescriptor, output
 }
 
 func (p *exportPlan) tryExportFromYAMLCache(document exportDocumentDescriptor, outputDirectory string, raw bool, dirCache *exportDirCache) (string, bool, error) {
-	entry, ok := p.manifest.entryFor(document.UnitID, document.ContentsHash)
+	entry, ok := p.lookupManifestEntry(document.UnitID, document.ContentsHash)
 	if !ok || entry.RelativePath == "" {
 		return "", false, nil
 	}
@@ -490,7 +499,7 @@ func exportDocument(plan *exportPlan, document exportDocumentDescriptor, outputD
 	doc := document
 
 	if doc.Name == "" || doc.Type == "" {
-		if entry, ok := plan.manifest.entryFor(doc.UnitID, doc.ContentsHash); ok {
+		if entry, ok := plan.lookupManifestEntry(doc.UnitID, doc.ContentsHash); ok {
 			doc.Name = entry.Name
 			doc.Type = entry.Type
 			if doc.Path == "" {

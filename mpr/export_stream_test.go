@@ -1,8 +1,10 @@
 package mpr
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 )
 
@@ -22,6 +24,42 @@ func TestEffectiveExportConcurrency(t *testing.T) {
 	if got := effectiveExportConcurrency(3); got != 3 {
 		t.Fatalf("expected concurrency capped to document count 3, got %d", got)
 	}
+}
+
+func TestExportPlanConcurrentManifestAccess(t *testing.T) {
+	t.Parallel()
+
+	plan := &exportPlan{
+		manifest: newExportManifest(),
+	}
+
+	const workers = 16
+	const iterations = 100
+	var wg sync.WaitGroup
+	wg.Add(workers * 2)
+
+	for i := 0; i < workers; i++ {
+		unitID := fmt.Sprintf("unit-%d", i)
+		go func(id string) {
+			defer wg.Done()
+			for n := 0; n < iterations; n++ {
+				plan.recordManifestEntry(id, exportManifestEntry{
+					Name:         id,
+					ContentsHash: "hash",
+					RelativePath: id + ".yaml",
+				})
+			}
+		}(unitID)
+
+		go func(id string) {
+			defer wg.Done()
+			for n := 0; n < iterations; n++ {
+				plan.lookupManifestEntry(id, "hash")
+			}
+		}(unitID)
+	}
+
+	wg.Wait()
 }
 
 func TestExportPlanLoadUsesCache(t *testing.T) {
