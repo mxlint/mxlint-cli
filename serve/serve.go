@@ -245,6 +245,7 @@ func runServe(cmd *cobra.Command, args []string) {
 				"",
 				boolValue(config.Lint.IgnoreNoqa, false),
 				effectiveLintUseCacheForServe(config),
+				nil,
 			)
 		}()
 
