@@ -146,8 +146,8 @@ func buildExportPlanV2(inputDirectory string, mprPath string) (*exportPlan, erro
 		if walkErr != nil {
 			return walkErr
 		}
-		if strings.Contains(path, ".mendix-cache") {
-			return nil
+		if err := skipMendixCacheDir(path, info); err != nil {
+			return err
 		}
 		if info.IsDir() || !strings.HasSuffix(info.Name(), ".mxunit") {
 			return nil

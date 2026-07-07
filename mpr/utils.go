@@ -3,6 +3,8 @@ package mpr
 import (
 	"encoding/base64"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,6 +15,18 @@ var log = logrus.New()
 
 func SetLogger(logger *logrus.Logger) {
 	log = logger
+}
+
+const mendixCacheDirName = ".mendix-cache"
+
+// skipMendixCacheDir returns filepath.SkipDir for .mendix-cache so walks never
+// descend into Mendix-managed cache content.
+func skipMendixCacheDir(path string, info os.FileInfo) error {
+	if info.IsDir() && info.Name() == mendixCacheDirName {
+		log.Debugf("Skipping system managed directory %s", path)
+		return filepath.SkipDir
+	}
+	return nil
 }
 
 var ignoredAttributes = []string{"ID", "$ID", "Flows", "OriginPointer", "Type", "LineType", "DestinationPointer", "Image", "ImageData", "GUID", "StableId", "Size", "RelativeMiddlePoint", "Location", "OriginBezierVector", "DestinationBezierVector", "OriginConnectionIndex", "DestinationConnectionIndex"}

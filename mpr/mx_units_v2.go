@@ -40,9 +40,8 @@ func readMxUnitsV2(inputDirectory string) ([]MxUnit, error) {
 			return fmt.Errorf("error walking path %s: %v", path, err)
 		}
 
-		if strings.Contains(path, ".mendix-cache") {
-			log.Debugf("Skipping system managed file %s", path)
-			return nil
+		if err := skipMendixCacheDir(path, info); err != nil {
+			return err
 		}
 
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mxunit") {
