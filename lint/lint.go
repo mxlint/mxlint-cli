@@ -30,7 +30,7 @@ func printTestsuite(ts Testsuite) {
 
 // EvalAllWithResults evaluates all rules and returns the results
 // This is similar to EvalAll but returns the results instead of just printing them
-func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) (interface{}, error) {
+func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool, changedFiles []string) (interface{}, error) {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles)
 			if err != nil {
 				errChan <- err
 				return
@@ -143,7 +143,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	return testsuitesContainer, nil
 }
 
-func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) error {
+func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool, changedFiles []string) error {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
@@ -172,7 +172,7 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles)
 			if err != nil {
 				errChan <- err
 				return
@@ -269,7 +269,7 @@ func countTotalTestcases(testsuites []Testsuite) int {
 	return count
 }
 
-func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool) (*Testsuite, error) {
+func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool, changedFiles []string) (*Testsuite, error) {
 
 	log.Debugf("evaluating rule %s", rule.Path)
 
@@ -282,6 +282,7 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 	if err != nil {
 		return nil, err
 	}
+	inputFiles = filterInputFiles(inputFiles, normalizeChangedFilesSet(changedFiles))
 	testcase := &Testcase{}
 
 	for _, inputFile := range inputFiles {

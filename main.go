@@ -116,12 +116,45 @@ func main() {
 			if !filepath.IsAbs(rulesDirectory) {
 				rulesDirectory = filepath.Join(projectDir, rulesDirectory)
 			}
+			if !filepath.IsAbs(modelDirectory) {
+				modelDirectory = filepath.Join(projectDir, modelDirectory)
+			}
 
 			if config != nil && len(config.Rules.Rulesets) > 0 {
 				log.Infof("Syncing %d rulesets to %s", len(config.Rules.Rulesets), rulesDirectory)
 				if err := lint.SyncRulesets(config.Rules.Rulesets, rulesDirectory, projectDir); err != nil {
 					log.Errorf("failed to sync rulesets: %s", err)
 					os.Exit(1)
+				}
+			}
+
+			diffOnly, err := cmd.Flags().GetBool("diff")
+			if err != nil {
+				log.Errorf("failed to read --diff flag: %s", err)
+				os.Exit(1)
+			}
+
+			var changedFiles []string
+			if diffOnly {
+				changedFiles, err = lint.GitUnstagedChangedFiles(projectDir)
+				if err != nil {
+					if err == lint.ErrNotGitRepository {
+						log.Warnf("--diff ignored: project is not tracked in git; linting all documents")
+					} else {
+						log.Errorf("failed to resolve unstaged git changes: %s", err)
+						os.Exit(1)
+					}
+				} else {
+					changedFiles, err = lint.FilterFilesUnderDirectory(changedFiles, modelDirectory)
+					if err != nil {
+						log.Errorf("failed to filter changed files: %s", err)
+						os.Exit(1)
+					}
+					if len(changedFiles) == 0 {
+						log.Infof("No unstaged changes found in %s; nothing to lint", config.Modelsource)
+						return
+					}
+					log.Infof("Linting %d changed document(s) with unstaged git changes", len(changedFiles))
 				}
 			}
 
@@ -132,6 +165,7 @@ func main() {
 				config.Lint.JSONFile,
 				boolValue(config.Lint.IgnoreNoqa, false),
 				effectiveLintUseCache(config),
+				changedFiles,
 			)
 			if err != nil {
 				log.Errorf("lint failed: %s", err)
@@ -139,6 +173,7 @@ func main() {
 			}
 		},
 	}
+	cmdLint.Flags().Bool("diff", false, "Only lint model documents with unstaged git changes")
 	rootCmd.AddCommand(cmdLint)
 
 	var cmdConfig = &cobra.Command{

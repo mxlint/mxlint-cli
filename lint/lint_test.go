@@ -14,7 +14,7 @@ func TestEvalTestsuite_Rego(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -67,7 +67,7 @@ errors contains "Always fails"
 			Language:    LanguageRego,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -85,7 +85,7 @@ func TestEvalTestsuite_Javascript(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -134,7 +134,7 @@ function rule(input) {
 			Language:    LanguageJavascript,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -152,7 +152,7 @@ func TestEvalTestsuite_Typescript(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -203,7 +203,7 @@ Name: "Test"
 	}
 
 	t.Run("documentation noqa is ignored", func(t *testing.T) {
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -217,7 +217,7 @@ Name: "Test"
 	})
 
 	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
-		result, err := evalTestsuite(rule, tempDir, true, false)
+		result, err := evalTestsuite(rule, tempDir, true, false, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -275,7 +275,7 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
@@ -483,7 +483,7 @@ function rule(input) {
 
 func TestEvalAll(t *testing.T) {
 	t.Run("all rules pass", func(t *testing.T) {
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -493,7 +493,7 @@ func TestEvalAll(t *testing.T) {
 		tempDir := t.TempDir()
 		xunitPath := filepath.Join(tempDir, "report.xml")
 
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", xunitPath, "", false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", xunitPath, "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -508,7 +508,7 @@ func TestEvalAll(t *testing.T) {
 		tempDir := t.TempDir()
 		jsonPath := filepath.Join(tempDir, "report.json")
 
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", jsonPath, false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", jsonPath, false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -522,7 +522,7 @@ func TestEvalAll(t *testing.T) {
 
 func TestEvalAllWithResults(t *testing.T) {
 	t.Run("returns results", func(t *testing.T) {
-		result, err := EvalAllWithResults("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false)
+		result, err := EvalAllWithResults("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -584,7 +584,7 @@ function rule(input) {
 			Language:    LanguageJavascript,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil)
 		if err != nil {
 			t.Fatalf("Expected testsuite evaluation to succeed, got: %v", err)
 		}
@@ -640,7 +640,7 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
@@ -683,7 +683,7 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
