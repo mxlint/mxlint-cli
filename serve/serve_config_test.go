@@ -8,7 +8,6 @@ import (
 
 func TestEffectiveLintUseCacheForServe(t *testing.T) {
 	falseValue := false
-	trueValue := true
 
 	tests := []struct {
 		name     string
@@ -21,22 +20,19 @@ func TestEffectiveLintUseCacheForServe(t *testing.T) {
 			expected: true,
 		},
 		{
+			name: "cache enabled by default",
+			config: &lint.Config{
+				Cache: lint.ConfigCacheSpec{
+					Enable: nil,
+				},
+			},
+			expected: true,
+		},
+		{
 			name: "cache disabled by cache.enable",
 			config: &lint.Config{
 				Cache: lint.ConfigCacheSpec{
 					Enable: &falseValue,
-				},
-			},
-			expected: false,
-		},
-		{
-			name: "cache disabled by lint.noCache",
-			config: &lint.Config{
-				Cache: lint.ConfigCacheSpec{
-					Enable: &trueValue,
-				},
-				Lint: lint.ConfigLintSpec{
-					NoCache: &trueValue,
 				},
 			},
 			expected: false,

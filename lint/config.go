@@ -60,16 +60,16 @@ func (c *ConfigRulesSpec) UnmarshalYAML(value *yaml.Node) error {
 }
 
 type ConfigExportSpec struct {
-	Filter   string `yaml:"filter"`
-	Raw      *bool  `yaml:"raw"`
-	Appstore *bool  `yaml:"appstore"`
+	Filter      string `yaml:"filter"`
+	Raw         *bool  `yaml:"raw"`
+	Appstore    *bool  `yaml:"appstore"`
+	Concurrency *int   `yaml:"concurrency"`
 }
 
 type ConfigLintSpec struct {
 	XunitReport string                      `yaml:"xunitReport"`
 	JSONFile    string                      `yaml:"jsonFile"`
 	IgnoreNoqa  *bool                       `yaml:"ignoreNoqa"`
-	NoCache     *bool                       `yaml:"noCache"`
 	Concurrency *int                        `yaml:"concurrency"`
 	RegoTrace   *bool                       `yaml:"regoTrace"`
 	Skip        map[string][]ConfigSkipRule `yaml:"skip"`
@@ -311,6 +311,9 @@ func mergeConfig(base *Config, overlay *Config) {
 	if overlay.Export.Appstore != nil {
 		base.Export.Appstore = overlay.Export.Appstore
 	}
+	if overlay.Export.Concurrency != nil {
+		base.Export.Concurrency = overlay.Export.Concurrency
+	}
 
 	if strings.TrimSpace(overlay.Modelsource) != "" {
 		base.Modelsource = strings.TrimSpace(overlay.Modelsource)
@@ -327,9 +330,6 @@ func mergeConfig(base *Config, overlay *Config) {
 	if overlay.Lint.IgnoreNoqa != nil {
 		base.Lint.IgnoreNoqa = overlay.Lint.IgnoreNoqa
 	}
-	if overlay.Lint.NoCache != nil {
-		base.Lint.NoCache = overlay.Lint.NoCache
-	}
 	if overlay.Lint.Concurrency != nil {
 		base.Lint.Concurrency = overlay.Lint.Concurrency
 	}
@@ -342,6 +342,13 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 	if overlay.Serve.Debounce != nil {
 		base.Serve.Debounce = overlay.Serve.Debounce
+	}
+
+	if strings.TrimSpace(overlay.Cache.Directory) != "" {
+		base.Cache.Directory = strings.TrimSpace(overlay.Cache.Directory)
+	}
+	if overlay.Cache.Enable != nil {
+		base.Cache.Enable = overlay.Cache.Enable
 	}
 
 	if len(overlay.Lint.Skip) == 0 {

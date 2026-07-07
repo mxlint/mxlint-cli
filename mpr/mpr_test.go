@@ -870,7 +870,11 @@ func TestExportMetadata(t *testing.T) {
 			}
 			modules := getMxModules(units)
 
-			err = exportMetadata(tt.inputDir, tt.outputDir, modules)
+			mprPath, err := getMprPath(tt.inputDir)
+			if err != nil && !tt.expectError {
+				t.Fatalf("Failed to resolve MPR path: %v", err)
+			}
+			err = exportMetadata(mprPath, tt.outputDir, modules)
 			if tt.expectError && err == nil {
 				t.Errorf("exportMetadata() expected error but got none")
 			}
@@ -1449,7 +1453,11 @@ func TestExportMetadata_SortsModulesByName(t *testing.T) {
 		{Name: "beta", ID: "1"},
 	}
 
-	if err := exportMetadata("./../resources/app-mpr-v1", tmpDir, modules); err != nil {
+	mprPath, err := getMprPath("./../resources/app-mpr-v1")
+	if err != nil {
+		t.Fatalf("Failed to resolve MPR path: %v", err)
+	}
+	if err := exportMetadata(mprPath, tmpDir, modules); err != nil {
 		t.Fatalf("exportMetadata() unexpected error: %v", err)
 	}
 

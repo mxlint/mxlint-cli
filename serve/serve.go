@@ -52,6 +52,7 @@ func runServe(cmd *cobra.Command, args []string) {
 	}
 	lint.SetConfig(config)
 	configureCacheForServe(config, projectDir)
+	mpr.ConfigureExportConcurrency(config.Export.Concurrency)
 
 	inputDirectory := config.ProjectDirectory
 	outputDirectory := config.Modelsource
@@ -355,9 +356,6 @@ func effectiveLintUseCacheForServe(config *lint.Config) bool {
 	if config == nil {
 		return true
 	}
-	if boolValue(config.Lint.NoCache, false) {
-		return false
-	}
 	return boolValue(config.Cache.Enable, true)
 }
 
@@ -376,6 +374,7 @@ func configureCacheForServe(config *lint.Config, projectDir string) {
 	lint.SetCacheDirectory(filepath.Join(cacheBase, "lint"))
 	mpr.SetPersistentYAMLCacheDirectory(filepath.Join(cacheBase, "mpr-v2-yaml"))
 	mpr.SetPersistentYAMLCacheEnabled(boolValue(config.Cache.Enable, true))
+	mpr.SetExportManifestPath(filepath.Join(cacheBase, "export-manifest.json"))
 }
 
 // addDirsRecursive adds all directories recursively to the watcher except the output directory
