@@ -390,6 +390,48 @@ func TestLoadMergedConfig_SkipAllDocumentsWildcardKey(t *testing.T) {
 	}
 }
 
+func TestLoadMergedConfig_CacheFromDefaultAndProject(t *testing.T) {
+	projectDir := t.TempDir()
+	enableFalse := false
+	t.Setenv("MXLINT_SYSTEM_CONFIG", filepath.Join(t.TempDir(), "missing-system.yaml"))
+
+	defaultConfig := `cache:
+  directory: .mendix-cache/default-cache
+  enable: true
+`
+	setDefaultConfigForTest(t, defaultConfig)
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+	if cfg.Cache.Directory != ".mendix-cache/default-cache" {
+		t.Fatalf("expected default cache directory, got %q", cfg.Cache.Directory)
+	}
+	if cfg.Cache.Enable == nil || *cfg.Cache.Enable != true {
+		t.Fatalf("expected default cache.enable=true, got %#v", cfg.Cache.Enable)
+	}
+
+	projectConfig := `cache:
+  directory: .mendix-cache/mxlint
+  enable: false
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err = LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+	if cfg.Cache.Directory != ".mendix-cache/mxlint" {
+		t.Fatalf("expected project cache directory override, got %q", cfg.Cache.Directory)
+	}
+	if cfg.Cache.Enable == nil || *cfg.Cache.Enable != enableFalse {
+		t.Fatalf("expected project cache.enable=false, got %#v", cfg.Cache.Enable)
+	}
+}
+
 func TestLoadMergedConfig_LintConcurrencyAndTrace(t *testing.T) {
 	projectDir := t.TempDir()
 	setDefaultConfigForTest(t, "")

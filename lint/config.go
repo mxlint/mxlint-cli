@@ -344,6 +344,13 @@ func mergeConfig(base *Config, overlay *Config) {
 		base.Serve.Debounce = overlay.Serve.Debounce
 	}
 
+	if strings.TrimSpace(overlay.Cache.Directory) != "" {
+		base.Cache.Directory = strings.TrimSpace(overlay.Cache.Directory)
+	}
+	if overlay.Cache.Enable != nil {
+		base.Cache.Enable = overlay.Cache.Enable
+	}
+
 	if len(overlay.Lint.Skip) == 0 {
 		return
 	}
