@@ -6,7 +6,6 @@ lint:
   xunitReport: ""
   jsonFile: ""
   ignoreNoqa: false
-  noCache: false
   concurrency: 4
   regoTrace: false
   # skip: maps document path (relative to model source, or absolute) to rules to skip.

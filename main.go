@@ -327,9 +327,6 @@ func effectiveLintUseCache(config *lint.Config) bool {
 	if config == nil {
 		return true
 	}
-	if boolValue(config.Lint.NoCache, false) {
-		return false
-	}
 	return boolValue(config.Cache.Enable, true)
 }
 

@@ -69,7 +69,6 @@ type ConfigLintSpec struct {
 	XunitReport string                      `yaml:"xunitReport"`
 	JSONFile    string                      `yaml:"jsonFile"`
 	IgnoreNoqa  *bool                       `yaml:"ignoreNoqa"`
-	NoCache     *bool                       `yaml:"noCache"`
 	Concurrency *int                        `yaml:"concurrency"`
 	RegoTrace   *bool                       `yaml:"regoTrace"`
 	Skip        map[string][]ConfigSkipRule `yaml:"skip"`
@@ -326,9 +325,6 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 	if overlay.Lint.IgnoreNoqa != nil {
 		base.Lint.IgnoreNoqa = overlay.Lint.IgnoreNoqa
-	}
-	if overlay.Lint.NoCache != nil {
-		base.Lint.NoCache = overlay.Lint.NoCache
 	}
 	if overlay.Lint.Concurrency != nil {
 		base.Lint.Concurrency = overlay.Lint.Concurrency
