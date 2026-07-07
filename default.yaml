@@ -20,6 +20,7 @@ export:
   filter: ".*"
   raw: false
   appstore: false
+  concurrency: 4
 serve:
   port: 8082
   debounce: 500

@@ -14,7 +14,11 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/app-mpr-v1", "./../tmp", nil); err != nil {
+		mprPath, err := getMprPath("./../resources/app-mpr-v1")
+		if err != nil {
+			t.Fatalf("Failed to resolve MPR path: %v", err)
+		}
+		if err := exportMetadata(mprPath, "./../tmp", nil); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 

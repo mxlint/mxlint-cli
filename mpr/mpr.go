@@ -1,6 +1,7 @@
 package mpr
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
@@ -64,18 +65,12 @@ func getPersistentYAMLCacheSettings() (string, bool) {
 }
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, appstore bool, filter string) error {
-
-	// create tmp directory in user tmp directory
-	tmpDir := filepath.Join(os.TempDir(), "mxlint")
-	if err := os.MkdirAll(tmpDir, 0755); err != nil {
-		return fmt.Errorf("error creating tmp directory: %v", err)
+	if err := os.MkdirAll(outputDirectory, 0755); err != nil {
+		return fmt.Errorf("error creating output directory: %v", err)
 	}
-	log.Debugf("Created tmp directory: %s", tmpDir)
-	defer os.RemoveAll(tmpDir)
 
-	log.Infof("Exporting to %s", tmpDir)
+	log.Infof("Exporting to %s", outputDirectory)
 
-	// Check if we can find an MPR file
 	mprPath, err := getMprPath(inputDirectory)
 	if err != nil {
 		return fmt.Errorf("error finding MPR file: %v", err)
@@ -84,7 +79,7 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 		return fmt.Errorf("no MPR file found in directory: %s", inputDirectory)
 	}
 
-	plan, err := buildExportPlan(inputDirectory)
+	plan, err := buildExportPlan(inputDirectory, mprPath)
 	if err != nil {
 		return fmt.Errorf("error building export plan: %v", err)
 	}
@@ -95,46 +90,24 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 	}()
 	modules := plan.Modules
 
-	if err := exportMetadata(inputDirectory, tmpDir, modules); err != nil {
+	if err := exportMetadata(mprPath, outputDirectory, modules); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
 	exportedCount := 0
 	if filter != "^Metadata$" {
-		exportedCount, err = exportDocumentsFromPlan(plan, tmpDir, raw, filter)
+		exportedCount, err = exportDocumentsFromPlan(plan, outputDirectory, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
 	}
 
-	// remove output directory if it exists
-	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
-		if err := os.MkdirAll(outputDirectory, 0755); err != nil {
-			return fmt.Errorf("error creating directory: %v", err)
+	if !appstore {
+		if err := removeAppstoreModules(outputDirectory, modules); err != nil {
+			return fmt.Errorf("error removing appstore modules: %v", err)
 		}
 	}
 
-	// Ensure both source and destination directories exist before syncing
-	if _, err := os.Stat(tmpDir); os.IsNotExist(err) {
-		return fmt.Errorf("source directory does not exist: %v", err)
-	}
-
-	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
-		return fmt.Errorf("destination directory does not exist: %v", err)
-	}
-
-	// copy tmp directory to output directory
-	err = syncDirectories(tmpDir, outputDirectory)
-	if err != nil {
-		return fmt.Errorf("error moving tmp directory to output directory: %v", err)
-	}
-
-	if !appstore {
-		// remove appstore modules
-		removeAppstoreModules(outputDirectory, modules)
-	}
-
-	// Generate app.yaml with file structure only if documents were exported
 	if exportedCount > 0 {
 		if err := generateAppYaml(outputDirectory); err != nil {
 			return fmt.Errorf("error generating app.yaml: %v", err)
@@ -176,13 +149,7 @@ func getMprVersion(MPRFilePath string) (int, error) {
 	}
 }
 
-func exportMetadata(inputDirectory string, outputDirectory string, modules []MxModule) error {
-
-	mprPath, err := getMprPath(inputDirectory)
-	if err != nil {
-		return err
-	}
-
+func exportMetadata(mprPath string, outputDirectory string, modules []MxModule) error {
 	mprVersion, err := getMprVersion(mprPath)
 	if err != nil {
 		return fmt.Errorf("error getting mpr version: %v", err)
@@ -664,27 +631,47 @@ func writeFileWithPersistentCache(filepath string, contents map[string]interface
 	if err != nil {
 		return err
 	}
+	var yamlstring []byte
 	if found {
-		if err := os.WriteFile(filepath, cachedYAML, 0644); err != nil {
-			return fmt.Errorf("error writing cached file: %v", err)
+		yamlstring = cachedYAML
+	} else {
+		yamlstring, err = renderYAML(contents)
+		if err != nil {
+			return err
 		}
-		return nil
+		if err := writeYAMLToPersistentCache(contentsHash, raw, yamlstring); err != nil {
+			log.Debugf("Could not persist YAML cache for hash %s: %v", contentsHash, err)
+		}
 	}
 
-	yamlstring, err := renderYAML(contents)
-	if err != nil {
+	if unchanged, err := outputFileMatches(filepath, yamlstring); err != nil {
 		return err
+	} else if unchanged {
+		return nil
 	}
 
 	if err := os.WriteFile(filepath, yamlstring, 0644); err != nil {
 		return fmt.Errorf("error writing file: %v", err)
 	}
-
-	if err := writeYAMLToPersistentCache(contentsHash, raw, yamlstring); err != nil {
-		log.Debugf("Could not persist YAML cache for hash %s: %v", contentsHash, err)
-	}
-
 	return nil
+}
+
+func outputFileMatches(path string, content []byte) (bool, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	if info.Size() != int64(len(content)) {
+		return false, nil
+	}
+	existing, err := os.ReadFile(path)
+	if err != nil {
+		return false, err
+	}
+	return bytes.Equal(existing, content), nil
 }
 
 func getPersistentYAMLCacheDir() string {

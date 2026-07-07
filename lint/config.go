@@ -60,9 +60,10 @@ func (c *ConfigRulesSpec) UnmarshalYAML(value *yaml.Node) error {
 }
 
 type ConfigExportSpec struct {
-	Filter   string `yaml:"filter"`
-	Raw      *bool  `yaml:"raw"`
-	Appstore *bool  `yaml:"appstore"`
+	Filter      string `yaml:"filter"`
+	Raw         *bool  `yaml:"raw"`
+	Appstore    *bool  `yaml:"appstore"`
+	Concurrency *int   `yaml:"concurrency"`
 }
 
 type ConfigLintSpec struct {
@@ -309,6 +310,9 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 	if overlay.Export.Appstore != nil {
 		base.Export.Appstore = overlay.Export.Appstore
+	}
+	if overlay.Export.Concurrency != nil {
+		base.Export.Concurrency = overlay.Export.Concurrency
 	}
 
 	if strings.TrimSpace(overlay.Modelsource) != "" {

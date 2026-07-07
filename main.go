@@ -64,6 +64,7 @@ func main() {
 			mpr.SetLogger(log)
 			lint.SetConfig(config)
 			configureCache(config, projectDir)
+			configureExport(config)
 
 			inputDirectory := config.ProjectDirectory
 			outputDirectory := config.Modelsource
@@ -298,6 +299,14 @@ func main() {
 	}
 }
 
+func configureExport(config *lint.Config) {
+	if config == nil {
+		mpr.ConfigureExportConcurrency(nil)
+		return
+	}
+	mpr.ConfigureExportConcurrency(config.Export.Concurrency)
+}
+
 func configureCache(config *lint.Config, projectDir string) {
 	if config == nil {
 		return
@@ -314,6 +323,7 @@ func configureCache(config *lint.Config, projectDir string) {
 	lint.SetCacheDirectory(filepath.Join(cacheBase, "lint"))
 	mpr.SetPersistentYAMLCacheDirectory(filepath.Join(cacheBase, "mpr-v2-yaml"))
 	mpr.SetPersistentYAMLCacheEnabled(boolValue(config.Cache.Enable, true))
+	mpr.SetExportManifestPath(filepath.Join(cacheBase, "export-manifest.json"))
 }
 
 func boolValue(value *bool, fallback bool) bool {
