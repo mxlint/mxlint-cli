@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # build and publish in parallel: linux/amd64
-        goos: [linux, windows, darwin]
+        # build and publish in parallel: linux/amd64, linux/arm64, darwin/amd64, darwin/arm64
+        goos: [linux, darwin]
         goarch: [amd64, arm64]
     steps:
       - uses: actions/checkout@v4
@@ -33,3 +33,60 @@ jobs:
           ldflags: "-s -w -X main.version=${{ github.event.release.tag_name }}"
           compress_assets: OFF
 
+  release-cli-windows:
+    name: Release CLI binary (Windows)
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        goarch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Run tests
+        run: go test -v -p=1 -timeout=0 ./...
+      - name: Build Windows binary
+        shell: bash
+        run: |
+          asset="mxlint-${{ github.event.release.tag_name }}-windows-${{ matrix.goarch }}.exe"
+          GOOS=windows GOARCH=${{ matrix.goarch }} go build \
+            -ldflags="-s -w -X main.version=${{ github.event.release.tag_name }}" \
+            -o "$asset" .
+          echo "asset=$asset" >> "$GITHUB_ENV"
+      - name: Decode signing certificate
+        id: cert
+        shell: pwsh
+        env:
+          PFX_BASE64: ${{ secrets.WINDOWS_CODESIGN_CERTIFICATE }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:PFX_BASE64)) {
+            Write-Error "WINDOWS_CODESIGN_CERTIFICATE secret is not configured."
+          }
+          $pfxPath = Join-Path $env:RUNNER_TEMP 'mxlint-codesign.pfx'
+          [IO.File]::WriteAllBytes($pfxPath, [Convert]::FromBase64String($env:PFX_BASE64))
+          "pfxPath=$pfxPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      - name: Locate signtool
+        id: sdk
+        shell: pwsh
+        run: |
+          $sdk = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin' -Directory |
+            Where-Object { Test-Path (Join-Path $_.FullName 'x64\signtool.exe') } |
+            Sort-Object Name -Descending |
+            Select-Object -First 1
+          if (-not $sdk) { throw "Could not locate signtool.exe in the Windows SDK." }
+          "signtool=$($sdk.FullName)\x64\signtool.exe" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      - name: Sign Windows binary
+        shell: pwsh
+        env:
+          CERT_PASSWORD: ${{ secrets.WINDOWS_CODESIGN_PASSWORD }}
+        run: |
+          & "${{ steps.sdk.outputs.signtool }}" sign /fd SHA256 `
+            /f "${{ steps.cert.outputs.pfxPath }}" /p $env:CERT_PASSWORD `
+            /tr https://timestamp.digicert.com /td SHA256 `
+            $env:asset
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.PAT }}
+          files: ${{ env.asset }}
