@@ -83,8 +83,20 @@ func readMxUnitAtPath(path string) ([]byte, bson.M, string, error) {
 	if err := bson.Unmarshal(contents, &result); err != nil {
 		return nil, nil, "", fmt.Errorf("unable to unmarshal BSON content for %s: %w", path, err)
 	}
+	return contents, result, hashMxUnitBytes(contents), nil
+}
+
+func hashMxUnitAtPath(path string) (string, error) {
+	contents, err := os.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+	return hashMxUnitBytes(contents), nil
+}
+
+func hashMxUnitBytes(contents []byte) string {
 	sum := sha256.Sum256(contents)
-	return contents, result, hex.EncodeToString(sum[:]), nil
+	return hex.EncodeToString(sum[:])
 }
 
 func buildExportPlan(inputDirectory string, mprPath string) (*exportPlan, error) {
@@ -242,11 +254,20 @@ func buildExportPlanV2(inputDirectory string, mprPath string) (*exportPlan, erro
 				ContainerID:  unit.ContainerID,
 				ContentsHash: contentsHashHex,
 			}
+			var manifestEntry exportManifestEntry
+			hasManifestEntry := false
 			if entry, ok := manifest.entryFor(encodedUnitID, contentsHashHex); ok {
+				hasManifestEntry = true
+				manifestEntry = entry
 				doc.Name = entry.Name
 				doc.Type = entry.Type
 				doc.Path = entry.FolderPath
 			}
+			resolvedHash, err := resolveDocumentContentsHash(contentsHashHex, manifestEntry, mxunitPath, hasManifestEntry)
+			if err != nil {
+				return nil, fmt.Errorf("error resolving contents hash for unit %s: %w", encodedUnitID, err)
+			}
+			doc.ContentsHash = resolvedHash
 			documents = append(documents, doc)
 		}
 	}
@@ -450,7 +471,8 @@ func (p *exportPlan) tryFastSkipExport(document exportDocumentDescriptor, output
 	}
 	if mxunitPath, exists := p.mxunitPaths[document.UnitID]; exists {
 		if !manifestFastPathHint(entry, mxunitPath) {
-			log.Debugf("Manifest mtime/size hint mismatch for %s, verifying via hash", document.Name)
+			log.Debugf("Manifest mtime/size mismatch for %s, skipping fast path", document.Name)
+			return false, nil
 		}
 	}
 
@@ -470,6 +492,11 @@ func (p *exportPlan) tryExportFromYAMLCache(document exportDocumentDescriptor, o
 	entry, ok := p.lookupManifestEntry(document.UnitID, document.ContentsHash)
 	if !ok || entry.RelativePath == "" {
 		return "", false, nil
+	}
+	if mxunitPath, exists := p.mxunitPaths[document.UnitID]; exists {
+		if !manifestFastPathHint(entry, mxunitPath) {
+			return "", false, nil
+		}
 	}
 
 	cachedYAML, found, err := readYAMLFromPersistentCache(document.ContentsHash, raw)

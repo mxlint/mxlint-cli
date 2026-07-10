@@ -130,3 +130,20 @@ func manifestFastPathHint(entry exportManifestEntry, mxunitPath string) bool {
 	}
 	return true
 }
+
+// resolveDocumentContentsHash returns the hash used for export caching.
+// When a manifest entry exists but the mxunit mtime/size changed, the SQLite
+// ContentsHash may be stale; read the mxunit file for the authoritative hash.
+func resolveDocumentContentsHash(dbHash string, entry exportManifestEntry, mxunitPath string, hasManifestEntry bool) (string, error) {
+	if !hasManifestEntry || mxunitPath == "" {
+		return dbHash, nil
+	}
+	if manifestFastPathHint(entry, mxunitPath) {
+		return dbHash, nil
+	}
+	fileHash, err := hashMxUnitAtPath(mxunitPath)
+	if err != nil {
+		return "", err
+	}
+	return fileHash, nil
+}
