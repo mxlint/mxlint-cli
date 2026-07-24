@@ -14,7 +14,7 @@ lint:
 cache:
   directory: .mendix-cache/mxlint
   enable: true
-modelsource: modelsource
+modelsource: .mendix-cache/modelsource
 projectDirectory: .
 export:
   filter: ".*"

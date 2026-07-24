@@ -1040,8 +1040,9 @@ func buildFileStructure(basePath string, currentPath string) (*FileNode, error) 
 		}
 
 		for _, entry := range entries {
-			// Skip app.yaml to avoid self-reference
-			if entry.Name() == "app.yaml" {
+			// Skip app.yaml to avoid self-reference, and hidden files/directories (e.g. .git)
+			name := entry.Name()
+			if name == "app.yaml" || strings.HasPrefix(name, ".") {
 				continue
 			}
 			childRelPath := filepath.Join(currentPath, entry.Name())
