@@ -48,6 +48,8 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	originalPathMap := loadOriginalPathMap(modelSourcePath)
+
 	maxConcurrency := effectiveLintConcurrency(len(rules))
 	sem := make(chan struct{}, maxConcurrency)
 
@@ -59,7 +61,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles, originalPathMap)
 			if err != nil {
 				errChan <- err
 				return
@@ -161,6 +163,8 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	originalPathMap := loadOriginalPathMap(modelSourcePath)
+
 	maxConcurrency := effectiveLintConcurrency(len(rules))
 	sem := make(chan struct{}, maxConcurrency)
 
@@ -172,7 +176,7 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles, originalPathMap)
 			if err != nil {
 				errChan <- err
 				return
@@ -269,7 +273,7 @@ func countTotalTestcases(testsuites []Testsuite) int {
 	return count
 }
 
-func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool, changedFiles []string) (*Testsuite, error) {
+func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool, changedFiles []string, originalPathMap map[string]string) (*Testsuite, error) {
 
 	log.Debugf("evaluating rule %s", rule.Path)
 
@@ -327,6 +331,7 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 
 		// Normalize testcase name for output consistency regardless of cache source.
 		testcase.Name = formatTestcaseName(inputFile, modelSourcePath)
+		testcase.OriginalPath = resolveOriginalPath(testcase.Name, originalPathMap)
 
 		if testcase.Failure != nil {
 			failuresCount++
