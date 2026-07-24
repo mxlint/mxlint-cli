@@ -1440,6 +1440,64 @@ func TestGenerateAppYamlExcludesItself(t *testing.T) {
 	}
 }
 
+func TestGenerateAppYamlExcludesDotEntries(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "mpr-test-dotexclude-*")
+	if err != nil {
+		t.Fatalf("Failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	testFile := filepath.Join(tmpDir, "test.yaml")
+	if err := os.WriteFile(testFile, []byte("test content"), 0644); err != nil {
+		t.Fatalf("Failed to create test file: %v", err)
+	}
+
+	gitDir := filepath.Join(tmpDir, ".git")
+	if err := os.MkdirAll(gitDir, 0755); err != nil {
+		t.Fatalf("Failed to create .git directory: %v", err)
+	}
+	gitHead := filepath.Join(gitDir, "HEAD")
+	if err := os.WriteFile(gitHead, []byte("ref: refs/heads/main\n"), 0644); err != nil {
+		t.Fatalf("Failed to create .git/HEAD: %v", err)
+	}
+
+	hiddenFile := filepath.Join(tmpDir, ".DS_Store")
+	if err := os.WriteFile(hiddenFile, []byte("hidden"), 0644); err != nil {
+		t.Fatalf("Failed to create hidden file: %v", err)
+	}
+
+	if err := generateAppYaml(tmpDir); err != nil {
+		t.Fatalf("generateAppYaml() unexpected error: %v", err)
+	}
+
+	yamlContent, err := os.ReadFile(filepath.Join(tmpDir, "app.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to read app.yaml: %v", err)
+	}
+
+	var appStructure AppStructure
+	if err := yaml.Unmarshal(yamlContent, &appStructure); err != nil {
+		t.Fatalf("Failed to unmarshal app.yaml: %v", err)
+	}
+
+	for _, node := range appStructure.Content {
+		if strings.HasPrefix(node.Name, ".") {
+			t.Errorf("dot entry %q should not be included in app.yaml structure", node.Name)
+		}
+	}
+
+	foundTestYaml := false
+	for _, node := range appStructure.Content {
+		if node.Name == "test.yaml" {
+			foundTestYaml = true
+			break
+		}
+	}
+	if !foundTestYaml {
+		t.Errorf("test.yaml should be included in app.yaml structure")
+	}
+}
+
 func TestExportMetadata_SortsModulesByName(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "mpr-test-metadata-sort-*")
 	if err != nil {

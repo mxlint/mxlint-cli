@@ -128,6 +128,43 @@ Evaluate Mendix model against rules. Requires the model to be exported first.
 **Usage:**
 ```bash
 mxlint-cli lint
+mxlint-cli lint --diff
+```
+
+`--diff` only evaluates model documents with unstaged or untracked changes in the modelsource git repository. Run `init` and `commit` first to create a baseline snapshot. This does not require the Mendix project itself to track modelsource in git.
+
+---
+
+### init
+
+Create the modelsource directory if needed and initialize it as a git repository root for diff linting.
+
+**Usage:**
+```bash
+mxlint-cli init
+```
+
+---
+
+### commit
+
+Commit the current modelsource state so later `lint --diff` runs can lint only subsequent changes.
+
+**Usage:**
+```bash
+mxlint-cli commit
+mxlint-cli commit -m "baseline after export"
+```
+
+Typical workflow:
+
+```bash
+mxlint-cli export
+mxlint-cli init
+mxlint-cli commit
+# ... model changes ...
+mxlint-cli export
+mxlint-cli lint --diff
 ```
 
 ---

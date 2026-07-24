@@ -136,26 +136,25 @@ func main() {
 
 			var changedFiles []string
 			if diffOnly {
-				changedFiles, err = lint.GitUnstagedChangedFiles(projectDir)
+				changedFiles, err = lint.GitUnstagedChangedFiles(modelDirectory)
 				if err != nil {
 					if err == lint.ErrNotGitRepository {
-						log.Warnf("--diff ignored: project is not tracked in git; linting all documents")
+						log.Errorf("--diff requires a modelsource git repository; run 'mxlint-cli init' first")
 					} else {
-						log.Errorf("failed to resolve unstaged git changes: %s", err)
-						os.Exit(1)
+						log.Errorf("failed to resolve modelsource git changes: %s", err)
 					}
-				} else {
-					changedFiles, err = lint.FilterFilesUnderDirectory(changedFiles, modelDirectory)
-					if err != nil {
-						log.Errorf("failed to filter changed files: %s", err)
-						os.Exit(1)
-					}
-					if len(changedFiles) == 0 {
-						log.Infof("No unstaged changes found in %s; nothing to lint", config.Modelsource)
-						return
-					}
-					log.Infof("Linting %d changed document(s) with unstaged git changes", len(changedFiles))
+					os.Exit(1)
 				}
+				changedFiles, err = lint.FilterFilesUnderDirectory(changedFiles, modelDirectory)
+				if err != nil {
+					log.Errorf("failed to filter changed files: %s", err)
+					os.Exit(1)
+				}
+				if len(changedFiles) == 0 {
+					log.Infof("No unstaged or untracked changes found in %s; nothing to lint", config.Modelsource)
+					return
+				}
+				log.Infof("Linting %d changed document(s) with unstaged or untracked git changes", len(changedFiles))
 			}
 
 			err = lint.EvalAll(
@@ -173,8 +172,113 @@ func main() {
 			}
 		},
 	}
-	cmdLint.Flags().Bool("diff", false, "Only lint model documents with unstaged git changes")
+	cmdLint.Flags().Bool("diff", false, "Only lint model documents with unstaged or untracked changes in the modelsource git repository")
 	rootCmd.AddCommand(cmdLint)
+
+	var cmdInit = &cobra.Command{
+		Use:   "init",
+		Short: "Initialize the modelsource directory as a git repository",
+		Long:  "Creates the modelsource directory if needed and initializes it as a git repository root for diff linting. Run 'commit' afterward to snapshot the current modelsource state.",
+		Run: func(cmd *cobra.Command, args []string) {
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
+			log := logrus.New()
+			if isVerbose(cmd) {
+				log.SetLevel(logrus.DebugLevel)
+			} else {
+				log.SetLevel(logrus.InfoLevel)
+			}
+			lint.SetLogger(log)
+			lint.SetConfig(config)
+
+			modelDirectory := config.Modelsource
+			if !filepath.IsAbs(modelDirectory) {
+				modelDirectory = filepath.Join(projectDir, modelDirectory)
+			}
+
+			_, err = os.Stat(modelDirectory)
+			dirMissing := err != nil && os.IsNotExist(err)
+			if err != nil && !os.IsNotExist(err) {
+				log.Errorf("failed to inspect modelsource directory: %s", err)
+				os.Exit(1)
+			}
+
+			createdRepo, err := lint.EnsureGitRepository(modelDirectory)
+			if err != nil {
+				log.Errorf("failed to initialize modelsource: %s", err)
+				os.Exit(1)
+			}
+			if dirMissing {
+				log.Infof("Created modelsource directory %s", config.Modelsource)
+			}
+			if createdRepo {
+				log.Infof("Initialized git repository in %s; run 'commit' to snapshot the current modelsource", config.Modelsource)
+			} else {
+				log.Infof("Modelsource git repository already initialized in %s", config.Modelsource)
+			}
+		},
+	}
+	rootCmd.AddCommand(cmdInit)
+
+	var cmdCommit = &cobra.Command{
+		Use:   "commit",
+		Short: "Commit the current modelsource state for diff linting",
+		Long:  "Initializes a git repository in modelsource if needed, then stages and commits all modelsource files. Use this to snapshot a baseline so that 'lint --diff' can lint only subsequent changes.",
+		Run: func(cmd *cobra.Command, args []string) {
+			projectDir, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("failed to resolve current working directory: %s\n", err)
+				os.Exit(1)
+			}
+
+			config, err := lint.LoadMergedConfigFromPath(projectDir, configPathForCommand(cmd))
+			if err != nil {
+				fmt.Printf("failed to load configuration: %s\n", err)
+				os.Exit(1)
+			}
+			log := logrus.New()
+			if isVerbose(cmd) {
+				log.SetLevel(logrus.DebugLevel)
+			} else {
+				log.SetLevel(logrus.InfoLevel)
+			}
+			lint.SetLogger(log)
+			lint.SetConfig(config)
+
+			modelDirectory := config.Modelsource
+			if !filepath.IsAbs(modelDirectory) {
+				modelDirectory = filepath.Join(projectDir, modelDirectory)
+			}
+
+			message, err := cmd.Flags().GetString("message")
+			if err != nil {
+				log.Errorf("failed to read --message flag: %s", err)
+				os.Exit(1)
+			}
+
+			committed, err := lint.PersistGitRepository(modelDirectory, message)
+			if err != nil {
+				log.Errorf("failed to commit modelsource: %s", err)
+				os.Exit(1)
+			}
+			if committed {
+				log.Infof("Committed modelsource snapshot in %s", config.Modelsource)
+			} else {
+				log.Infof("No modelsource changes to commit in %s", config.Modelsource)
+			}
+		},
+	}
+	cmdCommit.Flags().StringP("message", "m", "mxlint: commit modelsource", "Commit message for the modelsource snapshot")
+	rootCmd.AddCommand(cmdCommit)
 
 	var cmdConfig = &cobra.Command{
 		Use:   "config",
