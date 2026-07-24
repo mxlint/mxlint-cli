@@ -15,11 +15,12 @@ type MxUnit struct {
 }
 
 type MxDocument struct {
-	Name         string                 `yaml:"Name"`
-	Type         string                 `yaml:"Type"`
-	Path         string                 `yaml:"Path"`
-	Attributes   map[string]interface{} `yaml:"Attributes"`
-	ContentsHash string                 `yaml:"ContentsHash,omitempty"`
+	Name               string                 `yaml:"Name"`
+	Type               string                 `yaml:"Type"`
+	Path               string                 `yaml:"Path"`
+	OriginalFolderPath string                 `yaml:"OriginalFolderPath,omitempty"`
+	Attributes         map[string]interface{} `yaml:"Attributes"`
+	ContentsHash       string                 `yaml:"ContentsHash,omitempty"`
 }
 
 type MxModule struct {

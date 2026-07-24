@@ -25,12 +25,13 @@ var documentContainmentTypes = map[string]struct{}{
 }
 
 type exportDocumentDescriptor struct {
-	UnitID       string
-	Name         string
-	Type         string
-	ContainerID  string
-	Path         string
-	ContentsHash string
+	UnitID             string
+	Name               string
+	Type               string
+	ContainerID        string
+	Path               string // sanitized on-disk folder path
+	OriginalFolderPath string // unsanitized Mendix folder path
+	ContentsHash       string
 }
 
 type cachedUnitContent struct {
@@ -47,7 +48,37 @@ type exportPlan struct {
 	manifest     *exportManifest
 	manifestPath string
 	manifestMu   sync.RWMutex
+	pathMap      map[string]string // disk relative path -> original relative path
+	pathMapMu    sync.Mutex
 	Close        func() error
+}
+
+func (p *exportPlan) recordOriginalPath(diskRel, originalRel string) {
+	if p == nil || diskRel == "" {
+		return
+	}
+	p.pathMapMu.Lock()
+	defer p.pathMapMu.Unlock()
+	if p.pathMap == nil {
+		p.pathMap = make(map[string]string)
+	}
+	p.pathMap[filepath.ToSlash(diskRel)] = filepath.ToSlash(originalRel)
+}
+
+func (p *exportPlan) pathMapSnapshot() map[string]string {
+	if p == nil {
+		return nil
+	}
+	p.pathMapMu.Lock()
+	defer p.pathMapMu.Unlock()
+	if len(p.pathMap) == 0 {
+		return nil
+	}
+	out := make(map[string]string, len(p.pathMap))
+	for k, v := range p.pathMap {
+		out[k] = v
+	}
+	return out
 }
 
 func (p *exportPlan) loadDocument(unitID string) (bson.M, error) {
@@ -152,6 +183,7 @@ func buildExportPlanV1(mprPath string) (*exportPlan, error) {
 	connectFolderParents(folders)
 	for i := range documents {
 		documents[i].Path = getMxDocumentPath(documents[i].ContainerID, folders)
+		documents[i].OriginalFolderPath = getMxDocumentOriginalPath(documents[i].ContainerID, folders)
 		if cached, ok := unitCache[documents[i].UnitID]; ok {
 			documents[i].ContentsHash = cached.ContentsHash
 		}
@@ -162,6 +194,7 @@ func buildExportPlanV1(mprPath string) (*exportPlan, error) {
 		Modules:   modules,
 		Documents: documents,
 		unitCache: unitCache,
+		pathMap:   make(map[string]string),
 		Close: func() error {
 			return nil
 		},
@@ -259,6 +292,9 @@ func buildExportPlanV2(inputDirectory string, mprPath string) (*exportPlan, erro
 		if documents[i].Path == "" {
 			documents[i].Path = getMxDocumentPath(documents[i].ContainerID, folders)
 		}
+		if documents[i].OriginalFolderPath == "" {
+			documents[i].OriginalFolderPath = getMxDocumentOriginalPath(documents[i].ContainerID, folders)
+		}
 	}
 
 	log.Debugf("Built export plan from SQLite: %d modules, %d documents (%d structure units cached)",
@@ -271,6 +307,7 @@ func buildExportPlanV2(inputDirectory string, mprPath string) (*exportPlan, erro
 		mxunitPaths:  mxunitPaths,
 		manifest:     manifest,
 		manifestPath: manifestPath,
+		pathMap:      make(map[string]string),
 		Close: func() error {
 			return nil
 		},
@@ -532,6 +569,9 @@ func exportDocument(plan *exportPlan, document exportDocumentDescriptor, outputD
 		return false, err
 	} else if skipped {
 		log.Debugf("Skipping unchanged document '%s'", doc.Name)
+		if entry, ok := plan.lookupManifestEntry(doc.UnitID, doc.ContentsHash); ok && entry.RelativePath != "" {
+			plan.recordOriginalPath(entry.RelativePath, originalDocumentRelativePath(doc.OriginalFolderPath, doc.Name, doc.Type))
+		}
 		return true, nil
 	}
 
@@ -539,6 +579,7 @@ func exportDocument(plan *exportPlan, document exportDocumentDescriptor, outputD
 		return false, err
 	} else if ok {
 		plan.recordManifestEntry(doc.UnitID, manifestEntryForDocument(doc, relPath, plan.mxunitPaths[doc.UnitID]))
+		plan.recordOriginalPath(relPath, originalDocumentRelativePath(doc.OriginalFolderPath, doc.Name, doc.Type))
 		return true, nil
 	}
 
@@ -559,6 +600,7 @@ func exportDocument(plan *exportPlan, document exportDocumentDescriptor, outputD
 		return false, err
 	}
 	plan.recordManifestEntry(doc.UnitID, manifestEntryForDocument(doc, relPath, plan.mxunitPaths[doc.UnitID]))
+	plan.recordOriginalPath(relPath, originalDocumentRelativePath(doc.OriginalFolderPath, doc.Name, doc.Type))
 	return true, nil
 }
 
