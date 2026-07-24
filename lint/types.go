@@ -19,11 +19,12 @@ type Testsuite struct {
 }
 
 type Testcase struct {
-	XMLName xml.Name `xml:"testcase" json:"-"`
-	Name    string   `xml:"name,attr" json:"name"`
-	Time    float64  `xml:"time,attr" json:"time"`
-	Failure *Failure `xml:"failure,omitempty" json:"failure,omitempty"`
-	Skipped *Skipped `xml:"skipped,omitempty" json:"skipped,omitempty"`
+	XMLName      xml.Name `xml:"testcase" json:"-"`
+	Name         string   `xml:"name,attr" json:"name"`
+	OriginalPath string   `xml:"originalPath,attr,omitempty" json:"originalPath,omitempty"`
+	Time         float64  `xml:"time,attr" json:"time"`
+	Failure      *Failure `xml:"failure,omitempty" json:"failure,omitempty"`
+	Skipped      *Skipped `xml:"skipped,omitempty" json:"skipped,omitempty"`
 }
 
 type Failure struct {

@@ -43,7 +43,7 @@ func TestMPRV2Metadata(t *testing.T) {
 
 func TestMPRV2Units(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v2", "./../tmp", false, ""); err != nil {
+		if _, _, err := exportUnits("./../resources/app-mpr-v2", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
