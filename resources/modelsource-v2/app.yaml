@@ -2,94 +2,168 @@ content:
     - name: Metadata.yaml
       type: file
       path: Metadata.yaml
+      originalName: Metadata.yaml
     - name: Module2
       type: directory
       path: Module2
+      originalName: Module2
       content:
         - name: DomainModels$DomainModel.yaml
           type: file
           path: Module2/DomainModels$DomainModel.yaml
+          originalName: DomainModels$DomainModel.yaml
         - name: Folder_
           type: directory
           path: Module2/Folder_
+          originalName: Folder?
           content:
             - name: Constant.Constants$Constant.yaml
               type: file
               path: Module2/Folder_/Constant.Constants$Constant.yaml
+              originalName: Constant.Constants$Constant.yaml
         - name: Folder_test3
           type: directory
           path: Module2/Folder_test3
+          originalName: Folder\test3
           content:
             - name: Constant_4.Constants$Constant.yaml
               type: file
               path: Module2/Folder_test3/Constant_4.Constants$Constant.yaml
+              originalName: Constant_4.Constants$Constant.yaml
         - name: Folder_testverylongl_TRUNCATED_70781_longlong name
           type: directory
           path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name
+          originalName: Folder
           content:
             - name: Folder testverylongl_TRUNCATED_82413_glonglonglong
               type: directory
               path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong
+              originalName: testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong name
               content:
                 - name: Constant_3.Constants$Constant.yaml
                   type: file
                   path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong/Constant_3.Constants$Constant.yaml
+                  originalName: Constant_3.Constants$Constant.yaml
         - name: MicroflowLoopExample.Microflows$Microflow.yaml
           type: file
           path: Module2/MicroflowLoopExample.Microflows$Microflow.yaml
+          originalName: MicroflowLoopExample.Microflows$Microflow.yaml
         - name: MicroflowNonPersist.Microflows$Microflow.yaml
           type: file
           path: Module2/MicroflowNonPersist.Microflows$Microflow.yaml
+          originalName: MicroflowNonPersist.Microflows$Microflow.yaml
         - name: MultiLineMicroflow.Microflows$Microflow.yaml
           type: file
           path: Module2/MultiLineMicroflow.Microflows$Microflow.yaml
+          originalName: MultiLineMicroflow.Microflows$Microflow.yaml
         - name: Projects$ModuleSettings.yaml
           type: file
           path: Module2/Projects$ModuleSettings.yaml
+          originalName: Projects$ModuleSettings.yaml
         - name: Security$ModuleSecurity.yaml
           type: file
           path: Module2/Security$ModuleSecurity.yaml
+          originalName: Security$ModuleSecurity.yaml
         - name: SubMicroflowExample.Microflows$Microflow.yaml
           type: file
           path: Module2/SubMicroflowExample.Microflows$Microflow.yaml
+          originalName: SubMicroflowExample.Microflows$Microflow.yaml
         - name: _
           type: directory
           path: Module2/_
+          originalName: _
           content:
             - name: Constant_2.Constants$Constant.yaml
               type: file
               path: Module2/_/Constant_2.Constants$Constant.yaml
+              originalName: Constant_2.Constants$Constant.yaml
     - name: MyFirstModule
       type: directory
       path: MyFirstModule
+      originalName: MyFirstModule
       content:
         - name: DomainModels$DomainModel.yaml
           type: file
           path: MyFirstModule/DomainModels$DomainModel.yaml
+          originalName: DomainModels$DomainModel.yaml
         - name: Home_Web.Forms$Page.yaml
           type: file
           path: MyFirstModule/Home_Web.Forms$Page.yaml
+          originalName: Home_Web.Forms$Page.yaml
         - name: Images.Images$ImageCollection.yaml
           type: file
           path: MyFirstModule/Images.Images$ImageCollection.yaml
+          originalName: Images.Images$ImageCollection.yaml
         - name: MyFirstLogic.Microflows$Microflow.yaml
           type: file
           path: MyFirstModule/MyFirstLogic.Microflows$Microflow.yaml
+          originalName: MyFirstLogic.Microflows$Microflow.yaml
         - name: Projects$ModuleSettings.yaml
           type: file
           path: MyFirstModule/Projects$ModuleSettings.yaml
+          originalName: Projects$ModuleSettings.yaml
         - name: Security$ModuleSecurity.yaml
           type: file
           path: MyFirstModule/Security$ModuleSecurity.yaml
+          originalName: Security$ModuleSecurity.yaml
     - name: Navigation$NavigationDocument.yaml
       type: file
       path: Navigation$NavigationDocument.yaml
+      originalName: Navigation$NavigationDocument.yaml
     - name: Security$ProjectSecurity.yaml
       type: file
       path: Security$ProjectSecurity.yaml
+      originalName: Security$ProjectSecurity.yaml
     - name: Settings$ProjectSettings.yaml
       type: file
       path: Settings$ProjectSettings.yaml
+      originalName: Settings$ProjectSettings.yaml
     - name: Texts$SystemTextCollection.yaml
       type: file
       path: Texts$SystemTextCollection.yaml
+      originalName: Texts$SystemTextCollection.yaml
+files:
+    - path: Metadata.yaml
+      originalPath: Metadata.yaml
+    - path: Module2/DomainModels$DomainModel.yaml
+      originalPath: Module2/DomainModels$DomainModel.yaml
+    - path: Module2/Folder_/Constant.Constants$Constant.yaml
+      originalPath: Module2/Folder?/Constant.Constants$Constant.yaml
+    - path: Module2/Folder_test3/Constant_4.Constants$Constant.yaml
+      originalPath: Module2/Folder\test3/Constant_4.Constants$Constant.yaml
+    - path: Module2/Folder_testverylongl_TRUNCATED_70781_longlong name/Folder testverylongl_TRUNCATED_82413_glonglonglong/Constant_3.Constants$Constant.yaml
+      originalPath: Module2/Folder/testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong name/Folder testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong testverylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong/Constant_3.Constants$Constant.yaml
+    - path: Module2/MicroflowLoopExample.Microflows$Microflow.yaml
+      originalPath: Module2/MicroflowLoopExample.Microflows$Microflow.yaml
+    - path: Module2/MicroflowNonPersist.Microflows$Microflow.yaml
+      originalPath: Module2/MicroflowNonPersist.Microflows$Microflow.yaml
+    - path: Module2/MultiLineMicroflow.Microflows$Microflow.yaml
+      originalPath: Module2/MultiLineMicroflow.Microflows$Microflow.yaml
+    - path: Module2/Projects$ModuleSettings.yaml
+      originalPath: Module2/Projects$ModuleSettings.yaml
+    - path: Module2/Security$ModuleSecurity.yaml
+      originalPath: Module2/Security$ModuleSecurity.yaml
+    - path: Module2/SubMicroflowExample.Microflows$Microflow.yaml
+      originalPath: Module2/SubMicroflowExample.Microflows$Microflow.yaml
+    - path: Module2/_/Constant_2.Constants$Constant.yaml
+      originalPath: Constant_2.Constants$Constant.yaml
+    - path: MyFirstModule/DomainModels$DomainModel.yaml
+      originalPath: MyFirstModule/DomainModels$DomainModel.yaml
+    - path: MyFirstModule/Home_Web.Forms$Page.yaml
+      originalPath: MyFirstModule/Home_Web.Forms$Page.yaml
+    - path: MyFirstModule/Images.Images$ImageCollection.yaml
+      originalPath: MyFirstModule/Images.Images$ImageCollection.yaml
+    - path: MyFirstModule/MyFirstLogic.Microflows$Microflow.yaml
+      originalPath: MyFirstModule/MyFirstLogic.Microflows$Microflow.yaml
+    - path: MyFirstModule/Projects$ModuleSettings.yaml
+      originalPath: MyFirstModule/Projects$ModuleSettings.yaml
+    - path: MyFirstModule/Security$ModuleSecurity.yaml
+      originalPath: MyFirstModule/Security$ModuleSecurity.yaml
+    - path: Navigation$NavigationDocument.yaml
+      originalPath: Navigation$NavigationDocument.yaml
+    - path: Security$ProjectSecurity.yaml
+      originalPath: Security$ProjectSecurity.yaml
+    - path: Settings$ProjectSettings.yaml
+      originalPath: Settings$ProjectSettings.yaml
+    - path: Texts$SystemTextCollection.yaml
+      originalPath: Texts$SystemTextCollection.yaml
