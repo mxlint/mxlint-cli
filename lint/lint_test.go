@@ -3,9 +3,23 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
+
+// assertNonNegativeTime checks elapsed timing. On Windows, sub-tick work can
+// legitimately report 0; elsewhere we still require a positive value.
+func assertNonNegativeTime(t *testing.T, label string, seconds float64) {
+	t.Helper()
+	if seconds < 0 {
+		t.Errorf("Expected non-negative time for %s, got %v", label, seconds)
+		return
+	}
+	if runtime.GOOS != "windows" && seconds <= 0 {
+		t.Errorf("Expected positive time for %s, got %v", label, seconds)
+	}
+}
 
 func TestEvalTestsuite_Rego(t *testing.T) {
 	t.Run("single Rego rule passes", func(t *testing.T) {
@@ -688,14 +702,14 @@ function rule(input) {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
 
-	if result.Time <= 0 {
-		t.Error("Expected positive total time")
+	if len(result.Testcases) == 0 {
+		t.Fatal("Expected at least one timed testcase")
 	}
 
+	// Very fast evaluations can report 0s on Windows (coarse timer resolution).
+	assertNonNegativeTime(t, "total", result.Time)
 	for _, tc := range result.Testcases {
-		if tc.Time <= 0 {
-			t.Errorf("Expected positive time for testcase %s", tc.Name)
-		}
+		assertNonNegativeTime(t, tc.Name, tc.Time)
 	}
 }
 
