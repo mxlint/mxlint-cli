@@ -6,6 +6,17 @@ import (
 	"testing"
 )
 
+// jsPath formats a filesystem path for embedding in a JavaScript string literal.
+// On Windows, backslashes would otherwise be interpreted as JS escape sequences.
+func jsPath(path string) string {
+	return filepath.ToSlash(path)
+}
+
+// outsideRootPath returns an absolute path that is a sibling of root (hence outside it).
+func outsideRootPath(root string) string {
+	return filepath.Join(filepath.Dir(root), "mxlint-outside-root")
+}
+
 func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	// Create a temporary directory for test files
 	tempDir := t.TempDir()
@@ -35,7 +46,7 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 	t.Run("read file with absolute path", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
 
-		script := `mxlint.io.readfile("` + testFilePath + `")`
+		script := `mxlint.io.readfile("` + jsPath(testFilePath) + `")`
 		result, err := vm.RunString(script)
 		if err != nil {
 			t.Fatalf("Failed to run script: %v", err)
@@ -90,10 +101,11 @@ func TestSetupJavascriptVM_MxlintReadfile(t *testing.T) {
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
+		outside := jsPath(outsideRootPath(tempDir))
 
 		script := `
 		try {
-			mxlint.io.readfile("/etc/passwd");
+			mxlint.io.readfile("` + outside + `");
 			"no error";
 		} catch (e) {
 			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
@@ -416,7 +428,7 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 	t.Run("list directory with absolute path", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
 
-		script := `JSON.stringify(mxlint.io.listdir("` + tempDir + `").sort())`
+		script := `JSON.stringify(mxlint.io.listdir("` + jsPath(tempDir) + `").sort())`
 		result, err := vm.RunString(script)
 		if err != nil {
 			t.Fatalf("Failed to run script: %v", err)
@@ -487,10 +499,11 @@ func TestSetupJavascriptVM_MxlintListdir(t *testing.T) {
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
+		outside := jsPath(outsideRootPath(tempDir))
 
 		script := `
 		try {
-			mxlint.io.listdir("/etc");
+			mxlint.io.listdir("` + outside + `");
 			"no error";
 		} catch (e) {
 			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
@@ -602,7 +615,7 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 	t.Run("isdir returns true for directory with absolute path", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
 
-		script := `mxlint.io.isdir("` + filepath.Join(tempDir, "subdir") + `")`
+		script := `mxlint.io.isdir("` + jsPath(filepath.Join(tempDir, "subdir")) + `")`
 		result, err := vm.RunString(script)
 		if err != nil {
 			t.Fatalf("Failed to run script: %v", err)
@@ -678,10 +691,11 @@ func TestSetupJavascriptVM_MxlintIsdir(t *testing.T) {
 
 	t.Run("absolute path outside working directory is blocked", func(t *testing.T) {
 		vm := setupJavascriptVM(tempDir, tempDir)
+		outside := jsPath(outsideRootPath(tempDir))
 
 		script := `
 		try {
-			mxlint.io.isdir("/etc");
+			mxlint.io.isdir("` + outside + `");
 			"no error";
 		} catch (e) {
 			e.message.includes("outside modelsource root") ? "blocked" : "other error: " + e.message;
