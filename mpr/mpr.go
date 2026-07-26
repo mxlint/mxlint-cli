@@ -286,9 +286,12 @@ func getMxDocumentPathRecursive(folder MxFolder, depth int) string {
 	}
 	if folder.Parent == nil {
 		return sanitizePathComponent(folder.Name)
-	} else {
-		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), sanitizePathComponent(folder.Name))
 	}
+	// Mendix document paths are logical (slash-separated), not OS paths.
+	return filepath.ToSlash(filepath.Join(
+		getMxDocumentPathRecursive(*folder.Parent, depth-1),
+		sanitizePathComponent(folder.Name),
+	))
 }
 
 func getMxDocumentPath(containerID string, folders []MxFolder) string {
@@ -314,7 +317,7 @@ func getMxDocumentOriginalPathRecursive(folder MxFolder, depth int) string {
 	if folder.Name == "" {
 		return parent
 	}
-	return filepath.Join(parent, folder.Name)
+	return filepath.ToSlash(filepath.Join(parent, folder.Name))
 }
 
 func getMxDocumentOriginalPath(containerID string, folders []MxFolder) string {
@@ -403,18 +406,19 @@ func sanitizePathComponent(name string) string {
 	return sanitized
 }
 
-// sanitizePath sanitizes a full path by sanitizing each component
+// sanitizePath sanitizes a full path by sanitizing each component.
+// Paths are treated as slash-separated Mendix/logical paths on all platforms.
 func sanitizePath(path string) string {
-	// Split the path into components
-	components := strings.Split(path, string(filepath.Separator))
+	path = filepath.ToSlash(path)
+	if path == "" {
+		return ""
+	}
 
-	// Sanitize each component
+	components := strings.Split(path, "/")
 	for i, component := range components {
 		components[i] = sanitizePathComponent(component)
 	}
-
-	// Rejoin the path
-	return filepath.Join(components...)
+	return strings.Join(components, "/")
 }
 
 // truncatePathComponent truncates a path component to maxLen while maintaining uniqueness
@@ -470,7 +474,8 @@ func max(a, b int) int {
 
 // validatePathLength checks if the full path would exceed limits and adjusts if needed
 func validatePathLength(basePath string, relativePath string, filename string) (string, string, error) {
-	fullPath := filepath.Join(basePath, relativePath, filename)
+	relativePath = filepath.ToSlash(relativePath)
+	fullPath := filepath.Join(basePath, filepath.FromSlash(relativePath), filename)
 
 	if len(fullPath) <= MaxSafePath {
 		return relativePath, filename, nil
@@ -480,7 +485,7 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	log.Warnf("Path exceeds safe length (%d chars): %s", len(fullPath), fullPath)
 
 	// Strategy: Truncate path components starting from the deepest
-	components := strings.Split(relativePath, string(filepath.Separator))
+	components := strings.Split(relativePath, "/")
 
 	// Calculate how much we need to save
 	excess := len(fullPath) - MaxSafePath
@@ -505,8 +510,8 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 		}
 	}
 
-	newRelativePath := filepath.Join(components...)
-	newFullPath := filepath.Join(basePath, newRelativePath, filename)
+	newRelativePath := strings.Join(components, "/")
+	newFullPath := filepath.Join(basePath, filepath.FromSlash(newRelativePath), filename)
 
 	log.Warnf("Adjusted path from %d to %d chars", len(fullPath), len(newFullPath))
 

@@ -656,9 +656,9 @@ func writeDocumentToDisk(document exportDocumentDescriptor, outputDirectory stri
 
 	relPath, err := filepath.Rel(outputDirectory, outPath)
 	if err != nil {
-		return filepath.Join(adjustedPath, adjustedFilename), nil
+		return filepath.ToSlash(filepath.Join(adjustedPath, adjustedFilename)), nil
 	}
-	return relPath, nil
+	return filepath.ToSlash(relPath), nil
 }
 
 func extractUnitIDFromRawContents(data map[string]interface{}, path string) (string, error) {

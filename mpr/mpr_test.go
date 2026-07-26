@@ -1106,7 +1106,7 @@ func TestGetMxDocumentOriginalPath(t *testing.T) {
 	child := MxFolder{Name: longName, ID: "child", ParentID: "root", Parent: &root}
 
 	got := getMxDocumentOriginalPathRecursive(child, 10)
-	want := filepath.Join("Module2", longName)
+	want := "Module2/" + longName
 	if got != want {
 		t.Fatalf("getMxDocumentOriginalPathRecursive() = %q, want %q", got, want)
 	}
