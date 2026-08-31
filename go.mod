@@ -8,7 +8,7 @@ require (
 	github.com/glebarez/go-sqlite v1.23.0
 	github.com/grafana/sobek v0.0.0-20251124090928-9a028a30ff58
 	github.com/open-policy-agent/opa v1.19.1
-	github.com/sirupsen/logrus v1.10.1
+	github.com/sirupsen/logrus v1.10.2
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.12.1
 	go.mongodb.org/mongo-driver v1.17.9
