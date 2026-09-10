@@ -1385,6 +1385,40 @@ func TestGenerateAppYamlTruncationMapping(t *testing.T) {
 	}
 }
 
+func TestResolveOriginalPathIsDeterministic(t *testing.T) {
+	// Regression test: Module2 contains one child whose original path does not
+	// preserve the directory depth ("_" folder). With randomized map iteration
+	// order, that child could hijack the derived original path for Module2.
+	pathMap := map[string]string{
+		"Module2/DomainModels$DomainModel.yaml":        "Module2/DomainModels$DomainModel.yaml",
+		"Module2/Projects$ModuleSettings.yaml":         "Module2/Projects$ModuleSettings.yaml",
+		"Module2/_/Constant_2.Constants$Constant.yaml": "Constant_2.Constants$Constant.yaml",
+	}
+
+	for i := 0; i < 100; i++ {
+		if got := resolveOriginalPath("Module2", pathMap); got != "Module2" {
+			t.Fatalf("iteration %d: resolveOriginalPath(Module2) = %q, want %q", i, got, "Module2")
+		}
+		// Only child has a shorter original path, so no prefix can be derived.
+		if got := resolveOriginalPath("Module2/_", pathMap); got != "Module2/_" {
+			t.Fatalf("iteration %d: resolveOriginalPath(Module2/_) = %q, want %q", i, got, "Module2/_")
+		}
+	}
+}
+
+func TestResolveOriginalPathDepthChangingFallback(t *testing.T) {
+	// A folder whose only mapped child has a deeper original path (e.g. the
+	// original folder name contained path separators) still derives its
+	// original prefix from that child.
+	pathMap := map[string]string{
+		"Module2/Folder_trunc name/Constant_3.Constants$Constant.yaml": "Module2/Folder/very long name/Constant_3.Constants$Constant.yaml",
+	}
+
+	if got := resolveOriginalPath("Module2/Folder_trunc name", pathMap); got != "Module2/Folder" {
+		t.Fatalf("resolveOriginalPath = %q, want %q", got, "Module2/Folder")
+	}
+}
+
 func TestExportMetadata_SortsModulesByName(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "mpr-test-metadata-sort-*")
 	if err != nil {

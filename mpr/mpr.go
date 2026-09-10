@@ -1134,29 +1134,62 @@ func buildFileStructure(basePath string, currentPath string, pathMap map[string]
 }
 
 // resolveOriginalPath returns the Mendix original path for a disk-relative path.
-// For directories, derives the original prefix from any mapped child file.
+// For directories, derives the original prefix from a mapped child file.
 func resolveOriginalPath(diskRel string, pathMap map[string]string) string {
 	diskRel = filepath.ToSlash(diskRel)
 	if diskRel == "" || diskRel == "." {
 		return diskRel
 	}
-	if pathMap != nil {
-		if mapped, ok := pathMap[diskRel]; ok && mapped != "" {
-			return filepath.ToSlash(mapped)
+	if pathMap == nil {
+		return diskRel
+	}
+	if mapped, ok := pathMap[diskRel]; ok && mapped != "" {
+		return filepath.ToSlash(mapped)
+	}
+	return deriveOriginalDirPath(diskRel, pathMap)
+}
+
+// deriveOriginalDirPath derives a directory's original path from the mapped
+// child files below it. Children whose original path has the same depth as
+// their disk path map one-to-one onto the directory structure, so their prefix
+// is authoritative; depth-changing mappings are only used as a fallback.
+// Candidates are scanned in sorted order so the result never depends on Go's
+// randomized map iteration order.
+func deriveOriginalDirPath(diskRel string, pathMap map[string]string) string {
+	prefix := diskRel + "/"
+	dirDepth := len(strings.Split(diskRel, "/"))
+
+	type childMapping struct {
+		disk string
+		orig string
+	}
+	children := make([]childMapping, 0, len(pathMap))
+	for disk, orig := range pathMap {
+		disk = filepath.ToSlash(disk)
+		if strings.HasPrefix(disk, prefix) {
+			children = append(children, childMapping{disk: disk, orig: filepath.ToSlash(orig)})
 		}
-		prefix := diskRel + "/"
-		diskParts := strings.Split(diskRel, "/")
-		for disk, orig := range pathMap {
-			disk = filepath.ToSlash(disk)
-			orig = filepath.ToSlash(orig)
-			if !strings.HasPrefix(disk, prefix) {
-				continue
-			}
-			origParts := strings.Split(orig, "/")
-			if len(origParts) >= len(diskParts) {
-				return strings.Join(origParts[:len(diskParts)], "/")
-			}
+	}
+	sort.Slice(children, func(i, j int) bool {
+		return children[i].disk < children[j].disk
+	})
+
+	fallback := ""
+	for _, child := range children {
+		origParts := strings.Split(child.orig, "/")
+		if len(origParts) < dirDepth {
+			continue
 		}
+		derived := strings.Join(origParts[:dirDepth], "/")
+		if len(origParts) == len(strings.Split(child.disk, "/")) {
+			return derived
+		}
+		if fallback == "" {
+			fallback = derived
+		}
+	}
+	if fallback != "" {
+		return fallback
 	}
 	return diskRel
 }
