@@ -2,6 +2,10 @@ name: Release
 permissions:
   contents: write
 
+env:
+  # Build statically-linked binaries so they run on any distro (fully portable)
+  CGO_ENABLED: 0
+
 on:
   release:
     types: [created]

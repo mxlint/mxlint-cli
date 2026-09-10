@@ -1,5 +1,9 @@
 name: Continuous Integration
 
+env:
+  # Build a statically-linked binary so it runs on any distro (fully portable)
+  CGO_ENABLED: 0
+
 on:
   push:
     branches:
