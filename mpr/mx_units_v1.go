@@ -31,9 +31,8 @@ func getMprPath(inputDirectory string) (string, error) {
 		if err != nil {
 			return err
 		}
-		if strings.Contains(path, ".mendix-cache") {
-			log.Debugf("Skipping system managed file %s", path)
-			return nil
+		if err := skipMendixCacheDir(path, info); err != nil {
+			return err
 		}
 		if !info.IsDir() && strings.HasSuffix(info.Name(), ".mpr") {
 			mprPath = path

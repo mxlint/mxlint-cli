@@ -499,9 +499,7 @@ errors contains error if {
 			t.Fatalf("Failed to evaluate testcase: %v", err)
 		}
 
-		if testcase.Time <= 0 {
-			t.Error("Expected positive time value")
-		}
+		assertNonNegativeTime(t, "testcase", testcase.Time)
 	})
 }
 

@@ -13,6 +13,9 @@ import (
 
 const configFileName = "mxlint.yaml"
 
+// skipPathAllDocuments is the lint.skip map key that applies listed rules to every document.
+const skipPathAllDocuments = "*"
+
 type Config struct {
 	Rules            ConfigRulesSpec  `yaml:"rules"`
 	Lint             ConfigLintSpec   `yaml:"lint"`
@@ -26,18 +29,49 @@ type Config struct {
 type ConfigRulesSpec struct {
 	Path     string   `yaml:"path"`
 	Rulesets []string `yaml:"rulesets"`
+	rulesetsSet bool
+}
+
+func (c *ConfigRulesSpec) UnmarshalYAML(value *yaml.Node) error {
+	type configRulesSpecAlias struct {
+		Path     string   `yaml:"path"`
+		Rulesets []string `yaml:"rulesets"`
+	}
+
+	var decoded configRulesSpecAlias
+	if err := value.Decode(&decoded); err != nil {
+		return err
+	}
+
+	c.Path = decoded.Path
+	c.Rulesets = append([]string{}, decoded.Rulesets...)
+	c.rulesetsSet = false
+
+	if value.Kind == yaml.MappingNode {
+		for i := 0; i+1 < len(value.Content); i += 2 {
+			if value.Content[i].Value == "rulesets" {
+				c.rulesetsSet = true
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 type ConfigExportSpec struct {
-	Filter   string `yaml:"filter"`
-	Raw      *bool  `yaml:"raw"`
-	Appstore *bool  `yaml:"appstore"`
+	Filter      string `yaml:"filter"`
+	Raw         *bool  `yaml:"raw"`
+	Appstore    *bool  `yaml:"appstore"`
+	Concurrency *int   `yaml:"concurrency"`
 }
 
 type ConfigLintSpec struct {
 	XunitReport string                      `yaml:"xunitReport"`
 	JSONFile    string                      `yaml:"jsonFile"`
 	IgnoreNoqa  *bool                       `yaml:"ignoreNoqa"`
+	Concurrency *int                        `yaml:"concurrency"`
+	RegoTrace   *bool                       `yaml:"regoTrace"`
 	Skip        map[string][]ConfigSkipRule `yaml:"skip"`
 }
 
@@ -264,7 +298,7 @@ func mergeConfig(base *Config, overlay *Config) {
 	if strings.TrimSpace(overlay.Rules.Path) != "" {
 		base.Rules.Path = strings.TrimSpace(overlay.Rules.Path)
 	}
-	if len(overlay.Rules.Rulesets) > 0 {
+	if overlay.Rules.rulesetsSet {
 		base.Rules.Rulesets = append([]string{}, overlay.Rules.Rulesets...)
 	}
 
@@ -276,6 +310,9 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 	if overlay.Export.Appstore != nil {
 		base.Export.Appstore = overlay.Export.Appstore
+	}
+	if overlay.Export.Concurrency != nil {
+		base.Export.Concurrency = overlay.Export.Concurrency
 	}
 
 	if strings.TrimSpace(overlay.Modelsource) != "" {
@@ -293,11 +330,11 @@ func mergeConfig(base *Config, overlay *Config) {
 	if overlay.Lint.IgnoreNoqa != nil {
 		base.Lint.IgnoreNoqa = overlay.Lint.IgnoreNoqa
 	}
-	if strings.TrimSpace(overlay.Cache.Directory) != "" {
-		base.Cache.Directory = strings.TrimSpace(overlay.Cache.Directory)
+	if overlay.Lint.Concurrency != nil {
+		base.Lint.Concurrency = overlay.Lint.Concurrency
 	}
-	if overlay.Cache.Enable != nil {
-		base.Cache.Enable = overlay.Cache.Enable
+	if overlay.Lint.RegoTrace != nil {
+		base.Lint.RegoTrace = overlay.Lint.RegoTrace
 	}
 
 	if overlay.Serve.Port != nil {
@@ -305,6 +342,13 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 	if overlay.Serve.Debounce != nil {
 		base.Serve.Debounce = overlay.Serve.Debounce
+	}
+
+	if strings.TrimSpace(overlay.Cache.Directory) != "" {
+		base.Cache.Directory = strings.TrimSpace(overlay.Cache.Directory)
+	}
+	if overlay.Cache.Enable != nil {
+		base.Cache.Enable = overlay.Cache.Enable
 	}
 
 	if len(overlay.Lint.Skip) == 0 {
@@ -318,6 +362,15 @@ func mergeConfig(base *Config, overlay *Config) {
 	}
 }
 
+func matchConfigSkipRules(entries []ConfigSkipRule, ruleNumber string) (bool, string) {
+	for _, entry := range entries {
+		if entry.Rule == "" || entry.Rule == "*" || entry.Rule == ruleNumber {
+			return true, formatConfigSkipReason(entry)
+		}
+	}
+	return false, ""
+}
+
 func shouldSkipByConfig(inputFilePath string, ruleNumber string, modelSourcePath string) (bool, string) {
 	cfg := getConfig()
 	if cfg == nil || len(cfg.Lint.Skip) == 0 {
@@ -329,12 +382,13 @@ func shouldSkipByConfig(inputFilePath string, ruleNumber string, modelSourcePath
 		if !ok {
 			continue
 		}
-
-		for _, entry := range entries {
-			if entry.Rule == "" || entry.Rule == "*" || entry.Rule == ruleNumber {
-				return true, formatConfigSkipReason(entry)
-			}
+		if skip, reason := matchConfigSkipRules(entries, ruleNumber); skip {
+			return true, reason
 		}
+	}
+
+	if entries, ok := cfg.Lint.Skip[skipPathAllDocuments]; ok {
+		return matchConfigSkipRules(entries, ruleNumber)
 	}
 
 	return false, ""

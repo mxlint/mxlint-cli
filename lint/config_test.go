@@ -244,6 +244,34 @@ func TestLoadMergedConfigFromPath_MissingExplicitReturnsError(t *testing.T) {
 	}
 }
 
+func TestLoadMergedConfigFromPath_ExplicitCanClearRulesets(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+
+	projectConfig := `rules:
+  rulesets:
+    - file://project-rules
+`
+	explicitConfig := `rules:
+  rulesets: []
+`
+	explicitPath := filepath.Join(projectDir, "custom.yaml")
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+	if err := os.WriteFile(explicitPath, []byte(explicitConfig), 0644); err != nil {
+		t.Fatalf("failed to write explicit config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfigFromPath(projectDir, "custom.yaml")
+	if err != nil {
+		t.Fatalf("LoadMergedConfigFromPath returned error: %v", err)
+	}
+	if len(cfg.Rules.Rulesets) != 0 {
+		t.Fatalf("expected explicit rulesets to clear inherited rulesets, got %#v", cfg.Rules.Rulesets)
+	}
+}
+
 func TestShouldSkipRule_ConfigSkipPathVariants(t *testing.T) {
 	setDefaultConfigForTest(t, "")
 	t.Cleanup(func() {
@@ -324,5 +352,106 @@ func TestLoadMergedConfig_NormalizesSkipMapKeys(t *testing.T) {
 	}
 	if _, ok := cfg.Lint.Skip["./example/doc"]; ok {
 		t.Fatalf("unexpected unnormalized skip key present: %#v", cfg.Lint.Skip)
+	}
+}
+
+func TestLoadMergedConfig_SkipAllDocumentsWildcardKey(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+	projectConfig := `lint:
+  skip:
+    "*":
+      - rule: "001_002"
+        reason: global doc skip
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+
+	if _, ok := cfg.Lint.Skip["*"]; !ok {
+		t.Fatalf("expected skip key *, got %#v", cfg.Lint.Skip)
+	}
+	SetConfig(cfg)
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	skip, reason := shouldSkipRule("", "001_002", true, "/tmp/modelsource/any/nested/file.yaml", "/tmp/modelsource")
+	if !skip {
+		t.Fatal("expected lint.skip * document path to match any file")
+	}
+	if reason != "global doc skip" {
+		t.Fatalf("expected configured reason, got %s", reason)
+	}
+}
+
+func TestLoadMergedConfig_CacheFromDefaultAndProject(t *testing.T) {
+	projectDir := t.TempDir()
+	enableFalse := false
+	t.Setenv("MXLINT_SYSTEM_CONFIG", filepath.Join(t.TempDir(), "missing-system.yaml"))
+
+	defaultConfig := `cache:
+  directory: .mendix-cache/default-cache
+  enable: true
+`
+	setDefaultConfigForTest(t, defaultConfig)
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+	if cfg.Cache.Directory != ".mendix-cache/default-cache" {
+		t.Fatalf("expected default cache directory, got %q", cfg.Cache.Directory)
+	}
+	if cfg.Cache.Enable == nil || *cfg.Cache.Enable != true {
+		t.Fatalf("expected default cache.enable=true, got %#v", cfg.Cache.Enable)
+	}
+
+	projectConfig := `cache:
+  directory: .mendix-cache/mxlint
+  enable: false
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err = LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+	if cfg.Cache.Directory != ".mendix-cache/mxlint" {
+		t.Fatalf("expected project cache directory override, got %q", cfg.Cache.Directory)
+	}
+	if cfg.Cache.Enable == nil || *cfg.Cache.Enable != enableFalse {
+		t.Fatalf("expected project cache.enable=false, got %#v", cfg.Cache.Enable)
+	}
+}
+
+func TestLoadMergedConfig_LintConcurrencyAndTrace(t *testing.T) {
+	projectDir := t.TempDir()
+	setDefaultConfigForTest(t, "")
+	projectConfig := `lint:
+  concurrency: 2
+  regoTrace: true
+`
+	if err := os.WriteFile(filepath.Join(projectDir, "mxlint.yaml"), []byte(projectConfig), 0644); err != nil {
+		t.Fatalf("failed to write project config: %v", err)
+	}
+
+	cfg, err := LoadMergedConfig(projectDir)
+	if err != nil {
+		t.Fatalf("LoadMergedConfig returned error: %v", err)
+	}
+
+	if cfg.Lint.Concurrency == nil || *cfg.Lint.Concurrency != 2 {
+		t.Fatalf("expected lint.concurrency=2, got %#v", cfg.Lint.Concurrency)
+	}
+	if cfg.Lint.RegoTrace == nil || *cfg.Lint.RegoTrace != true {
+		t.Fatalf("expected lint.regoTrace=true, got %#v", cfg.Lint.RegoTrace)
 	}
 }

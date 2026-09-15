@@ -3,9 +3,23 @@ package lint
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
+
+// assertNonNegativeTime checks elapsed timing. On Windows, sub-tick work can
+// legitimately report 0; elsewhere we still require a positive value.
+func assertNonNegativeTime(t *testing.T, label string, seconds float64) {
+	t.Helper()
+	if seconds < 0 {
+		t.Errorf("Expected non-negative time for %s, got %v", label, seconds)
+		return
+	}
+	if runtime.GOOS != "windows" && seconds <= 0 {
+		t.Errorf("Expected positive time for %s, got %v", label, seconds)
+	}
+}
 
 func TestEvalTestsuite_Rego(t *testing.T) {
 	t.Run("single Rego rule passes", func(t *testing.T) {
@@ -14,7 +28,7 @@ func TestEvalTestsuite_Rego(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -67,7 +81,7 @@ errors contains "Always fails"
 			Language:    LanguageRego,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -85,7 +99,7 @@ func TestEvalTestsuite_Javascript(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -134,7 +148,7 @@ function rule(input) {
 			Language:    LanguageJavascript,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -152,7 +166,7 @@ func TestEvalTestsuite_Typescript(t *testing.T) {
 			t.Fatalf("Failed to parse rule metadata: %v", err)
 		}
 
-		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false)
+		result, err := evalTestsuite(*rule, "./../resources/modelsource-v1", false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -203,7 +217,7 @@ Name: "Test"
 	}
 
 	t.Run("documentation noqa is ignored", func(t *testing.T) {
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -217,7 +231,7 @@ Name: "Test"
 	})
 
 	t.Run("ignoreNoqa has no effect on documentation skip", func(t *testing.T) {
-		result, err := evalTestsuite(rule, tempDir, true, false)
+		result, err := evalTestsuite(rule, tempDir, true, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Failed to evaluate testsuite: %v", err)
 		}
@@ -275,7 +289,7 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
@@ -330,6 +344,43 @@ func TestCountTotalTestcases(t *testing.T) {
 			result := countTotalTestcases(tt.testsuites)
 			if result != tt.expected {
 				t.Errorf("Expected %d, got %d", tt.expected, result)
+			}
+		})
+	}
+}
+
+func TestFormatTestcaseName(t *testing.T) {
+	tests := []struct {
+		name            string
+		inputFilePath   string
+		modelSourcePath string
+		expected        string
+	}{
+		{
+			name:            "relative path strips modelsource prefix",
+			inputFilePath:   "modelsource-v2/Security$ProjectSecurity.yaml",
+			modelSourcePath: "modelsource-v2",
+			expected:        "Security$ProjectSecurity.yaml",
+		},
+		{
+			name:            "absolute path strips modelsource prefix",
+			inputFilePath:   "/tmp/project/modelsource-v2/Module2/DomainModels$DomainModel.yaml",
+			modelSourcePath: "/tmp/project/modelsource-v2",
+			expected:        "Module2/DomainModels$DomainModel.yaml",
+		},
+		{
+			name:            "outside modelsource falls back to basename",
+			inputFilePath:   "/tmp/project/other/path/file.yaml",
+			modelSourcePath: "/tmp/project/modelsource-v2",
+			expected:        "file.yaml",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actual := formatTestcaseName(tt.inputFilePath, tt.modelSourcePath)
+			if actual != tt.expected {
+				t.Fatalf("expected %q, got %q", tt.expected, actual)
 			}
 		})
 	}
@@ -446,7 +497,7 @@ function rule(input) {
 
 func TestEvalAll(t *testing.T) {
 	t.Run("all rules pass", func(t *testing.T) {
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -456,7 +507,7 @@ func TestEvalAll(t *testing.T) {
 		tempDir := t.TempDir()
 		xunitPath := filepath.Join(tempDir, "report.xml")
 
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", xunitPath, "", false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", xunitPath, "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -471,7 +522,7 @@ func TestEvalAll(t *testing.T) {
 		tempDir := t.TempDir()
 		jsonPath := filepath.Join(tempDir, "report.json")
 
-		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", jsonPath, false, false)
+		err := EvalAll("./../resources/rules", "./../resources/modelsource-v1", "", jsonPath, false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -485,7 +536,7 @@ func TestEvalAll(t *testing.T) {
 
 func TestEvalAllWithResults(t *testing.T) {
 	t.Run("returns results", func(t *testing.T) {
-		result, err := EvalAllWithResults("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false)
+		result, err := EvalAllWithResults("./../resources/rules", "./../resources/modelsource-v1", "", "", false, false, nil)
 		if err != nil {
 			t.Errorf("Expected no failures: %v", err)
 		}
@@ -547,7 +598,7 @@ function rule(input) {
 			Language:    LanguageJavascript,
 		}
 
-		result, err := evalTestsuite(rule, tempDir, false, false)
+		result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 		if err != nil {
 			t.Fatalf("Expected testsuite evaluation to succeed, got: %v", err)
 		}
@@ -603,7 +654,7 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
@@ -646,19 +697,19 @@ function rule(input) {
 		Language:    LanguageJavascript,
 	}
 
-	result, err := evalTestsuite(rule, tempDir, false, false)
+	result, err := evalTestsuite(rule, tempDir, false, false, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to evaluate testsuite: %v", err)
 	}
 
-	if result.Time <= 0 {
-		t.Error("Expected positive total time")
+	if len(result.Testcases) == 0 {
+		t.Fatal("Expected at least one timed testcase")
 	}
 
+	// Very fast evaluations can report 0s on Windows (coarse timer resolution).
+	assertNonNegativeTime(t, "total", result.Time)
 	for _, tc := range result.Testcases {
-		if tc.Time <= 0 {
-			t.Errorf("Expected positive time for testcase %s", tc.Name)
-		}
+		assertNonNegativeTime(t, tc.Name, tc.Time)
 	}
 }
 

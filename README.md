@@ -81,11 +81,15 @@ lint:
   xunitReport: report.xml
   jsonFile: ""
   ignoreNoqa: false
-  noCache: false
+  concurrency: 4
+  regoTrace: false
   skip:
     example/doc:
       - rule: "001_002"
         reason: accepted risk
+cache:
+  directory: .mendix-cache/mxlint
+  enable: true
 modelsource: modelsource
 projectDirectory: .
 export:
@@ -101,7 +105,10 @@ Notes:
 - `rules.path` is the local rules directory used by `lint`.
 - `rules.rulesets` are synchronized into `rules.path` before linting.
 - `lint.skip` supports skipping by document path (relative to `modelsource`) and rule number.
-- `lint.noCache` disables lint result cache when set to `true`.
+- `cache.enable` controls lint and export caching. Set to `false` to disable both.
+- `cache.directory` sets the base directory for lint and export cache files.
+- `lint.concurrency` limits how many rules are evaluated in parallel. Lower values reduce peak memory usage for large models.
+- `lint.regoTrace` enables OPA tracing for Rego rules. Keep it `false` for normal runs to reduce memory overhead.
 
 ---
 
@@ -121,6 +128,43 @@ Evaluate Mendix model against rules. Requires the model to be exported first.
 **Usage:**
 ```bash
 mxlint-cli lint
+mxlint-cli lint --diff
+```
+
+`--diff` only evaluates model documents with unstaged or untracked changes in the modelsource git repository. Run `init` and `commit` first to create a baseline snapshot. This does not require the Mendix project itself to track modelsource in git.
+
+---
+
+### init
+
+Create the modelsource directory if needed and initialize it as a git repository root for diff linting.
+
+**Usage:**
+```bash
+mxlint-cli init
+```
+
+---
+
+### commit
+
+Commit the current modelsource state so later `lint --diff` runs can lint only subsequent changes.
+
+**Usage:**
+```bash
+mxlint-cli commit
+mxlint-cli commit -m "baseline after export"
+```
+
+Typical workflow:
+
+```bash
+mxlint-cli export
+mxlint-cli init
+mxlint-cli commit
+# ... model changes ...
+mxlint-cli export
+mxlint-cli lint --diff
 ```
 
 ---
@@ -301,6 +345,8 @@ Run a server that exports model and lints whenever the input MPR file changes. T
 
 ```
 ./bin/mxlint-cli-darwin-arm64 --config mxlint.yaml serve
+INFO[0000] Rules directory .mendix-cache/rules found
+INFO[0000] Syncing 2 rulesets to .mendix-cache/rules
 INFO[0000] Starting server on port 8084
 INFO[0000] Watching for changes in /Users/xcheng/project
 INFO[0000] Output directory: modelsource
@@ -323,14 +369,14 @@ The serve command provides:
 
 ## test-rules
 
-Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format. 
+Rules can be written in both `Rego` and `JavaScript` format. To speed up rule development we have implemented `test-rules` subcommand that can quickly evaluate your rule against known test scenarios. The test cases are written in `yaml` format.
 
 ```
 $ ./bin/mxlint-darwin-arm64 --config .ci/test-rules.yaml test-rules
-INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js 
+INFO[0000] >> resources/rules/001_0002_demo_users_disabled.js
 INFO[0000] PASS  allow
 INFO[0000] PASS  no_allow
-INFO[0000] >> resources/rules/001_0003_security_checks.rego 
+INFO[0000] >> resources/rules/001_0003_security_checks.rego
 INFO[0000] PASS  allow
 INFO[0000] PASS  no_allow_1
 INFO[0000] PASS  no_allow_2

@@ -1,6 +1,7 @@
 package lint
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -50,9 +51,48 @@ func resolvePath(pathArg string, workingDirectory string, allowedRoot string) (s
 	return absFullPath, nil
 }
 
+// readYAMLDocumentFromPath reads a YAML file and decodes it into a map suitable for JavaScript rules.
+func readYAMLDocumentFromPath(absPath string) (map[string]interface{}, error) {
+	documentContent, err := os.ReadFile(absPath)
+	if err != nil {
+		return nil, err
+	}
+
+	var data map[string]interface{}
+	var node yaml.Node
+	err = yaml.Unmarshal(documentContent, &node)
+	if err != nil {
+		return nil, err
+	}
+	err = node.Decode(&data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// readJSONDocumentFromPath reads a JSON file and decodes it into a value suitable for JavaScript rules.
+func readJSONDocumentFromPath(absPath string) (interface{}, error) {
+	documentContent, err := os.ReadFile(absPath)
+	if err != nil {
+		return nil, err
+	}
+
+	var data interface{}
+	err = json.Unmarshal(documentContent, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 // setupJavascriptVM creates a new sobek VM with the mxlint object exposed.
 // The mxlint object provides utility functions for JavaScript rules:
 //   - mxlint.io.readfile(path): Reads a file and returns its contents as a string.
+//     The path is resolved relative to the workingDirectory.
+//   - mxlint.io.readYaml(path): Reads a YAML file and returns its parsed content as an object.
+//     The path is resolved relative to the workingDirectory.
+//   - mxlint.io.readJson(path): Reads a JSON file and returns its parsed content.
 //     The path is resolved relative to the workingDirectory.
 //   - mxlint.io.listdir(path): Lists the contents of a directory and returns an array of filenames.
 //     The path is resolved relative to the workingDirectory.
@@ -86,6 +126,44 @@ func setupJavascriptVM(workingDirectory string, allowedRoot string) *sobek.Runti
 			panic(vm.NewGoError(err))
 		}
 		return vm.ToValue(string(content))
+	})
+
+	// Set the readYaml function
+	io.Set("readYaml", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readYaml requires a file path argument")))
+		}
+		filepathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(filepathArg, workingDirectory, allowedRoot)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readYaml: %w", err)))
+		}
+
+		data, err := readYAMLDocumentFromPath(absPath)
+		if err != nil {
+			panic(vm.NewGoError(err))
+		}
+		return vm.ToValue(data)
+	})
+
+	// Set the readJson function
+	io.Set("readJson", func(call sobek.FunctionCall) sobek.Value {
+		if len(call.Arguments) == 0 {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readJson requires a file path argument")))
+		}
+		filepathArg := call.Argument(0).String()
+
+		absPath, err := resolvePath(filepathArg, workingDirectory, allowedRoot)
+		if err != nil {
+			panic(vm.NewGoError(fmt.Errorf("mxlint.io.readJson: %w", err)))
+		}
+
+		data, err := readJSONDocumentFromPath(absPath)
+		if err != nil {
+			panic(vm.NewGoError(err))
+		}
+		return vm.ToValue(data)
 	})
 
 	// Set the listdir function
@@ -144,23 +222,9 @@ func evalTestcase_Javascript(rulePath string, inputFilePath string, ruleNumber s
 	ruleContent, _ := os.ReadFile(rulePath)
 	log.Debugf("js file: \n%s", ruleContent)
 
-	documentContent, err := os.ReadFile(inputFilePath)
+	data, err := readYAMLDocumentFromPath(inputFilePath)
 	if err != nil {
 		log.Errorf("Error reading YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
-		return nil, err
-	}
-
-	// parse the input file as YAML
-	var data map[string]interface{}
-	var node yaml.Node
-	err = yaml.Unmarshal(documentContent, &node)
-	if err != nil {
-		log.Errorf("Error parsing YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
-		return nil, err
-	}
-	err = node.Decode(&data)
-	if err != nil {
-		log.Errorf("Error decoding YAML file %q (rule: %q): %s\n", inputFilePath, rulePath, err)
 		return nil, err
 	}
 

@@ -52,6 +52,7 @@ func runServe(cmd *cobra.Command, args []string) {
 	}
 	lint.SetConfig(config)
 	configureCacheForServe(config, projectDir)
+	mpr.ConfigureExportConcurrency(config.Export.Concurrency)
 
 	inputDirectory := config.ProjectDirectory
 	outputDirectory := config.Modelsource
@@ -84,6 +85,14 @@ func runServe(cmd *cobra.Command, args []string) {
 		}
 	} else {
 		log.Infof("Rules directory %s found", rulesDirectory)
+	}
+
+	// Sync rulesets from config if specified
+	if config != nil && len(config.Rules.Rulesets) > 0 {
+		log.Infof("Syncing %d rulesets to %s", len(config.Rules.Rulesets), rulesDirectory)
+		if err := lint.SyncRulesets(config.Rules.Rulesets, rulesDirectory, projectDir); err != nil {
+			log.Fatalf("Failed to sync rulesets: %v", err)
+		}
 	}
 
 	expandedPath, err := filepath.Abs(inputDirectory)
@@ -196,7 +205,13 @@ func runServe(cmd *cobra.Command, args []string) {
 		}()
 
 		log.Infof("Running export and lint")
-		err := mpr.ExportModel(inputDirectory, outputDirectory, false, false, "")
+		err := mpr.ExportModel(
+			inputDirectory,
+			outputDirectory,
+			boolValue(config.Export.Raw, false),
+			boolValue(config.Export.Appstore, false),
+			config.Export.Filter,
+		)
 		if err != nil {
 			log.Warningf("Export failed: %s", err)
 			resultMutex.Lock()
@@ -223,7 +238,15 @@ func runServe(cmd *cobra.Command, args []string) {
 					lintErr = fmt.Errorf("lint operation panicked: %v", r)
 				}
 			}()
-			results, lintErr = lint.EvalAllWithResults(rulesDirectory, outputDirectory, "", "", false, boolValue(config.Cache.Enable, true))
+			results, lintErr = lint.EvalAllWithResults(
+				rulesDirectory,
+				outputDirectory,
+				"",
+				"",
+				boolValue(config.Lint.IgnoreNoqa, false),
+				effectiveLintUseCacheForServe(config),
+				nil,
+			)
 		}()
 
 		if lintErr != nil {
@@ -330,6 +353,13 @@ func boolValue(value *bool, fallback bool) bool {
 	return *value
 }
 
+func effectiveLintUseCacheForServe(config *lint.Config) bool {
+	if config == nil {
+		return true
+	}
+	return boolValue(config.Cache.Enable, true)
+}
+
 func configureCacheForServe(config *lint.Config, projectDir string) {
 	if config == nil {
 		return
@@ -345,6 +375,7 @@ func configureCacheForServe(config *lint.Config, projectDir string) {
 	lint.SetCacheDirectory(filepath.Join(cacheBase, "lint"))
 	mpr.SetPersistentYAMLCacheDirectory(filepath.Join(cacheBase, "mpr-v2-yaml"))
 	mpr.SetPersistentYAMLCacheEnabled(boolValue(config.Cache.Enable, true))
+	mpr.SetExportManifestPath(filepath.Join(cacheBase, "export-manifest.json"))
 }
 
 // addDirsRecursive adds all directories recursively to the watcher except the output directory

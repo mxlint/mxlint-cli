@@ -9,23 +9,23 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-    - Attributes:
-        $Type: Microflows$StartEvent
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -15;0
-            OriginControlVector: 15;0
-    - Attributes:
-        $Type: Microflows$ExclusiveSplit
-        Caption: hello
-        Documentation: ""
-        ErrorHandlingType: Rollback
-        SplitCondition:
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MultiLineMicroflow
+ObjectCollection:
+    $Type: Microflows$MicroflowObjectCollection
+    Objects:
+        - $Type: Microflows$StartEvent
+        - $Type: Microflows$EndEvent
+          Documentation: ""
+          ReturnValue: ""
+        - $Type: Microflows$ExclusiveSplit
+          Caption: hello
+          Documentation: ""
+          ErrorHandlingType: Rollback
+          SplitCondition:
             $Type: Microflows$ExpressionSplitCondition
             Expression: |-
                 if $currentUser/Name = 'Hello' then
@@ -39,108 +39,28 @@ MainFunction:
 
                 else
                 false
-      Splits:
-        - - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues:
-                    - $ID: kFLcqSkTTE2SbZHeWHs7RA==
-                      $Type: Microflows$EnumerationCase
-                      Value: "true"
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: -30;0
-                    OriginControlVector: 15;0
-          - Attributes:
-                $Type: Microflows$ActionActivity
-                Action:
-                    $Type: Microflows$ChangeAction
-                    ChangeVariableName: currentUser
-                    Commit: "No"
-                    ErrorHandlingType: Rollback
-                    Items:
-                        - $ID: pP7PeHh36UGf5MurbcmkNw==
-                          $Type: Microflows$ChangeActionItem
-                          Association: ""
-                          Attribute: System.User.Name
-                          Type: Set
-                          Value: "    if $currentUser/Name = 'a' then\n'b'\nelse if $currentUser/Name = 'b' then\n'c'\nelse\n$currentUser/Name\n"
-                    RefreshInClient: false
-                AutoGenerateCaption: true
-                BackgroundColor: Default
-                Caption: Activity
-                Disabled: false
-                Documentation: ""
-          - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues: []
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: -15;0
-                    OriginControlVector: 30;0
-          - Attributes:
-                $Type: Microflows$EndEvent
-                Documentation: ""
-                ReturnValue: ""
-        - - Attributes:
-                $Type: Microflows$SequenceFlow
-                CaseValues:
-                    - $ID: Pp0aNAtKQEGJxbZFmKrXcw==
-                      $Type: Microflows$EnumerationCase
-                      Value: "false"
-                IsErrorHandler: false
-                Line:
-                    $Type: Microflows$BezierCurve
-                    DestinationControlVector: 0;-15
-                    OriginControlVector: 0;15
-          - Attributes:
-                $Type: Microflows$EndEvent
-                Documentation: ""
-                ReturnValue: ""
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MultiLineMicroflow
+        - $Type: Microflows$EndEvent
+          Documentation: ""
+          ReturnValue: ""
+        - $Type: Microflows$ActionActivity
+          Action:
+            $Type: Microflows$ChangeAction
+            ChangeVariableName: currentUser
+            Commit: "No"
+            ErrorHandlingType: Rollback
+            Items:
+                - $Type: Microflows$ChangeActionItem
+                  Association: ""
+                  Attribute: System.User.Name
+                  Value: "    if $currentUser/Name = 'a' then\n'b'\nelse if $currentUser/Name = 'b' then\n'c'\nelse\n$currentUser/Name\n"
+            RefreshInClient: false
+          AutoGenerateCaption: true
+          BackgroundColor: Default
+          Caption: Activity
+          Disabled: false
+          Documentation: ""
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []
 WorkflowActionInfo: null
-pseudocode: |-
-    MICROFLOW: MultiLineMicroflow
-    RETURN TYPE: void
-
-    PSEUDOCODE
-    ----------
-    BEGIN
-
-      IF if $currentUser/Name = 'Hello' then
-    true
-    else if $currentUser/Active then
-    true
-    else if $currentUser/Blocked then
-    false
-        else if $currentUser/FailedLogins > 0 then
-    false
-
-    else
-    false THEN
-        GOTO L001
-      ELSE
-        GOTO L002
-      END IF
-
-      LABEL L001
-      currentUser.Name =     if $currentUser/Name = 'a' then
-    'b'
-    else if $currentUser/Name = 'b' then
-    'c'
-    else
-    $currentUser/Name
-
-
-
-      LABEL L002
-
-    END
+pseudocode: "MICROFLOW: MultiLineMicroflow\nRETURN TYPE: void\n\nPSEUDOCODE\n----------\nBEGIN\n\n  IF \n\nif $currentUser/Name = 'Hello' then\ntrue\nelse if $currentUser/Active then\ntrue\nelse if $currentUser/Blocked then\nfalse\n    else if $currentUser/FailedLogins > 0 then\nfalse\n\nelse\nfalse THEN\n    GOTO L001\n  ELSE\n    GOTO L002\n  END IF\n\n  LABEL L001\n  currentUser.Name =     if $currentUser/Name = 'a' then\n'b'\nelse if $currentUser/Name = 'b' then\n'c'\nelse\n$currentUser/Name\n\n\n\n  LABEL L002\n\nEND"

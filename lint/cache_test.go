@@ -237,3 +237,84 @@ func TestGetCacheStats(t *testing.T) {
 	}
 }
 
+func TestCacheKeyChangesWhenLintSkipChanges(t *testing.T) {
+	tempDir := t.TempDir()
+	ruleFile := filepath.Join(tempDir, "rule.rego")
+	inputFile := filepath.Join(tempDir, "input.yaml")
+
+	if err := os.WriteFile(ruleFile, []byte("package test"), 0644); err != nil {
+		t.Fatalf("Failed to create rule file: %v", err)
+	}
+	if err := os.WriteFile(inputFile, []byte("test: data"), 0644); err != nil {
+		t.Fatalf("Failed to create input file: %v", err)
+	}
+
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"Security$ProjectSecurity": {
+					{Rule: "001_0002", Reason: "first"},
+				},
+			},
+		},
+	})
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	key1, err := createCacheKey(ruleFile, inputFile)
+	if err != nil {
+		t.Fatalf("Failed to create first cache key: %v", err)
+	}
+
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"Security$ProjectSecurity": {
+					{Rule: "001_0002", Reason: "second"},
+				},
+			},
+		},
+	})
+
+	key2, err := createCacheKey(ruleFile, inputFile)
+	if err != nil {
+		t.Fatalf("Failed to create second cache key: %v", err)
+	}
+
+	if key1.ConfigHash == key2.ConfigHash {
+		t.Fatalf("expected cache config hash to change when lint.skip changes, got %s", key1.ConfigHash)
+	}
+}
+
+func TestCacheConfigHashNormalizesSkipPath(t *testing.T) {
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"./example/doc": {
+					{Rule: "001_0002", Reason: "same"},
+				},
+			},
+		},
+	})
+	first := computeCacheConfigHash()
+
+	SetConfig(&Config{
+		Lint: ConfigLintSpec{
+			Skip: map[string][]ConfigSkipRule{
+				"example/doc": {
+					{Rule: "001_0002", Reason: "same"},
+				},
+			},
+		},
+	})
+	second := computeCacheConfigHash()
+	t.Cleanup(func() {
+		SetConfig(&Config{})
+	})
+
+	if first != second {
+		t.Fatalf("expected normalized skip paths to produce same cache config hash, got %s vs %s", first, second)
+	}
+}
+

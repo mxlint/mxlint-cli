@@ -1,5 +1,9 @@
 name: Continuous Integration
 
+env:
+  # Build a statically-linked binary so it runs on any distro (fully portable)
+  CGO_ENABLED: 0
+
 on:
   push:
     branches:
@@ -158,8 +162,11 @@ jobs:
         chmod +x ./bin/mxlint
         mkdir -p .ci
         cat > .ci/lint.yaml << 'EOF'
+        # The default config syncs the published mxlint-rules bundle into
+        # rules.path, wiping whatever is there. Use a scratch directory so the
+        # sync cannot overwrite the checked-in resources/rules fixtures.
         rules:
-          path: ./resources/rules
+          path: .ci/rules
         modelsource: resources/modelsource-v1
         lint:
           xunitReport: report.xml

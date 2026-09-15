@@ -2,6 +2,10 @@ name: Release
 permissions:
   contents: write
 
+env:
+  # Build statically-linked binaries so they run on any distro (fully portable)
+  CGO_ENABLED: 0
+
 on:
   release:
     types: [created]
@@ -12,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # build and publish in parallel: linux/amd64
-        goos: [linux, windows, darwin]
+        # build and publish in parallel: linux/amd64, linux/arm64, darwin/amd64, darwin/arm64
+        goos: [linux, darwin]
         goarch: [amd64, arm64]
     steps:
       - uses: actions/checkout@v4
@@ -33,3 +37,29 @@ jobs:
           ldflags: "-s -w -X main.version=${{ github.event.release.tag_name }}"
           compress_assets: OFF
 
+  release-cli-windows:
+    name: Release CLI binary (Windows)
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        goarch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Run tests
+        run: go test -v -p=1 -timeout=0 ./...
+      - name: Build Windows binary
+        shell: bash
+        run: |
+          asset="mxlint-${{ github.event.release.tag_name }}-windows-${{ matrix.goarch }}.exe"
+          GOOS=windows GOARCH=${{ matrix.goarch }} go build \
+            -ldflags="-s -w -X main.version=${{ github.event.release.tag_name }}" \
+            -o "$asset" .
+          echo "asset=$asset" >> "$GITHUB_ENV"
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.PAT }}
+          files: ${{ env.asset }}

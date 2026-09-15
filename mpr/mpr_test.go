@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 )
 
 func TestGetMprVersion(t *testing.T) {
@@ -429,40 +429,26 @@ func TestIsAppstoreModule(t *testing.T) {
 		{
 			name: "appstore module",
 			module: MxModule{
-				Name: "AppStoreModule",
-				ID:   "1",
-				Attributes: map[string]interface{}{
-					"FromAppStore": true,
-				},
+				Name:         "AppStoreModule",
+				ID:           "1",
+				FromAppStore: true,
 			},
 			expected: true,
 		},
 		{
 			name: "not appstore module",
 			module: MxModule{
+				Name:         "CustomModule",
+				ID:           "2",
+				FromAppStore: false,
+			},
+			expected: false,
+		},
+		{
+			name: "default zero value",
+			module: MxModule{
 				Name: "CustomModule",
-				ID:   "2",
-				Attributes: map[string]interface{}{
-					"FromAppStore": false,
-				},
-			},
-			expected: false,
-		},
-		{
-			name: "no appstore attribute",
-			module: MxModule{
-				Name:       "CustomModule",
-				ID:         "3",
-				Attributes: map[string]interface{}{},
-			},
-			expected: false,
-		},
-		{
-			name: "nil attributes",
-			module: MxModule{
-				Name:       "CustomModule",
-				ID:         "4",
-				Attributes: nil,
+				ID:   "3",
 			},
 			expected: false,
 		},
@@ -884,7 +870,11 @@ func TestExportMetadata(t *testing.T) {
 			}
 			modules := getMxModules(units)
 
-			err = exportMetadata(tt.inputDir, tt.outputDir, modules)
+			mprPath, err := getMprPath(tt.inputDir)
+			if err != nil && !tt.expectError {
+				t.Fatalf("Failed to resolve MPR path: %v", err)
+			}
+			err = exportMetadata(mprPath, tt.outputDir, modules)
 			if tt.expectError && err == nil {
 				t.Errorf("exportMetadata() expected error but got none")
 			}
@@ -923,18 +913,14 @@ func TestRemoveAppstoreModules(t *testing.T) {
 
 	modules := []MxModule{
 		{
-			Name: "AppStoreModule",
-			ID:   "1",
-			Attributes: map[string]interface{}{
-				"FromAppStore": true,
-			},
+			Name:         "AppStoreModule",
+			ID:           "1",
+			FromAppStore: true,
 		},
 		{
-			Name: "CustomModule",
-			ID:   "2",
-			Attributes: map[string]interface{}{
-				"FromAppStore": false,
-			},
+			Name:         "CustomModule",
+			ID:           "2",
+			FromAppStore: false,
 		},
 	}
 
@@ -1114,60 +1100,58 @@ func containsSanitizedName(path, expected string) bool {
 	return len(path) > 0 && len(expected) > 0
 }
 
+func TestGetMxDocumentOriginalPath(t *testing.T) {
+	longName := "Folder_testverylonglonglonglonglonglong name"
+	root := MxFolder{Name: "Module2", ID: "root", ParentID: ""}
+	child := MxFolder{Name: longName, ID: "child", ParentID: "root", Parent: &root}
+
+	got := getMxDocumentOriginalPathRecursive(child, 10)
+	want := "Module2/" + longName
+	if got != want {
+		t.Fatalf("getMxDocumentOriginalPathRecursive() = %q, want %q", got, want)
+	}
+}
+
+func TestOriginalFilename(t *testing.T) {
+	if got := originalFilename("Constant_3", "Constants$Constant"); got != "Constant_3.Constants$Constant.yaml" {
+		t.Fatalf("originalFilename() = %q", got)
+	}
+	if got := originalFilename("", "DomainModels$DomainModel"); got != "DomainModels$DomainModel.yaml" {
+		t.Fatalf("originalFilename() empty name = %q", got)
+	}
+}
+
 func TestGenerateAppYaml(t *testing.T) {
-	// Create temporary directory for testing
 	tmpDir, err := os.MkdirTemp("", "mpr-test-appyaml-*")
 	if err != nil {
 		t.Fatalf("Failed to create temp directory: %v", err)
 	}
 	defer os.RemoveAll(tmpDir)
 
-	// Create test directory structure
-	testStructure := map[string]bool{
-		"Metadata.yaml":                false, // file
-		"MyModule":                     true,  // directory
-		"MyModule/DomainModel.yaml":    false,
-		"MyModule/SubFolder":           true,
-		"MyModule/SubFolder/Page.yaml": false,
-		"Navigation.yaml":              false,
-		"Settings.yaml":                false,
+	files := []string{
+		"Metadata.yaml",
+		"MyModule/DomainModel.yaml",
+		"MyModule/SubFolder/Page.yaml",
+		"Navigation.yaml",
 	}
-
-	// Create test files and directories
-	for path, isDir := range testStructure {
+	for _, path := range files {
 		fullPath := filepath.Join(tmpDir, path)
-		if isDir {
-			if err := os.MkdirAll(fullPath, 0755); err != nil {
-				t.Fatalf("Failed to create directory %s: %v", path, err)
-			}
-		} else {
-			// Ensure parent directory exists
-			parentDir := filepath.Dir(fullPath)
-			if err := os.MkdirAll(parentDir, 0755); err != nil {
-				t.Fatalf("Failed to create parent directory for %s: %v", path, err)
-			}
-			// Create file
-			if err := os.WriteFile(fullPath, []byte("test content"), 0644); err != nil {
-				t.Fatalf("Failed to create file %s: %v", path, err)
-			}
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+			t.Fatalf("Failed to create parent for %s: %v", path, err)
+		}
+		if err := os.WriteFile(fullPath, []byte("test content"), 0644); err != nil {
+			t.Fatalf("Failed to create file %s: %v", path, err)
 		}
 	}
 
-	// Generate app.yaml
-	err = generateAppYaml(tmpDir)
-	if err != nil {
+	pathMap := map[string]string{
+		"MyModule/SubFolder/Page.yaml": "MyModule/Very Long Folder Name/Page.yaml",
+	}
+	if err := generateAppYaml(tmpDir, pathMap); err != nil {
 		t.Fatalf("generateAppYaml() unexpected error: %v", err)
 	}
 
-	// Verify app.yaml was created
-	appYamlPath := filepath.Join(tmpDir, "app.yaml")
-	if _, err := os.Stat(appYamlPath); os.IsNotExist(err) {
-		t.Errorf("generateAppYaml() did not create app.yaml file")
-		return
-	}
-
-	// Read and parse app.yaml
-	yamlContent, err := os.ReadFile(appYamlPath)
+	yamlContent, err := os.ReadFile(filepath.Join(tmpDir, "app.yaml"))
 	if err != nil {
 		t.Fatalf("Failed to read app.yaml: %v", err)
 	}
@@ -1177,13 +1161,13 @@ func TestGenerateAppYaml(t *testing.T) {
 		t.Fatalf("Failed to unmarshal app.yaml: %v", err)
 	}
 
-	// Validate structure is not empty
 	if len(appStructure.Content) == 0 {
-		t.Errorf("generateAppYaml() produced empty content array")
-		return
+		t.Fatal("expected hierarchical content")
+	}
+	if len(appStructure.Files) != 4 {
+		t.Fatalf("expected 4 flat mapped files, got %d", len(appStructure.Files))
 	}
 
-	// Helper function to find a node by name
 	findNode := func(nodes []FileNode, name string) *FileNode {
 		for i := range nodes {
 			if nodes[i].Name == name {
@@ -1193,238 +1177,68 @@ func TestGenerateAppYaml(t *testing.T) {
 		return nil
 	}
 
-	// Verify expected files exist in the structure
-	tests := []struct {
-		name     string
-		nodePath []string // path to the node (e.g., ["MyModule", "SubFolder"])
-		expected struct {
-			name string
-			typ  string
-		}
-	}{
-		{
-			name:     "Metadata.yaml exists",
-			nodePath: []string{},
-			expected: struct {
-				name string
-				typ  string
-			}{name: "Metadata.yaml", typ: "file"},
-		},
-		{
-			name:     "MyModule directory exists",
-			nodePath: []string{},
-			expected: struct {
-				name string
-				typ  string
-			}{name: "MyModule", typ: "directory"},
-		},
-		{
-			name:     "DomainModel.yaml in MyModule",
-			nodePath: []string{"MyModule"},
-			expected: struct {
-				name string
-				typ  string
-			}{name: "DomainModel.yaml", typ: "file"},
-		},
-		{
-			name:     "SubFolder in MyModule",
-			nodePath: []string{"MyModule"},
-			expected: struct {
-				name string
-				typ  string
-			}{name: "SubFolder", typ: "directory"},
-		},
-		{
-			name:     "Page.yaml in SubFolder",
-			nodePath: []string{"MyModule", "SubFolder"},
-			expected: struct {
-				name string
-				typ  string
-			}{name: "Page.yaml", typ: "file"},
-		},
+	metadata := findNode(appStructure.Content, "Metadata.yaml")
+	if metadata == nil || metadata.Type != "file" {
+		t.Fatal("Metadata.yaml missing from content tree")
+	}
+	if metadata.OriginalName != "Metadata.yaml" {
+		t.Errorf("Metadata.yaml originalName = %q", metadata.OriginalName)
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			currentNodes := appStructure.Content
-
-			// Navigate to the target level
-			for _, pathSegment := range tt.nodePath {
-				node := findNode(currentNodes, pathSegment)
-				if node == nil {
-					t.Fatalf("Could not find path segment '%s' in structure", pathSegment)
-				}
-				currentNodes = node.Content
-			}
-
-			// Find the expected node
-			node := findNode(currentNodes, tt.expected.name)
-			if node == nil {
-				t.Errorf("Expected node '%s' not found in structure", tt.expected.name)
-				return
-			}
-
-			if node.Type != tt.expected.typ {
-				t.Errorf("Node '%s' has type '%s', expected '%s'", tt.expected.name, node.Type, tt.expected.typ)
-			}
-
-			// Verify path is set correctly
-			if node.Path == "" {
-				t.Errorf("Node '%s' has empty path", tt.expected.name)
-			}
-		})
+	module := findNode(appStructure.Content, "MyModule")
+	if module == nil || module.Type != "directory" {
+		t.Fatal("MyModule missing from content tree")
+	}
+	sub := findNode(module.Content, "SubFolder")
+	if sub == nil || sub.Type != "directory" {
+		t.Fatal("SubFolder missing from content tree")
+	}
+	if sub.OriginalName != "Very Long Folder Name" {
+		t.Errorf("SubFolder originalName = %q, want %q", sub.OriginalName, "Very Long Folder Name")
+	}
+	page := findNode(sub.Content, "Page.yaml")
+	if page == nil || page.Type != "file" {
+		t.Fatal("Page.yaml missing from content tree")
+	}
+	if page.OriginalName != "Page.yaml" {
+		t.Errorf("Page.yaml originalName = %q", page.OriginalName)
 	}
 
-	// Verify app.yaml is not included in its own structure
-	appYamlNode := findNode(appStructure.Content, "app.yaml")
-	if appYamlNode != nil {
-		t.Errorf("generateAppYaml() included app.yaml in its own structure")
+	if findNode(appStructure.Content, "app.yaml") != nil {
+		t.Error("app.yaml should not be in content tree")
 	}
 
-	// Verify directory nodes have content
-	myModuleNode := findNode(appStructure.Content, "MyModule")
-	if myModuleNode != nil && myModuleNode.Type == "directory" {
-		if len(myModuleNode.Content) == 0 {
-			t.Errorf("Directory node 'MyModule' has no content")
-		}
+	byPath := make(map[string]AppFileEntry, len(appStructure.Files))
+	for _, entry := range appStructure.Files {
+		byPath[entry.Path] = entry
 	}
-}
-
-func TestBuildFileStructure(t *testing.T) {
-	// Create temporary directory for testing
-	tmpDir, err := os.MkdirTemp("", "mpr-test-buildstructure-*")
-	if err != nil {
-		t.Fatalf("Failed to create temp directory: %v", err)
+	if entry := byPath["MyModule/SubFolder/Page.yaml"]; entry.OriginalPath != "MyModule/Very Long Folder Name/Page.yaml" {
+		t.Errorf("flat map originalPath = %q", entry.OriginalPath)
 	}
-	defer os.RemoveAll(tmpDir)
-
-	tests := []struct {
-		name        string
-		setup       func() error // function to set up test structure
-		currentPath string
-		expectError bool
-		validate    func(*testing.T, *FileNode) // function to validate the result
-	}{
-		{
-			name: "single file",
-			setup: func() error {
-				return os.WriteFile(filepath.Join(tmpDir, "test.yaml"), []byte("test"), 0644)
-			},
-			currentPath: "test.yaml",
-			expectError: false,
-			validate: func(t *testing.T, node *FileNode) {
-				if node.Type != "file" {
-					t.Errorf("Expected type 'file', got '%s'", node.Type)
-				}
-				if node.Name != "test.yaml" {
-					t.Errorf("Expected name 'test.yaml', got '%s'", node.Name)
-				}
-			},
-		},
-		{
-			name: "directory with files",
-			setup: func() error {
-				dirPath := filepath.Join(tmpDir, "testdir")
-				if err := os.MkdirAll(dirPath, 0755); err != nil {
-					return err
-				}
-				return os.WriteFile(filepath.Join(dirPath, "file.yaml"), []byte("test"), 0644)
-			},
-			currentPath: "testdir",
-			expectError: false,
-			validate: func(t *testing.T, node *FileNode) {
-				if node.Type != "directory" {
-					t.Errorf("Expected type 'directory', got '%s'", node.Type)
-				}
-				if node.Name != "testdir" {
-					t.Errorf("Expected name 'testdir', got '%s'", node.Name)
-				}
-				if len(node.Content) != 1 {
-					t.Errorf("Expected 1 child node, got %d", len(node.Content))
-				}
-				if len(node.Content) > 0 && node.Content[0].Name != "file.yaml" {
-					t.Errorf("Expected child 'file.yaml', got '%s'", node.Content[0].Name)
-				}
-			},
-		},
-		{
-			name: "empty directory",
-			setup: func() error {
-				return os.MkdirAll(filepath.Join(tmpDir, "emptydir"), 0755)
-			},
-			currentPath: "emptydir",
-			expectError: false,
-			validate: func(t *testing.T, node *FileNode) {
-				if node.Type != "directory" {
-					t.Errorf("Expected type 'directory', got '%s'", node.Type)
-				}
-				if len(node.Content) != 0 {
-					t.Errorf("Expected 0 child nodes, got %d", len(node.Content))
-				}
-			},
-		},
-		{
-			name:        "non-existent path",
-			setup:       func() error { return nil },
-			currentPath: "nonexistent",
-			expectError: true,
-			validate:    func(t *testing.T, node *FileNode) {},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// Set up test structure
-			if err := tt.setup(); err != nil {
-				t.Fatalf("Setup failed: %v", err)
-			}
-
-			// Build file structure
-			node, err := buildFileStructure(tmpDir, tt.currentPath)
-
-			if tt.expectError {
-				if err == nil {
-					t.Errorf("buildFileStructure() expected error but got none")
-				}
-			} else {
-				if err != nil {
-					t.Errorf("buildFileStructure() unexpected error: %v", err)
-				} else if node != nil {
-					tt.validate(t, node)
-				}
-			}
-		})
+	if entry := byPath["Metadata.yaml"]; entry.OriginalPath != "Metadata.yaml" {
+		t.Errorf("flat map Metadata originalPath = %q", entry.OriginalPath)
 	}
 }
 
 func TestGenerateAppYamlExcludesItself(t *testing.T) {
-	// Create temporary directory for testing
 	tmpDir, err := os.MkdirTemp("", "mpr-test-selfexclude-*")
 	if err != nil {
 		t.Fatalf("Failed to create temp directory: %v", err)
 	}
 	defer os.RemoveAll(tmpDir)
 
-	// Create a test file
-	testFile := filepath.Join(tmpDir, "test.yaml")
-	if err := os.WriteFile(testFile, []byte("test content"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmpDir, "test.yaml"), []byte("test content"), 0644); err != nil {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
-
-	// Create an existing app.yaml that should be excluded
-	existingAppYaml := filepath.Join(tmpDir, "app.yaml")
-	if err := os.WriteFile(existingAppYaml, []byte("old content"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmpDir, "app.yaml"), []byte("old content"), 0644); err != nil {
 		t.Fatalf("Failed to create existing app.yaml: %v", err)
 	}
 
-	// Generate new app.yaml
-	err = generateAppYaml(tmpDir)
-	if err != nil {
+	if err := generateAppYaml(tmpDir, nil); err != nil {
 		t.Fatalf("generateAppYaml() unexpected error: %v", err)
 	}
 
-	// Read and parse the generated app.yaml
-	yamlContent, err := os.ReadFile(existingAppYaml)
+	yamlContent, err := os.ReadFile(filepath.Join(tmpDir, "app.yaml"))
 	if err != nil {
 		t.Fatalf("Failed to read app.yaml: %v", err)
 	}
@@ -1434,22 +1248,222 @@ func TestGenerateAppYamlExcludesItself(t *testing.T) {
 		t.Fatalf("Failed to unmarshal app.yaml: %v", err)
 	}
 
-	// Verify app.yaml is not included in its own structure
 	for _, node := range appStructure.Content {
 		if node.Name == "app.yaml" {
-			t.Errorf("app.yaml should not be included in its own structure")
+			t.Errorf("app.yaml should not be included in content tree")
 		}
+	}
+	foundTest := false
+	for _, entry := range appStructure.Files {
+		if entry.Path == "app.yaml" {
+			t.Errorf("app.yaml should not be included in flat map")
+		}
+		if entry.Path == "test.yaml" {
+			foundTest = true
+			if entry.OriginalPath != "test.yaml" {
+				t.Errorf("test.yaml originalPath = %q, want identity", entry.OriginalPath)
+			}
+		}
+	}
+	if !foundTest {
+		t.Errorf("test.yaml should be included in flat map")
+	}
+}
+
+func TestGenerateAppYamlExcludesDotEntries(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "mpr-test-dotexclude-*")
+	if err != nil {
+		t.Fatalf("Failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	if err := os.WriteFile(filepath.Join(tmpDir, "test.yaml"), []byte("test content"), 0644); err != nil {
+		t.Fatalf("Failed to create test file: %v", err)
+	}
+	gitDir := filepath.Join(tmpDir, ".git")
+	if err := os.MkdirAll(gitDir, 0755); err != nil {
+		t.Fatalf("Failed to create .git directory: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(gitDir, "HEAD"), []byte("ref: refs/heads/main\n"), 0644); err != nil {
+		t.Fatalf("Failed to create .git/HEAD: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(tmpDir, ".DS_Store"), []byte("hidden"), 0644); err != nil {
+		t.Fatalf("Failed to create hidden file: %v", err)
 	}
 
-	// Verify test.yaml is included
-	foundTestYaml := false
-	for _, node := range appStructure.Content {
-		if node.Name == "test.yaml" {
-			foundTestYaml = true
-			break
+	if err := generateAppYaml(tmpDir, nil); err != nil {
+		t.Fatalf("generateAppYaml() unexpected error: %v", err)
+	}
+
+	yamlContent, err := os.ReadFile(filepath.Join(tmpDir, "app.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to read app.yaml: %v", err)
+	}
+
+	var appStructure AppStructure
+	if err := yaml.Unmarshal(yamlContent, &appStructure); err != nil {
+		t.Fatalf("Failed to unmarshal app.yaml: %v", err)
+	}
+
+	var walkContent func([]FileNode)
+	walkContent = func(nodes []FileNode) {
+		for _, node := range nodes {
+			if strings.HasPrefix(node.Name, ".") {
+				t.Errorf("dot entry %q should not be in content tree", node.Name)
+			}
+			walkContent(node.Content)
 		}
 	}
-	if !foundTestYaml {
-		t.Errorf("test.yaml should be included in app.yaml structure")
+	walkContent(appStructure.Content)
+
+	foundTest := false
+	for _, entry := range appStructure.Files {
+		base := filepath.Base(entry.Path)
+		if strings.HasPrefix(base, ".") || strings.Contains(entry.Path, "/.") {
+			t.Errorf("dot entry %q should not be in flat map", entry.Path)
+		}
+		if entry.Path == "test.yaml" {
+			foundTest = true
+		}
+	}
+	if !foundTest {
+		t.Errorf("test.yaml should be included in flat map")
+	}
+}
+
+func TestGenerateAppYamlTruncationMapping(t *testing.T) {
+	tmpDir := t.TempDir()
+	diskDir := "Module2/Folder_testverylongl_TRUNCATED_70781_longlong name"
+	diskPath := diskDir + "/Constant_3.Constants$Constant.yaml"
+	originalDir := "Module2/Folder_testverylonglonglonglonglonglong name"
+	originalPath := originalDir + "/Constant_3.Constants$Constant.yaml"
+
+	fullPath := filepath.Join(tmpDir, filepath.FromSlash(diskPath))
+	if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+		t.Fatalf("mkdir: %v", err)
+	}
+	if err := os.WriteFile(fullPath, []byte("x"), 0644); err != nil {
+		t.Fatalf("write: %v", err)
+	}
+
+	if err := generateAppYaml(tmpDir, map[string]string{diskPath: originalPath}); err != nil {
+		t.Fatalf("generateAppYaml: %v", err)
+	}
+
+	yamlContent, err := os.ReadFile(filepath.Join(tmpDir, "app.yaml"))
+	if err != nil {
+		t.Fatalf("read: %v", err)
+	}
+	var appStructure AppStructure
+	if err := yaml.Unmarshal(yamlContent, &appStructure); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+	if len(appStructure.Files) != 1 {
+		t.Fatalf("expected 1 flat mapped file, got %d", len(appStructure.Files))
+	}
+	if appStructure.Files[0].Path != diskPath {
+		t.Errorf("path = %q, want %q", appStructure.Files[0].Path, diskPath)
+	}
+	if appStructure.Files[0].OriginalPath != originalPath {
+		t.Errorf("originalPath = %q, want %q", appStructure.Files[0].OriginalPath, originalPath)
+	}
+
+	module := appStructure.Content[0]
+	if module.Name != "Module2" {
+		t.Fatalf("expected Module2 root, got %q", module.Name)
+	}
+	folder := module.Content[0]
+	if folder.Name != "Folder_testverylongl_TRUNCATED_70781_longlong name" {
+		t.Fatalf("unexpected folder name %q", folder.Name)
+	}
+	if folder.OriginalName != "Folder_testverylonglonglonglonglonglong name" {
+		t.Errorf("folder originalName = %q", folder.OriginalName)
+	}
+	file := folder.Content[0]
+	if file.OriginalName != "Constant_3.Constants$Constant.yaml" {
+		t.Errorf("file originalName = %q", file.OriginalName)
+	}
+}
+
+func TestResolveOriginalPathIsDeterministic(t *testing.T) {
+	// Regression test: Module2 contains one child whose original path does not
+	// preserve the directory depth ("_" folder). With randomized map iteration
+	// order, that child could hijack the derived original path for Module2.
+	pathMap := map[string]string{
+		"Module2/DomainModels$DomainModel.yaml":        "Module2/DomainModels$DomainModel.yaml",
+		"Module2/Projects$ModuleSettings.yaml":         "Module2/Projects$ModuleSettings.yaml",
+		"Module2/_/Constant_2.Constants$Constant.yaml": "Constant_2.Constants$Constant.yaml",
+	}
+
+	for i := 0; i < 100; i++ {
+		if got := resolveOriginalPath("Module2", pathMap); got != "Module2" {
+			t.Fatalf("iteration %d: resolveOriginalPath(Module2) = %q, want %q", i, got, "Module2")
+		}
+		// Only child has a shorter original path, so no prefix can be derived.
+		if got := resolveOriginalPath("Module2/_", pathMap); got != "Module2/_" {
+			t.Fatalf("iteration %d: resolveOriginalPath(Module2/_) = %q, want %q", i, got, "Module2/_")
+		}
+	}
+}
+
+func TestResolveOriginalPathDepthChangingFallback(t *testing.T) {
+	// A folder whose only mapped child has a deeper original path (e.g. the
+	// original folder name contained path separators) still derives its
+	// original prefix from that child.
+	pathMap := map[string]string{
+		"Module2/Folder_trunc name/Constant_3.Constants$Constant.yaml": "Module2/Folder/very long name/Constant_3.Constants$Constant.yaml",
+	}
+
+	if got := resolveOriginalPath("Module2/Folder_trunc name", pathMap); got != "Module2/Folder" {
+		t.Fatalf("resolveOriginalPath = %q, want %q", got, "Module2/Folder")
+	}
+}
+
+func TestExportMetadata_SortsModulesByName(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "mpr-test-metadata-sort-*")
+	if err != nil {
+		t.Fatalf("Failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	modules := []MxModule{
+		{Name: "zeta", ID: "2"},
+		{Name: "Alpha", ID: "3"},
+		{Name: "beta", ID: "1"},
+	}
+
+	mprPath, err := getMprPath("./../resources/app-mpr-v1")
+	if err != nil {
+		t.Fatalf("Failed to resolve MPR path: %v", err)
+	}
+	if err := exportMetadata(mprPath, tmpDir, modules); err != nil {
+		t.Fatalf("exportMetadata() unexpected error: %v", err)
+	}
+
+	metadataFile, err := os.ReadFile(filepath.Join(tmpDir, "Metadata.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to read metadata file: %v", err)
+	}
+
+	var metadataObj MxMetadata
+	var node yaml.Node
+	if err := yaml.Unmarshal(metadataFile, &node); err != nil {
+		t.Fatalf("Failed to unmarshal metadata file: %v", err)
+	}
+	if err := node.Decode(&metadataObj); err != nil {
+		t.Fatalf("Failed to decode metadata file: %v", err)
+	}
+
+	if len(metadataObj.Modules) != 3 {
+		t.Fatalf("Expected 3 modules, got %d", len(metadataObj.Modules))
+	}
+
+	if metadataObj.Modules[0].Name != "Alpha" || metadataObj.Modules[1].Name != "beta" || metadataObj.Modules[2].Name != "zeta" {
+		t.Fatalf(
+			"Expected module order [Alpha, beta, zeta], got [%s, %s, %s]",
+			metadataObj.Modules[0].Name,
+			metadataObj.Modules[1].Name,
+			metadataObj.Modules[2].Name,
+		)
 	}
 }

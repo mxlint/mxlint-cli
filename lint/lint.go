@@ -30,7 +30,7 @@ func printTestsuite(ts Testsuite) {
 
 // EvalAllWithResults evaluates all rules and returns the results
 // This is similar to EvalAll but returns the results instead of just printing them
-func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) (interface{}, error) {
+func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool, changedFiles []string) (interface{}, error) {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return nil, err
@@ -48,13 +48,20 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	originalPathMap := loadOriginalPathMap(modelSourcePath)
+
+	maxConcurrency := effectiveLintConcurrency(len(rules))
+	sem := make(chan struct{}, maxConcurrency)
+
 	// Launch goroutines to evaluate rules in parallel
 	for i, rule := range rules {
+		sem <- struct{}{}
 		wg.Add(1)
 		go func(index int, r Rule) {
 			defer wg.Done()
+			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles, originalPathMap)
 			if err != nil {
 				errChan <- err
 				return
@@ -138,7 +145,7 @@ func EvalAllWithResults(rulesPath string, modelSourcePath string, xunitReport st
 	return testsuitesContainer, nil
 }
 
-func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool) error {
+func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonFile string, ignoreNoqa bool, useCache bool, changedFiles []string) error {
 	rules, err := ReadRulesMetadata(rulesPath)
 	if err != nil {
 		return err
@@ -156,13 +163,20 @@ func EvalAll(rulesPath string, modelSourcePath string, xunitReport string, jsonF
 	// Create a mutex to safely print testsuites
 	var printMutex sync.Mutex
 
+	originalPathMap := loadOriginalPathMap(modelSourcePath)
+
+	maxConcurrency := effectiveLintConcurrency(len(rules))
+	sem := make(chan struct{}, maxConcurrency)
+
 	// Launch goroutines to evaluate rules in parallel
 	for i, rule := range rules {
+		sem <- struct{}{}
 		wg.Add(1)
 		go func(index int, r Rule) {
 			defer wg.Done()
+			defer func() { <-sem }()
 
-			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache)
+			testsuite, err := evalTestsuite(r, modelSourcePath, ignoreNoqa, useCache, changedFiles, originalPathMap)
 			if err != nil {
 				errChan <- err
 				return
@@ -259,7 +273,7 @@ func countTotalTestcases(testsuites []Testsuite) int {
 	return count
 }
 
-func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool) (*Testsuite, error) {
+func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache bool, changedFiles []string, originalPathMap map[string]string) (*Testsuite, error) {
 
 	log.Debugf("evaluating rule %s", rule.Path)
 
@@ -272,6 +286,7 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 	if err != nil {
 		return nil, err
 	}
+	inputFiles = filterInputFiles(inputFiles, normalizeChangedFilesSet(changedFiles))
 	testcase := &Testcase{}
 
 	for _, inputFile := range inputFiles {
@@ -313,6 +328,10 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 				return nil, err
 			}
 		}
+
+		// Normalize testcase name for output consistency regardless of cache source.
+		testcase.Name = formatTestcaseName(inputFile, modelSourcePath)
+		testcase.OriginalPath = resolveOriginalPath(testcase.Name, originalPathMap)
 
 		if testcase.Failure != nil {
 			failuresCount++
@@ -372,6 +391,24 @@ func evalTestcaseWithCaching(rule Rule, queryString string, inputFile string, ca
 	}
 
 	return testcase, nil
+}
+
+func formatTestcaseName(inputFilePath string, modelSourcePath string) string {
+	trimmedInput := strings.TrimSpace(inputFilePath)
+	if trimmedInput == "" {
+		return ""
+	}
+
+	if modelSourcePath != "" {
+		if relPath, err := filepath.Rel(modelSourcePath, inputFilePath); err == nil {
+			normalized := filepath.ToSlash(relPath)
+			if normalized != "." && !strings.HasPrefix(normalized, "../") {
+				return normalized
+			}
+		}
+	}
+
+	return filepath.ToSlash(filepath.Base(inputFilePath))
 }
 
 func ReadRulesMetadata(rulesPath string) ([]Rule, error) {

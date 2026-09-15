@@ -14,7 +14,11 @@ import (
 // TestAdd tests the Add function to ensure it returns correct results.
 func TestMPRMetadata(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if err := exportMetadata("./../resources/app-mpr-v1", "./../tmp", nil); err != nil {
+		mprPath, err := getMprPath("./../resources/app-mpr-v1")
+		if err != nil {
+			t.Fatalf("Failed to resolve MPR path: %v", err)
+		}
+		if err := exportMetadata(mprPath, "./../tmp", nil); err != nil {
 			t.Errorf("Failed to export metadata from MPR file")
 		}
 
@@ -42,7 +46,7 @@ func TestMPRMetadata(t *testing.T) {
 
 func TestMPRUnits(t *testing.T) {
 	t.Run("single-mpr", func(t *testing.T) {
-		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
+		if _, _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file")
 		}
 	})
@@ -51,7 +55,7 @@ func TestMPRUnits(t *testing.T) {
 func TestIDAttributesExclusion(t *testing.T) {
 	t.Run("verify-id-attributes-excluded", func(t *testing.T) {
 		// Export units with ID attributes excluded
-		if _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
+		if _, _, err := exportUnits("./../resources/app-mpr-v1", "./../tmp", false, ""); err != nil {
 			t.Errorf("Failed to export units from MPR file: %v", err)
 			return
 		}

@@ -3,4 +3,38 @@ Annotations: []
 Associations: []
 CrossAssociations: []
 Documentation: ""
-Entities: []
+Entities:
+    - $Type: DomainModels$EntityImpl
+      AccessRules: []
+      Attributes: []
+      Documentation: ""
+      Events: []
+      ExportLevel: Hidden
+      Indexes: []
+      MaybeGeneralization:
+        $Type: DomainModels$NoGeneralization
+        HasChangedByAttr: false
+        HasChangedDateAttr: false
+        HasCreatedDateAttr: false
+        HasOwnerAttr: false
+        Persistable: true
+      Name: EntityPersist
+      Source: null
+      ValidationRules: []
+    - $Type: DomainModels$EntityImpl
+      AccessRules: []
+      Attributes: []
+      Documentation: ""
+      Events: []
+      ExportLevel: Hidden
+      Indexes: []
+      MaybeGeneralization:
+        $Type: DomainModels$NoGeneralization
+        HasChangedByAttr: false
+        HasChangedDateAttr: false
+        HasCreatedDateAttr: false
+        HasOwnerAttr: false
+        Persistable: false
+      Name: EntityNonPersist
+      Source: null
+      ValidationRules: []

@@ -12,20 +12,20 @@ ConcurrenyErrorMessage:
 Documentation: ""
 Excluded: false
 ExportLevel: Hidden
-MainFunction:
-    - Attributes:
-        $Type: Microflows$StartEvent
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -30;0
-            OriginControlVector: 15;0
-    - Attributes:
-        $Type: Microflows$ActionActivity
-        Action:
+MarkAsUsed: false
+MicroflowActionInfo: null
+MicroflowReturnType:
+    $Type: DataTypes$VoidType
+Name: MicroflowLoopExample
+ObjectCollection:
+    $Type: Microflows$MicroflowObjectCollection
+    Objects:
+        - $Type: Microflows$StartEvent
+        - $Type: Microflows$EndEvent
+          Documentation: ""
+          ReturnValue: ""
+        - $Type: Microflows$ActionActivity
+          Action:
             $Type: Microflows$RetrieveAction
             ErrorHandlingType: Rollback
             ResultVariableName: UserList
@@ -39,55 +39,38 @@ MainFunction:
                     $Type: Microflows$ConstantRange
                     SingleObject: false
                 XpathConstraint: ""
-        AutoGenerateCaption: true
-        BackgroundColor: Default
-        Caption: Activity
-        Disabled: false
-        Documentation: ""
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -30;0
-            OriginControlVector: 30;0
-    - Attributes:
-        $Type: Microflows$LoopedActivity
-        Documentation: ""
-        ErrorHandlingType: Rollback
-        LoopSource:
+          AutoGenerateCaption: true
+          BackgroundColor: Default
+          Caption: Activity
+          Disabled: false
+          Documentation: ""
+        - $Type: Microflows$LoopedActivity
+          Documentation: ""
+          ErrorHandlingType: Rollback
+          LoopSource:
             $Type: Microflows$IterableList
             ListVariableName: UserList
             VariableName: IteratorUser
-        ObjectCollection:
+          ObjectCollection:
             $Type: Microflows$MicroflowObjectCollection
             Objects:
-                - $ID: g/PgRp//CUStmibDmOJGUQ==
-                  $Type: Microflows$ExclusiveSplit
+                - $Type: Microflows$ExclusiveSplit
                   Caption: Blocked?
                   Documentation: ""
                   ErrorHandlingType: Rollback
-                  RelativeMiddlePoint: 423;230
-                  Size: 90;60
                   SplitCondition:
-                    $ID: x671Oc5lIUqVaYCRFRq33Q==
                     $Type: Microflows$ExpressionSplitCondition
                     Expression: $IteratorUser/Blocked
-                - $ID: qvJvj4trREyhrd0EFQZqAA==
-                  $Type: Microflows$ActionActivity
+                - $Type: Microflows$ActionActivity
                   Action:
-                    $ID: 0wFuJMG8Z0ODTTj4cFqdaw==
                     $Type: Microflows$ChangeAction
                     ChangeVariableName: IteratorUser
                     Commit: "Yes"
                     ErrorHandlingType: Rollback
                     Items:
-                        - $ID: 3ndmYkpAQEG56GUahxkUVQ==
-                          $Type: Microflows$ChangeActionItem
+                        - $Type: Microflows$ChangeActionItem
                           Association: ""
                           Attribute: System.User.Blocked
-                          Type: Set
                           Value: "false"
                     RefreshInClient: false
                   AutoGenerateCaption: true
@@ -95,22 +78,16 @@ MainFunction:
                   Caption: Activity
                   Disabled: false
                   Documentation: ""
-                  RelativeMiddlePoint: 556;216
-                  Size: 120;60
-                - $ID: FxQfVn3+6UalNzCY6BlRGQ==
-                  $Type: Microflows$ActionActivity
+                - $Type: Microflows$ActionActivity
                   Action:
-                    $ID: BsJx2U6qc0mMSYhVzohrVA==
                     $Type: Microflows$LogMessageAction
                     ErrorHandlingType: Rollback
                     IncludeLatestStackTrace: false
                     Level: Info
                     MessageTemplate:
-                        $ID: pPxO50LYuECvCnIPPyLU8w==
                         $Type: Microflows$StringTemplate
                         Parameters:
-                            - $ID: QmUmW9/5wkGUIEBKeJFeIw==
-                              $Type: Microflows$TemplateParameter
+                            - $Type: Microflows$TemplateParameter
                               Expression: $IteratorUser/Name
                         Text: User {1} not blocked
                     Node: '''Module2'''
@@ -119,21 +96,15 @@ MainFunction:
                   Caption: Activity
                   Disabled: false
                   Documentation: ""
-                  RelativeMiddlePoint: 89;259
-                  Size: 120;60
-                - $ID: VbyRMrCfdECSP4TpmH3wJg==
-                  $Type: Microflows$ActionActivity
+                - $Type: Microflows$ActionActivity
                   Action:
-                    $ID: ZZKOWEUdDUqCkmWvTkKvTg==
                     $Type: Microflows$MicroflowCallAction
                     ErrorHandlingType: Rollback
                     MicroflowCall:
-                        $ID: CkMwoLD0zkeY4/gzHvyLIQ==
                         $Type: Microflows$MicroflowCall
                         Microflow: Module2.SubMicroflowExample
                         ParameterMappings:
-                            - $ID: z1Oi4YYudUWjQw+shw//Og==
-                              $Type: Microflows$MicroflowCallParameterMapping
+                            - $Type: Microflows$MicroflowCallParameterMapping
                               Argument: $IteratorUser
                               Parameter: Module2.SubMicroflowExample.User
                         QueueSettings: null
@@ -144,25 +115,6 @@ MainFunction:
                   Caption: Activity
                   Disabled: false
                   Documentation: ""
-                  RelativeMiddlePoint: 242;101
-                  Size: 120;60
-    - Attributes:
-        $Type: Microflows$SequenceFlow
-        CaseValues: []
-        IsErrorHandler: false
-        Line:
-            $Type: Microflows$BezierCurve
-            DestinationControlVector: -15;0
-            OriginControlVector: 30;0
-    - Attributes:
-        $Type: Microflows$EndEvent
-        Documentation: ""
-        ReturnValue: ""
-MarkAsUsed: false
-MicroflowActionInfo: null
-MicroflowReturnType:
-    $Type: DataTypes$VoidType
-Name: MicroflowLoopExample
 ReturnVariableName: ""
 Url: ""
 UrlSearchParameters: []

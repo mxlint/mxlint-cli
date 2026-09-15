@@ -1,6 +1,7 @@
 package mpr
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
@@ -9,11 +10,12 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 
-	"gopkg.in/yaml.v3"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -63,18 +65,12 @@ func getPersistentYAMLCacheSettings() (string, bool) {
 }
 
 func ExportModel(inputDirectory string, outputDirectory string, raw bool, appstore bool, filter string) error {
-
-	// create tmp directory in user tmp directory
-	tmpDir := filepath.Join(os.TempDir(), "mxlint")
-	if err := os.MkdirAll(tmpDir, 0755); err != nil {
-		return fmt.Errorf("error creating tmp directory: %v", err)
+	if err := os.MkdirAll(outputDirectory, 0755); err != nil {
+		return fmt.Errorf("error creating output directory: %v", err)
 	}
-	log.Debugf("Created tmp directory: %s", tmpDir)
-	defer os.RemoveAll(tmpDir)
 
-	log.Infof("Exporting to %s", tmpDir)
+	log.Infof("Exporting to %s", outputDirectory)
 
-	// Check if we can find an MPR file
 	mprPath, err := getMprPath(inputDirectory)
 	if err != nil {
 		return fmt.Errorf("error finding MPR file: %v", err)
@@ -83,57 +79,37 @@ func ExportModel(inputDirectory string, outputDirectory string, raw bool, appsto
 		return fmt.Errorf("no MPR file found in directory: %s", inputDirectory)
 	}
 
-	units, err := getMxUnits(inputDirectory)
+	plan, err := buildExportPlan(inputDirectory, mprPath)
 	if err != nil {
-		log.Errorf("Failed to parse MxUnits: %s", err)
-		return err
+		return fmt.Errorf("error building export plan: %v", err)
 	}
+	defer func() {
+		if closeErr := plan.Close(); closeErr != nil {
+			log.Warnf("Error closing export resources: %v", closeErr)
+		}
+	}()
+	modules := plan.Modules
 
-	modules := getMxModules(units)
-
-	if err := exportMetadata(inputDirectory, tmpDir, modules); err != nil {
+	if err := exportMetadata(mprPath, outputDirectory, modules); err != nil {
 		return fmt.Errorf("error exporting metadata: %v", err)
 	}
 
 	exportedCount := 0
 	if filter != "^Metadata$" {
-		var err error
-		exportedCount, err = exportUnits(inputDirectory, tmpDir, raw, filter)
+		exportedCount, err = exportDocumentsFromPlan(plan, outputDirectory, raw, filter)
 		if err != nil {
 			return fmt.Errorf("error exporting units: %v", err)
 		}
 	}
 
-	// remove output directory if it exists
-	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
-		if err := os.MkdirAll(outputDirectory, 0755); err != nil {
-			return fmt.Errorf("error creating directory: %v", err)
+	if !appstore {
+		if err := removeAppstoreModules(outputDirectory, modules); err != nil {
+			return fmt.Errorf("error removing appstore modules: %v", err)
 		}
 	}
 
-	// Ensure both source and destination directories exist before syncing
-	if _, err := os.Stat(tmpDir); os.IsNotExist(err) {
-		return fmt.Errorf("source directory does not exist: %v", err)
-	}
-
-	if _, err := os.Stat(outputDirectory); os.IsNotExist(err) {
-		return fmt.Errorf("destination directory does not exist: %v", err)
-	}
-
-	// copy tmp directory to output directory
-	err = syncDirectories(tmpDir, outputDirectory)
-	if err != nil {
-		return fmt.Errorf("error moving tmp directory to output directory: %v", err)
-	}
-
-	if !appstore {
-		// remove appstore modules
-		removeAppstoreModules(outputDirectory, modules)
-	}
-
-	// Generate app.yaml with file structure only if documents were exported
 	if exportedCount > 0 {
-		if err := generateAppYaml(outputDirectory); err != nil {
+		if err := generateAppYaml(outputDirectory, plan.pathMapSnapshot()); err != nil {
 			return fmt.Errorf("error generating app.yaml: %v", err)
 		}
 	}
@@ -173,13 +149,7 @@ func getMprVersion(MPRFilePath string) (int, error) {
 	}
 }
 
-func exportMetadata(inputDirectory string, outputDirectory string, modules []MxModule) error {
-
-	mprPath, err := getMprPath(inputDirectory)
-	if err != nil {
-		return err
-	}
-
+func exportMetadata(mprPath string, outputDirectory string, modules []MxModule) error {
 	mprVersion, err := getMprVersion(mprPath)
 	if err != nil {
 		return fmt.Errorf("error getting mpr version: %v", err)
@@ -212,10 +182,22 @@ func exportMetadata(inputDirectory string, outputDirectory string, modules []MxM
 	}
 
 	// create metadata object
+	sortedModules := append([]MxModule(nil), modules...)
+	sort.Slice(sortedModules, func(i, j int) bool {
+		left := strings.ToLower(sortedModules[i].Name)
+		right := strings.ToLower(sortedModules[j].Name)
+		if left == right {
+			if sortedModules[i].Name == sortedModules[j].Name {
+				return sortedModules[i].ID < sortedModules[j].ID
+			}
+			return sortedModules[i].Name < sortedModules[j].Name
+		}
+		return left < right
+	})
 	metadataObj := MxMetadata{
 		ProductVersion: productVersion,
 		BuildVersion:   buildVersion,
-		Modules:        modules,
+		Modules:        sortedModules,
 	}
 
 	// write metadata to file
@@ -243,10 +225,19 @@ func getMxModules(units []MxUnit) []MxModule {
 	modules := make([]MxModule, 0)
 	for _, unit := range units {
 		if unit.ContainmentName == "Modules" {
+			fromAppStore, _ := unit.Contents["FromAppStore"].(bool)
+			appStoreVersion, _ := unit.Contents["AppStoreVersion"].(string)
+			appStoreGuid, _ := unit.Contents["AppStoreGuid"].(string)
+			appStoreVersionGuid, _ := unit.Contents["AppStoreVersionGuid"].(string)
+			appStorePackageId, _ := unit.Contents["AppStorePackageId"].(string)
 			myModule := MxModule{
-				Name:       unit.Contents["Name"].(string),
-				ID:         unit.UnitID,
-				Attributes: unit.Contents,
+				Name:                unit.Contents["Name"].(string),
+				ID:                  unit.UnitID,
+				FromAppStore:        fromAppStore,
+				AppStoreVersion:     appStoreVersion,
+				AppStoreGuid:        appStoreGuid,
+				AppStoreVersionGuid: appStoreVersionGuid,
+				AppStorePackageId:   appStorePackageId,
 			}
 			modules = append(modules, myModule)
 		}
@@ -260,32 +251,26 @@ func getMxFolders(units []MxUnit) ([]MxFolder, error) {
 		if unit.ContainmentName == "Folders" || unit.ContainmentName == "Modules" {
 			log.Debugf("Unit: %v", unit.ContainmentName)
 			myFolder := MxFolder{
-				Name:       unit.Contents["Name"].(string),
-				ID:         unit.UnitID,
-				ParentID:   unit.ContainerID,
-				Attributes: unit.Contents,
-				Parent:     nil,
+				Name:     unit.Contents["Name"].(string),
+				ID:       unit.UnitID,
+				ParentID: unit.ContainerID,
 			}
 			folders = append(folders, myFolder)
 		} else if unit.ContainmentName == "" {
 			myFolder := MxFolder{
-				Name:       "",
-				ID:         unit.UnitID,
-				ParentID:   unit.ContainerID,
-				Attributes: unit.Contents,
-				Parent:     nil,
+				Name:     "",
+				ID:       unit.UnitID,
+				ParentID: unit.ContainerID,
 			}
 			folders = append(folders, myFolder)
 		}
 	}
 
-	// Temporary map to hold folder references for easy lookup.
 	folderMap := make(map[string]*MxFolder)
 	for i := range folders {
 		folderMap[folders[i].ID] = &folders[i]
 	}
 
-	// Set up the parent references.
 	for i, folder := range folders {
 		if parent, exists := folderMap[folder.ParentID]; exists && folder.ParentID != folder.ID {
 			folders[i].Parent = parent
@@ -301,9 +286,12 @@ func getMxDocumentPathRecursive(folder MxFolder, depth int) string {
 	}
 	if folder.Parent == nil {
 		return sanitizePathComponent(folder.Name)
-	} else {
-		return filepath.Join(getMxDocumentPathRecursive(*folder.Parent, depth-1), sanitizePathComponent(folder.Name))
 	}
+	// Mendix document paths are logical (slash-separated), not OS paths.
+	return filepath.ToSlash(filepath.Join(
+		getMxDocumentPathRecursive(*folder.Parent, depth-1),
+		sanitizePathComponent(folder.Name),
+	))
 }
 
 func getMxDocumentPath(containerID string, folders []MxFolder) string {
@@ -313,6 +301,47 @@ func getMxDocumentPath(containerID string, folders []MxFolder) string {
 		}
 	}
 	return ""
+}
+
+func getMxDocumentOriginalPathRecursive(folder MxFolder, depth int) string {
+	if depth == 0 {
+		return ""
+	}
+	if folder.Parent == nil {
+		return folder.Name
+	}
+	parent := getMxDocumentOriginalPathRecursive(*folder.Parent, depth-1)
+	if parent == "" {
+		return folder.Name
+	}
+	if folder.Name == "" {
+		return parent
+	}
+	return filepath.ToSlash(filepath.Join(parent, folder.Name))
+}
+
+func getMxDocumentOriginalPath(containerID string, folders []MxFolder) string {
+	for _, folder := range folders {
+		if folder.ID == containerID {
+			return getMxDocumentOriginalPathRecursive(folder, 10)
+		}
+	}
+	return ""
+}
+
+func originalFilename(name, typ string) string {
+	if name == "" {
+		return typ + ".yaml"
+	}
+	return name + "." + typ + ".yaml"
+}
+
+func originalDocumentRelativePath(originalFolderPath, name, typ string) string {
+	fname := originalFilename(name, typ)
+	if originalFolderPath == "" {
+		return filepath.ToSlash(fname)
+	}
+	return filepath.ToSlash(filepath.Join(originalFolderPath, fname))
 }
 
 // sanitizePathComponent sanitizes a single path component (folder or file name) by replacing
@@ -377,18 +406,19 @@ func sanitizePathComponent(name string) string {
 	return sanitized
 }
 
-// sanitizePath sanitizes a full path by sanitizing each component
+// sanitizePath sanitizes a full path by sanitizing each component.
+// Paths are treated as slash-separated Mendix/logical paths on all platforms.
 func sanitizePath(path string) string {
-	// Split the path into components
-	components := strings.Split(path, string(filepath.Separator))
+	path = filepath.ToSlash(path)
+	if path == "" {
+		return ""
+	}
 
-	// Sanitize each component
+	components := strings.Split(path, "/")
 	for i, component := range components {
 		components[i] = sanitizePathComponent(component)
 	}
-
-	// Rejoin the path
-	return filepath.Join(components...)
+	return strings.Join(components, "/")
 }
 
 // truncatePathComponent truncates a path component to maxLen while maintaining uniqueness
@@ -444,7 +474,8 @@ func max(a, b int) int {
 
 // validatePathLength checks if the full path would exceed limits and adjusts if needed
 func validatePathLength(basePath string, relativePath string, filename string) (string, string, error) {
-	fullPath := filepath.Join(basePath, relativePath, filename)
+	relativePath = filepath.ToSlash(relativePath)
+	fullPath := filepath.Join(basePath, filepath.FromSlash(relativePath), filename)
 
 	if len(fullPath) <= MaxSafePath {
 		return relativePath, filename, nil
@@ -454,7 +485,7 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 	log.Warnf("Path exceeds safe length (%d chars): %s", len(fullPath), fullPath)
 
 	// Strategy: Truncate path components starting from the deepest
-	components := strings.Split(relativePath, string(filepath.Separator))
+	components := strings.Split(relativePath, "/")
 
 	// Calculate how much we need to save
 	excess := len(fullPath) - MaxSafePath
@@ -479,8 +510,8 @@ func validatePathLength(basePath string, relativePath string, filename string) (
 		}
 	}
 
-	newRelativePath := filepath.Join(components...)
-	newFullPath := filepath.Join(basePath, newRelativePath, filename)
+	newRelativePath := strings.Join(components, "/")
+	newFullPath := filepath.Join(basePath, filepath.FromSlash(newRelativePath), filename)
 
 	log.Warnf("Adjusted path from %d to %d chars", len(fullPath), len(newFullPath))
 
@@ -500,15 +531,16 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 			}
 
 			myDocument := MxDocument{
-				Name:         name,
-				Type:         unit.Contents["$Type"].(string),
-				Path:         getMxDocumentPath(unit.ContainerID, folders),
-				Attributes:   unit.Contents,
-				ContentsHash: unit.ContentsHash,
+				Name:               name,
+				Type:               unit.Contents["$Type"].(string),
+				Path:               getMxDocumentPath(unit.ContainerID, folders),
+				OriginalFolderPath: getMxDocumentOriginalPath(unit.ContainerID, folders),
+				Attributes:         unit.Contents,
+				ContentsHash:       unit.ContentsHash,
 			}
 
 			if unit.Contents["$Type"] == microflowDocumentType {
-				myDocument = enrichMicroflowDocument(myDocument)
+				addMicroflowPseudocode(myDocument.Name, unit.Contents)
 			}
 			documents = append(documents, myDocument)
 		}
@@ -517,21 +549,25 @@ func getMxDocuments(units []MxUnit, folders []MxFolder) ([]MxDocument, error) {
 	return documents, nil
 }
 
-func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter string) (int, error) {
+func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter string) (int, map[string]string, error) {
 	log.Debugf("Exporting units from %s to %s", inputDirectory, outputDirectory)
 
 	units, err := getMxUnits(inputDirectory)
 	if err != nil {
 		log.Errorf("Error getting units: %v", err)
-		return 0, fmt.Errorf("error getting units: %v", err)
+		return 0, nil, fmt.Errorf("error getting units: %v", err)
 	}
+	return exportUnitsFromLoadedUnits(units, outputDirectory, raw, filter)
+}
+
+func exportUnitsFromLoadedUnits(units []MxUnit, outputDirectory string, raw bool, filter string) (int, map[string]string, error) {
 	folders, err := getMxFolders(units)
 	if err != nil {
-		return 0, fmt.Errorf("error getting folders: %v", err)
+		return 0, nil, fmt.Errorf("error getting folders: %v", err)
 	}
 	documents, err := getMxDocuments(units, folders)
 	if err != nil {
-		return 0, fmt.Errorf("error getting documents: %v", err)
+		return 0, nil, fmt.Errorf("error getting documents: %v", err)
 	}
 
 	// Compile the filter regex if provided
@@ -539,11 +575,12 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 	if filter != "" {
 		filterRegex, err = regexp.Compile(filter)
 		if err != nil {
-			return 0, fmt.Errorf("invalid filter regex pattern: %v", err)
+			return 0, nil, fmt.Errorf("invalid filter regex pattern: %v", err)
 		}
 		log.Infof("Applying filter: %s", filter)
 	}
 
+	pathMap := make(map[string]string)
 	exportedCount := 0
 	for _, document := range documents {
 		// Apply filter if provided
@@ -575,7 +612,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 		// Validate and adjust path length to prevent exceeding OS limits
 		adjustedPath, adjustedFilename, err := validatePathLength(outputDirectory, sanitizedPath, fname)
 		if err != nil {
-			return 0, fmt.Errorf("error adjusting path length: %v", err)
+			return 0, nil, fmt.Errorf("error adjusting path length: %v", err)
 		}
 
 		directory := filepath.Join(outputDirectory, adjustedPath)
@@ -583,16 +620,19 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 		// ensure directory exists
 		if _, err := os.Stat(directory); os.IsNotExist(err) {
 			if err := os.MkdirAll(directory, 0755); err != nil {
-				return 0, fmt.Errorf("error creating directory: %v", err)
+				return 0, nil, fmt.Errorf("error creating directory: %v", err)
 			}
 		}
 
 		attributes := cleanData(document.Attributes, raw)
-		err = writeFileWithPersistentCache(filepath.Join(directory, adjustedFilename), attributes, document.ContentsHash, raw)
+		outPath := filepath.Join(directory, adjustedFilename)
+		err = writeFileWithPersistentCache(outPath, attributes, document.ContentsHash, raw)
 		if err != nil {
 			log.Errorf("Error writing file: %v", err)
-			return 0, err
+			return 0, nil, err
 		}
+		relPath := filepath.ToSlash(filepath.Join(adjustedPath, adjustedFilename))
+		pathMap[relPath] = originalDocumentRelativePath(document.OriginalFolderPath, document.Name, document.Type)
 		exportedCount++
 	}
 
@@ -600,7 +640,7 @@ func exportUnits(inputDirectory string, outputDirectory string, raw bool, filter
 		log.Infof("Exported %d documents matching filter (out of %d total)", exportedCount, len(documents))
 	}
 
-	return exportedCount, nil
+	return exportedCount, pathMap, nil
 
 }
 
@@ -618,8 +658,8 @@ func writeFile(filepath string, contents map[string]interface{}) error {
 }
 
 func renderYAML(contents map[string]interface{}) ([]byte, error) {
-	normalizedContents := normalizeMultilineValues(contents)
-	yamlstring, err := yaml.Marshal(normalizedContents)
+	normalizeMultilineValuesInPlace(contents)
+	yamlstring, err := yaml.Marshal(contents)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling: %v", err)
 	}
@@ -642,27 +682,47 @@ func writeFileWithPersistentCache(filepath string, contents map[string]interface
 	if err != nil {
 		return err
 	}
+	var yamlstring []byte
 	if found {
-		if err := os.WriteFile(filepath, cachedYAML, 0644); err != nil {
-			return fmt.Errorf("error writing cached file: %v", err)
+		yamlstring = cachedYAML
+	} else {
+		yamlstring, err = renderYAML(contents)
+		if err != nil {
+			return err
 		}
-		return nil
+		if err := writeYAMLToPersistentCache(contentsHash, raw, yamlstring); err != nil {
+			log.Debugf("Could not persist YAML cache for hash %s: %v", contentsHash, err)
+		}
 	}
 
-	yamlstring, err := renderYAML(contents)
-	if err != nil {
+	if unchanged, err := outputFileMatches(filepath, yamlstring); err != nil {
 		return err
+	} else if unchanged {
+		return nil
 	}
 
 	if err := os.WriteFile(filepath, yamlstring, 0644); err != nil {
 		return fmt.Errorf("error writing file: %v", err)
 	}
-
-	if err := writeYAMLToPersistentCache(contentsHash, raw, yamlstring); err != nil {
-		log.Debugf("Could not persist YAML cache for hash %s: %v", contentsHash, err)
-	}
-
 	return nil
+}
+
+func outputFileMatches(path string, content []byte) (bool, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	if info.Size() != int64(len(content)) {
+		return false, nil
+	}
+	existing, err := os.ReadFile(path)
+	if err != nil {
+		return false, err
+	}
+	return bytes.Equal(existing, content), nil
 }
 
 func getPersistentYAMLCacheDir() string {
@@ -729,53 +789,54 @@ func (s literalBlockMultilineString) MarshalYAML() (interface{}, error) {
 	}, nil
 }
 
-// normalizeMultilineValues normalizes indentation in multiline string values recursively
-// and forces multiline strings to be encoded as double-quoted scalars.
-func normalizeMultilineValues(v interface{}) interface{} {
+// normalizeMultilineValuesInPlace normalizes indentation in multiline string
+// values recursively, modifying maps and slices in-place rather than
+// allocating copies.
+func normalizeMultilineValuesInPlace(v interface{}) {
 	switch value := v.(type) {
 	case bson.M:
-		result := make(bson.M, len(value))
 		for k, item := range value {
-			result[k] = normalizeMultilineValues(item)
+			value[k] = normalizeMultilineValue(item)
 		}
-		return result
 	case map[string]interface{}:
-		result := make(map[string]interface{}, len(value))
 		for k, item := range value {
-			result[k] = normalizeMultilineValues(item)
+			value[k] = normalizeMultilineValue(item)
 		}
-		return result
-	case []bson.M:
-		result := make([]bson.M, len(value))
-		for i, item := range value {
-			normalized := normalizeMultilineValues(item)
-			if itemMap, ok := normalized.(bson.M); ok {
-				result[i] = itemMap
-			} else {
-				result[i] = item
-			}
-		}
-		return result
-	case []map[string]interface{}:
-		result := make([]map[string]interface{}, len(value))
-		for i, item := range value {
-			normalized := normalizeMultilineValues(item)
-			if itemMap, ok := normalized.(map[string]interface{}); ok {
-				result[i] = itemMap
-			} else {
-				result[i] = item
-			}
-		}
-		return result
 	case []interface{}:
-		result := make([]interface{}, len(value))
 		for i, item := range value {
-			result[i] = normalizeMultilineValues(item)
+			value[i] = normalizeMultilineValue(item)
 		}
-		return result
+	}
+}
+
+func normalizeMultilineValue(v interface{}) interface{} {
+	switch value := v.(type) {
+	case bson.M:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case map[string]interface{}:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case []interface{}:
+		normalizeMultilineValuesInPlace(value)
+		return value
+	case []bson.M:
+		for _, item := range value {
+			normalizeMultilineValuesInPlace(item)
+		}
+		return value
+	case []map[string]interface{}:
+		for _, item := range value {
+			normalizeMultilineValuesInPlace(item)
+		}
+		return value
 	case string:
 		normalized := normalizeMultilineString(value)
 		if strings.Contains(normalized, "\n") {
+			normalized = strings.TrimLeft(normalized, "\n")
+			if !strings.Contains(normalized, "\n") {
+				return normalized
+			}
 			if startsWithWhitespace(normalized) {
 				return doubleQuotedMultilineString(normalized)
 			}
@@ -873,22 +934,8 @@ func removeAppstoreModules(tmpDir string, modules []MxModule) error {
 	return nil
 }
 
-// isAppstoreModule checks if a module is an appstore module based on its attributes
 func isAppstoreModule(module MxModule) bool {
-	// Check for appstore module indicators
-	if module.Attributes == nil {
-		return false
-	}
-
-	// Check if module has appstore specific attributes
-	if _, ok := module.Attributes["FromAppStore"]; ok {
-		fromAppStore := module.Attributes["FromAppStore"].(bool)
-		if fromAppStore {
-			return true
-		}
-	}
-
-	return false
+	return module.FromAppStore
 }
 
 // syncDirectories synchronizes the contents of src to dst
@@ -1004,21 +1051,29 @@ func hashFile(path string) (string, error) {
 	return hex.EncodeToString(hasher.Sum(nil)), nil
 }
 
-// FileNode represents a file or directory in the file structure
+// FileNode represents a file or directory in the hierarchical app.yaml content tree.
 type FileNode struct {
-	Name    string     `yaml:"name"`
-	Type    string     `yaml:"type"` // "file" or "directory"
-	Path    string     `yaml:"path,omitempty"`
-	Content []FileNode `yaml:"content,omitempty"`
+	Name         string     `yaml:"name"`
+	Type         string     `yaml:"type"` // "file" or "directory"
+	Path         string     `yaml:"path,omitempty"`
+	OriginalName string     `yaml:"originalName"`
+	Content      []FileNode `yaml:"content,omitempty"`
 }
 
-// AppStructure represents the entire file structure for app.yaml
+// AppFileEntry is a flat disk→original path mapping entry for easy resolving.
+type AppFileEntry struct {
+	Path         string `yaml:"path"`
+	OriginalPath string `yaml:"originalPath"`
+}
+
+// AppStructure is written to app.yaml: hierarchical content plus a flat path map.
 type AppStructure struct {
-	Content []FileNode `yaml:"content"`
+	Content []FileNode     `yaml:"content"`
+	Files   []AppFileEntry `yaml:"files"`
 }
 
-// buildFileStructure recursively builds the file structure for a directory
-func buildFileStructure(basePath string, currentPath string) (*FileNode, error) {
+// buildFileStructure recursively builds the hierarchical file structure for a directory.
+func buildFileStructure(basePath string, currentPath string, pathMap map[string]string) (*FileNode, error) {
 	fullPath := filepath.Join(basePath, currentPath)
 	info, err := os.Stat(fullPath)
 	if err != nil {
@@ -1029,14 +1084,29 @@ func buildFileStructure(basePath string, currentPath string) (*FileNode, error) 
 	if relPath == "" {
 		relPath = "."
 	}
+	relSlash := filepath.ToSlash(relPath)
+	name := filepath.Base(fullPath)
+	if relPath == "." {
+		name = filepath.Base(basePath)
+	}
+
+	originalPath := resolveOriginalPath(relSlash, pathMap)
+	originalName := name
+	if relSlash != "." {
+		originalName = filepath.Base(filepath.FromSlash(originalPath))
+	}
 
 	node := &FileNode{
-		Name: filepath.Base(fullPath),
-		Path: relPath,
+		Name:         name,
+		Path:         relSlash,
+		OriginalName: originalName,
 	}
 
 	if info.IsDir() {
 		node.Type = "directory"
+		if relPath == "." {
+			node.Path = ""
+		}
 
 		entries, err := os.ReadDir(fullPath)
 		if err != nil {
@@ -1044,12 +1114,12 @@ func buildFileStructure(basePath string, currentPath string) (*FileNode, error) 
 		}
 
 		for _, entry := range entries {
-			// Skip app.yaml to avoid self-reference
-			if entry.Name() == "app.yaml" {
+			entryName := entry.Name()
+			if entryName == "app.yaml" || strings.HasPrefix(entryName, ".") {
 				continue
 			}
-			childRelPath := filepath.Join(currentPath, entry.Name())
-			childNode, err := buildFileStructure(basePath, childRelPath)
+			childRelPath := filepath.Join(currentPath, entryName)
+			childNode, err := buildFileStructure(basePath, childRelPath, pathMap)
 			if err != nil {
 				log.Warnf("Error processing %s: %v", childRelPath, err)
 				continue
@@ -1063,33 +1133,134 @@ func buildFileStructure(basePath string, currentPath string) (*FileNode, error) 
 	return node, nil
 }
 
-// generateAppYaml generates an app.yaml file with the file structure of outputDirectory
-func generateAppYaml(outputDirectory string) error {
-	log.Infof("Generating app.yaml with file structure")
+// resolveOriginalPath returns the Mendix original path for a disk-relative path.
+// For directories, derives the original prefix from a mapped child file.
+func resolveOriginalPath(diskRel string, pathMap map[string]string) string {
+	diskRel = filepath.ToSlash(diskRel)
+	if diskRel == "" || diskRel == "." {
+		return diskRel
+	}
+	if pathMap == nil {
+		return diskRel
+	}
+	if mapped, ok := pathMap[diskRel]; ok && mapped != "" {
+		return filepath.ToSlash(mapped)
+	}
+	return deriveOriginalDirPath(diskRel, pathMap)
+}
 
-	// Build the file structure
-	rootNode, err := buildFileStructure(outputDirectory, "")
+// deriveOriginalDirPath derives a directory's original path from the mapped
+// child files below it. Children whose original path has the same depth as
+// their disk path map one-to-one onto the directory structure, so their prefix
+// is authoritative; depth-changing mappings are only used as a fallback.
+// Candidates are scanned in sorted order so the result never depends on Go's
+// randomized map iteration order.
+func deriveOriginalDirPath(diskRel string, pathMap map[string]string) string {
+	prefix := diskRel + "/"
+	dirDepth := len(strings.Split(diskRel, "/"))
+
+	type childMapping struct {
+		disk string
+		orig string
+	}
+	children := make([]childMapping, 0, len(pathMap))
+	for disk, orig := range pathMap {
+		disk = filepath.ToSlash(disk)
+		if strings.HasPrefix(disk, prefix) {
+			children = append(children, childMapping{disk: disk, orig: filepath.ToSlash(orig)})
+		}
+	}
+	sort.Slice(children, func(i, j int) bool {
+		return children[i].disk < children[j].disk
+	})
+
+	fallback := ""
+	for _, child := range children {
+		origParts := strings.Split(child.orig, "/")
+		if len(origParts) < dirDepth {
+			continue
+		}
+		derived := strings.Join(origParts[:dirDepth], "/")
+		if len(origParts) == len(strings.Split(child.disk, "/")) {
+			return derived
+		}
+		if fallback == "" {
+			fallback = derived
+		}
+	}
+	if fallback != "" {
+		return fallback
+	}
+	return diskRel
+}
+
+func buildFlatPathMap(outputDirectory string, pathMap map[string]string) ([]AppFileEntry, error) {
+	files := make([]AppFileEntry, 0)
+	err := filepath.WalkDir(outputDirectory, func(path string, d os.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		name := d.Name()
+		if d.IsDir() {
+			if path != outputDirectory && strings.HasPrefix(name, ".") {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+		if name == "app.yaml" || strings.HasPrefix(name, ".") {
+			return nil
+		}
+
+		relPath, err := filepath.Rel(outputDirectory, path)
+		if err != nil {
+			return err
+		}
+		relPath = filepath.ToSlash(relPath)
+		files = append(files, AppFileEntry{
+			Path:         relPath,
+			OriginalPath: resolveOriginalPath(relPath, pathMap),
+		})
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	sort.Slice(files, func(i, j int) bool {
+		return files[i].Path < files[j].Path
+	})
+	return files, nil
+}
+
+// generateAppYaml writes hierarchical content (with originalName) plus a flat path mapping list.
+// pathMap maps disk-relative file paths to Mendix original paths.
+func generateAppYaml(outputDirectory string, pathMap map[string]string) error {
+	log.Infof("Generating app.yaml with file structure and path map")
+
+	rootNode, err := buildFileStructure(outputDirectory, "", pathMap)
 	if err != nil {
 		return fmt.Errorf("error building file structure: %v", err)
 	}
 
-	// Use the content of the root as the project structure
-	appStructure := AppStructure{
-		Content: rootNode.Content,
+	files, err := buildFlatPathMap(outputDirectory, pathMap)
+	if err != nil {
+		return fmt.Errorf("error building path map: %v", err)
 	}
 
-	// Marshal to YAML
+	appStructure := AppStructure{
+		Content: rootNode.Content,
+		Files:   files,
+	}
+
 	yamlData, err := yaml.Marshal(appStructure)
 	if err != nil {
 		return fmt.Errorf("error marshaling app structure to YAML: %v", err)
 	}
 
-	// Write to app.yaml
 	appYamlPath := filepath.Join(outputDirectory, "app.yaml")
 	if err := os.WriteFile(appYamlPath, yamlData, 0644); err != nil {
 		return fmt.Errorf("error writing app.yaml: %v", err)
 	}
 
-	log.Infof("Generated app.yaml at %s", appYamlPath)
+	log.Infof("Generated app.yaml at %s (%d content roots, %d mapped files)", appYamlPath, len(rootNode.Content), len(files))
 	return nil
 }

@@ -1,0 +1,7 @@
+$Type: DomainModels$DomainModel
+Entities:
+    - $Type: DomainModels$EntityImpl
+      Name: EntityNonPersist
+      MaybeGeneralization:
+        $Type: DomainModels$NoGeneralization
+        Persistable: false

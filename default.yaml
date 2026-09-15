@@ -6,16 +6,21 @@ lint:
   xunitReport: ""
   jsonFile: ""
   ignoreNoqa: false
+  concurrency: 4
+  regoTrace: false
+  # skip: maps document path (relative to model source, or absolute) to rules to skip.
+  # Use the map key "*" (quoted in YAML: "*") to apply the listed rules to every document, after path-specific entries.
   skip: {}
 cache:
   directory: .mendix-cache/mxlint
   enable: true
-modelsource: modelsource
+modelsource: .mendix-cache/modelsource
 projectDirectory: .
 export:
   filter: ".*"
   raw: false
   appstore: false
+  concurrency: 4
 serve:
   port: 8082
   debounce: 500
