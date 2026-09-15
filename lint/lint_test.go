@@ -662,6 +662,67 @@ function rule(input) {
 	}
 }
 
+func TestEvalTestsuite_Classname(t *testing.T) {
+	tempDir := t.TempDir()
+
+	jsContent := `
+const metadata = {
+    title: "Test Classname Field",
+    custom: { rulenumber: "099_0007", input: ".*\\.yaml" }
+};
+
+function rule(input) {
+    return { allow: true, errors: [] };
+}
+`
+	jsPath := filepath.Join(tempDir, "classname_test.js")
+	err := os.WriteFile(jsPath, []byte(jsContent), 0644)
+	if err != nil {
+		t.Fatalf("Failed to write js file: %v", err)
+	}
+
+	// Create multiple test files
+	err = os.WriteFile(filepath.Join(tempDir, "input1.yaml"), []byte(`Name: "Test1"`), 0644)
+	if err != nil {
+		t.Fatalf("Failed to write yaml file: %v", err)
+	}
+	err = os.WriteFile(filepath.Join(tempDir, "input2.yaml"), []byte(`Name: "Test2"`), 0644)
+	if err != nil {
+		t.Fatalf("Failed to write yaml file: %v", err)
+	}
+
+	rule := Rule{
+		Path:        jsPath,
+		Title:       "Test Classname Field",
+		RuleNumber:  "099_0007",
+		Pattern:     ".*\\.yaml",
+		PackageName: jsPath,
+		Language:    LanguageJavascript,
+	}
+
+	result, err := evalTestsuite(rule, tempDir, false, false)
+	if err != nil {
+		t.Fatalf("Failed to evaluate testsuite: %v", err)
+	}
+
+	expectedClassname := "099_0007 - Test Classname Field"
+
+	// Verify all testcases have the classname field set correctly
+	if len(result.Testcases) == 0 {
+		t.Fatal("Expected at least one testcase")
+	}
+
+	for i, tc := range result.Testcases {
+		if tc.Classname == "" {
+			t.Errorf("Testcase %d (%s) has empty Classname field", i, tc.Name)
+		}
+		if tc.Classname != expectedClassname {
+			t.Errorf("Testcase %d (%s) has incorrect Classname: got %q, want %q",
+				i, tc.Name, tc.Classname, expectedClassname)
+		}
+	}
+}
+
 func TestParseRuleMetadata_JavascriptValidation(t *testing.T) {
 	tempDir := t.TempDir()
 
