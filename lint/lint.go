@@ -346,6 +346,12 @@ func evalTestsuite(rule Rule, modelSourcePath string, ignoreNoqa bool, useCache 
 		testcases = append(testcases, *testcase)
 	}
 
+	// Set classname on all testcases for GitLab Suite column display
+	suiteName := fmt.Sprintf("%s - %s", rule.RuleNumber, rule.Title)
+	for i := range testcases {
+		testcases[i].Classname = suiteName
+	}
+
 	testsuite := &Testsuite{
 		Name:      rule.Path,
 		Tests:     len(testcases),
